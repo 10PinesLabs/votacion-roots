@@ -1,5 +1,12 @@
 <div class="row">
+  <div class="con-padding">
+   {{#link-to 'minuta.ver' id}}
+      {{tenpines/material-button class="right" label='Ver minuta'}}
+    {{/link-to}}
+  </div>
+
 {{#tenpines/object-table titulos='Prioridad, Tema, Autor, Duración, Obligatoriedad ' col=anchoDeTabla bordered=true highlight=true }}
+
   {{#each  minuta.temas as |temaDeMinuta|}}
     <tr  {{action 'verEditorDeConclusion' temaDeMinuta}} >
       <td>{{temaDeMinuta.tema.prioridad}}</td>
