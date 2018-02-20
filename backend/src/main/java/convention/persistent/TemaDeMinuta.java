@@ -25,6 +25,7 @@ public class TemaDeMinuta extends PersistableSupport {
     private List<ActionItem> actionItems;
     @OneToOne
     private TemaDeReunion tema;
+    @Lob
     private String conclusion;
     private boolean fueTratado;
 
