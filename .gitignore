@@ -24,7 +24,7 @@ dependency-reduced-pom.xml
 /node_modules
 /bower_components
 
-/src/main/resources
+logback.xml
 buildNumber.properties
 
 .env
