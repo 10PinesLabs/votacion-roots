@@ -48,6 +48,7 @@
     <version.diamond>1.0.1-SNAPSHOT</version.diamond>
     <version.groovy>2.1.5</version.groovy>
     <version.h2>1.4.187</version.h2>
+    <flyway.version>1.4.191</flyway.version>
   </properties>
 
   <build>
@@ -58,13 +59,13 @@
           <artifactId>flyway-maven-plugin</artifactId>
           <version>5.0.7</version>
           <configuration>
-            <url>${flyway.url}</url>
+            <url>jdbc:${flyway.url}</url>
           </configuration>
           <dependencies>
             <dependency>
               <groupId>com.h2database</groupId>
               <artifactId>h2</artifactId>
-              <version>1.4.191</version>
+              <version>${flyway.version}</version>
             </dependency>
           </dependencies>
         </plugin>
@@ -204,6 +205,12 @@
       <artifactId>java-spec</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>org.flywaydb</groupId>
+      <artifactId>flyway-core</artifactId>
+      <version>5.0.7</version>
+    </dependency>
+
   </dependencies>
 
   <profiles>
@@ -227,7 +234,7 @@
         </property>
       </activation>
       <properties>
-        <flyway.url>jdbc:h2:file:../db/h2;USER=sa</flyway.url>
+        <flyway.url>h2:file:../db/h2;USER=sa</flyway.url>
       </properties>
     </profile>
   </profiles>

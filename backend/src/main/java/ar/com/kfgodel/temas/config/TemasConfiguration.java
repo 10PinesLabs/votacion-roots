@@ -2,6 +2,7 @@ package ar.com.kfgodel.temas.config;
 
 import ar.com.kfgodel.dependencies.api.DependencyInjector;
 import ar.com.kfgodel.orm.api.config.DbCoordinates;
+import ar.com.kfgodel.temas.application.migrations.Migrator;
 import ar.com.kfgodel.webbyconvention.api.auth.WebCredential;
 
 import java.util.Optional;
@@ -28,6 +29,8 @@ public interface TemasConfiguration {
    DependencyInjector getInjector();
 //esto es por el tipo que espera el apply (esta funcion se pasa como parametro del apply en el inicializador de datos)
   default Void inicializarDatos(){
-    return null;
+    Migrator migrator = new Migrator(getDatabaseCoordinates().getDbUrl(),getDatabaseCoordinates().getDbUsername(),getDatabaseCoordinates().getDbPassword());
+      migrator.init();
+      return null;
   }
 }
