@@ -3,7 +3,6 @@ package convention.persistent;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-import javax.annotation.Nullable;
 import javax.persistence.*;
 import java.util.List;
 
