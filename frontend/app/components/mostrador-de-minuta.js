@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import  FileSaver from 'npm:file-saver';
 
 export default Ember.Component.extend({
 
@@ -50,7 +51,7 @@ export default Ember.Component.extend({
       let minuta = this.get('minuta');
       let nombreArchivo = "Minuta " + minuta.fecha + ".txt";
       let blob = new Blob([this.get("textoMinuta")], {type: "text/plain;charset=utf-8"});
-      saveAs(blob, nombreArchivo);
+      FileSaver.saveAs(blob, nombreArchivo);
     }
   }
 
