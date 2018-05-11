@@ -76,6 +76,14 @@
         <artifactId>apt-maven-plugin</artifactId>
       </plugin>
 
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+
       <!-- Genera un sólo jar con todas las dependencias -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
