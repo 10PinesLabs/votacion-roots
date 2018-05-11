@@ -12,7 +12,7 @@ public class TemaGeneral extends Tema {
     public TemaDeReunion generarTemaPara(Reunion reunion) {
         TemaDeReunion temaDeReunion = TemaDeReunion.create();
         temaDeReunion.setReunion(reunion);
-        temaDeReunion.setObligatoriedad(ObligatoriedadDeTema.OBLIGATORIO_GENERAL);
+        temaDeReunion.setObligatoriedad(ObligatoriedadDeTema.OBLIGATORIO);
         temaDeReunion.setTitulo(this.getTitulo());
         temaDeReunion.setDescripcion(this.getDescripcion());
         temaDeReunion.setAutor(this.getAutor());

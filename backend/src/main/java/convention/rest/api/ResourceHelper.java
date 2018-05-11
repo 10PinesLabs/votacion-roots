@@ -3,6 +3,8 @@ package convention.rest.api;
 import ar.com.kfgodel.appbyconvention.operation.api.ApplicationOperation;
 import ar.com.kfgodel.dependencies.api.DependencyInjector;
 import ar.com.kfgodel.orm.api.operations.basic.FindById;
+import ar.com.kfgodel.temas.exceptions.TypeTransformerException;
+import ar.com.kfgodel.transformbyconvention.api.TypeTransformer;
 import ar.com.kfgodel.webbyconvention.impl.auth.adapters.JettyIdentityAdapter;
 import convention.persistent.Usuario;
 
@@ -48,17 +50,12 @@ public  class ResourceHelper {
     }
 
     public <T> T convertir(Object objetoAConvertir, Class<T> claseHacia){
-        return (T) createOperation()
-                .insideATransaction()
-                .taking(objetoAConvertir)
-                .convertTo(claseHacia);
+        return (T) appInjector.getImplementationFor(TypeTransformer.class).orElseThrow(() -> new TypeTransformerException("no se ha injectado ningun typeTransformer"))
+                .transformTo(claseHacia,objetoAConvertir);
     }
     public <T> T convertir(Object objetoAConvertir, Type claseHacia){
-        return (T) createOperation()
-                .insideATransaction()
-                .taking(objetoAConvertir)
-                .convertTo(claseHacia);
+        return (T) appInjector.getImplementationFor(TypeTransformer.class).orElseThrow(() -> new TypeTransformerException("no se ha injectado ningun typeTransformer"))
+                .transformTo(claseHacia,objetoAConvertir);
     }
-
 
 }

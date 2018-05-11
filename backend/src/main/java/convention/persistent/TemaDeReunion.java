@@ -6,7 +6,9 @@ import org.hibernate.annotations.Fetch;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -127,6 +129,9 @@ public class TemaDeReunion extends Tema {
             && cantidadDeVotos != otraCantidadDeVotos)
       return cantidadDeVotos > otraCantidadDeVotos;
 
+    if(otroTema.fueGeneradoPorUnTemaGeneral() ^ this.fueGeneradoPorUnTemaGeneral()) //^ -> XOR
+      return this.fueGeneradoPorUnTemaGeneral();
+
     if(prioridad.equals(otraPrioridad))
       return otroTema.seCreoDespuesDe(this);
 
@@ -149,7 +154,19 @@ public class TemaDeReunion extends Tema {
   }
 
   public Boolean fueGeneradoPorUnTemaGeneral() {
-    return this.getObligatoriedad().equals(ObligatoriedadDeTema.OBLIGATORIO_GENERAL);
+    return this.getObligatoriedad().equals(ObligatoriedadDeTema.OBLIGATORIO) && getTemaGenerador().isPresent();
+  }
+
+  public Boolean fueModificado(){
+    TemaGeneral temaGenerador=getTemaGenerador().orElseThrow(() -> new TemaDeReunionException("no tiene tema generador"));
+      return sonDiferentes(temaGenerador, Tema::getDescripcion)
+       || sonDiferentes(temaGenerador, Tema::getTitulo)
+       || sonDiferentes(temaGenerador, Tema::getDuracion)
+       || getObligatoriedad()!=ObligatoriedadDeTema.OBLIGATORIO;
+  }
+
+  private boolean sonDiferentes(TemaGeneral temaGenerador, Function<Tema, Object> f) {
+    return !Objects.equals(f.apply(this), f.apply(temaGenerador));
   }
 
   public Optional<TemaGeneral> getTemaGenerador() {

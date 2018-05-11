@@ -139,18 +139,57 @@ public class TemaDeReunionTest {
     @Test
     public void test13UnTemaGeneradoPorUnTemaGeneralTieneMajorPrioridadQueUnoObligatorio(){
         TemaDeReunion temaObligatorio = helper.nuevoTemaObligatorio();
-        TemaDeReunion temaObligatorioGeneral = helper.nuevoTemaObligatorioGeneral();
+        TemaDeReunion temaObligatorioGeneral = helper.nuevoTemaAPartirDeUnTemaGeneral();
 
         Assert.assertTrue(temaObligatorioGeneral.tieneMayorPrioridadQue(temaObligatorio));
     }
 
     @Test
     public void test14SiDosTemasFueronGeneradosPorTemasGeneralesTieneMayorPrioridadElQueFueCreadoAntes(){
-        TemaDeReunion temaAnterior = helper.nuevoTemaObligatorioGeneral();
+        TemaDeReunion temaAnterior = helper.nuevoTemaAPartirDeUnTemaGeneral();
         temaAnterior.setMomentoDeCreacion(LocalDateTime.of(2017,06,20,0,0));
-        TemaDeReunion temaPosterior = helper.nuevoTemaObligatorioGeneral();
+        TemaDeReunion temaPosterior = helper.nuevoTemaAPartirDeUnTemaGeneral();
         temaPosterior.setMomentoDeCreacion(LocalDateTime.of(2018,06,20,0,0));
 
         Assert.assertTrue(temaAnterior.tieneMayorPrioridadQue(temaPosterior));
+    }
+
+    @Test
+    public void test15SiNoModificonadaDeUnTemaEspecificoQuedaComoQueNoEstaModificado(){
+        TemaDeReunion tema = helper.nuevoTemaAPartirDeUnTemaGeneral();
+
+        Assert.assertFalse(tema.fueModificado());
+    }
+
+    @Test
+    public void test16SiModificoLaDescripcionUnTemaEspecificoSeMarcaComoModificado(){
+        TemaDeReunion tema = helper.nuevoTemaAPartirDeUnTemaGeneral();
+        tema.setDescripcion("otra descipcion");
+
+        Assert.assertTrue(tema.fueModificado());
+    }
+
+    @Test
+    public void test17SiModificoLaDuracionUnTemaEspecificoSeMarcaComoModificado(){
+        TemaDeReunion tema = helper.nuevoTemaAPartirDeUnTemaGeneral();
+        tema.setDuracion(DuracionDeTema.CORTO);
+
+        Assert.assertTrue(tema.fueModificado());
+    }
+
+    @Test
+    public void test18SiModificoLaObligatoriedadUnTemaEspecificoSeMarcaComoModificado(){
+        TemaDeReunion tema = helper.nuevoTemaAPartirDeUnTemaGeneral();
+        tema.setObligatoriedad(ObligatoriedadDeTema.NO_OBLIGATORIO);
+
+        Assert.assertTrue(tema.fueModificado());
+    }
+
+    @Test
+    public void test19SiModificoElTituloUnTemaEspecificoSeMarcaComoModificado(){
+        TemaDeReunion tema = helper.nuevoTemaAPartirDeUnTemaGeneral();
+        tema.setTitulo("otro titulo");
+
+        Assert.assertTrue(tema.fueModificado());
     }
 }

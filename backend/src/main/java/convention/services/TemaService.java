@@ -53,9 +53,9 @@ public class TemaService extends Service<TemaDeReunion> {
 
     public void updateAllForTemaGeneral(TemaGeneral temaModificado) {
         List<TemaDeReunion> todosLosTemas = this.getAll();
-        Stream<TemaDeReunion> temasABorrar = todosLosTemas.stream().
-                filter(tema -> this.esUnTemaGeneradoPorElTemaGeneral(tema, temaModificado.getId()));
-        temasABorrar.forEach(tema -> this.updateSiReunionPendiente(tema, temaModificado));
+        Stream<TemaDeReunion> temasGeneradosYNoModificados = todosLosTemas.stream().
+                filter(tema -> this.esUnTemaGeneradoPorElTemaGeneral(tema, temaModificado.getId()) && !tema.fueModificado());
+        temasGeneradosYNoModificados.forEach(tema -> this.updateSiReunionPendiente(tema, temaModificado));
     }
 
     private Boolean esUnTemaGeneradoPorElTemaGeneral(TemaDeReunion tema, Long temaGeneralId){

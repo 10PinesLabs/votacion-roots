@@ -32,7 +32,7 @@ public class TemaGeneralTest {
         Reunion reunion = new Reunion();
         TemaDeReunion unTema = temaGeneral.generarTemaPara(reunion);
 
-        Assert.assertEquals(ObligatoriedadDeTema.OBLIGATORIO_GENERAL, unTema.getObligatoriedad());
+        Assert.assertEquals(ObligatoriedadDeTema.OBLIGATORIO, unTema.getObligatoriedad());
     }
 
     @Test
