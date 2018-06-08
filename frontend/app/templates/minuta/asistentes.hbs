@@ -7,14 +7,14 @@
 <div class="row">
   <div class="col s12">
       {{#power-select-multiple
-        options=usuariosSeleccionables
-        selected=usuariosSeleccionados
+        options=nombresUsuariosSeleccionables
+        selected=nombresUsuariosSeleccionados
         placeholder="Seleccione los asistentes a la reunión"
         noMatchesMessage="No more pinos"
-        onchange=(action (mut usuariosSeleccionados))
+        onchange=(action (mut nombresUsuariosSeleccionados))
         as |usuario|
       }}
-        {{usuario.login}}
+        {{usuario}}
       {{/power-select-multiple}}
   </div>
 </div>
