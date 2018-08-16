@@ -24,6 +24,7 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
   }),
 
   usuariosSeleccionados: Ember.computed('model.minuta.asistentes', function() {
+    console.log(this.get('model.minuta.asistentes'));
     return this.get('model.minuta.asistentes');
   }),
 
@@ -42,12 +43,9 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
   }),
 
   actions: {
-    guardarUsuariosSeleccionadosYContinuar(){
-      let reunionId = this.get('reunionId');
+    guardarUsuariosSeleccionados(){
       this.set('model.minuta.asistentes', this.get('usuariosSeleccionados'));
-      this.minutaService().updateMinuta(this.get('model.minuta')).then(() => {
-        this.navigator().navigateToConclusiones(reunionId);
-      });
+      this.minutaService().updateMinuta(this.get('model.minuta'));
     },
 
     verEditorDeConclusion(tema){

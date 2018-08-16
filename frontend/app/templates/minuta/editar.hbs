@@ -1,11 +1,35 @@
 <div class="row">
-  <div class="col s12">
-    <h5>Asistentes a la reunión</h5>
-  </div>
-</div>
+  <div class="col s10">
+    <h5>Temas pendientes de minutear</h5>
 
-<div class="row">
-  <div class="col s12">
+    {{#tenpines/object-table titulos='Prioridad, Tema, Autor, Duración, Obligatoriedad ' col=anchoDeTabla bordered=true highlight=true }}
+
+      {{#each  minuta.temas as |temaDeMinuta|}}
+        <tr  {{action 'verEditorDeConclusion' temaDeMinuta}} >
+          <td>{{temaDeMinuta.tema.prioridad}}</td>
+          <td>{{temaDeMinuta.tema.titulo}}</td>
+          <td>{{temaDeMinuta.tema.autor}}</td>
+          <td>{{temaDeMinuta.tema.duracion}}</td>
+          <td>{{temaDeMinuta.tema.obligatoriedad}}</td>
+          {{tema-de-minuta-conclusion-checked usuarios=usuarios temaDeMinuta=temaDeMinuta}}
+        </tr>
+      {{/each}}
+    {{/tenpines/object-table}}
+
+    {{# if mostrandoEditor}}
+      {{editor-de-conclusion
+        alGuardar=(action 'guardarConclusion')
+        alCerrar=(action 'cerrarEditor')
+        temaDeMinuta=temaAEditar
+        usuarios=model.usuarios
+      }}
+    {{/if}}
+
+  </div>
+  <div class="col s2">
+
+    <h5>Asistentes</h5>
+
     {{#power-select-multiple
       options=usuariosSeleccionables
       selected=usuariosSeleccionados
@@ -17,42 +41,10 @@
     }}
       {{usuario.name}}
     {{/power-select-multiple}}
+
+    <div class="card-action right-align">
+      <a class="waves-effect waves-light btn" onclick={{action 'guardarUsuariosSeleccionados'}} >Agregar</a>
+    </div>
+
   </div>
-</div>
-
-<div class="row">
-  <div class="con-padding">
-    {{#link-to 'minuta.ver' reunionId}}
-      {{tenpines/material-button class="right" label='Ver minuta'}}
-    {{/link-to}}
-  </div>
-
-  {{#tenpines/object-table titulos='Prioridad, Tema, Autor, Duración, Obligatoriedad ' col=anchoDeTabla bordered=true highlight=true }}
-
-    {{#each  minuta.temas as |temaDeMinuta|}}
-      <tr  {{action 'verEditorDeConclusion' temaDeMinuta}} >
-        <td>{{temaDeMinuta.tema.prioridad}}</td>
-        <td>{{temaDeMinuta.tema.titulo}}</td>
-        <td>{{temaDeMinuta.tema.autor}}</td>
-        <td>{{temaDeMinuta.tema.duracion}}</td>
-        <td>{{temaDeMinuta.tema.obligatoriedad}}</td>
-        {{tema-de-minuta-conclusion-checked usuarios=usuarios temaDeMinuta=temaDeMinuta}}
-      </tr>
-    {{/each}}
-  {{/tenpines/object-table}}
-
-  {{# if mostrandoEditor}}
-    {{editor-de-conclusion
-      alGuardar=(action 'guardarConclusion')
-      alCerrar=(action 'cerrarEditor')
-      temaDeMinuta=temaAEditar
-      usuarios=model.usuarios
-    }}
-  {{/if}}
-
-</div>
-
-<div class="card-action right-align">
-  <a class="waves-effect waves-light btn" onclick={{action 'guardarUsuariosSeleccionadosYContinuar'}} >Siguiente:
-    Conclusiones</a>
 </div>
