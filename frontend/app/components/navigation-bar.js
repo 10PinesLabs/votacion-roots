@@ -4,7 +4,7 @@ import Application from "../concepts/application";
 
 export default Ember.Component.extend(AuthenticatorInjected, {
   tagName: 'nav',
-  classNames: ['indigo'],
+  classNames: [],
   application: Application.create(),
   actions: {
     logout: function () {

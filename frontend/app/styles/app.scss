@@ -6,28 +6,29 @@
 
 .container {
   max-width: none;
+  width: 100%;
 }
-.ultimo-tema-stile{
-  border-bottom:dashed;
-  border-bottom-color:#ff2323 ;
+
+.ultimo-tema-stile {
+  border-bottom: dashed;
+  border-bottom-color: #ff2323;
 }
-@media only screen and (min-width: 993px) {
-  .container {
-    width: 80%;
-  }
-}
-.parcheDeContEditor{
+
+.parcheDeContEditor {
   position: relative;
   height: 65px;
 }
-.parcheDeEditorBottom{
+
+.parcheDeEditorBottom {
   position: absolute;
   bottom: 0px;
 }
+
 .crop {
-  overflow:auto;
+  overflow: auto;
   overflow-wrap: break-word;
-}​
+}
+
 
 .titulo-de-tema {
   font-size: x-large;
@@ -47,6 +48,27 @@
 
 .text-viewer {
   white-space: pre-wrap;
+}
+
+.linea-vertical {
+  border-left: 1px solid red;
+  height: 100%;
+  background-color: red;
+}
+
+.menu-items a{
+  margin: 5px 15px 5px 15px;
+  color: black;
+  font-size: x-large;
+}
+
+.menu-items {
+  display: flex;
+  margin-left: 40px;
+}
+
+#ember515 { // horrible
+  background: transparent !important;
 }
 
 @import "ember-power-select";

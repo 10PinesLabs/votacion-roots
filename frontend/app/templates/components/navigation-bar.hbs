@@ -1,17 +1,23 @@
-<div class="nav-wrapper">
-  {{#link-to 'proxima-roots' classNames="brand-logo"}}{{application.displayName}}{{/link-to}}
+<div class="grey">
 
-  <ul class="right">
-    <li>{{#link-to 'proxima-roots'}}Proxima Roots{{/link-to}}</li>
-    <li>{{#link-to 'reuniones.list'}}Reuniones{{/link-to}}</li>
-    <li>{{#link-to 'temas-generales'}}Temas Generales{{/link-to}}</li>
-  <li>
-    {{#tenpines/drop-down label='Opciones' icon='arrow_drop_down' iconToTheRight=true removeBtn=true }}
-      <li>{{#link-to 'users'}}Usuarios{{/link-to}}</li>
-      <li class="divider"></li>
-      <li><a href="#" {{action "logout"}}>Salir</a></li>
-    {{/tenpines/drop-down }}
-    </li>
-  </ul>
+  <div class="d-flex justify-content-between align-items-center">
+    <div class="menu-items">
+      <img src="logo-votacion-roots.svg"/>
+      {{#link-to 'proxima-roots'}}{{application.displayName}}{{/link-to}}
+      <div class="linea-vertical"></div>
+      {{#link-to 'proxima-roots'}}Proxima Roots{{/link-to}}
+      {{#link-to 'reuniones.list'}}Reuniones{{/link-to}}
+      {{#link-to 'temas-generales'}}Temas Generales{{/link-to}}
+    </div>
+
+    <div class="right">
+      {{#tenpines/drop-down label='Opciones' icon='arrow_drop_down' iconToTheRight=true removeBtn=true }}
+        <li>{{#link-to 'users'}}Usuarios{{/link-to}}</li>
+        <li class="divider"></li>
+        <li><a href="#" {{action "logout"}}>Salir</a></li>
+      {{/tenpines/drop-down }}
+    </div>
+
+  </div>
 
 </div>
