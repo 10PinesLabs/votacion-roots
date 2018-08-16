@@ -12,6 +12,8 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.SecurityContext;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -92,5 +94,16 @@ public class UserResource{
 
     public ResourceHelper getResourceHelper() {
         return resourceHelper;
+    }
+
+    @GET
+    @Path("votaron/{reunionId}")
+    public List<UserTo> getUsersQueVotaron(@PathParam("reunionId")Long reunionId) {
+        List<Usuario> usuarios=userService.getAll();
+        List<Usuario> votantes=reunionService.get(reunionId).usuariosQueVotaron();
+        usuarios=usuarios.stream().filter(usuario ->
+                votantes.stream().anyMatch(votante -> votante.getId().equals(usuario.getId()) )).collect(Collectors.toList());
+
+        return getResourceHelper().convertir(usuarios, LIST_OF_USER_TOS);
     }
 }
