@@ -88,6 +88,7 @@ public class UserResource{
         UserResource userResource = new UserResource();
         userResource.resourceHelper=ResourceHelper.create(appInjector);
         userResource.userService = appInjector.createInjected(UsuarioService.class);
+        userResource.reunionService = appInjector.createInjected(ReunionService.class);
         userResource.getResourceHelper().bindAppInjectorTo(UserResource.class,userResource);
         return userResource;
     }
@@ -99,11 +100,7 @@ public class UserResource{
     @GET
     @Path("votaron/{reunionId}")
     public List<UserTo> getUsersQueVotaron(@PathParam("reunionId")Long reunionId) {
-        List<Usuario> usuarios=userService.getAll();
-        List<Usuario> votantes=reunionService.get(reunionId).usuariosQueVotaron();
-        usuarios=usuarios.stream().filter(usuario ->
-                votantes.stream().anyMatch(votante -> votante.getId().equals(usuario.getId()) )).collect(Collectors.toList());
-
-        return getResourceHelper().convertir(usuarios, LIST_OF_USER_TOS);
+        List<Usuario> votantes = reunionService.get(reunionId).usuariosQueVotaron().stream().distinct().collect(Collectors.toList());
+        return getResourceHelper().convertir(votantes, LIST_OF_USER_TOS);
     }
 }
