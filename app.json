@@ -3,7 +3,7 @@
   "description": "Application to manage roots topics",
   "image": "heroku/java",
   "addons": [
-    "heroku-4postgresql"
+    "heroku-postgresql"
   ],
   "buildpacks": [
     {
