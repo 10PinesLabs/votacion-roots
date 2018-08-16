@@ -11,15 +11,15 @@ export default Ember.Route.extend(MinutaServiceInjected, UserServiceInjected, Au
     return Ember.RSVP.hash({
       reunionId: reunionId,
       minuta: this.promiseWaitingFor(this.minutaService().getMinutaDeReunion(reunionId))
-        .whenInterruptedAndReauthenticated(()=> {
+        .whenInterruptedAndReauthenticated(() => {
           this.navigator().navigateToAsistentesMinuta(reunionId);
         }),
       usuarios: this.promiseWaitingFor(this.userService().getAllUsers())
-        .whenInterruptedAndReauthenticated(()=> {
+        .whenInterruptedAndReauthenticated(() => {
           this.navigator().navigateToUsers();
         })
-    }).then((model)=> {
+    }).then((model) => {
       return model;
     });
-  }
+  },
 });

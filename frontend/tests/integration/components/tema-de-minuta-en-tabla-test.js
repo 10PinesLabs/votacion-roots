@@ -17,7 +17,7 @@ describeComponent(
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });
       // Template block usage:
-      // this.render(hbs`
+      // tethis.render(hbs`
       //   {{#tema-de-minuta-en-tabla}}
       //     template content
       //   {{/tema-de-minuta-en-tabla}}

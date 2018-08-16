@@ -8,6 +8,10 @@ export default Ember.Controller.extend(MinutaServiceInjected, NavigatorInjected,
     return this.get('model.reunionId');
   }),
 
+  minuta:Ember.computed('model.minuta',function(){
+    return this.get('model.minuta');
+  }),
+
   usuariosSeleccionables: Ember.computed('model.usuarios', 'usuariosSeleccionados', function () {
     var todosLosUsuarios = this.get('model.usuarios');
     var usuariosSeleccionados = this.get('usuariosSeleccionados');
