@@ -3,6 +3,7 @@
 @import 'tenpines-material-components';
 @import 'ember-power-select/themes/material';
 @import 'ember-power-select';
+@import 'navigation-bar';
 
 .container {
   max-width: none;
@@ -29,7 +30,6 @@
   overflow-wrap: break-word;
 }
 
-
 .titulo-de-tema {
   font-size: x-large;
 }
@@ -48,27 +48,6 @@
 
 .text-viewer {
   white-space: pre-wrap;
-}
-
-.linea-vertical {
-  border-left: 1px solid red;
-  height: 100%;
-  background-color: red;
-}
-
-.menu-items a{
-  margin: 5px 15px 5px 15px;
-  color: black;
-  font-size: x-large;
-}
-
-.menu-items {
-  display: flex;
-  margin-left: 40px;
-}
-
-#ember515 { // horrible
-  background: transparent !important;
 }
 
 @import "ember-power-select";
