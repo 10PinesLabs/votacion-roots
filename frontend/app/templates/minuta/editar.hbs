@@ -1,6 +1,29 @@
 <div class="row">
   <div class="col s10">
     <h5>Temas</h5>
+
+    {{#tenpines/object-table titulos='Prioridad, Tema, Autor, Duración, Obligatoriedad ' col=anchoDeTabla bordered=true highlight=true }}
+
+      {{#each  minuta.temas as |temaDeMinuta|}}
+        <tr  {{action 'verEditorDeConclusion' temaDeMinuta}} >
+          <td>{{temaDeMinuta.tema.prioridad}}</td>
+          <td>{{temaDeMinuta.tema.titulo}}</td>
+          <td>{{temaDeMinuta.tema.autor}}</td>
+          <td>{{temaDeMinuta.tema.duracion}}</td>
+          <td>{{temaDeMinuta.tema.obligatoriedad}}</td>
+          {{tema-de-minuta-conclusion-checked usuarios=usuarios temaDeMinuta=temaDeMinuta}}
+        </tr>
+      {{/each}}
+    {{/tenpines/object-table}}
+
+    {{# if mostrandoEditor}}
+      {{editor-de-conclusion
+        alGuardar=(action 'guardarConclusion')
+        alCerrar=(action 'cerrarEditor')
+        temaDeMinuta=temaAEditar
+        usuarios=model.usuarios
+      }}
+    {{/if}}
   </div>
   <div class="col s2">
 
@@ -18,35 +41,9 @@
       {{usuario.name}}
     {{/power-select-multiple}}
 
-    <div class="card-action right-align">
+    <div class="card-action center-align">
       <a class="waves-effect waves-light btn" onclick={{action 'guardarUsuariosSeleccionados'}} >Agregar</a>
     </div>
 
   </div>
-</div>
-
-<div>
-
-  {{#tenpines/object-table titulos='Prioridad, Tema, Autor, Duración, Obligatoriedad ' col=anchoDeTabla bordered=true highlight=true }}
-
-    {{#each  minuta.temas as |temaDeMinuta|}}
-      <tr  {{action 'verEditorDeConclusion' temaDeMinuta}} >
-        <td>{{temaDeMinuta.tema.prioridad}}</td>
-        <td>{{temaDeMinuta.tema.titulo}}</td>
-        <td>{{temaDeMinuta.tema.autor}}</td>
-        <td>{{temaDeMinuta.tema.duracion}}</td>
-        <td>{{temaDeMinuta.tema.obligatoriedad}}</td>
-        {{tema-de-minuta-conclusion-checked usuarios=usuarios temaDeMinuta=temaDeMinuta}}
-      </tr>
-    {{/each}}
-  {{/tenpines/object-table}}
-
-  {{# if mostrandoEditor}}
-    {{editor-de-conclusion
-      alGuardar=(action 'guardarConclusion')
-      alCerrar=(action 'cerrarEditor')
-      temaDeMinuta=temaAEditar
-      usuarios=model.usuarios
-    }}
-  {{/if}}
 </div>
