@@ -2,8 +2,9 @@ import Ember from "ember";
 import MinutaServiceInjected from "../../mixins/minuta-service-injected";
 import NavigatorInjected from "../../mixins/navigator-injected";
 import TemaDeMinutaServiceInjected from "../../mixins/tema-de-minuta-service-injected";
+import UserServiceInjected from "../../mixins/user-service-injected";
 
-export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServiceInjected, NavigatorInjected, {
+export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServiceInjected, NavigatorInjected, UserServiceInjected, {
 
   reunionId: Ember.computed('model.reunionId', function () {
     return this.get('model.reunionId');
@@ -23,9 +24,8 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
     });
   }),
 
-  usuariosSeleccionados: Ember.computed('model.minuta.asistentes', function() {
-    console.log(this.get('model.minuta.asistentes'));
-    return this.get('model.minuta.asistentes');
+  usuariosSeleccionados: Ember.computed('model.votantes', function() {
+    return this.get('model.votantes');
   }),
 
   temaAEditar:Ember.computed('temaSeleccionado', function(){
