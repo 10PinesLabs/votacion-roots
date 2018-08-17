@@ -5,10 +5,16 @@
 @import 'ember-power-select';
 @import 'navigation-bar';
 
-.container {
-  max-width: none;
-  width: 100%;
-  background: #efeff0;
+
+.space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.center {
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .ultimo-tema-stile {
