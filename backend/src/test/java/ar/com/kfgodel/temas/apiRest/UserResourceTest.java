@@ -3,10 +3,14 @@ package ar.com.kfgodel.temas.apiRest;
 import convention.persistent.Reunion;
 import convention.persistent.TemaDeReunion;
 import convention.rest.api.UserResource;
+import convention.rest.api.tos.UserTo;
 import org.junit.Assert;
 import org.junit.Test;
+import static org.assertj.core.api.Assertions.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by fede on 05/07/17.
@@ -40,9 +44,15 @@ public class UserResourceTest extends ResourcesTemasTest {
     @Test
     public void AlPedirLosVotantesDeUnaReunionMeDevuelveTodosLosUsuariosQueVotaron(){
         unaReunion = reunionService.update(unaReunion);
+        Long idReunion = unaReunion.getId();
+        List<UserTo> usersQueVotaron = userResource.getUsersQueVotaron(idReunion);
+        List<UserTo> usersQueVotaronYNoVotaron = userResource.getUsersQueNoVotaron(idReunion);
+        usersQueVotaronYNoVotaron.addAll(usersQueVotaron);
+        List<UserTo> todosLosUsuarios = userResource.getAllUsers();
 
-        Assert.assertTrue(userResource.getUsersQueVotaron(unaReunion.getId()).stream().anyMatch(userTo -> userTo.getId().equals(userId)));
-        Assert.assertFalse(userResource.getUsersQueVotaron(unaReunion.getId()).stream().anyMatch(userTo -> userTo.getId().equals(otherUserId)));
-        Assert.assertTrue(userResource.getUsersQueVotaron(unaReunion.getId()).size()>0);
+
+        assertThat(usersQueVotaron.stream().anyMatch(userTo -> userTo.getId().equals(otherUserId))).isFalse();
+        assertThat(usersQueVotaron.stream().anyMatch(usuario -> usuario.getId().equals(userId))).isTrue();
+        assertThat(usersQueVotaronYNoVotaron).hasSameSizeAs(todosLosUsuarios);
     }
 }
