@@ -2,6 +2,7 @@ package ar.com.kfgodel.temas.apiRest;
 
 import convention.persistent.Reunion;
 import convention.persistent.TemaDeReunion;
+import convention.persistent.Usuario;
 import convention.rest.api.UserResource;
 import convention.rest.api.tos.UserTo;
 import org.junit.Assert;
@@ -50,9 +51,7 @@ public class UserResourceTest extends ResourcesTemasTest {
         usersQueVotaronYNoVotaron.addAll(usersQueVotaron);
         List<UserTo> todosLosUsuarios = userResource.getAllUsers();
 
-
-        assertThat(usersQueVotaron.stream().anyMatch(userTo -> userTo.getId().equals(otherUserId))).isFalse();
-        assertThat(usersQueVotaron.stream().anyMatch(usuario -> usuario.getId().equals(userId))).isTrue();
+        assertThat(usersQueVotaron).extracting("id").contains(userId);
         assertThat(usersQueVotaronYNoVotaron).hasSameSizeAs(todosLosUsuarios);
     }
 }
