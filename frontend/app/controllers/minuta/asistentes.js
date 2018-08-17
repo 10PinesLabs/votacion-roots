@@ -1,8 +1,9 @@
 import Ember from "ember";
 import MinutaServiceInjected from "../../mixins/minuta-service-injected";
 import NavigatorInjected from "../../mixins/navigator-injected";
+import UserServiceInjected from "../../mixins/user-service-injected";
 
-export default Ember.Controller.extend(MinutaServiceInjected, NavigatorInjected, {
+export default Ember.Controller.extend(MinutaServiceInjected, NavigatorInjected, UserServiceInjected,{
 
   reunionId: Ember.computed('model.reunionId', function () {
     return this.get('model.reunionId');
@@ -18,8 +19,8 @@ export default Ember.Controller.extend(MinutaServiceInjected, NavigatorInjected,
     });
   }),
 
-  usuariosSeleccionados: Ember.computed('model.minuta.asistentes', function() {
-    return this.get('model.minuta.asistentes');
+  usuariosSeleccionados: Ember.computed('model.votantes', function() {
+    return this.get('model.votantes');
   }),
 
   actions: {

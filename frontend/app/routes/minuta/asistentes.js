@@ -17,7 +17,11 @@ export default Ember.Route.extend(MinutaServiceInjected, UserServiceInjected, Au
       usuarios: this.promiseWaitingFor(this.userService().getAllUsers())
         .whenInterruptedAndReauthenticated(()=> {
           this.navigator().navigateToUsers();
-        })
+        }),
+      votantes: this.promiseWaitingFor(this.userService().getVotantes(reunionId))
+        .whenInterruptedAndReauthenticated(()=> {
+          this.navigator().navigateToUsers();
+        }),
     }).then((model)=> {
       return model;
     });
