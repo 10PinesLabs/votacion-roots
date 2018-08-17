@@ -292,6 +292,4 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
       return "NO_OBLIGATORIO";
     }
   },
-
-
 });
