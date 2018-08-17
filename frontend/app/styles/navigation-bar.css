@@ -10,9 +10,10 @@
   font-size: large;
 }
 
-.menu-items {
+#menu-items {
   display: flex;
   margin-left: 40px;
+  justify-content: space-between;
 }
 
 #menu-user a {
@@ -40,12 +41,21 @@ a:hover {
 }
 
 .logo {
-  height: 30px;
+  height: 40px;
   display: inline-block;
   vertical-align: middle;
 }
 
 .logo-img {
-  height:100%;
-  display:block;
+  height: 100%;
+  display: block;
+}
+
+.vertical-divisor {
+  display: inline-block;
+  height: 35%;
+  background: #c1c1c0;
+  width: 2px;
+  vertical-align: middle;
+  margin-top: -3px;
 }
