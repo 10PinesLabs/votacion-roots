@@ -1,12 +1,14 @@
 
 #menu-items a {
-  margin: 5px 15px 5px 15px;
+  margin: 0px;
   color: black;
   font-size: large;
+  text-transform: capitalize;
 }
 
 #menu-items {
   margin-left: 40px;
+  margin-right: 40px;
   justify-content: space-between;
 }
 
@@ -35,9 +37,7 @@ a:hover {
 }
 
 .logo {
-  height: 40px;
-  display: inline-block;
-  vertical-align: middle;
+  height: 48px;
 }
 
 .logo-img {
@@ -52,4 +52,5 @@ a:hover {
   width: 2px;
   vertical-align: middle;
   margin-top: -3px;
+  height: 24px;
 }
