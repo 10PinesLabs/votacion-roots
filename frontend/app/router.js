@@ -16,8 +16,6 @@ Router.map(function () {
     this.route('list');
   });
   this.route('minuta', function(){
-    this.route('asistentes', {path:":reunion_id/asistentes"});
-    this.route('conclusiones', {path:":reunion_id/conclusiones"});
     this.route('editar', {path:":reunion_id/editar"});
     this.route('ver', {path:":reunion_id/ver"});
     this.route('ver-txt', {path:":reunion_id/ver-txt"});
