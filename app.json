@@ -3,8 +3,14 @@
   "description": "Application to manage roots topics",
   "image": "heroku/java",
   "addons": [
-    "heroku-4postgresql"
+    "heroku-postgresql"
   ],
+  "env": {
+    "MAVEN_CUSTOM_GOALS": {
+      "description": "Para que buildee bien",
+        "value": "clean package"
+      }
+  },
   "buildpacks": [
     {
       "url": "https://github.com/heroku/heroku-buildpack-java"
