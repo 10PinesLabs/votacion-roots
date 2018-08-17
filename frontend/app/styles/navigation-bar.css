@@ -1,9 +1,4 @@
 
-#menu-items {
-  margin-left: 40px;
-  margin-right: 40px;
-}
-
 #menu-items a {
   margin: 5px 15px 5px 15px;
   color: black;
@@ -11,7 +6,6 @@
 }
 
 #menu-items {
-  display: flex;
   margin-left: 40px;
   justify-content: space-between;
 }
