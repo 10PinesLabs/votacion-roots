@@ -4,20 +4,40 @@
   color: black;
   font-size: large;
   text-transform: capitalize;
+  padding: 0px 10px;
 }
 
-#menu-items {
+.menu {
   margin-left: 40px;
   margin-right: 40px;
+  display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
-#menu-user a {
+.menu-user a {
   margin: 0px;
+  color: black;
+  font-size: large;
 }
 
-#menu-user i {
-  margin: 5px 0px 0px;
+.menu-user i {
+  margin: 5px 0px 0px 0px;
+  line-height: inherit;
+}
+
+@media only screen and (max-device-width: 720px) {
+  .tab {
+    display: none !important;
+  }
+
+  .menu-user {
+    display: none;
+  }
+
+  .menu {
+    justify-content: center;
+  }
 }
 
 a:active {
@@ -38,6 +58,7 @@ a:hover {
 
 .logo {
   height: 48px;
+  margin: auto;
 }
 
 .logo-img {
