@@ -61,7 +61,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
     return this.get('votosRestantes') === 0;
   }),
   puedeCerrar: Ember.computed('terminoDeVotar','reunion.status',function(){
-    return this.get('terminoDeVotar') && !(this.get('reunion.status')==='CON_MINUTA');
+    return this.get('terminoDeVotar') && this.get('reunion.status') !=='CON_MINUTA';
 }),
   actions: {
     sumarVoto(tema){
@@ -221,16 +221,12 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
 
   _votarPorTema(tema){
     tema.agregarInteresado(this._idDeUsuarioActual());
-    this.temaService().votarTema(tema.id).then(() => {
-      this._recargarReunion();
-    });
+    this.temaService().votarTema(tema.id);
   },
 
   _quitarVotoDeTema(tema){
     tema.quitarInteresado(this._idDeUsuarioActual());
-    this.temaService().quitarVotoTema(tema.id).then(() => {
-      this._recargarReunion();
-    });
+    this.temaService().quitarVotoTema(tema.id);
   },
 
   _usarInstanciasDeTemas(reunion, usuarioActual){

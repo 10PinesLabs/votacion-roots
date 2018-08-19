@@ -6,8 +6,9 @@ export default Ember.Component.extend({
   willRender() {
     this._super(...arguments);
     let value = this.get('value');
-    if(value===undefined)
+    if (value === undefined) {
       this.set('value', "");
+    }
   }
 
 });

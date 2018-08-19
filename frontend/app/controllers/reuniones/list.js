@@ -28,7 +28,7 @@ export default Ember.Controller.extend(ReunionServiceInjected,MinutaServiceInjec
   }),
   reunionMinuteada:Ember.computed('reunionSeleccionada','minuta',function(){
 
-    return !(this.get('reunionSeleccionada.status')==='CON_MINUTA');
+    return this.get('reunionSeleccionada.status') !=='CON_MINUTA';
 }),
   temasEstimados: Ember.computed('duracionDeReunion',function(){
 
