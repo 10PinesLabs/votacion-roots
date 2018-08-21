@@ -1,15 +1,13 @@
-<div class="container">
-  <div class="s6 col">
+<div class="container" style=" width: 650px;">
+  <div style="height:200px; display:flex; justify-content: space-between; flex-direction: column">
 
-    <div style="    height: 85%;">
-      <div class="s2 center" {{action "editarFecha" }}>
-        <h4>Temario de la próxima Roots:</h4>
-      </div>
-      <div class="s3 center" {{action "editarFecha" }}>
+    <div class="center">
+      <h4 style="font-size: 43px;  font-weight: bold;">Temario de la próxima Roots</h4>
+      <div {{action "editarFecha" }}>
         {{#if editandoFecha}}
-          {{tenpines/input-date label='Fecha' value=reunion.fecha}}
+          {{tenpines/input-date color='#FFF' label='Fecha' value=reunion.fecha}}
         {{else}}
-          <h4>{{reunion.fecha}}</h4>
+          <h4 style="font-size: 24px;">{{reunion.fecha}}</h4>
         {{/if}}
       </div>
     </div>
@@ -18,8 +16,9 @@
       <div class="col s12 left-align">
         {{materialize/check-box label='Ver temas obligatorios' checked=mostrarObligatorios checkboxClasses="filled-in"}}
       </div>
-      <div class="col s12 right-align">
-        {{materialize/check-box class="purple-text" label='AGREGAR TEMA' checked=mostrarObligatorios checkboxClasses="filled-in"}}
+      <div style="display:flex; align-items: center; padding-left: 10px;">
+        <span class="dot"></span>
+        <h5 style="font-weight: 500; font-size:16px; color:purple; padding-left: 10px;">AGREGAR TEMA</h5>
       </div>
     </div>
 
