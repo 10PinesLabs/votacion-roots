@@ -14,7 +14,8 @@
 
     <div class="space-between">
       <div class="col s12 left-align flex-center" id="check-box">
-        {{materialize/check-box class="size-16" label='Ver temas obligatorios' checked=mostrarObligatorios checkboxClasses="filled-in"}}
+        {{materialize/check-box class="size-16" label='Ver temas obligatorios' checked=mostrarObligatorios
+                                checkboxClasses="filled-in"}}
         <i class="material-icons opacity-20">lock</i>
       </div>
       <div class="flex-center pl-10" {{action 'mostrarFormulario'}}>
@@ -26,73 +27,66 @@
   </div>
 
   <div class="row">
-    <table class="bordered highlight col s12">
-      <thead>
-      <tr>
-        <th class="con-padding">
-          #
-        </th>
-        <th class="con-padding">
-          Tema
-        </th>
-        <th class="con-padding">
-          Duración
-        </th>
-        <th class="con-padding">
-          Votos <span class="indivisible">({{votosRestantes}} restantes)</span>
-        </th>
-      </tr>
-      </thead>
-
+    <table class="bordered highlight col s12" style="border-collapse: separate;
+    border-spacing: 0px 20px;">
       <tbody>
       {{#each reunion.temasPropuestos as |tema|}}
         {{#if (or mostrarObligatorios (not tema.esObligatorio))}}
           <tr bgcolor={{tema.colorVotos}}>
-            <td class="con-padding">
+
+            <div style="margin: 10px 30px 0px 20px;">
               {{tema.prioridad}}
-            </td>
+              {{#if tema.puedeSerBorrado}}
+                <span {{action 'mostrarFormularioDeEdicion' tema}}
+                  class="clickable">{{materialize/icon-helper 'mode_edit'}}</span>
+              {{/if}}
+              <td style="padding:0px;">
+                <h5 class="titulo-de-tema">{{tema.titulo}}</h5>
+                <p class="crop">{{markdown-view value=tema.descripcion}}</p>
+              </td>
+            </div>
 
-            <td class="con-padding">
-              {{tenpines/colored-label value=tema.autor bgColor='green'}}
-              <h5 class="titulo-de-tema">{{tema.titulo}}</h5>
-              <p class="crop">{{markdown-view value=tema.descripcion}}</p>
-            </td>
+            <div class="divider"></div>
 
-            <td class="con-padding">
-              {{tema.duracion}}
-            </td>
-            <td class="con-padding">
-          <span class="indivisible">
-            {{#unless tema.esObligatorio}}
-              <span {{action 'restarVoto' tema}} class="clickable">ᐁ</span>
-              {{tema.cantidadVotosPropios }} votos
-              <span {{action 'sumarVoto' tema}} class="clickable">ᐃ</span>
-            {{/unless}}
-          </span>
-            </td>
-            <td class="right-align">
-              {{#unless estaCerrada}}
-                {{#if tema.puedeSerBorrado}}
-                  <span {{action 'mostrarFormularioDeEdicion' tema}}
-                    class="clickable">{{materialize/icon-helper 'mode_edit'}}</span>
-                {{/if}}
-              {{/unless}}
-            </td>
-            <td class="right-align">
-              {{#unless estaCerrada}}
-                {{#if tema.puedeSerBorrado}}
-                  <span {{action 'pedirConfirmacionDeBorrado' tema}}
-                    class="clickable">{{materialize/icon-helper 'delete'}}</span>
-                {{/if}}
-              {{/unless}}
-            </td>
+            <div class="space-between" style="margin: 5px; ">
 
+              <div class="flex-center" style="margin-left: 10px; padding-left: 5px;">
+                <h5 class="size-16" style="opacity:0.35; margin-right: 10px;">#{{tema.id}}</h5>
+                <i class="material-icons" style="opacity:0.7;">person</i>
+                <label style="font-size:16px; opacity:0.7; margin-right: 10px;">{{tema.autor}}</label>
+                <i class="material-icons">access_time</i>
+                <label class={{tema.colorDuracion }}>{{tema.duracion}}</label>
+              </div>
+
+              <div style="margin: 5px;">
+                <button type="button" class="btn-flat bold" style="background:purple; border-color:purple; color: white;">VOTAR</button>
+                <i class="material-icons" style="color:purple; height: 100%;"> indeterminate_check_box</i>
+                <i class="material-icons">more_vert</i>
+              </div>
+            </div>
           </tr>
 
         {{/if}}
       {{/each}}
       </tbody>
     </table>
+
+    <!-- <span class="indivisible">
+                {{#unless tema.esObligatorio}}
+                  <span {{action 'restarVoto' tema}} class="clickable">ᐁ</span>
+                  {{tema.cantidadVotosPropios }} votos
+              <span {{action 'sumarVoto' tema}} class="clickable">ᐃ</span>
+                {{/unless}}
+              </span>
+                {{#unless estaCerrada}}
+    {{/unless}}
+      {{#unless estaCerrada}}
+        {{#if tema.puedeSerBorrado}}
+                    <span {{action 'pedirConfirmacionDeBorrado' tema}}
+                      class="clickable">{{materialize/icon-helper 'delete'}}</span>
+                  {{/if}}
+        <image >
+      {{/unless}}-->
 
     {{#unless estaCerrada}}
       <a class="btn-floating btn-large waves-effect waves-light purple right" {{action 'mostrarFormulario'}}><i

@@ -38,10 +38,13 @@
 .crop {
   overflow: auto;
   overflow-wrap: break-word;
+  margin:0px;
 }
 
 .titulo-de-tema {
-  font-size: x-large;
+  font-size: 30px;
+  font-weight: bold;
+  margin: 0px;
 }
 
 .clickable {

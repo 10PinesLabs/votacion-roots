@@ -8,9 +8,10 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
 
   esObligatorio: false,
   mostrarObligatorios: false,
+
   fechaDeReunion: Ember.computed('reunion.fecha', function () {
       let fecha = this.reunion.fecha;
-      return moment(fecha).format('DD-MM-YYYY')
+      return moment(fecha).format('DD-MM-YYYY');
     }
   ),
 
