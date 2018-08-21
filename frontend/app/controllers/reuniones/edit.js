@@ -221,12 +221,18 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
 
   _votarPorTema(tema){
     tema.agregarInteresado(this._idDeUsuarioActual());
-    this.temaService().votarTema(tema.id);
+    this.temaService().votarTema(tema.id).then((response) =>{
+    }, (error) => {
+      console.log("error");
+    });
   },
 
   _quitarVotoDeTema(tema){
     tema.quitarInteresado(this._idDeUsuarioActual());
-    this.temaService().quitarVotoTema(tema.id);
+    this.temaService().quitarVotoTema(tema.id).then((response) => {
+    }, (error) => {
+      console.log("error");
+    });
   },
 
   _usarInstanciasDeTemas(reunion, usuarioActual){
