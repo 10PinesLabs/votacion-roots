@@ -29,15 +29,6 @@ public class ActionItem  extends PersistableSupport {
     @Transient
     private ActionItemNotificator mailer = new ActionItemNotificator();
 
-    public static ActionItem create(List<Usuario> unosResponsables, String unaDescripcion, TemaDeMinuta unTema){
-        ActionItem unActionItem = new ActionItem();
-        unActionItem.tema = unTema;
-        unActionItem.responsables = unosResponsables;
-        unActionItem.descripcion = unaDescripcion;
-        unActionItem.mailer.notificar(unActionItem);
-        return unActionItem;
-    }
-
     public List<Usuario> getResponsables() {
         return responsables;
     }
