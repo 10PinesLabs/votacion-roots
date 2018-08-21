@@ -22,14 +22,20 @@ public class Usuario extends PersistableSupport {
   private String login;
   private String password;
   private String backofficeId;
+  private String mail;
 
-  public static Usuario create(String name, String login, String password, String backofficeId) {
+  public static Usuario create(String name, String login, String password, String backofficeId, String mail) {
     Usuario usuario = new Usuario();
     usuario.setName(name);
     usuario.setLogin(login);
     usuario.setPassword(password);
     usuario.setBackofficeId(backofficeId);
+    usuario.setMail(mail);
     return usuario;
+  }
+
+  private void setMail(String mail) {
+    this.mail = mail;
   }
 
   public String getName() {
@@ -62,5 +68,9 @@ public class Usuario extends PersistableSupport {
 
   public void setBackofficeId(String backofficeId) {
     this.backofficeId = backofficeId;
+  }
+
+  public String getMail() {
+    return mail;
   }
 }

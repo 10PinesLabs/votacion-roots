@@ -97,7 +97,8 @@ public abstract class BackofficeCallbackAuthenticator implements Function<WebCre
       .taking(Usuario.create(backofficeUser.fullName,
         backofficeUser.username,
         "password",
-        backofficeUser.uid))
+        backofficeUser.uid,
+        backofficeUser.email))
       .applyingResultOf(Save::create)
       .get();
   }

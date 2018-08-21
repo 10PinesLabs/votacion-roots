@@ -14,6 +14,10 @@ import org.junit.Test;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Created by sandro on 19/06/17.
@@ -375,6 +379,16 @@ public class PersistenciaTest {
         Assert.assertEquals(temaDeMinuta.getActionItems().get(0).getDescripcion(),"cambie");
 
     }
+
+    @Test
+    public void test22UnNuevoUsuarioSePersisteConSuEmail(){
+        String mail = "pepe@10pines.com";
+        Usuario usuario = Usuario.create("pepe", "pepe", "pepe", "9000", mail);
+        usuarioService.save(usuario);
+        Usuario savedUser = usuarioService.getAll().stream().filter(user -> user.getLogin().equals("pepe")).findFirst().get();
+        assertThat(savedUser.getMail()).isEqualTo(mail);
+    }
+
     private void startApplication(){
         application = TestApplication.create(TestConfig.create());
         application.start();
