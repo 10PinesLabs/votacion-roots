@@ -18,6 +18,8 @@ public class Usuario extends PersistableSupport {
   public static final String login_FIELD = "login";
   public static final String password_FIELD = "password";
   public static final String backofficeId_FIELD = "backofficeId";
+  public static final String mail_FIELD = "mail";
+
   private String name;
   private String login;
   private String password;
@@ -34,7 +36,7 @@ public class Usuario extends PersistableSupport {
     return usuario;
   }
 
-  private void setMail(String mail) {
+  public void setMail(String mail) {
     this.mail = mail;
   }
 
