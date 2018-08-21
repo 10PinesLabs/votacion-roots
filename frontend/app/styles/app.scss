@@ -4,11 +4,16 @@
 @import 'ember-power-select/themes/material';
 @import 'ember-power-select';
 @import 'navigation-bar';
-
+@import 'reuniones';
 
 .space-between {
   display: flex;
   justify-content: space-between;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
 }
 
 .center {
@@ -55,16 +60,16 @@
   white-space: pre-wrap;
 }
 
-.dot {
-  height: 25px;
-  width: 25px;
-  background-color: purple;
-  border-radius: 50%;
-  display: inline-block;
-}
-
 .bold {
   font-weight: bold;
+}
+
+.hidden {
+  display: none;
+}
+
+.primary-color {
+  color: purple;
 }
 
 @import "ember-power-select";

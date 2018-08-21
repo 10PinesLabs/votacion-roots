@@ -1,0 +1,50 @@
+[type="checkbox"].filled-in:checked + label:after {
+  top: 0;
+  width: 20px;
+  height: 20px;
+  border: 2px solid purple;
+  background-color: purple;
+  z-index: 0;
+}
+
+#check-box label {
+  padding-left: 25px;
+  color: #444444;
+}
+
+.title-container {
+  height: 200px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.title-label {
+  font-size: 43px;
+  font-weight: bold;
+}
+
+.title-date {
+  font-size: 24px;
+  opacity: 0.7;
+}
+
+.w-650 {
+  width: 650px;
+}
+
+.opacity-20 {
+  opacity: 0.2;
+}
+
+.pl {
+  padding-left: 10px;
+}
+
+.add-tema {
+  font-weight: 500;
+}
+
+.size-16 {
+  font-size:16px;
+}
