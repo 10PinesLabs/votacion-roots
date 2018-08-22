@@ -7,19 +7,14 @@ import org.simplejavamail.email.EmailBuilder;
 import org.simplejavamail.mailer.Mailer;
 import org.simplejavamail.mailer.MailerBuilder;
 
-public class ActionItemNotificator {
+public class MailSender extends ActionItemObserver{
     public static final String EMPTY_ITEM_ACTION_EXCEPTION = "El item debe tener descripción y responsables";
     private Mailer mailer;
 
-    public ActionItemNotificator(){
+    public MailSender(){
         mailer = MailerBuilder
                 .withSMTPServer("smtp.gmail.com", 587, "votacionroots@gmail.com", "votacionroots1.")
                 .buildMailer();
-    }
-
-    public void notificar(ActionItem actionItem) {
-        validarActionItem(actionItem);
-        actionItem.getResponsables().forEach(responsable -> sendMail(actionItem, responsable));
     }
 
     private void sendMail(ActionItem actionItem, Usuario responsable) {
@@ -34,5 +29,11 @@ public class ActionItemNotificator {
 
     private void validarActionItem(ActionItem unActionItem) {
         if(unActionItem.getDescripcion() == null|| unActionItem.getResponsables() == null) throw new RuntimeException(EMPTY_ITEM_ACTION_EXCEPTION);
+    }
+
+    @Override
+    public void onSetResponsables(ActionItem actionItem) {
+        validarActionItem(actionItem);
+        actionItem.getResponsables().forEach(responsable -> sendMail(actionItem, responsable));
     }
 }
