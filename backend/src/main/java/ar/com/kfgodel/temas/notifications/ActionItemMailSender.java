@@ -7,11 +7,11 @@ import org.simplejavamail.email.EmailBuilder;
 import org.simplejavamail.mailer.Mailer;
 import org.simplejavamail.mailer.MailerBuilder;
 
-public class MailSender extends ActionItemObserver{
+public class ActionItemMailSender extends ActionItemObserver{
     public static final String EMPTY_ITEM_ACTION_EXCEPTION = "El item debe tener descripción y responsables";
     private Mailer mailer;
 
-    public MailSender(){
+    public ActionItemMailSender(){
         mailer = MailerBuilder
                 .withSMTPServer("smtp.gmail.com", 587, "votacionroots@gmail.com", "votacionroots1.")
                 .buildMailer();

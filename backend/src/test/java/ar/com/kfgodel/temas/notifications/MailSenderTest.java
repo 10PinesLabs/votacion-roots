@@ -1,45 +1,60 @@
 package ar.com.kfgodel.temas.notifications;
 
 import convention.persistent.ActionItem;
-import convention.persistent.TemaDeMinuta;
 import convention.persistent.Usuario;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.atLeastOnce;
 
-public class ActionItemNotificationTest {
+public class MailSenderTest {
 
-    ActionItemNotificator mailer;
+    ActionItemMailSender mockMailSender;
+    ActionItemMailSender mailSender;
+    ActionItem actionItem;
 
     @Before
     public void setUp(){
-        mailer = new ActionItemNotificator();
+        mockMailSender = Mockito.mock(ActionItemMailSender.class);
+        mailSender = new ActionItemMailSender();
+        actionItem = new ActionItem();
     }
 
     @Test
-    public void elActionItemNotificatorNoEnviaElMailSiElActionItemNoEsValido(){
-        ActionItem emptyActionItem = new ActionItem();
+    public void elActionItemMailSenderNoEnviaElMailSiElActionItemNoTieneDescripcion(){
+        actionItem.addObserver(mailSender);
         try{
-            mailer.notificar(emptyActionItem);
+            mailSender.onSetResponsables(actionItem);
             fail();
         }catch(Exception emptyActionException){
-            assertThat(emptyActionException.getMessage()).isEqualTo(mailer.EMPTY_ITEM_ACTION_EXCEPTION);
+            assertThat(emptyActionException.getMessage()).isEqualTo(mockMailSender.EMPTY_ITEM_ACTION_EXCEPTION);
         }
     }
 
     @Test
-    public void elActionItemNotificatorNoEnviaElMailSiElActionItemNoTieneResponsables(){
-        ActionItem actionItem = new ActionItem();
+    public void elActionItemMailSenderNoEnviaMailSiElActionItemNoTieneResponsables(){
+        actionItem.addObserver(mailSender);
         actionItem.setDescripcion("Una descripción");
         try {
-            mailer.notificar(actionItem);
+            mailSender.onSetResponsables(actionItem);
             fail();
-        }catch(Exception emptyActionException){
-            assertThat(emptyActionException.getMessage()).isEqualTo(mailer.EMPTY_ITEM_ACTION_EXCEPTION);
+        }catch(Exception emptyActionException) {
+            assertThat(emptyActionException.getMessage()).isEqualTo(mockMailSender.EMPTY_ITEM_ACTION_EXCEPTION);
         }
+    }
+
+    @Test
+    public void elActionItemMailSenderEnviaMailATodosLosResponsables(){
+        actionItem.addObserver(mockMailSender);
+        actionItem.setDescripcion("Una descripcion");
+        Usuario unUsuario = Usuario.create("pedro", "pedro","pedro","9000","pedro@10pines.com");
+
+        actionItem.setResponsables(Arrays.asList(unUsuario));
+        Mockito.verify(mockMailSender,atLeastOnce()).onSetResponsables(actionItem);
     }
 }

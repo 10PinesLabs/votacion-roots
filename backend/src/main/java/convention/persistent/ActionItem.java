@@ -1,10 +1,11 @@
 package convention.persistent;
 
-import ar.com.kfgodel.temas.notifications.ActionItemNotificator;
+import ar.com.kfgodel.temas.notifications.ActionItemObserver;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,8 +27,8 @@ public class ActionItem  extends PersistableSupport {
     private String descripcion;
     public static final String descripcion_FIELD = "descripcion";
 
-    @Transient
-    private ActionItemNotificator mailer = new ActionItemNotificator();
+    @OneToMany
+    private List<ActionItemObserver> observers = new ArrayList<>();
 
     public List<Usuario> getResponsables() {
         return responsables;
@@ -35,7 +36,7 @@ public class ActionItem  extends PersistableSupport {
 
     public void setResponsables(List<Usuario> responsables) {
         this.responsables = responsables;
-        mailer.notificar(this);
+        observers.forEach(observer -> observer.onSetResponsables(this));
     }
 
     public TemaDeMinuta getTema() {
@@ -52,5 +53,12 @@ public class ActionItem  extends PersistableSupport {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public void addObserver(ActionItemObserver unObserver) {
+        this.observers.add(unObserver);
+    }
+    public void removeObserver(ActionItemObserver unObserver){
+        this.observers.remove(unObserver);
     }
 }
