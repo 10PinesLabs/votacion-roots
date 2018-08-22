@@ -37,8 +37,8 @@
             <div style="margin: 10px 30px 0px 20px;">
               {{tema.prioridad}}
               {{#if tema.puedeSerBorrado}}
-                <span {{action 'mostrarFormularioDeEdicion' tema}}
-                  class="clickable">{{materialize/icon-helper 'mode_edit'}}</span>
+                <!--span {{action 'mostrarFormularioDeEdicion' tema}}
+                  class="clickable">{{materialize/icon-helper 'mode_edit'}}</span-->
               {{/if}}
               <td style="padding:0px;">
                 <h5 class="titulo-de-tema">{{tema.titulo}}</h5>
@@ -54,20 +54,41 @@
                 <h5 class="size-16" style="opacity:0.35; margin-right: 10px;">#{{tema.id}}</h5>
                 <i class="material-icons" style="opacity:0.7;">person</i>
                 <label style="font-size:16px; opacity:0.7; margin-right: 10px;">{{tema.autor}}</label>
-                <i class="material-icons">access_time</i>
+                <i class="material-icons" style="margin-right: 5px;">access_time</i>
                 <label class={{tema.colorDuracion }}>{{tema.duracion}}</label>
               </div>
 
-              <div style="margin: 5px;">
-                <button type="button" {{action 'sumarVoto' tema}} class="btn-flat bold" style="background:purple; border-color:purple; color: white;">
-                  {{#repetir-pedazo veces=tema.cantidadVotosPropios}}
-                    <i class="material-icons" style="color:yellow">star</i>
-                  {{/repetir-pedazo}} VOTAR
+              <div class="flex-center" style="margin: 5px;">
+
+                {{#unless tema.esObligatorio}}
+
+                  <button type="button" {{action 'sumarVoto' tema}} class="btn-flat bold"
+                        style="background:purple; border-color:purple; color: white;">
+
+                  <div class="flex-center">
+                    {{#repetir-pedazo veces=tema.cantidadVotosPropios}}
+                      <i class="material-icons" style="color:yellow">star</i>
+                    {{/repetir-pedazo}}
+
+                    <h6 class="bold size-16">{{#if tema.tieneVotos}}
+                      VOTAR DE NUEVO
+                    {{else}}
+                      VOTAR
+                    {{/if}}</h6>
+                  </div>
 
                 </button>
-                <i class="material-icons" style="color:purple; height: 100%;" {{action 'restarVoto' tema}}> indeterminate_check_box</i>
-                <i class="material-icons">more_vert</i>
-              </div>
+
+                {{#if tema.tieneVotos}}
+                  <i class="material-icons" style="color:purple; font-size: 48px;" {{action 'restarVoto' tema}}>
+                    indeterminate_check_box</i>
+                {{/if}}
+
+              {{/unless}}
+
+              <i class="material-icons">more_vert</i>
+
+            </div>
             </div>
           </tr>
 

@@ -6,12 +6,7 @@ export default Ember.Object.extend({
     return this.get('idsDeInteresados.length');
   }),
   colorVotos: Ember.computed('cantidadVotosPropios', function () {
-    if (this.get('cantidadVotosPropios') > 0) {
-      return "#CEFFD4";
-    }
-    else {
-      return 'white';
-    }
+    return 'white';
   }),
 
   colorDuracion: Ember.computed('tema.color', function () {
@@ -24,6 +19,14 @@ export default Ember.Object.extend({
     if (this.duracion === "CORTO") {
       return 'green-text';
     }
+  }),
+
+  tieneVotos: Ember.computed('tieneVotos', 'cantidadVotosPropios', function () {
+    return this.get('cantidadVotosPropios') > 0;
+  }),
+
+  noTieneVotos: Ember.computed('noTieneVotos', 'cantidadVotosPropios', function () {
+    return this.get('cantidadVotosPropios') == 0;
   }),
 
   cantidadVotosPropios: Ember.computed('idsDeInteresados.[]', 'usuarioActual', function () {
