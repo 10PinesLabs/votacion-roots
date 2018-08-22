@@ -59,8 +59,13 @@
               </div>
 
               <div style="margin: 5px;">
-                <button type="button" class="btn-flat bold" style="background:purple; border-color:purple; color: white;">VOTAR</button>
-                <i class="material-icons" style="color:purple; height: 100%;"> indeterminate_check_box</i>
+                <button type="button" {{action 'sumarVoto' tema}} class="btn-flat bold" style="background:purple; border-color:purple; color: white;">
+                  {{#repetir-pedazo veces=tema.cantidadVotosPropios}}
+                    <i class="material-icons" style="color:yellow">star</i>
+                  {{/repetir-pedazo}} VOTAR
+
+                </button>
+                <i class="material-icons" style="color:purple; height: 100%;" {{action 'restarVoto' tema}}> indeterminate_check_box</i>
                 <i class="material-icons">more_vert</i>
               </div>
             </div>
