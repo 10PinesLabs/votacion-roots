@@ -114,6 +114,7 @@ public class TemasApplication implements Application {
         WebServerConfiguration serverConfig = ConfigurationByConvention.create()
                 .authenticatingWith(config.autenticador())
                 .listeningHttpOn(config.getHttpPort())
+                .expiringSessionsAfter(10800)
                 .withInjections((binder) -> {
                     //Make application the only jetty injectable dependency
                     binder.bind(this).to(Application.class);
