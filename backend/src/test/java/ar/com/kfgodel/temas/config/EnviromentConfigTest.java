@@ -14,6 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class EnviromentConfigTest {
 
     private HerokuPriorityConfigSelector configSelector;
+    private String variableName = "ENVIRONMENT";
 
     @Before
     public void setUp(){
@@ -23,19 +24,19 @@ public class EnviromentConfigTest {
 
     @Test
     public void siElEnviromentEsDevelopmentLaConfiguracionEsDevelopment(){
-        PowerMockito.when(System.getenv("ENVIRONMENT")).thenReturn("DEV");
+        PowerMockito.when(System.getenv(variableName)).thenReturn("DEV");
         assertThat(configSelector.selectConfig()).isInstanceOf(DevelopmentConfig.class);
     }
 
     @Test
     public void siElEnviromentEsProduccionLaConfiguracionEsHerokuConAccesoParaRoots(){
-        PowerMockito.when(System.getenv("ENVIRONMENT")).thenReturn("PROD");
+        PowerMockito.when(System.getenv(variableName)).thenReturn("PROD");
         assertThat(configSelector.selectConfig()).isInstanceOf(HerokuConfig.class);
     }
 
     @Test
     public void siElEnviromentEsStaginLaConfiguracionEsHerokuConAccesoParaTodos(){
-        PowerMockito.when(System.getenv("ENVIROMENT")).thenReturn("STG");
+        PowerMockito.when(System.getenv(variableName)).thenReturn("STG");
         assertThat(configSelector.selectConfig()).isInstanceOf(HerokuStagingConfig.class);
     }
 }
