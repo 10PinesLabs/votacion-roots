@@ -95,3 +95,20 @@
 .align-left {
   text-align: initial;
 }
+
+.vot-star {
+  background:white;
+  display:flex;
+  align-items: center;
+  border-radius: 21px;
+  padding: 9px;
+  margin-top: 5px;
+}
+
+#vot-container:hover .vot-star{
+  width: 200px;
+}
+
+#vot-container:hover h6{
+  display: block;
+}

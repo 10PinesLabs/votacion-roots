@@ -39,6 +39,13 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
       return temasOrdenados;
     }),
 
+  temasVotados: Ember.computed('reunion.temasVotados', function () {
+    let todosLosTemas = this.get('reunion.temasPropuestos');
+    return todosLosTemas.filter(function (tema) {
+      return tema.idsDeInteresados.includes(tema.usuarioActual.id);
+    });
+  }),
+
   estaCerrada:
     Ember.computed('reunion.status', function () {
       return ((this.get('reunion.status') === 'CERRADA') || (this.get('reunion.status') === 'CON_MINUTA'));
