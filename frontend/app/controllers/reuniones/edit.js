@@ -8,7 +8,6 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
 
   esObligatorio: false,
   mostrarObligatorios: false,
-  errorVotacion: false,
 
   reunion: Ember.computed('model.reunion', function () {
     return this.get('model.reunion');
@@ -224,8 +223,6 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
     tema.agregarInteresado(this._idDeUsuarioActual());
     this.temaService().votarTema(tema.id).then(() =>{
       this._recargarReunion();
-    }, () => {
-      this.set('errorVotacion', true);
     });
   },
 
@@ -233,8 +230,6 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
     tema.quitarInteresado(this._idDeUsuarioActual());
     this.temaService().quitarVotoTema(tema.id).then(() => {
       this._recargarReunion();
-    }, () => {
-      this.set('errorVotacion', true);
     });
   },
 
