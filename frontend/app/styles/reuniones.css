@@ -1,0 +1,75 @@
+#check-box label {
+  padding-left: 25px;
+  color: #444444;
+}
+
+.title-container {
+  height: 200px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.title-label {
+  font-size: 43px;
+  font-weight: bold;
+}
+
+.title-date {
+  font-size: 24px;
+  opacity: 0.7;
+}
+
+.w-650 {
+  width: 650px;
+}
+
+.opacity-20 {
+  opacity: 0.2;
+}
+
+.pl {
+  padding-left: 10px;
+}
+
+.add-tema {
+  font-weight: 500;
+}
+
+.table {
+  border-collapse: separate;
+  border-spacing: 0px 20px;
+}
+
+.noPadding {
+  padding: 0px;
+}
+
+.temaContent {
+  margin: 10px 30px 0px 20px;
+}
+
+.temaBotton {
+  margin-left: 10px;
+  padding-left: 5px;
+}
+
+.m-5 {
+  margin: 5px;
+}
+
+.m-10 {
+  margin: 10px;
+}
+
+.opacity-70 {
+  opacity: 0.7;
+}
+
+.opacity-35 {
+  opacity: 0.35;
+}
+
+.menus-button {
+  font-size: 48px !important;
+}
