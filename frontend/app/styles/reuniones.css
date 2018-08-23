@@ -54,8 +54,16 @@
   padding-left: 5px;
 }
 
+.mt-0 {
+  margin-top: 0px;
+}
+
 .m-5 {
   margin: 5px;
+}
+
+.mr-5 {
+  margin-right: 5px;
 }
 
 .m-10 {
@@ -72,4 +80,18 @@
 
 .menus-button {
   font-size: 48px !important;
+}
+
+.finish-title {
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.finish-content {
+  background: white;
+  padding: 40px;
+}
+
+.align-left {
+  text-align: initial;
 }

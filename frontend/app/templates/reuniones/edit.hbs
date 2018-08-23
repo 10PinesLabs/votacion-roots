@@ -133,38 +133,38 @@
 
 {{#if puedeCerrar}}
 
-  <div class="row">
-    <div class="col s12">
+  <div>
 
-      <div class="card">
-        <div class="card-content">
-          <span class="card-title">Cerrar Temario para todos</span>
-          <p>Una vez votados todos los temas y antes de comenzar la reunion debemos cerrar el temario
-            y al hacerlo, se ordenaran primero el mas votado.<br>
-            <b>Nadie mas podrá seguir votando</b>
-          </p>
-        </div>
-        <div class="card-action center-align">
+    <div class="finish-content">
+      <div class="center w-650 align-left">
+          <span class="flex-center finish-title">
+            <i class="material-icons mr-5">info_outline</i>
+            Cerrar Temario para todos
+          </span>
+        <p class="mt-0">Una vez votados todos los temas y antes de comenzar la reunión, debemos cerrar el
+          temario. Al cerrar el
+          temario, todos los temas se ordenarán desde el primero más votado por todos los pinos, y <b>nadie mas podrá
+            seguir votando</b><br>
+        </p>
 
-          {{#unless estaCerrada}}
-            {{tenpines/material-button label='Terminar votacion' click=(action 'pedirConfirmacionDeCierre')
-                                       bgColor='red'}}
-          {{/unless}}
-          {{#if estaCerrada}}
-            {{tenpines/material-button label='Reabrir votacion' click=(action 'reabrirVotacion') flat=true}}
-          {{/if}}
+        {{#unless estaCerrada}}
+          {{tenpines/material-button label='Terminar votacion' click=(action 'pedirConfirmacionDeCierre')
+                                     bgColor='#800080'}}
+        {{/unless}}
+        {{#if estaCerrada}}
+          {{tenpines/material-button label='Reabrir votacion' click=(action 'reabrirVotacion') flat=true}}
+        {{/if}}
 
-        </div>
       </div>
-
-      {{tenpines/modal-de-confirmacion
-        open=modalDeCierreAbierto
-        titulo='Confirmar cierre de votación'
-        descripcion='¿Estás seguro que querés cerrar la votación, que comience la reunión y que nadie más pueda seguir votando?'
-        accionAceptar=(action 'cerrarVotacion')
-      }}
-
     </div>
+
+    {{tenpines/modal-de-confirmacion
+      open=modalDeCierreAbierto
+      titulo='Confirmar cierre de votación'
+      descripcion='¿Estás seguro que querés cerrar la votación, que comience la reunión y que nadie más pueda seguir votando?'
+      accionAceptar=(action 'cerrarVotacion')
+    }}
+
   </div>
 {{/if}}
 
