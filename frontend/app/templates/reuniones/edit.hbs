@@ -34,7 +34,6 @@
           <tr bgcolor={{tema.colorVotos}}>
 
             <div class="temaContent">
-              <h6 class="bold primary-color">{{tema.prioridad}}°</h6>
               <td class="noPadding">
                 <h5 class="titulo-de-tema">{{tema.titulo}}</h5>
                 <p class="crop">{{markdown-view value=tema.descripcion}}</p>
@@ -74,7 +73,8 @@
                   </button>
 
                   {{#if tema.tieneVotos}}
-                    <button class="btn-flat noPadding w-46" {{action 'restarVoto' tema}}>
+                    <button class="btn-flat noPadding w-46 noHover ml-5" style="transparent" {{action 'restarVoto'
+                                                                                                      tema}}>
                       <i class="material-icons primary-color menus-button">
                         indeterminate_check_box</i>
                     </button>
@@ -82,7 +82,14 @@
 
                   {{/if}}
 
-                  <i class="material-icons">more_vert</i>
+                  <div id="edit-menu">
+                    {{#tenpines/drop-down icon='more_vert' removeBtn=true }}
+                      <li class="light-grey" {{action 'mostrarFormularioDeEdicion' tema}}>
+                        <a class="black-text">Editar</a></li>
+                      <li class="divider"></li>
+                      <li class="light-grey"><a class="black-text" {{action 'borrarTemaElegido' tema}}>Eliminar</a></li>
+                    {{/tenpines/drop-down }}
+                  </div>
 
                 {{/unless}}
 
