@@ -21,7 +21,10 @@ public class HerokuPriorityConfigSelector implements ConfigurationSelector {
   public TemasConfiguration selectConfig() {
     if ("PROD".equals(System.getenv("ENVIROMENT"))) {
       LOG.info("Using Heroku configuration");
-      return HerokuConfig.create();
+      return HerokuProductionConfig.create();
+    }else if("STG".equals(System.getenv("ENVIROMENT"))){
+      LOG.info("Using staging configuration");
+      return HerokuStagingConfig.create();
     }
     LOG.info("Using development configuration");
     return DevelopmentConfig.create();
