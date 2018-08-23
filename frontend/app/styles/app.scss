@@ -6,6 +6,8 @@
 @import 'navigation-bar';
 @import 'reuniones';
 
+$primary-color: purple;
+
 .space-between {
   display: flex;
   justify-content: space-between;
@@ -38,7 +40,7 @@
 .crop {
   overflow: auto;
   overflow-wrap: break-word;
-  margin:0px;
+  margin: 0px;
 }
 
 .titulo-de-tema {
@@ -72,7 +74,36 @@
 }
 
 .primary-color {
-  color: purple;
+  color: $primary-color;
+}
+
+[type="checkbox"].filled-in:checked + label:after {
+  top: 0;
+  width: 20px;
+  height: 20px;
+  border: 2px solid $primary-color;
+  background-color: $primary-color;
+  z-index: 0;
+}
+
+.btn {
+  background: $primary-color;
+  border-color: $primary-color;
+  color: white;
+}
+
+.btn:hover {
+  background: #6b016b;
+}
+
+input:not([type]):focus:not([readonly]), input[type=text]:focus:not([readonly]), input[type=password]:focus:not([readonly]), input[type=email]:focus:not([readonly]), input[type=url]:focus:not([readonly]), input[type=time]:focus:not([readonly]), input[type=date]:focus:not([readonly]), input[type=datetime]:focus:not([readonly]), input[type=datetime-local]:focus:not([readonly]), input[type=tel]:focus:not([readonly]), input[type=number]:focus:not([readonly]), input[type=search]:focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
+  border-bottom: $primary-color;
+  box-shadow: $primary-color;
+  box-shadow: 0 1px 0 0 $primary-color;
+}
+
+h6 {
+  font-size: 16px;
 }
 
 @import "ember-power-select";

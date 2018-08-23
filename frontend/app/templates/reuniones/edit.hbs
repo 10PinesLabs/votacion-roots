@@ -27,20 +27,15 @@
   </div>
 
   <div class="row">
-    <table class="bordered highlight col s12" style="border-collapse: separate;
-    border-spacing: 0px 20px;">
+    <table class="bordered highlight table">
       <tbody>
       {{#each reunion.temasPropuestos as |tema|}}
         {{#if (or mostrarObligatorios (not tema.esObligatorio))}}
           <tr bgcolor={{tema.colorVotos}}>
 
-            <div style="margin: 10px 30px 0px 20px;">
-              {{tema.prioridad}}
-              {{#if tema.puedeSerBorrado}}
-                <!--span {{action 'mostrarFormularioDeEdicion' tema}}
-                  class="clickable">{{materialize/icon-helper 'mode_edit'}}</span-->
-              {{/if}}
-              <td style="padding:0px;">
+            <div class="temaContent">
+              <h6 class="bold primary-color">{{tema.prioridad}}°</h6>
+              <td class="noPadding">
                 <h5 class="titulo-de-tema">{{tema.titulo}}</h5>
                 <p class="crop">{{markdown-view value=tema.descripcion}}</p>
               </td>
@@ -48,47 +43,51 @@
 
             <div class="divider"></div>
 
-            <div class="space-between" style="margin: 5px; ">
+            <div class="space-between m-5">
 
-              <div class="flex-center" style="margin-left: 10px; padding-left: 5px;">
-                <h5 class="size-16" style="opacity:0.35; margin-right: 10px;">#{{tema.id}}</h5>
-                <i class="material-icons" style="opacity:0.7;">person</i>
-                <label style="font-size:16px; opacity:0.7; margin-right: 10px;">{{tema.autor}}</label>
-                <i class="material-icons" style="margin-right: 5px;">access_time</i>
+              <div class="flex-center tema-bottom">
+                <h6 class="size-16 m-10 opacity-35">#{{tema.id}}</h6>
+                <i class="material-icons opacity-70">person</i>
+                <h6 class="opacity-70 m-10">{{tema.autor}}</h6>
+                <i class="material-icons m-5">access_time</i>
                 <label class={{tema.colorDuracion }}>{{tema.duracion}}</label>
               </div>
 
-              <div class="flex-center" style="margin: 5px;">
+              <div class="flex-center m-10">
 
-                {{#unless tema.esObligatorio}}
+                {{#unless (or tema.esObligatorio or estaCerrada)}}
 
-                  <button type="button" {{action 'sumarVoto' tema}} class="btn-flat bold"
-                        style="background:purple; border-color:purple; color: white;">
+                  <button type="button" {{action 'sumarVoto' tema}} class="btn-flat bold btn">
 
-                  <div class="flex-center">
-                    {{#repetir-pedazo veces=tema.cantidadVotosPropios}}
-                      <i class="material-icons" style="color:yellow">star</i>
-                    {{/repetir-pedazo}}
+                    <div class="flex-center">
+                      {{#repetir-pedazo veces=tema.cantidadVotosPropios}}
+                        <i class="material-icons yellow-text">star</i>
+                      {{/repetir-pedazo}}
 
-                    <h6 class="bold size-16">{{#if tema.tieneVotos}}
-                      VOTAR DE NUEVO
-                    {{else}}
-                      VOTAR
-                    {{/if}}</h6>
-                  </div>
+                      <h6 class="bold">{{#if tema.tieneVotos}}
+                        VOTAR DE NUEVO
+                      {{else}}
+                        VOTAR
+                      {{/if}}</h6>
+                    </div>
 
-                </button>
+                  </button>
 
-                {{#if tema.tieneVotos}}
-                  <i class="material-icons" style="color:purple; font-size: 48px;" {{action 'restarVoto' tema}}>
-                    indeterminate_check_box</i>
-                {{/if}}
+                  {{#if tema.tieneVotos}}
+                    <button class="btn-flat noPadding w-46" {{action 'restarVoto' tema}}>
+                      <i class="material-icons primary-color menus-button">
+                        indeterminate_check_box</i>
+                    </button>
 
-              {{/unless}}
 
-              <i class="material-icons">more_vert</i>
+                  {{/if}}
 
-            </div>
+                  <i class="material-icons">more_vert</i>
+
+                {{/unless}}
+
+
+              </div>
             </div>
           </tr>
 
@@ -97,26 +96,7 @@
       </tbody>
     </table>
 
-    <!-- <span class="indivisible">
-                {{#unless tema.esObligatorio}}
-                  <span {{action 'restarVoto' tema}} class="clickable">ᐁ</span>
-                  {{tema.cantidadVotosPropios }} votos
-              <span {{action 'sumarVoto' tema}} class="clickable">ᐃ</span>
-                {{/unless}}
-              </span>
-                {{#unless estaCerrada}}
-    {{/unless}}
-      {{#unless estaCerrada}}
-        {{#if tema.puedeSerBorrado}}
-                    <span {{action 'pedirConfirmacionDeBorrado' tema}}
-                      class="clickable">{{materialize/icon-helper 'delete'}}</span>
-                  {{/if}}
-        <image >
-      {{/unless}}-->
-
     {{#unless estaCerrada}}
-      <a class="btn-floating btn-large waves-effect waves-light purple right" {{action 'mostrarFormulario'}}><i
-        class="material-icons">add</i></a>
 
       {{#if mostrandoFormularioDeEdicion}}
         {{editor-de-tema titulo='Modificar Propuesta' tema=temaAEditar nombreDeDuraciones=nombreDeDuraciones
