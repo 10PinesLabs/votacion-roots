@@ -23,13 +23,13 @@ public class EnviromentConfigTest {
 
     @Test
     public void siElEnviromentEsDevelopmentLaConfiguracionEsDevelopment(){
-        PowerMockito.when(System.getenv("ENVIROMENT")).thenReturn("DEV");
+        PowerMockito.when(System.getenv("ENVIRONMENT")).thenReturn("DEV");
         assertThat(configSelector.selectConfig()).isInstanceOf(DevelopmentConfig.class);
     }
 
     @Test
     public void siElEnviromentEsProduccionLaConfiguracionEsHerokuConAccesoParaRoots(){
-        PowerMockito.when(System.getenv("ENVIROMENT")).thenReturn("PROD");
+        PowerMockito.when(System.getenv("ENVIRONMENT")).thenReturn("PROD");
         assertThat(configSelector.selectConfig()).isInstanceOf(HerokuConfig.class);
     }
 

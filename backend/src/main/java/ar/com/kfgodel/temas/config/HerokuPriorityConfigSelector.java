@@ -19,10 +19,11 @@ public class HerokuPriorityConfigSelector implements ConfigurationSelector {
 
   @Override
   public TemasConfiguration selectConfig() {
-    if ("PROD".equals(System.getenv("ENVIROMENT"))) {
+    if ("PROD".equals(System.getenv("ENVIRONMENT"))) {
       LOG.info("Using Heroku configuration");
       return HerokuProductionConfig.create();
-    }else if("STG".equals(System.getenv("ENVIROMENT"))){
+    }
+    if("STG".equals(System.getenv("ENVIRONMENT"))){
       LOG.info("Using staging configuration");
       return HerokuStagingConfig.create();
     }
