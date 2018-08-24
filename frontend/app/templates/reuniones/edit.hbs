@@ -148,11 +148,16 @@
         </p>
 
         {{#unless estaCerrada}}
-          {{tenpines/material-button label='Terminar votacion' click=(action 'pedirConfirmacionDeCierre')
-                                     bgColor='#800080'}}
+          <button type="button" {{action 'pedirConfirmacionDeCierre'}} class="btn-flat bold btn">
+            <h6>Terminar votacion</h6>
+          </button>
         {{/unless}}
+
         {{#if estaCerrada}}
-          {{tenpines/material-button label='Reabrir votacion' click=(action 'reabrirVotacion') flat=true}}
+          <button type="button" {{action 'reabrirVotacion'}} class="btn-flat bold btn">
+            <h6>Reabrir votacion</h6>
+          </button>
+
         {{/if}}
 
       </div>
