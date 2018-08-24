@@ -1,5 +1,6 @@
 package ar.com.kfgodel.temas.config;
 
+import ar.com.kfgodel.temas.config.environments.Environment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,7 +12,6 @@ import org.slf4j.LoggerFactory;
 public class HerokuPriorityConfigSelector implements ConfigurationSelector {
   public static Logger LOG = LoggerFactory.getLogger(HerokuPriorityConfigSelector.class);
 
-
   public static HerokuPriorityConfigSelector create() {
     HerokuPriorityConfigSelector selector = new HerokuPriorityConfigSelector();
     return selector;
@@ -19,15 +19,6 @@ public class HerokuPriorityConfigSelector implements ConfigurationSelector {
 
   @Override
   public TemasConfiguration selectConfig() {
-    if ("PROD".equals(System.getenv("ENVIROMENT"))) {
-      LOG.info("Using Heroku configuration");
-      return HerokuProductionConfig.create();
-    }
-    if("STG".equals(System.getenv("ENVIROMENT"))){
-      LOG.info("Using staging configuration");
-      return HerokuStagingConfig.create();
-    }
-    LOG.info("Using development configuration");
-    return DevelopmentConfig.create();
+    return Environment.toHandle(System.getenv("ENVIROMENT")).getConfig(LOG);
   }
 }
