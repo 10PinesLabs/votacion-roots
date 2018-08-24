@@ -7,10 +7,7 @@ import org.simplejavamail.email.EmailBuilder;
 import org.simplejavamail.mailer.Mailer;
 import org.simplejavamail.mailer.MailerBuilder;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-public class ActionItemMailSender extends ActionItemObserver{
+public class ActionItemMailSender extends MailerObserver {
     public static final String EMPTY_ITEM_ACTION_EXCEPTION = "El item debe tener descripción y responsables";
     private Mailer mailer;
 

@@ -1,7 +1,6 @@
 package convention.persistent;
 
-import ar.com.kfgodel.temas.notifications.ActionItemMailSender;
-import ar.com.kfgodel.temas.notifications.ActionItemObserver;
+import ar.com.kfgodel.temas.notifications.MailerObserver;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -29,10 +28,10 @@ public class ActionItem  extends PersistableSupport {
     public static final String descripcion_FIELD = "descripcion";
 
     @Transient
-    private List<ActionItemObserver> observers = new ArrayList<>();
+    private List<MailerObserver> observers = new ArrayList<>();
 
     public ActionItem() {
-        this.addObserver(new ActionItemMailSender());
+        this.addObserver(MailerObserver.create());
     }
 
     public List<Usuario> getResponsables() {
@@ -60,10 +59,10 @@ public class ActionItem  extends PersistableSupport {
         this.descripcion = descripcion;
     }
 
-    public void addObserver(ActionItemObserver unObserver) {
+    public void addObserver(MailerObserver unObserver) {
         this.observers.add(unObserver);
     }
-    public void removeObserver(ActionItemObserver unObserver){
+    public void removeObserver(MailerObserver unObserver){
         this.observers.remove(unObserver);
     }
 }
