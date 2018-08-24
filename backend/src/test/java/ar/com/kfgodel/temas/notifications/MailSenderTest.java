@@ -11,6 +11,7 @@ import java.util.Arrays;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.times;
 
 public class MailSenderTest {
 
@@ -49,16 +50,17 @@ public class MailSenderTest {
     }
 
     @Test
-    public void unUsuarioConMailNuloNoPuedeSerResponsableDeUnActionItem(){
-        Usuario usuario = Usuario.create("pepe", "pepe","pepe", "1000", null);
+    public void unUsuarioConMailNuloOVacioEsResponsableDeUnActionItemPeroNoSeLeEnviaMail(){
+        Usuario usuarioSinMail = Usuario.create("pepe", "pepe","pepe", "1000", null);
+        Usuario otroUsuarioSinMail = Usuario.create("juan", "juan","juan", "3000", "");
+
         actionItem.setDescripcion("Una descripcion");
-        actionItem.addObserver(mailSender);
-        try {
-            actionItem.setResponsables(Arrays.asList(usuario));
-            fail();
-        }catch(Exception emptyMail){
-            assertThat(emptyMail.getMessage()).isEqualTo(ActionItemMailSender.MAIL_NULL);
-        }
+        actionItem.addObserver(mockMailSender);
+        actionItem.setResponsables(Arrays.asList(usuarioSinMail, otroUsuarioSinMail));
+
+        Mockito.verify(mockMailSender,times(1)).onSetResponsables(actionItem);
+        Mockito.verify(mockMailSender,times(0)).sendMail(actionItem,usuarioSinMail);
+        Mockito.verify(mockMailSender,times(0)).sendMail(actionItem,otroUsuarioSinMail);
     }
 
     @Test
