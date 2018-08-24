@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class EnviromentConfigTest {
 
     private HerokuPriorityConfigSelector configSelector;
-    private String variableName = "ENVIRONMENT";
+    private String variableName = "ENVIROMENT";
 
     @Before
     public void setUp(){
