@@ -1,29 +1,26 @@
-<div class="light-grey">
 
-  <div class="inline-flex justify-content-between align-items-center">
-    <div id="menu-items">
-      <div style="display: -webkit-box;">
-        <div class="logo">
-          <img class="logo-img" src="/logo.svg"/>
-        </div>
-        {{#link-to 'proxima-roots' class="purple-text"}}VOTACIÓN ROOTS{{/link-to}}
+<div style="display:flex; align-items: center;" class="menu">
+  <div id="menu-items">
+    <ul class="tabs tabs-transparent" style="width: auto; margin: 0px;">
+      <li>
+        <div class="logo"><img class="logo-img" src="/logo.svg"/></div>
+      </li>
+      <li class="tab">{{#link-to 'proxima-roots' class="purple-text lighten-2" icon="/logo.svg"}}
+        VOTACIÓN ROOTS{{/link-to}}</li>
+      <li class="tab">
         <div class="vertical-divisor"/>
-        {{#link-to 'proxima-roots'}}Proxima Roots{{/link-to}}
-        {{#link-to 'reuniones.list'}}Reuniones{{/link-to}}
-        {{#link-to 'temas-generales'}}Temas Generales{{/link-to}}
-
-
-      </div>
-      <div id="menu-user" class="right">
-        {{#tenpines/drop-down label='Opciones' icon='arrow_drop_down' iconToTheRight=true removeBtn=true }}
-          <li class="light-grey">{{#link-to 'users'}}Usuarios{{/link-to}}</li>
-          <li class="divider"></li>
-          <li class="light-grey"><a href="#" {{action "logout"}}>Salir</a></li>
-        {{/tenpines/drop-down }}
-      </div>
-
-    </div>
-
+      </li>
+      {{opcion-header link-to='proxima-roots' route='/reuniones/reuniones/' title='Proxima Roots'}}
+      {{opcion-header link-to='reuniones.list' route='/reuniones/list' title='Reuniones'}}
+      {{opcion-header link-to='temas-generales' route='/temas-generales' title='Temas Generales'}}
+    </ul>
   </div>
-
+  <div>
+    {{#tenpines/drop-down class="menu-user" label='Opciones' icon='arrow_drop_down' iconToTheRight=true
+                          removeBtn=true }}
+      <li class="light-grey">{{#link-to 'users'}}Usuarios{{/link-to}}</li>
+      <li class="divider"></li>
+      <li class="light-grey"><a href="#" {{action "logout"}}>Salir</a></li>
+    {{/tenpines/drop-down }}
+  </div>
 </div>
