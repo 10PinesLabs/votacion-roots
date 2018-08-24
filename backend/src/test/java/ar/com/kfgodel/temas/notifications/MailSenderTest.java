@@ -49,6 +49,19 @@ public class MailSenderTest {
     }
 
     @Test
+    public void unUsuarioConMailNuloNoPuedeSerResponsableDeUnActionItem(){
+        Usuario usuario = Usuario.create("pepe", "pepe","pepe", "1000", null);
+        actionItem.setDescripcion("Una descripcion");
+        actionItem.addObserver(mailSender);
+        try {
+            actionItem.setResponsables(Arrays.asList(usuario));
+            fail();
+        }catch(Exception emptyMail){
+            assertThat(emptyMail.getMessage()).isEqualTo(ActionItemMailSender.MAIL_NULL);
+        }
+    }
+
+    @Test
     public void elActionItemMailSenderEnviaMailATodosLosResponsables(){
         actionItem.addObserver(mockMailSender);
         actionItem.setDescripcion("Una descripcion");

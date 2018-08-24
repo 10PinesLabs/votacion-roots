@@ -7,8 +7,12 @@ import org.simplejavamail.email.EmailBuilder;
 import org.simplejavamail.mailer.Mailer;
 import org.simplejavamail.mailer.MailerBuilder;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class ActionItemMailSender extends ActionItemObserver{
     public static final String EMPTY_ITEM_ACTION_EXCEPTION = "El item debe tener descripción y responsables";
+    public static String MAIL_NULL = "Usuarios sin mails: ";
     private Mailer mailer;
 
     public ActionItemMailSender(){
@@ -34,6 +38,15 @@ public class ActionItemMailSender extends ActionItemObserver{
     @Override
     public void onSetResponsables(ActionItem actionItem) {
         validarActionItem(actionItem);
+        validarMailResponsables(actionItem.getResponsables());
         actionItem.getResponsables().forEach(responsable -> sendMail(actionItem, responsable));
+    }
+
+    private void validarMailResponsables(List<Usuario> responsables) {
+        List<Usuario> usuariosInvalidos = responsables.stream().filter(responsable -> responsable.getMail() == null).collect(Collectors.toList());
+        if(usuariosInvalidos.size()>0){
+            usuariosInvalidos.stream().map(usuario -> usuario.getName()).forEach(usuario -> MAIL_NULL = MAIL_NULL + usuario + ", ");
+            throw new RuntimeException(MAIL_NULL);
+        }
     }
 }

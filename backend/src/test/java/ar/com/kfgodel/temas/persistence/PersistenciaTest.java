@@ -3,6 +3,7 @@ package ar.com.kfgodel.temas.persistence;
 import ar.com.kfgodel.temas.application.Application;
 import ar.com.kfgodel.temas.filters.reuniones.AllReunionesUltimaPrimero;
 import ar.com.kfgodel.temas.helpers.TestConfig;
+import com.mchange.net.MailSender;
 import convention.persistent.*;
 import convention.rest.api.ReunionResource;
 import convention.services.*;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.fail;
 
 /**
  * Created by sandro on 19/06/17.
