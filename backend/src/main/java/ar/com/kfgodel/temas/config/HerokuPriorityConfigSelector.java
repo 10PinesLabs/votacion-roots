@@ -19,9 +19,13 @@ public class HerokuPriorityConfigSelector implements ConfigurationSelector {
 
   @Override
   public TemasConfiguration selectConfig() {
-    if (System.getenv("PORT") != null && System.getenv("DATABASE_URL") != null) {
+    if ("PROD".equals(System.getenv("ENVIROMENT"))) {
       LOG.info("Using Heroku configuration");
-      return HerokuConfig.create();
+      return HerokuProductionConfig.create();
+    }
+    if("STG".equals(System.getenv("ENVIROMENT"))){
+      LOG.info("Using staging configuration");
+      return HerokuStagingConfig.create();
     }
     LOG.info("Using development configuration");
     return DevelopmentConfig.create();
