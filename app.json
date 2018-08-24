@@ -10,7 +10,7 @@
       "description": "Para que buildee bien",
         "value": "clean package"
       },
-    "ENVIRONMENT":{
+    "ENVIROMENT":{
       "required":"true"
     }
   },
