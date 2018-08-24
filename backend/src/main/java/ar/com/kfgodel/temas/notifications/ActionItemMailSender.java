@@ -16,7 +16,7 @@ public class ActionItemMailSender extends ActionItemObserver{
 
     public ActionItemMailSender(){
         mailer = MailerBuilder
-                .withSMTPServer("smtp.gmail.com", 587, "votacionroots@gmail.com", "votacionroots1.")
+                .withSMTPServer("smtp.gmail.com", 587, System.getenv("MAIL"), System.getenv("PSW"))
                 .buildMailer();
     }
 
