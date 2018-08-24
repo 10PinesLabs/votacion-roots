@@ -45,5 +45,12 @@
       <a class="waves-effect waves-light btn" onclick={{action 'guardarUsuariosSeleccionados'}} >Agregar</a>
     </div>
 
+    <div id="toast">
+      <i class="material-icons" id="img">email</i>
+      <div id="desc">Las siguientes personas deberán loggearse para poder recibir un mail:</div>
+    {{#each nombresDePersonasSinMail as |nombre|}}
+          {{nombre}}
+    {{/each}}
+    </div>
   </div>
 </div>
