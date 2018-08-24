@@ -96,19 +96,33 @@
   text-align: initial;
 }
 
-.vot-star {
-  background:white;
-  display:flex;
+.vot-star, .star {
+  background: white;
+  display: flex;
   align-items: center;
   border-radius: 21px;
   padding: 9px;
   margin-top: 5px;
 }
 
-#vot-container:hover .vot-star{
+.star {
+  opacity: 0.5;
+}
+
+#vot-star:hover .vot-star {
   width: 200px;
 }
 
-#vot-container:hover h6{
+#vot-container:hover h6 {
   display: block;
+}
+
+.vot-star-container {
+  position: fixed;
+  right: 15px;
+  top: 200px;
+}
+
+.yellow-star {
+  color: #FFCE54;
 }
