@@ -8,6 +8,11 @@
 
 $primary-color: purple;
 
+.ultimo-tema-style {
+  border-bottom: dashed;
+  border-bottom-color: #ff2323;
+}
+
 .space-between {
   display: flex;
   justify-content: space-between;
@@ -63,6 +68,10 @@ $primary-color: purple;
 
 .text-viewer {
   white-space: pre-wrap;
+}
+
+.h-100 {
+  height: 100%;
 }
 
 .bold {
