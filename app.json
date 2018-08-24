@@ -12,9 +12,6 @@
       },
     "ENVIRONMENT":{
       "required":"true"
-    },
-    "ENVIROMENT":{
-      "required":"true"
     }
   },
   "buildpacks": [
