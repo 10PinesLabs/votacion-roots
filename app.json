@@ -11,10 +11,10 @@
         "value": "clean package"
       },
     "MAIL":{
-      "value":""
+      "required":"true"
     },
     "PSW":{
-      "value":""
+      "required":"true"
     }
   },
   "buildpacks": [

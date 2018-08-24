@@ -26,9 +26,9 @@ public class MailerConfigurationTest {
     }
 
     @Test
-    public void cuandoElAmbienteEsStagingElMailSenderNoEnviaMails() {
+    public void cuandoElAmbienteEsStagingElMailSenderEnviaMails() {
         PowerMockito.when(System.getenv(environment)).thenReturn("STG");
-        assertThat(MailerConfiguration.getMailer()).isInstanceOf(ActionItemStubMailSender.class);
+        assertThat(MailerConfiguration.getMailer()).isInstanceOf(ActionItemMailSender.class);
     }
 
     @Test
