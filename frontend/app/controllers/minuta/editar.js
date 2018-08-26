@@ -103,12 +103,21 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
   },
 
   _mostrarUsuariosSinMail(response) {
-    let nombresDePersonasSinMail = response.actionItems.map(actionItem => actionItem.responsables)
-      .filter(user => user.mail === null)
+
+    let nombresDePersonasSinMailConRepetidos = [].concat.apply([],
+      response.actionItems.map(actionItem => actionItem.responsables)
+    )
+      .filter(user => user.mail === undefined || user.mail === "" || user.mail === "null")
       .map(resp => resp.name);
 
-    if (nombresDePersonasSinMail.length !== 0) {
-      this.set('nombresDePersonasSinMail', nombresDePersonasSinMail);
+    let nombresDePersonasSinMailSinRepetidos =
+      nombresDePersonasSinMailConRepetidos
+        .filter(function (elem, pos) {
+          return nombresDePersonasSinMailConRepetidos.indexOf(elem) === pos;
+        });
+
+    if (nombresDePersonasSinMailSinRepetidos.length !== 0) {
+      this.set('nombresDePersonasSinMail', nombresDePersonasSinMailSinRepetidos);
       var x = document.getElementById("toast");
       x.className = "show";
       setTimeout(function () {
