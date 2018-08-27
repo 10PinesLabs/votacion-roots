@@ -149,6 +149,7 @@
   .vot-star-container {
     display: none;
   }
+}
 
 .noHover:hover {
   background: transparent;
