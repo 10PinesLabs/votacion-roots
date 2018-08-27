@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" style="background:lightgray">
   <div class="col s3">
 
     <h5>Asistentes</h5>
@@ -20,22 +20,63 @@
     </div>
 
   </div>
+
   <div class="col s9">
-    <h5>Temas</h5>
 
-    {{#tenpines/object-table titulos='Prioridad, Tema, Autor, Duración, Obligatoriedad ' col=anchoDeTabla bordered=true highlight=true }}
+    <h5>Temas pendientes de minutear</h5>
 
+    <table class="bordered highlight table">
+      <tbody>
       {{#each  minuta.temas as |temaDeMinuta|}}
-        <tr  {{action 'verEditorDeConclusion' temaDeMinuta}} >
-          <td>{{temaDeMinuta.tema.prioridad}}</td>
-          <td>{{temaDeMinuta.tema.titulo}}</td>
-          <td>{{temaDeMinuta.tema.autor}}</td>
-          <td>{{temaDeMinuta.tema.duracion}}</td>
-          <td>{{temaDeMinuta.tema.obligatoriedad}}</td>
-          {{tema-de-minuta-conclusion-checked usuarios=usuarios temaDeMinuta=temaDeMinuta}}
+        <tr bgcolor='white' style="height:130px; width: 700px;">
+          <div class="temaContent flex-center space-between">
+            <div style="margin-right: 20px;">
+              <td class="noPadding" {{action 'verEditorDeConclusion' temaDeMinuta}} style="width: 430px;">
+                <h5 class="titulo-de-tema">{{temaDeMinuta.tema.titulo}}</h5>
+                <p class="crop" style="height: 200px;     overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-height: 1.20;
+    max-height: 70px;">{{markdown-view
+                  value=temaDeMinuta.tema.descripcion}}</p>
+              </td>
+
+              {{# if mostrandoEditor}}
+                {{editor-de-conclusion
+                  alGuardar=(action 'guardarConclusion')
+                  alCerrar=(action 'cerrarEditor')
+                  temaDeMinuta=temaAEditar
+                  usuarios=model.usuarios
+                }}
+              {{/if}}
+            </div>
+
+            <div style="width: 200px;">
+              <h6 style="text-align: center"> ¿Fue tratado?</h6>
+              <div class="space-between">
+                <button type="button" {{action ''}} class="btn-flat bold btn">
+                  <h6 class="bold"> SI</h6>
+                </button>
+                <button type="button" {{action ''}} class="btn-flat bold secondary">
+                  <h6 class="bold"> NO </h6>
+                </button>
+              </div>
+            </div>
+
+          </div>
         </tr>
       {{/each}}
-    {{/tenpines/object-table}}
+      </tbody>
+    </table>
+
+    <div>
+      <h5>Temas tratados</h5>
+    </div>
+    <div>
+      <h5>Temas dejados afuera</h5>
+    </div>
 
     {{# if mostrandoEditor}}
       {{editor-de-conclusion
