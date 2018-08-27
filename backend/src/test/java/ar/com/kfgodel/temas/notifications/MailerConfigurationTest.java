@@ -10,13 +10,16 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({MailerConfiguration.class})
+@PrepareForTest({MailerConfiguration.class, ActionItemMailSender.class})
 public class MailerConfigurationTest {
     private String environment = "ENVIROMENT";
-
+    private String port = "SMTP_PORT";
+    private String host = "SMTP_HOST";
     @Before
     public void setUp() {
         PowerMockito.mockStatic(System.class);
+        PowerMockito.when(System.getenv(port)).thenReturn("587");
+        PowerMockito.when(System.getenv(host)).thenReturn("smtp.gmail.com");
     }
 
     @Test
@@ -27,6 +30,7 @@ public class MailerConfigurationTest {
 
     @Test
     public void cuandoElAmbienteEsStagingElMailSenderEnviaMails() {
+
         PowerMockito.when(System.getenv(environment)).thenReturn("STG");
         assertThat(MailerConfiguration.getMailer()).isInstanceOf(ActionItemMailSender.class);
     }

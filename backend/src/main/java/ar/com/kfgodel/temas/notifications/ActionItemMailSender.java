@@ -8,13 +8,18 @@ import org.simplejavamail.email.EmailBuilder;
 import org.simplejavamail.mailer.Mailer;
 import org.simplejavamail.mailer.MailerBuilder;
 
+import java.util.Optional;
+
 public class ActionItemMailSender extends MailerObserver {
     public static final String EMPTY_ITEM_ACTION_EXCEPTION = "El item debe tener descripción y responsables";
     private Mailer mailer;
 
     public ActionItemMailSender(){
         mailer = MailerBuilder
-                .withSMTPServer("smtp.gmail.com", 587, System.getenv("SMTP_MAIL"), System.getenv("SMTP_PASSWORD"))
+                .withSMTPServer(System.getenv("SMTP_HOST"),
+                        Integer.parseInt(System.getenv("SMTP_PORT")),
+                        System.getenv("SMTP_MAIL"),
+                        System.getenv("SMTP_PASSWORD"))
                 .buildMailer();
     }
 

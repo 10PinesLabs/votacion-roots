@@ -8,7 +8,6 @@
   "env": {
     "MAVEN_CUSTOM_GOALS": {
       "description": "Para que buildee bien",
-<<<<<<< HEAD
         "value": "clean package"
       },
     "SMTP_MAIL":{
@@ -16,18 +15,15 @@
     },
     "SMTP_PASSWORD":{
       "required":"true"
-=======
-      "value": "clean package"
     },
-    "MAIL": {
+    "SMTP_HOST": {
       "required": "true"
     },
-    "PSW": {
+    "SMTP_PORT": {
       "required": "true"
     },
     "ENVIROMENT": {
       "required": "true"
->>>>>>> 8bbd321956988fed9d27dec4c96049c57748dad2
     }
   },
   "buildpacks": [
