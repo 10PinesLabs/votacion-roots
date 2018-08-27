@@ -66,6 +66,24 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
     return temasVotadosPorElUsuario;
   },
 
+  terminoDeVotar: Ember.computed('votosRestantes', function () {
+    return this.get('votosRestantes') === 0;
+  }),
+  puedeCerrar: Ember.computed('terminoDeVotar','reunion.status',function(){
+    return this.get('terminoDeVotar') && this.get('reunion.status') !=='CON_MINUTA';
+}),
+  actions: {
+    sumarVoto(tema){
+      this._siNoEstaCerrada(function () {
+        if (this.get('votosRestantes')) {
+          this._votarPorTema(tema);
+        }
+      });
+    },
+    seleccionarDuracion(duracion){
+      this.set('nuevoTema.duracion', duracion);
+    },
+
   _votosRepetidosPor: function (tema, usuarioId) {
     return tema.idsDeInteresados.filter(function (id) {
       return id == usuarioId
@@ -269,7 +287,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
 
   _votarPorTema(tema) {
     tema.agregarInteresado(this._idDeUsuarioActual());
-    this.temaService().votarTema(tema.id).then(() => {
+    this.temaService().votarTema(tema.id).then(() =>{
       this._recargarReunion();
     });
   },
