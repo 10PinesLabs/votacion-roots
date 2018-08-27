@@ -28,12 +28,12 @@ public class MailSenderTest {
 
     @Before
     public void setUp(){
-        mockMailSender = Mockito.mock(ActionItemMailSender.class);
-        mailSender = new ActionItemMailSender();
-        actionItem = new ActionItem();
         PowerMockito.mockStatic(System.class);
         PowerMockito.when(System.getenv(port)).thenReturn("587");
         PowerMockito.when(System.getenv(host)).thenReturn("smtp.gmail.com");
+        mockMailSender = Mockito.mock(ActionItemMailSender.class);
+        mailSender = new ActionItemMailSender();
+        actionItem = new ActionItem();
     }
 
     @Test
