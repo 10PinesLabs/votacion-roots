@@ -16,12 +16,8 @@ import java.util.function.Function;
  * This type represents the configuration used to run in heroku with values taken from the OS environment
  * Created by kfgodel on 13/03/16.
  */
-public class HerokuConfig implements TemasConfiguration {
+public abstract class HerokuConfig implements TemasConfiguration {
   private DependencyInjector injector= DependencyInjectorImpl.create();
-  public static HerokuConfig create() {
-    HerokuConfig config = new HerokuConfig();
-    return config;
-  }
 
   @Override
   public DbCoordinates getDatabaseCoordinates() {
@@ -43,9 +39,7 @@ public class HerokuConfig implements TemasConfiguration {
   }
 
   @Override
-  public Function<WebCredential, Optional<Object>> autenticador() {
-    return BackofficeCallbackAuthenticatorForRootsOnly.create(getInjector());
-  }
+  public abstract Function<WebCredential, Optional<Object>> autenticador();
 
   @Override
   public DependencyInjector getInjector() {

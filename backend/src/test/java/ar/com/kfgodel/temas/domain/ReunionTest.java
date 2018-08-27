@@ -117,4 +117,21 @@ public class ReunionTest {
         Assert.assertEquals(tema4, temas.get(3));
         Assert.assertEquals(tema5, temas.get(4));
     }
+
+    @Test
+    public void test07NoSeReorganizanLosTemasPorCadaVezQueSeVota() {
+        Reunion unaReunion = Reunion.create(LocalDate.of(2017, 06, 16));
+        Usuario unUsuario = new Usuario();
+        TemaDeReunion tema1 = helper.nuevoTemaNoObligatorio();
+        TemaDeReunion tema2 = helper.nuevoTemaNoObligatorio();
+        TemaDeReunion tema3 = helper.nuevoTemaNoObligatorio();
+        List<TemaDeReunion> temasDeLaReunion = Arrays.asList(tema1, tema2, tema3);
+        unaReunion.setTemasPropuestos(temasDeLaReunion);
+
+        tema3.agregarInteresado(unUsuario);
+
+        Assert.assertEquals(tema1, unaReunion.getTemasPropuestos().get(0));
+        Assert.assertEquals(tema2, unaReunion.getTemasPropuestos().get(1));
+        Assert.assertEquals(tema3, unaReunion.getTemasPropuestos().get(2));
+    }
 }
