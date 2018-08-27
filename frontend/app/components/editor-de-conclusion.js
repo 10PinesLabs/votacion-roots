@@ -26,11 +26,5 @@ export default Ember.Component.extend({
         }));
       this.rerender();
     },
-
-    metodo(){
-      var x = document.getElementById("toast");
-      x.className = "show";
-      setTimeout(function(){ x.className = x.className.replace("show", ""); }, 5000);
-    },
     },
   });

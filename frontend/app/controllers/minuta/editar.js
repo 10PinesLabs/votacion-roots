@@ -118,12 +118,16 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
 
     if (nombresDePersonasSinMailSinRepetidos.length !== 0) {
       this.set('nombresDePersonasSinMail', nombresDePersonasSinMailSinRepetidos);
-      var x = document.getElementById("toast");
-      x.className = "show";
-      setTimeout(function () {
-        x.className = x.className.replace("show", "");
-      }, 5000);
+      this.mostrar_alerta_por_falta_de_mail();
     }
+  },
+
+  mostrar_alerta_por_falta_de_mail() {
+    var x = document.getElementById("toast");
+    x.className = "show";
+    setTimeout(function () {
+      x.className = x.className.replace("show", "");
+    }, 5000);
   },
 
   _recargarLista() {
