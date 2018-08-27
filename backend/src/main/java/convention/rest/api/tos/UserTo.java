@@ -26,6 +26,8 @@ public class UserTo extends PersistableToSupport {
   @CopyFrom(Usuario.momentoDeUltimaModificacion_FIELD)
   private String modification;
 
+  @CopyFromAndTo(Usuario.mail_FIELD)
+  private String mail;
 
   public String getBackofficeId() {
     return backofficeId;
@@ -33,6 +35,14 @@ public class UserTo extends PersistableToSupport {
 
   public void setBackofficeId(String backofficeId) {
     this.backofficeId = backofficeId;
+  }
+
+  public String getMail() {
+    return mail;
+  }
+
+  public void setMail(String mail) {
+    this.mail = mail;
   }
 
   public String getName() {
