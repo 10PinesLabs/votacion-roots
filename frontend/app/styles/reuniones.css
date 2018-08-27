@@ -66,6 +66,10 @@
   margin-right: 5px;
 }
 
+.ml-10 {
+  margin-left: 10px;
+}
+
 .m-10 {
   margin: 10px;
 }
@@ -98,6 +102,52 @@
 
 .align-left {
   text-align: initial;
+}
+
+.vot-star-container {
+  position: fixed;
+  right: 15px;
+  top: 200px;
+}
+
+#vot-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.vot-star, .no-voted {
+  background: white;
+  display: flex;
+  align-items: center;
+  border-radius: 21px;
+  padding: 9px;
+  margin-top: 5px;
+  box-shadow: 1px 1px lightgray;
+}
+
+.no-voted {
+  opacity: 0.5;
+  display: flex;
+  justify-content: flex-end;
+}
+
+#vot-container:hover .vot-star {
+  cursor: pointer;
+  width: 200px;
+}
+
+#vot-container:hover h6 {
+  display: block;
+}
+
+.yellow-star {
+  color: #FFCE54;
+}
+
+@media only screen and (max-width: 1010px) {
+  .vot-star-container {
+    display: none;
+  }
 }
 
 .noHover:hover {
