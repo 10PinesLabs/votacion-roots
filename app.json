@@ -10,10 +10,10 @@
       "description": "Para que buildee bien",
         "value": "clean package"
       },
-    "MAIL":{
+    "SMTP_MAIL":{
       "required":"true"
     },
-    "PSW":{
+    "SMTP_PASSWORD":{
       "required":"true"
     }
   },
