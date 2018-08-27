@@ -8,13 +8,16 @@
   "env": {
     "MAVEN_CUSTOM_GOALS": {
       "description": "Para que buildee bien",
-        "value": "clean package"
-      },
-    "MAIL":{
-      "required":"true"
+      "value": "clean package"
     },
-    "PSW":{
-      "required":"true"
+    "MAIL": {
+      "required": "true"
+    },
+    "PSW": {
+      "required": "true"
+    },
+    "ENVIROMENT": {
+      "required": "true"
     }
   },
   "buildpacks": [
