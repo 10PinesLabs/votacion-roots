@@ -238,6 +238,15 @@
       <artifactId>powermock-module-junit4</artifactId>
       <version>2.0.0-beta.5</version>
     </dependency>
+<<<<<<< HEAD
+      <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-lang3</artifactId>
+          <version>3.5</version>
+      </dependency>
+
+=======
+>>>>>>> 8bbd321956988fed9d27dec4c96049c57748dad2
   </dependencies>
 
   <profiles>
