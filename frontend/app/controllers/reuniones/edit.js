@@ -40,11 +40,37 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
     }),
 
   temasVotados: Ember.computed('reunion.temasVotados', function () {
+    let usuarioId = this.model.usuarioActual.id;
     let todosLosTemas = this.get('reunion.temasPropuestos');
-    return todosLosTemas.filter(function (tema) {
-      return tema.idsDeInteresados.includes(tema.usuarioActual.id);
+    let temasVotados = todosLosTemas.filter(function (tema) {
+      return tema.idsDeInteresados.includes(usuarioId);
     });
+    return this._temasVotadosPorElUsuario(temasVotados, usuarioId);
   }),
+
+  _temasVotadosPorElUsuario: function (temasVotados, usuarioId) {
+    let temasVotadosPorElUsuario = [];
+    let self = this;
+
+    temasVotados.forEach(function (tema) {
+      temasVotadosPorElUsuario.push(tema);
+
+      let votosRepetidos = self._votosRepetidosPor(tema, usuarioId);
+
+      while (votosRepetidos > 0) {
+        temasVotadosPorElUsuario.push(tema);
+        votosRepetidos--;
+      }
+    });
+
+    return temasVotadosPorElUsuario;
+  },
+
+  _votosRepetidosPor: function (tema, usuarioId) {
+    return tema.idsDeInteresados.filter(function (id) {
+      return id == usuarioId
+    }).length - 1;
+  },
 
   estaCerrada:
     Ember.computed('reunion.status', function () {
