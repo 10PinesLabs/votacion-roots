@@ -14,7 +14,8 @@
 
     <div class="space-between">
       <div class="col s12 left-align flex-center" id="check-box">
-        {{materialize/check-box class="size-16" label='Ver temas obligatorios' checked=mostrarObligatorios checkboxClasses="filled-in"}}
+        {{materialize/check-box class="size-16" label='Ver temas obligatorios' checked=mostrarObligatorios
+                                checkboxClasses="filled-in"}}
         <i class="material-icons opacity-20">lock</i>
       </div>
       <div class="flex-center pl-10" {{action 'mostrarFormulario'}}>
@@ -26,67 +27,74 @@
   </div>
 
   <div class="row">
-    <table class="bordered highlight col s12">
-      <thead>
-      <tr>
-        <th class="con-padding">
-          #
-        </th>
-        <th class="con-padding">
-          Tema
-        </th>
-        <th class="con-padding">
-          Duración
-        </th>
-        <th class="con-padding">
-          Votos <span class="indivisible">({{votosRestantes}} restantes)</span>
-        </th>
-      </tr>
-      </thead>
-
+    <table class="bordered highlight table">
       <tbody>
       {{#each reunion.temasPropuestos as |tema|}}
         {{#if (or mostrarObligatorios (not tema.esObligatorio))}}
-          <tr bgcolor={{tema.colorVotos}}>
-            <td class="con-padding">
-              {{tema.prioridad}}
-            </td>
+          <tr bgcolor='white'>
 
-            <td class="con-padding">
-              {{tenpines/colored-label value=tema.autor bgColor='green'}}
-              <h5 class="titulo-de-tema">{{tema.titulo}}</h5>
-              <p class="crop">{{markdown-view value=tema.descripcion}}</p>
-            </td>
+            <div class="temaContent">
+              <td class="noPadding">
+                <h5 class="titulo-de-tema">{{tema.titulo}}</h5>
+                <p class="crop">{{markdown-view value=tema.descripcion}}</p>
+              </td>
+            </div>
 
-            <td class="con-padding">
-              {{tema.duracion}}
-            </td>
-            <td class="con-padding">
-          <span class="indivisible">
-            {{#unless tema.esObligatorio}}
-              <span {{action 'restarVoto' tema}} class="clickable">ᐁ</span>
-              {{tema.cantidadVotosPropios }} votos
-              <span {{action 'sumarVoto' tema}} class="clickable">ᐃ</span>
-            {{/unless}}
-          </span>
-            </td>
-            <td class="right-align">
-              {{#unless estaCerrada}}
-                {{#if tema.puedeSerBorrado}}
-                  <span {{action 'mostrarFormularioDeEdicion' tema}}
-                    class="clickable">{{materialize/icon-helper 'mode_edit'}}</span>
-                {{/if}}
-              {{/unless}}
-            </td>
-            <td class="right-align">
-              {{#unless estaCerrada}}
-                {{#if tema.puedeSerBorrado}}
-                  <span {{action 'pedirConfirmacionDeBorrado' tema}}
-                    class="clickable">{{materialize/icon-helper 'delete'}}</span>
-                {{/if}}
-              {{/unless}}
-            </td>
+            <div class="divider"></div>
 
+            <div class="space-between m-5">
+
+              <div class="flex-center tema-bottom">
+                <h6 class="size-16 m-10 opacity-35">#{{tema.id}}</h6>
+                <i class="material-icons opacity-70">person</i>
+                <h6 class="opacity-70 m-10">{{tema.autor}}</h6>
+                <i class="material-icons m-5">access_time</i>
+                <label class={{tema.colorDuracion }}>{{tema.duracion}}</label>
+              </div>
+
+              <div class="flex-center m-10">
+
+                {{#unless (or tema.esObligatorio or estaCerrada)}}
+
+                  <button type="button" {{action 'sumarVoto' tema}} class="btn-flat bold btn">
+
+                    <div class="flex-center">
+                      {{#repetir-pedazo veces=tema.cantidadVotosPropios}}
+                        <i class="material-icons yellow-text">star</i>
+                      {{/repetir-pedazo}}
+
+                      <h6 class="bold">{{#if tema.tieneVotos}}
+                        VOTAR DE NUEVO
+                      {{else}}
+                        VOTAR
+                      {{/if}}</h6>
+                    </div>
+
+                  </button>
+
+                  {{#if tema.tieneVotos}}
+                    <button class="btn-flat noPadding w-46 noHover ml-5" {{action 'restarVoto' tema}}>
+                      <i class="material-icons primary-color menus-button">
+                        indeterminate_check_box</i>
+                    </button>
+
+
+                  {{/if}}
+
+                  <div id="edit-menu">
+                    {{#tenpines/drop-down icon='more_vert' removeBtn=true }}
+                      <li class="light-grey" {{action 'mostrarFormularioDeEdicion' tema}}>
+                        <a class="black-text">Editar</a></li>
+                      <li class="divider"></li>
+                      <li class="light-grey"><a class="black-text" {{action 'borrarTemaElegido' tema}}>Eliminar</a></li>
+                    {{/tenpines/drop-down }}
+                  </div>
+
+                {{/unless}}
+
+
+              </div>
+            </div>
           </tr>
 
         {{/if}}
@@ -95,8 +103,6 @@
     </table>
 
     {{#unless estaCerrada}}
-      <a class="btn-floating btn-large waves-effect waves-light purple right" {{action 'mostrarFormulario'}}><i
-        class="material-icons">add</i></a>
 
       {{#if mostrandoFormularioDeEdicion}}
         {{editor-de-tema titulo='Modificar Propuesta' tema=temaAEditar nombreDeDuraciones=nombreDeDuraciones

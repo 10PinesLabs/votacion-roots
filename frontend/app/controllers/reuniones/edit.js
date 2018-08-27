@@ -8,6 +8,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
 
   esObligatorio: false,
   mostrarObligatorios: false,
+
   fechaDeReunion: Ember.computed('reunion.fecha', function () {
       let fecha = this.reunion.fecha;
       return moment(fecha).format('DD-MM-YYYY');
@@ -161,10 +162,9 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
         this.set('mensajeDeConfirmacionDeBorrado', `Estás seguro de borrar el tema "${temaABorrar.titulo}"? Los votos seran devueltos`);
         this.set('modalDeBorradoAbierto', true);
       },
-      borrarTemaElegido() {
-        var temaBorrable = this.get('temaABorrar');
+      borrarTemaElegido(temaABorrar) {
         delete this.temaABorrar; // Desreferenciamos el objeto
-        this._quitarTema(temaBorrable);
+        this._quitarTema(temaABorrar);
       },
       editarFecha() {
         this._siNoEstaCerrada(function () {
