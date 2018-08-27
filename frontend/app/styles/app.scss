@@ -10,7 +10,7 @@ $primary-color: purple;
 
 .ultimo-tema-style {
   border-bottom: dashed;
-  border-bottom-color: #ff2323;
+  border-bottom-color: $primary-color;
 }
 
 .space-between {
@@ -29,7 +29,7 @@ $primary-color: purple;
 
 .ultimo-tema-stile {
   border-bottom: dashed;
-  border-bottom-color: #ff2323;
+  border-bottom-color: $primary-color;
 }
 
 .parcheDeContEditor {
