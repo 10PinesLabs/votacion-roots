@@ -6,6 +6,7 @@ import org.simplejavamail.email.Email;
 import org.simplejavamail.email.EmailBuilder;
 import org.simplejavamail.mailer.Mailer;
 import org.simplejavamail.mailer.MailerBuilder;
+import org.apache.commons.lang3.StringUtils;
 
 public class ActionItemMailSender extends MailerObserver {
     public static final String EMPTY_ITEM_ACTION_EXCEPTION = "El item debe tener descripción y responsables";
@@ -35,8 +36,7 @@ public class ActionItemMailSender extends MailerObserver {
     public void onSetResponsables(ActionItem actionItem) {
         validarActionItem(actionItem);
         actionItem.getResponsables().stream()
-                .filter(responsables -> !(responsables.getMail()== null ||
-                                            responsables.getMail().isEmpty()))
+                .filter(responsables -> StringUtils.isNotBlank(responsables.getMail()))
                 .forEach(responsable -> sendMail(actionItem, responsable));
     }
 }
