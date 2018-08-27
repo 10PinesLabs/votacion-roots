@@ -5,6 +5,8 @@ import ar.com.kfgodel.temas.config.TemasConfiguration;
 import org.slf4j.Logger;
 
 public class Production extends Environment {
+    private String environmentVariable = "PROD";
+
     @Override
     public TemasConfiguration getConfig(Logger log) {
         log.info("Using Heroku-Production configuration");
@@ -13,7 +15,7 @@ public class Production extends Environment {
 
     @Override
     protected boolean canHandle(String environment) {
-        return "PROD".equals(environment);
+        return environmentVariable.equals(environment);
     }
 
 }

@@ -5,6 +5,9 @@ import ar.com.kfgodel.temas.config.TemasConfiguration;
 import org.slf4j.Logger;
 
 public class Staging extends Environment {
+
+    private String environmentVariable = "STG";
+
     @Override
     public TemasConfiguration getConfig(Logger log) {
         log.info("Using Heroku-Staging configuration");
@@ -13,6 +16,6 @@ public class Staging extends Environment {
 
     @Override
     protected boolean canHandle(String enviroment) {
-        return "STG".equals(enviroment);
+        return environmentVariable.equals(enviroment);
     }
 }
