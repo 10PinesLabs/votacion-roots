@@ -29,7 +29,9 @@ public class ActionItemMailSender extends MailerObserver {
     }
 
     private void validarActionItem(ActionItem unActionItem) {
-        if(unActionItem.getDescripcion() == null|| unActionItem.getResponsables() == null) throw new RuntimeException(EMPTY_ITEM_ACTION_EXCEPTION);
+        if(unActionItem.getDescripcion() == null|| unActionItem.getResponsables() == null) {
+            throw new RuntimeException(EMPTY_ITEM_ACTION_EXCEPTION);
+        }
     }
 
     @Override
