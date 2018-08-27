@@ -139,34 +139,32 @@
 
 {{#if puedeCerrar}}
 
-  <div>
 
-    <div class="finish-content">
-      <div class="center w-650 align-left">
+  <div class="finish-content">
+    <div class="center w-650 align-left">
           <span class="flex-center finish-title">
             <i class="material-icons mr-5">info_outline</i>
-            Cerrar Temario para todos
+            Cerrar Temario para todes
           </span>
-        <p class="mt-0">Una vez votados todos los temas y antes de comenzar la reunión, debemos cerrar el
-          temario. Al cerrar el
-          temario, todos los temas se ordenarán desde el primero más votado por todos los pinos, y <b>nadie mas podrá
-            seguir votando</b><br>
-        </p>
+      <p class="mt-0">Una vez votados todos los temas y antes de comenzar la reunión, debemos cerrar el
+        temario. Al cerrar el
+        temario, todos los temas se ordenarán desde el primero más votado por todos los pinos, y <b>nadie mas podrá
+          seguir votando</b><br>
+      </p>
 
-        {{#unless estaCerrada}}
-          <button type="button" {{action 'pedirConfirmacionDeCierre'}} class="btn-flat bold btn">
-            <h6>Terminar votacion</h6>
-          </button>
-        {{/unless}}
+      {{#unless estaCerrada}}
+        <button type="button" {{action 'pedirConfirmacionDeCierre'}} class="btn-flat bold btn">
+          <h6>Terminar votacion</h6>
+        </button>
+      {{/unless}}
 
-        {{#if estaCerrada}}
-          <button type="button" {{action 'reabrirVotacion'}} class="btn-flat bold btn">
-            <h6>Reabrir votacion</h6>
-          </button>
+      {{#if estaCerrada}}
+        <button type="button" {{action 'reabrirVotacion'}} class="btn-flat bold btn">
+          <h6>Reabrir votacion</h6>
+        </button>
 
-        {{/if}}
+      {{/if}}
 
-      </div>
     </div>
 
     {{tenpines/modal-de-confirmacion

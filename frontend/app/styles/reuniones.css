@@ -86,7 +86,6 @@
   font-size: 48px !important;
 }
 
-
 .finish-title {
   font-weight: bold;
   font-size: 24px;
@@ -99,8 +98,8 @@
 
 .align-left {
   text-align: initial;
+}
 
-  
 .noHover:hover {
   background: transparent;
 }
