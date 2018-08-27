@@ -7,6 +7,7 @@
 @import 'reuniones';
 
 $primary-color: purple;
+$yellow-star: #FFCE54;
 
 .ultimo-tema-style {
   border-bottom: dashed;
@@ -84,6 +85,10 @@ $primary-color: purple;
 
 .primary-color {
   color: $primary-color;
+}
+
+.yellow-star {
+  color: $yellow-star;
 }
 
 [type="checkbox"].filled-in:checked + label:after {

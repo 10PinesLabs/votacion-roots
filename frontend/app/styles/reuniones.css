@@ -104,6 +104,10 @@
   text-align: initial;
 }
 
+.height-inherit {
+  height: inherit;
+}
+
 .vot-star-container {
   position: fixed;
   right: 15px;
@@ -138,10 +142,6 @@
 
 #vot-container:hover h6 {
   display: block;
-}
-
-.yellow-star {
-  color: #FFCE54;
 }
 
 @media only screen and (max-width: 1010px) {
