@@ -23,15 +23,17 @@
     {{/power-select-multiple}}
 
     <div class="card-action center-align con-padding">
-      <a class="waves-effect waves-light btn" onclick={{action 'guardarUsuariosSeleccionados'}} >Agregar</a>
+      <a class="waves-effect waves-light btn" onclick={{action 'guardarUsuariosSeleccionados'}}
+         type="button">Agregar</a>
     </div>
 
   </div>
 
   <div class="col s9" style="width: 700px;">
-
-    <h5>Temas pendientes de minutear</h5>
-
+    <div style="display: flex; align-items: baseline;">
+      <h6 class="subtitulo-minuta">Temas pendientes de minutear</h6>
+      <h6 class="dot">{{temasPendientes}}</h6>
+    </div>
     <table class="bordered highlight table">
       <tbody>
       {{#each  minuta.temas as |temaDeMinuta|}}

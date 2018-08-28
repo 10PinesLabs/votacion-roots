@@ -6,6 +6,11 @@ import UserServiceInjected from "../../mixins/user-service-injected";
 
 export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServiceInjected, NavigatorInjected, UserServiceInjected, {
 
+  temasPendientes: Ember.computed('model.minuta',function(){
+    var temas = this.get('model.minuta').temas;
+    return temas.filter(tema => tema.fueTratado === false).length;
+  }),
+
   fueTratado: Ember.computed('temaDeMinuta.conclusion', function () {
     return !!(this.get('temaDeMinuta.conclusion'));
   }),
@@ -47,7 +52,6 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
   }),
 
   mostrarEditor: Ember.computed('mostrandoEditor', function () {
-    debugger;
     return "hidden";
   }),
 
