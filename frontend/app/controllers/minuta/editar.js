@@ -13,6 +13,11 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
     return "transparent";
   }),
 
+  temasPendientes: Ember.computed('model.minuta',function(){
+    var temas = this.get('model.minuta').temas;
+    return temas.filter(tema => tema.fueTratado === false).length;
+  }),
+
   colorPorNoSerTratado: Ember.computed('temaDeMinuta.conclusion', function () {
     if (!this.fueTratado) {
       return "purple";
@@ -61,7 +66,6 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
   }),
 
   mostrarEditor: Ember.computed('mostrandoEditor', function () {
-    debugger;
     return "hidden";
   }),
 
