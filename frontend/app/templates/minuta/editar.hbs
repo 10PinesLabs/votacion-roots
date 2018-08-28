@@ -1,4 +1,11 @@
-<div class="row" style="background:lightgray">
+<div class="row">
+  <div class="col s12">
+    <h3>Minuta</h3>
+  </div>
+</div>
+
+
+<div class="row">
   <div class="col s3">
 
     <h5>Asistentes</h5>
@@ -21,14 +28,14 @@
 
   </div>
 
-  <div class="col s9">
+  <div class="col s9" style="width: 700px;">
 
     <h5>Temas pendientes de minutear</h5>
 
     <table class="bordered highlight table">
       <tbody>
       {{#each  minuta.temas as |temaDeMinuta|}}
-        <tr style="height:130px; width: 700px;">
+        <tr style="height:130px; ">
           <div style='background:white' class="temaContent flex-center space-between">
             <div style="margin-right: 20px;">
               <td class="noPadding" {{action 'verEditorDeConclusion' temaDeMinuta}} style="width: 430px;">
@@ -47,10 +54,10 @@
             <div style="width: 200px;">
               <h6 style="text-align: center"> ¿Fue tratado?</h6>
               <div class="space-between" style="margin-top:20px;">
-                <button type="button" {{action ''}} class="btn-flat bold btn">
+                <button type="button" {{action ''}} class="btn-flat bold btn {{colorPorSerTratado}}">
                   <h6 class="bold"> SI</h6>
                 </button>
-                <button type="button" {{action ''}} class="btn-flat bold secondary">
+                <button type="button" {{action ''}} class="btn-flat bold {{colorPorNoSerTratado}}">
                   <h6 class="bold"> NO </h6>
                 </button>
               </div>
@@ -58,7 +65,10 @@
 
           </div>
 
-          {{# if mostrandoEditor}}
+          <div class="{{mostrarEditor}}">
+
+
+          </div>{{# if mostrandoEditor}}
             {{editor-de-conclusion
               alGuardar=(action 'guardarConclusion')
               alCerrar=(action 'cerrarEditor')
@@ -66,11 +76,23 @@
               usuarios=model.usuarios
             }}
           {{/if}}
-        </tr>
 
+        </tr>
       {{/each}}
+
       </tbody>
+
     </table>
+
+
+    {{# if mostrandoEditor}}
+      {{editor-de-conclusion
+        alGuardar=(action 'guardarConclusion')
+        alCerrar=(action 'cerrarEditor')
+        temaDeMinuta=temaAEditar
+        usuarios=model.usuarios
+      }}
+    {{/if}}
 
     <div>
       <h5>Temas tratados</h5>

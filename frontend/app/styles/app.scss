@@ -14,9 +14,17 @@ $yellow-star: #FFCE54;
   border-bottom-color: $primary-color;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 .space-between {
   display: flex;
   justify-content: space-between;
+}
+
+.justify-center {
+  justify-content: center;
 }
 
 .flex-center {

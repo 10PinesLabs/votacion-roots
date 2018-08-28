@@ -6,11 +6,29 @@ import UserServiceInjected from "../../mixins/user-service-injected";
 
 export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServiceInjected, NavigatorInjected, UserServiceInjected, {
 
+  colorPorSerTratado: Ember.computed('temaDeMinuta.conclusion', function () {
+    if (this.fueTratado) {
+      return "purple";
+    }
+    return "transparent";
+  }),
+
+  colorPorNoSerTratado: Ember.computed('temaDeMinuta.conclusion', function () {
+    if (!this.fueTratado) {
+      return "purple";
+    }
+    return "transparent";
+  }),
+
+  fueTratado: Ember.computed('temaDeMinuta.conclusion', function () {
+    return !!(this.get('temaDeMinuta.conclusion'));
+  }),
+
   reunionId: Ember.computed('model.reunionId', function () {
     return this.get('model.reunionId');
   }),
 
-  minuta:Ember.computed('model.minuta',function(){
+  minuta: Ember.computed('model.minuta', function () {
     return this.get('model.minuta');
   }),
 
@@ -18,47 +36,52 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
     var todosLosUsuarios = this.get('model.usuarios');
     var usuariosSeleccionados = this.get('usuariosSeleccionados');
     return todosLosUsuarios.filter(function (usuario) {
-      return !usuariosSeleccionados.some(function(seleccionado){
+      return !usuariosSeleccionados.some(function (seleccionado) {
         return usuario.id === seleccionado.id;
       });
     });
   }),
 
-  usuariosSeleccionados: Ember.computed('model.votantes', function() {
+  usuariosSeleccionados: Ember.computed('model.votantes', function () {
     return this.get('model.votantes');
   }),
 
-  temaAEditar:Ember.computed('temaSeleccionado', function(){
+  temaAEditar: Ember.computed('temaSeleccionado', function () {
     let tema = this.get('temaSeleccionado');
-    let actionItems=[];
-    this.get('temaSeleccionado.actionItems').forEach((actionItem)=> actionItems.push(actionItem));
+    let actionItems = [];
+    this.get('temaSeleccionado.actionItems').forEach((actionItem) => actionItems.push(actionItem));
     return Ember.Object.extend().create({
       id: tema.id,
       idDeMinuta: tema.idDeMinuta,
       tema: tema.tema,
       conclusion: tema.conclusion,
       fueTratado: tema.fueTratado,
-      actionItems:actionItems
+      actionItems: actionItems
     });
   }),
 
+  mostrarEditor: Ember.computed('mostrandoEditor', function () {
+    debugger;
+    return "hidden";
+  }),
+
   actions: {
-    guardarUsuariosSeleccionados(){
+    guardarUsuariosSeleccionados() {
       this.set('model.minuta.asistentes', this.get('usuariosSeleccionados'));
       this.minutaService().updateMinuta(this.get('model.minuta'));
     },
 
-    verEditorDeConclusion(tema){
+    verEditorDeConclusion(tema) {
       this._mostrarEditorDeConclusion(tema);
     },
 
-    cerrarEditor(){
+    cerrarEditor() {
       this._ocultarEditor();
     },
 
-    guardarConclusion(fueTratado){
-      var tema=this.get('temaAEditar');
-      tema.actionItems.forEach((actionItem)=>{
+    guardarConclusion(fueTratado) {
+      var tema = this.get('temaAEditar');
+      tema.actionItems.forEach((actionItem) => {
         delete actionItem.usuarios;
         delete actionItem.usuariosSeleccionables;
       });
@@ -66,7 +89,7 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
       tema.set('fueTratado', fueTratado);
 
       this.temaDeMinutaService().updateTemaDeMinuta(tema)
-        .then(()=> {
+        .then(() => {
           this._recargarLista();
 
           this._ocultarEditor();
@@ -83,24 +106,23 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
     return temas.objectAt(indiceSeleccionado);
   }),
 
-  _mostrarEditorDeConclusion(tema){
+  _mostrarEditorDeConclusion(tema) {
     var indiceClickeado = this.get('minuta.temas').indexOf(tema);
     this.set('indiceSeleccionado', indiceClickeado);
     this._mostrarEditor();
   },
 
-  _mostrarEditor(){
-    this.set('anchoDeTabla', 's4');
+  _mostrarEditor() {
     this.set('mostrandoEditor', true);
   },
 
-  _ocultarEditor(){
-    this.set('indiceSeleccionado',null);
+  _ocultarEditor() {
+    this.set('indiceSeleccionado', null);
     this.set('mostrandoEditor', false);
     this.set('anchoDeTabla', 's12');
   },
 
-  _recargarLista(){
+  _recargarLista() {
     this.get('target.router').refresh();
   },
 });
