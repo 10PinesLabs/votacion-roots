@@ -9,7 +9,10 @@
     "MAVEN_CUSTOM_GOALS": {
       "description": "Para que buildee bien",
         "value": "clean package"
-      }
+      },
+    "ENVIROMENT":{
+      "required":"true"
+    }
   },
   "buildpacks": [
     {

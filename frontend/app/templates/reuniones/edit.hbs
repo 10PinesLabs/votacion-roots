@@ -1,153 +1,178 @@
-<div class="row">
+{{vot-star temasVotados=temasVotados}}
 
-  <div class="col s2" {{action "editarFecha" }}>
-    <h4>Reunión del:</h4>
+<div class="container w-650">
+  <div class="title-container">
+
+    <div class="center">
+      <h4 class="title-label">Temario de la próxima Roots</h4>
+      <div {{action "editarFecha" }}>
+        {{#if editandoFecha}}
+          {{tenpines/input-date label='Fecha' value=reunion.fecha}}
+        {{else}}
+          <h4 class="title-date">{{fechaDeReunion}}</h4>
+        {{/if}}
+      </div>
+    </div>
+
+    <div class="space-between">
+      <div class="col s12 left-align flex-center" id="check-box">
+        {{materialize/check-box class="size-16" label='Ver temas obligatorios' checked=mostrarObligatorios
+                                checkboxClasses="filled-in"}}
+        <i class="material-icons opacity-20">lock</i>
+      </div>
+      <div class="flex-center pl-10" {{action 'mostrarFormulario'}}>
+        <i class="material-icons primary-color">add_circle</i>
+        <h5 class="primary-color size-16 add-tema">AGREGAR TEMA</h5>
+      </div>
+    </div>
+
   </div>
-  <div class="col s3" {{action "editarFecha" }}>
-    {{#if editandoFecha}}
-      {{tenpines/input-date label='Fecha' value=reunion.fecha}}
-    {{else}}
-      <h4>{{reunion.fecha}}</h4>
-    {{/if}}
-  </div>
-
-  <div class="col s12 right-align">
-    {{materialize/check-box label='Ver temas obligatorios' checked=mostrarObligatorios checkboxClasses="filled-in"}}
-  </div>
-
-</div>
-
-<div class="row">
-  <table class="bordered highlight col s12">
-    <thead>
-      <tr>
-        <th class="con-padding">
-          #
-        </th>
-        <th class="con-padding">
-          Tema
-        </th>
-        <th class="con-padding">
-          Duración
-        </th>
-        <th class="con-padding">
-          Votos <span class="indivisible">({{votosRestantes}} restantes)</span>
-        </th>
-      </tr>
-    </thead>
-
-    <tbody>
-    {{#each reunion.temasPropuestos as |tema|}}
-      {{#if (or mostrarObligatorios (not tema.esObligatorio))}}
-      <tr bgcolor={{tema.colorVotos}}>
-        <td class="con-padding">
-          {{tema.prioridad}}
-        </td>
-
-        <td class="con-padding">
-          {{tenpines/colored-label value=tema.autor bgColor='green'}}
-          <h5 class="titulo-de-tema">{{tema.titulo}}</h5>
-          <p class="crop">{{markdown-view value=tema.descripcion}}</p>
-        </td>
-
-        <td class="con-padding">
-          {{tema.duracion}}
-        </td>
-        <td class="con-padding">
-          <span class="indivisible">
-            {{#unless tema.esObligatorio}}
-              <span {{action 'restarVoto' tema}} class="clickable">ᐁ</span>
-              {{tema.cantidadVotosPropios }} votos
-              <span {{action 'sumarVoto' tema}} class="clickable">ᐃ</span>
-            {{/unless}}
-          </span>
-        </td>
-        <td class="right-align">
-          {{#unless estaCerrada}}
-            {{#if tema.puedeSerBorrado}}
-              <span {{action 'mostrarFormularioDeEdicion' tema}}
-                class="clickable">{{materialize/icon-helper 'mode_edit'}}</span>
-            {{/if}}
-          {{/unless}}
-        </td>
-        <td class="right-align">
-          {{#unless estaCerrada}}
-            {{#if tema.puedeSerBorrado}}
-              <span {{action 'pedirConfirmacionDeBorrado' tema}}
-                class="clickable">{{materialize/icon-helper 'delete'}}</span>
-            {{/if}}
-          {{/unless}}
-        </td>bs
-
-      </tr>
-
-    {{/if}}
-    {{/each}}
-    </tbody>
-  </table>
-
-  {{#unless estaCerrada}}
-    <a class="btn-floating btn-large waves-effect waves-light red right" {{action 'mostrarFormulario'}}><i
-      class="material-icons">add</i></a>
-
-    {{#if mostrandoFormularioDeEdicion}}
-      {{editor-de-tema titulo='Modificar Propuesta' tema=temaAEditar nombreDeDuraciones=nombreDeDuraciones duraciones=duraciones cerrarEditor=(action 'cerrarEditorDeTema') alGuardar=(action 'updatearTema')  esObligatorio=esObligatorio seleccionarDuracion=(action 'seleccionarDuracion') classNames='col s11'}}
-    {{/if}}
-    {{#if mostrandoFormularioXTemaNuevo}}
-      {{editor-de-tema titulo='Nueva Propuesta' tema=nuevoTema nombreDeDuraciones=nombreDeDuraciones duraciones=duraciones cerrarEditor=(action 'cerrarEditorDeTemaNuevo') alGuardar=(action 'agregarTema')  esObligatorio=esObligatorio seleccionarDuracion=(action 'seleccionarDuracion') classNames='col s11'}}
-    {{/if}}
-  {{/unless}}
-
-
-</div>
-
-{{tenpines/modal-de-confirmacion
-open=modalDeBorradoAbierto
-titulo='Confirmar eliminacion de tema'
-descripcion=mensajeDeConfirmacionDeBorrado
-accionAceptar=(action 'borrarTemaElegido')
-}}
-{{tenpines/modal-de-confirmacion
-  open=modalDeCambioDeObligatoriedadAbierto
-  titulo='Cambiando a tema no obligatorio'
-  descripcion="Se perderán todos los votos del tema"
-  accionAceptar=(action 'updatearTemaConfirmado')
-}}
-
-
-{{#if puedeCerrar}}
 
   <div class="row">
-    <div class="col s12">
+    <table class="bordered highlight table">
+      <tbody>
+      {{#each reunion.temasPropuestos as |tema|}}
+        {{#if (or mostrarObligatorios (not tema.esObligatorio))}}
 
-      <div class="card">
-        <div class="card-content">
-          <span class="card-title">Cerrar Temario para todos</span>
-          <p>Una vez votados todos los temas y antes de comenzar la reunion debemos cerrar el temario
-            y al hacerlo, se ordenaran primero el mas votado.<br>
-            <b>Nadie mas podrá seguir votando</b>
-          </p>
-        </div>
-        <div class="card-action center-align">
+          <tr bgcolor='white'>
 
-          {{#unless estaCerrada}}
-            {{tenpines/material-button label='Terminar votacion' click=(action 'pedirConfirmacionDeCierre') bgColor='red'}}
-          {{/unless}}
-          {{#if estaCerrada}}
-            {{tenpines/material-button label='Reabrir votacion' click=(action 'reabrirVotacion') flat=true}}
-          {{/if}}
+            <div class="temaContent">
+              <td class="noPadding">
+                <h5 class="titulo-de-tema">{{tema.titulo}}</h5>
+                <p class="crop">{{markdown-view value=tema.descripcion}}</p>
+              </td>
+            </div>
 
-        </div>
+            <div class="divider"></div>
+
+            <div class="space-between m-5">
+
+              <div class="flex-center tema-bottom">
+                <h6 class="size-16 m-10 opacity-35">#{{tema.id}}</h6>
+                <i class="material-icons opacity-70">person</i>
+                <h6 class="opacity-70 m-10">{{tema.autor}}</h6>
+                <i class="material-icons m-5">access_time</i>
+                <label class={{tema.colorDuracion }}>{{tema.duracion}}</label>
+              </div>
+
+              <div class="flex-center m-10">
+
+                {{#unless (or tema.esObligatorio or estaCerrada)}}
+
+                  <button type="button" {{action 'sumarVoto' tema}} class="btn-flat bold btn">
+
+                    <div class="flex-center">
+                      {{#repetir-pedazo class="flex-center" veces=tema.cantidadVotosPropios}}
+                        <i class="material-icons yellow-text height-inherit">star</i>
+                      {{/repetir-pedazo}}
+
+                      <h6 class="bold">{{#if tema.tieneVotos}}
+                        VOTAR DE NUEVO
+                      {{else}}
+                        VOTAR
+                      {{/if}}</h6>
+                    </div>
+
+                  </button>
+
+                  {{#if tema.tieneVotos}}
+                    <button class="btn-flat noPadding w-46 noHover ml-5" {{action 'restarVoto' tema}}>
+                      <i class="material-icons primary-color menus-button">
+                        indeterminate_check_box</i>
+                    </button>
+
+
+                  {{/if}}
+
+                  <div id="edit-menu">
+                    {{#tenpines/drop-down icon='more_vert' removeBtn=true }}
+                      <li class="light-grey" {{action 'mostrarFormularioDeEdicion' tema}}>
+                        <a class="black-text">Editar</a></li>
+                      <li class="divider"></li>
+                      <li class="light-grey"><a class="black-text" {{action 'borrarTemaElegido' tema}}>Eliminar</a></li>
+                    {{/tenpines/drop-down }}
+                  </div>
+
+                {{/unless}}
+
+              </div>
+            </div>
+          </tr>
+
+        {{/if}}
+      {{/each}}
+      </tbody>
+    </table>
+
+    {{#unless estaCerrada}}
+
+      {{#if mostrandoFormularioDeEdicion}}
+        {{editor-de-tema titulo='Modificar Propuesta' tema=temaAEditar nombreDeDuraciones=nombreDeDuraciones
+                         duraciones=duraciones cerrarEditor=(action 'cerrarEditorDeTema')
+                         alGuardar=(action 'updatearTema')  esObligatorio=esObligatorio
+                         seleccionarDuracion=(action 'seleccionarDuracion') classNames='col s11'}}
+      {{/if}}
+      {{#if mostrandoFormularioXTemaNuevo}}
+        {{editor-de-tema titulo='Nueva Propuesta' tema=nuevoTema nombreDeDuraciones=nombreDeDuraciones
+                         duraciones=duraciones cerrarEditor=(action 'cerrarEditorDeTemaNuevo')
+                         alGuardar=(action 'agregarTema')  esObligatorio=esObligatorio
+                         seleccionarDuracion=(action 'seleccionarDuracion') classNames='col s11'}}
+      {{/if}}
+    {{/unless}}
+
+    </div>
+
+  </div>
+
+  {{tenpines/modal-de-confirmacion
+    open=modalDeBorradoAbierto
+    titulo='Confirmar eliminacion de tema'
+    descripcion=mensajeDeConfirmacionDeBorrado
+    accionAceptar=(action 'borrarTemaElegido')
+  }}
+  {{tenpines/modal-de-confirmacion
+    open=modalDeCambioDeObligatoriedadAbierto
+    titulo='Cambiando a tema no obligatorio'
+    descripcion="Se perderán todos los votos del tema"
+    accionAceptar=(action 'updatearTemaConfirmado')
+  }}
+
+
+  {{#if puedeCerrar}}
+
+    <div class="finish-content">
+      <div class="center w-650 align-left">
+          <span class="flex-center finish-title">
+            <i class="material-icons mr-5">info_outline</i>
+            Cerrar Temario para todes
+          </span>
+        <p class="mt-0">Una vez votados todos los temas y antes de comenzar la reunión, debemos cerrar el
+          temario. Al cerrar el
+          temario, todos los temas se ordenarán desde el primero más votado por todos los pinos, y <b>nadie mas podrá
+            seguir votando</b><br>
+        </p>
+
+        {{#unless estaCerrada}}
+          <button type="button" {{action 'pedirConfirmacionDeCierre'}} class="btn-flat bold btn">
+            <h6>Terminar votacion</h6>
+          </button>
+        {{/unless}}
+
+        {{#if estaCerrada}}
+          <button type="button" {{action 'reabrirVotacion'}} class="btn-flat bold btn">
+            <h6>Reabrir votacion</h6>
+          </button>
+
+        {{/if}}
+
       </div>
 
       {{tenpines/modal-de-confirmacion
-      open=modalDeCierreAbierto
-      titulo='Confirmar cierre de votación'
-      descripcion='¿Estás seguro que querés cerrar la votación, que comience la reunión y que nadie más pueda seguir votando?'
-      accionAceptar=(action 'cerrarVotacion')
+        open=modalDeCierreAbierto
+        titulo='Confirmar cierre de votación'
+        descripcion='¿Estás seguro que querés cerrar la votación, que comience la reunión y que nadie más pueda seguir votando?'
+        accionAceptar=(action 'cerrarVotacion')
       }}
 
     </div>
-  </div>
-{{/if}}
-
+  {{/if}}
