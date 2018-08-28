@@ -3,6 +3,15 @@
 
     <h5>Asistentes</h5>
 
+    {{#each usuariosSeleccionados as |usuario|}}
+      <div class="asistente-pill">
+        {{usuario.name}}
+        <button type="button" id="close-button">
+          <i class="material-icons right" id="close-icon">close</i>
+        </button>
+      </div>
+    {{/each}}
+
     {{#power-select-multiple
       options=usuariosSeleccionables
       selected=usuariosSeleccionados
@@ -23,7 +32,8 @@
   <div class="col s9">
     <h5>Temas</h5>
 
-    {{#tenpines/object-table titulos='Prioridad, Tema, Autor, Duración, Obligatoriedad ' col=anchoDeTabla bordered=true highlight=true }}
+    {{#tenpines/object-table titulos='Prioridad, Tema, Autor, Duración, Obligatoriedad ' col=anchoDeTabla bordered=true
+                             highlight=true }}
 
       {{#each  minuta.temas as |temaDeMinuta|}}
         <tr  {{action 'verEditorDeConclusion' temaDeMinuta}} >

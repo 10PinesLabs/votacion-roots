@@ -1,0 +1,15 @@
+
+.asistente-pill{
+  background-color: #FFFFFF;
+  border-radius: 15px;
+  padding: 6px 10px 6px 15px;
+  font-size: 16px;
+  display: inline-flex;
+}
+
+.asistente-pill #close-button{
+  display: contents;
+}
+
+.asistente-pill #close-icon{
+}
