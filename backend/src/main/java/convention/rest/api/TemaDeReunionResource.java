@@ -60,6 +60,7 @@ public class TemaDeReunionResource {
     }
 
     public TemaDeReunion votarTema(Usuario usuarioActual, TemaDeReunion temaDeReunion) {
+
         long cantidadDeVotos = temaDeReunion.getInteresados().stream()
                 .filter(usuario ->
                         usuario.getId().equals(usuarioActual.getId())).count();
