@@ -29,9 +29,10 @@
   </div>
 
   <div class="col s9" style="width: 700px;">
-
-    <h5>Temas pendientes de minutear</h5>
-
+    <div style="display: flex; align-items: baseline;">
+      <h6 class="subtitulo-minuta">Temas pendientes de minutear</h6>
+      <h6 class="dot">8</h6>
+    </div>
     <table class="bordered highlight table">
       <tbody>
       {{#each  minuta.temas as |temaDeMinuta|}}
@@ -54,7 +55,7 @@
             <div style="width: 200px;">
               <h6 style="text-align: center"> ¿Fue tratado?</h6>
               <div class="space-between" style="margin-top:20px;">
-                <button type="button" {{action ''}} class="btn-flat bold btn {{colorPorSerTratado}}">
+                <button type="button" {{action ''}} class="btn-flat bold btn  {{colorPorSerTratado}}">
                   <h6 class="bold"> SI</h6>
                 </button>
                 <button type="button" {{action ''}} class="btn-flat bold {{colorPorNoSerTratado}}">

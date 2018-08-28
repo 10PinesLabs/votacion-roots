@@ -128,4 +128,22 @@ h6 {
   font-size: 16px;
 }
 
+.subtitulo-minuta{
+  color: #EF5467;
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.dot {
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  display: flex;
+  background: #EF5467;
+  color: white;
+  font-weight: bold;
+  margin-left: 10px;
+  align-items: center;
+  justify-content: center;
+}
 @import "ember-power-select";
