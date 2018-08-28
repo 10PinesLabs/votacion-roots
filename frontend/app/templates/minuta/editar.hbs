@@ -36,47 +36,7 @@
       <tbody>
       {{#each  minuta.temas as |temaDeMinuta|}}
         <tr style="height:130px; ">
-          <div style='background:white' class="temaContent flex-center space-between">
-            <div style="margin-right: 20px;">
-              <td class="noPadding" {{action 'verEditorDeConclusion' temaDeMinuta}} style="width: 430px;">
-                <h5 class="titulo-de-tema" style="font-size: 20px;">{{temaDeMinuta.tema.titulo}}</h5>
-                <p class="crop" style="height: 200px;     overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-    line-height: 1.20;
-    max-height: 70px;">{{markdown-view
-                  value=temaDeMinuta.tema.descripcion}}</p>
-              </td>
-            </div>
-
-            <div style="width: 200px;">
-              <h6 style="text-align: center"> ¿Fue tratado?</h6>
-              <div class="space-between" style="margin-top:20px;">
-                <button type="button" {{action ''}} class="btn-flat bold btn {{colorPorSerTratado}}">
-                  <h6 class="bold"> SI</h6>
-                </button>
-                <button type="button" {{action ''}} class="btn-flat bold {{colorPorNoSerTratado}}">
-                  <h6 class="bold"> NO </h6>
-                </button>
-              </div>
-            </div>
-
-          </div>
-
-          <div class="{{mostrarEditor}}">
-
-
-          </div>{{# if mostrandoEditor}}
-            {{editor-de-conclusion
-              alGuardar=(action 'guardarConclusion')
-              alCerrar=(action 'cerrarEditor')
-              temaDeMinuta=temaAEditar
-              usuarios=model.usuarios
-            }}
-          {{/if}}
-
+          {{minuta-tema model=model temaDeMinuta=temaDeMinuta}}
         </tr>
       {{/each}}
 
@@ -84,30 +44,11 @@
 
     </table>
 
-
-    {{# if mostrandoEditor}}
-      {{editor-de-conclusion
-        alGuardar=(action 'guardarConclusion')
-        alCerrar=(action 'cerrarEditor')
-        temaDeMinuta=temaAEditar
-        usuarios=model.usuarios
-      }}
-    {{/if}}
-
     <div>
       <h5>Temas tratados</h5>
     </div>
     <div>
       <h5>Temas dejados afuera</h5>
     </div>
-
-    {{# if mostrandoEditor}}
-      {{editor-de-conclusion
-        alGuardar=(action 'guardarConclusion')
-        alCerrar=(action 'cerrarEditor')
-        temaDeMinuta=temaAEditar
-        usuarios=model.usuarios
-      }}
-    {{/if}}
   </div>
 </div>

@@ -6,20 +6,6 @@ import UserServiceInjected from "../../mixins/user-service-injected";
 
 export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServiceInjected, NavigatorInjected, UserServiceInjected, {
 
-  colorPorSerTratado: Ember.computed('temaDeMinuta.conclusion', function () {
-    if (this.fueTratado) {
-      return "purple";
-    }
-    return "transparent";
-  }),
-
-  colorPorNoSerTratado: Ember.computed('temaDeMinuta.conclusion', function () {
-    if (!this.fueTratado) {
-      return "purple";
-    }
-    return "transparent";
-  }),
-
   fueTratado: Ember.computed('temaDeMinuta.conclusion', function () {
     return !!(this.get('temaDeMinuta.conclusion'));
   }),
@@ -70,31 +56,6 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
       this.set('model.minuta.asistentes', this.get('usuariosSeleccionados'));
       this.minutaService().updateMinuta(this.get('model.minuta'));
     },
-
-    verEditorDeConclusion(tema) {
-      this._mostrarEditorDeConclusion(tema);
-    },
-
-    cerrarEditor() {
-      this._ocultarEditor();
-    },
-
-    guardarConclusion(fueTratado) {
-      var tema = this.get('temaAEditar');
-      tema.actionItems.forEach((actionItem) => {
-        delete actionItem.usuarios;
-        delete actionItem.usuariosSeleccionables;
-      });
-
-      tema.set('fueTratado', fueTratado);
-
-      this.temaDeMinutaService().updateTemaDeMinuta(tema)
-        .then(() => {
-          this._recargarLista();
-
-          this._ocultarEditor();
-        });
-    }
   },
 
   anchoDeTabla: 's12',
@@ -105,22 +66,6 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
 
     return temas.objectAt(indiceSeleccionado);
   }),
-
-  _mostrarEditorDeConclusion(tema) {
-    var indiceClickeado = this.get('minuta.temas').indexOf(tema);
-    this.set('indiceSeleccionado', indiceClickeado);
-    this._mostrarEditor();
-  },
-
-  _mostrarEditor() {
-    this.set('mostrandoEditor', true);
-  },
-
-  _ocultarEditor() {
-    this.set('indiceSeleccionado', null);
-    this.set('mostrandoEditor', false);
-    this.set('anchoDeTabla', 's12');
-  },
 
   _recargarLista() {
     this.get('target.router').refresh();
