@@ -2,15 +2,20 @@
   <div class="col s3">
 
     <h5>Asistentes</h5>
-
-    {{#each usuariosSeleccionados as |usuario|}}
-      <div class="asistente-pill">
-        {{usuario.name}}
-        <button type="button" id="close-button">
-          <i class="material-icons right" id="close-icon">close</i>
-        </button>
-      </div>
-    {{/each}}
+      <table>
+        <tbody>
+        {{#each usuariosSeleccionados as |usuario|}}
+        <tr>
+          <li class="asistente-pill">
+            {{usuario.name}}
+            <button type="button" id="close-button" onclick={{action 'quitarAsistente' usuario}}>
+              <i class="material-icons right" id="close-icon">close</i>
+            </button>
+          </li>
+        </tr>
+        {{/each}}
+        </tbody>
+      </table>
 
     {{#power-select-multiple
       options=usuariosSeleccionables

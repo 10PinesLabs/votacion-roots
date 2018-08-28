@@ -6,6 +6,8 @@ import UserServiceInjected from "../../mixins/user-service-injected";
 
 export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServiceInjected, NavigatorInjected, UserServiceInjected, {
 
+  usuarioSeleccionado: "",
+
   reunionId: Ember.computed('model.reunionId', function () {
     return this.get('model.reunionId');
   }),
@@ -71,6 +73,11 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
 
           this._ocultarEditor();
         });
+    },
+
+    quitarAsistente(usuario){
+      let usuariosSeleccionados = this.get('usuariosSeleccionados');
+      this.set('usuariosSeleccionados', usuariosSeleccionados.filter(user  => user.name !== usuario.name));
     }
   },
 
