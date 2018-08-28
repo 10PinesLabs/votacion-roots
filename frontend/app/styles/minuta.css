@@ -1,0 +1,9 @@
+.minuta-title{
+  display: flex;
+  justify-content: center;
+  align-items:baseline;
+}
+
+.minuta-date{
+  margin-left: 15px;
+}
