@@ -1,6 +1,6 @@
-<div class="temaContent flex-center space-between white">
+<div class="temaContent flex-center space-between white" {{action 'verEditorDeConclusion' temaDeMinuta}}>
   <div class="mr-20" style="width:430px;">
-    <td class="noPadding" {{action 'verEditorDeConclusion' temaDeMinuta}}>
+    <td class="noPadding">
       <h5 class="titulo-de-tema">{{temaDeMinuta.tema.titulo}}</h5>
       <p class="crop conclusion" >{{markdown-view
         value=temaDeMinuta.tema.descripcion}}</p>
