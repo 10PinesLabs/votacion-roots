@@ -30,14 +30,14 @@
   </div>
 
   <div class="col s9" style="width: 700px;">
-    <div style="display: flex; align-items: baseline;">
-      <h6 class="subtitulo-minuta">Temas pendientes de minutear</h6>
+    <div class="flex-center">
+      <h4 class="subtitulo-minuta no-margin">Temas pendientes de minutear</h4>
       <h6 class="dot">{{temasPendientes}}</h6>
     </div>
     <table class="bordered highlight table">
       <tbody>
       {{#each  minuta.temas as |temaDeMinuta|}}
-        <tr style="height:130px; ">
+        <tr>
           {{minuta-tema model=model temaDeMinuta=temaDeMinuta}}
         </tr>
       {{/each}}

@@ -1,29 +1,23 @@
-<div style='background:white' class="temaContent flex-center space-between">
-  <div style="margin-right: 20px;">
-    <td class="noPadding" {{action 'verEditorDeConclusion' temaDeMinuta}} style="width: 430px;">
-      <h5 class="titulo-de-tema" style="font-size: 20px;">{{temaDeMinuta.tema.titulo}}</h5>
-      <p class="crop" style="height: 200px;     overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-    line-height: 1.20;
-    max-height: 70px;">{{markdown-view
+<div class="temaContent flex-center space-between white">
+  <div class="mr-20" style="width:430px;">
+    <td class="noPadding" {{action 'verEditorDeConclusion' temaDeMinuta}}>
+      <h5 class="titulo-de-tema">{{temaDeMinuta.tema.titulo}}</h5>
+      <p class="crop conclusion" >{{markdown-view
         value=temaDeMinuta.tema.descripcion}}</p>
     </td>
   </div>
 
-  <div style="width: 200px;">
-    <h6 style="text-align: center"> ¿Fue tratado?</h6>
-    <div class="space-between" style="margin-top:20px;">
-      <button type="button" {{action ''}} class="btn-flat bold btn  {{colorPorSerTratado}}">
+  <divW>
+    <h6 class="center-align"> ¿Fue tratado?</h6>
+    <div class="space-between mt-20">
+      <button type="button" {{action ''}} class="btn-flat bold btn mr-20">
         <h6 class="bold"> SI</h6>
       </button>
-      <button type="button" {{action ''}} class="btn-flat bold {{colorPorNoSerTratado}}">
+      <button type="button" {{action ''}} class="btn-flat bold">
         <h6 class="bold"> NO </h6>
       </button>
     </div>
-  </div>
+  </divW>
 
 </div>
 

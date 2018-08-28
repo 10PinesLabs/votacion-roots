@@ -124,14 +124,25 @@ input:not([type]):focus:not([readonly]), input[type=text]:focus:not([readonly]),
   box-shadow: 0 1px 0 0 $primary-color;
 }
 
+h4 {
+  font-size: 24px;
+}
+
+h5 {
+  font-size: 20px;
+}
+
 h6 {
   font-size: 16px;
 }
 
-.subtitulo-minuta{
+.subtitulo-minuta {
   color: #EF5467;
   font-weight: bold;
-  font-size: 24px;
+}
+
+.no-margin {
+  margin: 0px;
 }
 
 .dot {
@@ -146,4 +157,29 @@ h6 {
   align-items: center;
   justify-content: center;
 }
+
+.action-item-list li {
+  background: $primary-color;
+  color: white;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.mr-20 {
+  margin-right: 20px;
+}
+
+.conclusion {
+  height: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-height: 1.20;
+  max-height: 70px;
+}
+
 @import "ember-power-select";

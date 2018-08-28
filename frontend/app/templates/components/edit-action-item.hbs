@@ -1,10 +1,10 @@
 <div class="card-panel">
-  <a class="btn-floating waves-effect waves-light red right"  {{action 'borrarActionItem' unAction-item }}><i class="material-icons ">close</i></a>
+  <a class="btn-floating waves-effect waves-light purple right"  {{action 'borrarActionItem' unAction-item }}><i class="material-icons ">close</i></a>
 
   <div >
     {{tenpines/input-text label="descripción" value=unAction-item.descripcion}}
   </div>
-  <div>
+  <div class="action-item-list">
     {{#power-select-multiple
       options=usuariosSeleccionables
       selected=unAction-item.responsables
