@@ -60,6 +60,23 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
       this.set('model.minuta.asistentes', this.get('usuariosSeleccionados'));
       this.minutaService().updateMinuta(this.get('model.minuta'));
     },
+    guardarConclusion(fueTratado) {
+     debugger;
+      var tema = this.get('temaAEditar');
+      tema.actionItems.forEach((actionItem) => {
+        delete actionItem.usuarios;
+        delete actionItem.usuariosSeleccionables;
+      });
+
+      tema.set('fueTratado', fueTratado);
+
+      this.temaDeMinutaService().updateTemaDeMinuta(tema)
+        .then(() => {
+          this._recargarLista();
+
+          this._ocultarEditor();
+        });
+    }
   },
 
   anchoDeTabla: 's12',

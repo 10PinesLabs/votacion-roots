@@ -1,6 +1,10 @@
 import Ember from 'ember';
+import MinutaServiceInjected from "../mixins/minuta-service-injected";
+import TemaDeMinutaServiceInjected from "../mixins/tema-de-minuta-service-injected";
+import NavigatorInjected from "../mixins/navigator-injected";
+import UserServiceInjected from "../mixins/user-service-injected";
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaServiceInjected, NavigatorInjected, UserServiceInjected, {
 
   actions: {
     verEditorDeConclusion(tema) {
@@ -12,7 +16,8 @@ export default Ember.Component.extend({
     },
 
     guardarConclusion(fueTratado) {
-      var tema = this.get('temaAEditar');
+      debugger;
+      var tema = this.get('temaDeMinuta');
       tema.actionItems.forEach((actionItem) => {
         delete actionItem.usuarios;
         delete actionItem.usuariosSeleccionables;
