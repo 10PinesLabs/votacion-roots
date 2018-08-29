@@ -19,35 +19,36 @@
       }}
         {{usuario.name}}
       {{/power-select-multiple}}
-    <div class="card-action center-align con-padding">
-      <a class="waves-effect waves-light btn" onclick={{action 'guardarUsuariosSeleccionados'}}
-         type="button">Agregar</a>
+      <div class="card-action center-align con-padding">
+        <a class="waves-effect waves-light btn" onclick={{action 'guardarUsuariosSeleccionados'}}
+           type="button">Agregar</a>
+      </div>
+
     </div>
 
-  </div>
+    <div class="col s9">
+      <div class="flex-center">
+        <h4 class="subtitulo-minuta no-margin">Temas pendientes de minutear</h4>
+        <h6 class="dot">{{temasPendientes}}</h6>
+      </div>
+      <table class="bordered highlight table">
+        <tbody>
+        {{#each  minuta.temas as |temaDeMinuta|}}
+          <tr>
+            {{minuta-tema model=model temaDeMinuta=temaDeMinuta}}
+          </tr>
+        {{/each}}
 
-  <div class="col s9" style="width: 700px;">
-    <div class="flex-center">
-      <h4 class="subtitulo-minuta no-margin">Temas pendientes de minutear</h4>
-      <h6 class="dot">{{temasPendientes}}</h6>
-    </div>
-    <table class="bordered highlight table">
-      <tbody>
-      {{#each  minuta.temas as |temaDeMinuta|}}
-        <tr>
-          {{minuta-tema model=model temaDeMinuta=temaDeMinuta}}
-        </tr>
-      {{/each}}
+        </tbody>
 
-      </tbody>
+      </table>
 
-    </table>
-
-    <div>
-      <h5>Temas tratados</h5>
-    </div>
-    <div>
-      <h5>Temas dejados afuera</h5>
+      <div>
+        <h5>Temas tratados</h5>
+      </div>
+      <div>
+        <h5>Temas dejados afuera</h5>
+      </div>
     </div>
   </div>
 </div>
