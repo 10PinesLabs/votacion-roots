@@ -138,26 +138,8 @@ h6 {
   font-size: 16px;
 }
 
-.subtitulo-minuta {
-  color: #EF5467;
-  font-weight: bold;
-}
-
 .no-margin {
   margin: 0px;
-}
-
-.dot {
-  height: 25px;
-  width: 25px;
-  border-radius: 50%;
-  display: flex;
-  background: #EF5467;
-  color: white;
-  font-weight: bold;
-  margin-left: 10px;
-  align-items: center;
-  justify-content: center;
 }
 
 .action-item-list li {
@@ -172,16 +154,4 @@ h6 {
 .mr-20 {
   margin-right: 20px;
 }
-
-.conclusion {
-  height: 200px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  line-height: 1.20;
-  max-height: 70px;
-}
-
 @import "ember-power-select";

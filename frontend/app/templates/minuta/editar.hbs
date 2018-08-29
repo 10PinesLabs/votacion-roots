@@ -28,14 +28,14 @@
 
     <div class="col s9">
       <div class="flex-center">
-        <h4 class="subtitulo-minuta no-margin">Temas pendientes de minutear</h4>
-        <h6 class="dot">{{temasPendientes}}</h6>
+        <h4 class="minuta-subtitle no-margin">Temas pendientes de minutear</h4>
+        <h6 class="minuta-count">{{temasPendientes}}</h6>
       </div>
       <table class="bordered highlight table">
         <tbody>
         {{#each  minuta.temas as |temaDeMinuta|}}
           <tr>
-            {{minuta-tema model=model temaDeMinuta=temaDeMinuta}}
+            {{minuta-tema model=model temaDeMinuta=temaDeMinuta router=router}}
           </tr>
         {{/each}}
 

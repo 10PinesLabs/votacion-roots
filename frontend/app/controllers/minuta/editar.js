@@ -11,6 +11,10 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
     return temas.filter(tema => tema.fueTratado === false).length;
   }),
 
+  router: Ember.computed('target.router', function () {
+    return this.get('target.router');
+  }),
+
   fueTratado: Ember.computed('temaDeMinuta.conclusion', function () {
     return !!(this.get('temaDeMinuta.conclusion'));
   }),

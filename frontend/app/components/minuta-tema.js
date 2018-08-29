@@ -48,6 +48,6 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
     this.set('anchoDeTabla', 's12');
   },
   _recargarLista() {
-   // this.get('target.router').refresh();
+    this.get('router').refresh();
   },
 });
