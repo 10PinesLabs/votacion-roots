@@ -107,7 +107,7 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
     let nombresDePersonasSinMailConRepetidos = [].concat.apply([],
       response.actionItems.map(actionItem => actionItem.responsables)
     )
-      .filter(user => user.mail === undefined || user.mail === "" || user.mail === "null")
+      .filter(user => user.mail === undefined || user.mail === "" || user.mail === null)
       .map(resp => resp.name);
 
     let nombresDePersonasSinMailSinRepetidos =
