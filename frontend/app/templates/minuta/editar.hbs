@@ -17,21 +17,16 @@
         </tbody>
       </table>
 
-    {{#power-select-multiple
+    {{#power-select
       options=usuariosSeleccionables
-      selected=usuariosSeleccionados
       searchField="name"
       placeholder="Seleccione los asistentes a la reunión"
       noMatchesMessage="No more pinos"
-      onchange=(action (mut usuariosSeleccionados))
+      onchange=(action 'agregarAsistente')
     as |usuario|
     }}
       {{usuario.name}}
-    {{/power-select-multiple}}
-
-    <div class="card-action center-align con-padding">
-      <a class="waves-effect waves-light btn" onclick={{action 'guardarUsuariosSeleccionados'}} >Agregar</a>
-    </div>
+    {{/power-select}}
 
   </div>
   <div class="col s9">

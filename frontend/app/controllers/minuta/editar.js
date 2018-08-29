@@ -6,8 +6,6 @@ import UserServiceInjected from "../../mixins/user-service-injected";
 
 export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServiceInjected, NavigatorInjected, UserServiceInjected, {
 
-  usuarioSeleccionado: "",
-
   reunionId: Ember.computed('model.reunionId', function () {
     return this.get('model.reunionId');
   }),
@@ -45,10 +43,6 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
   }),
 
   actions: {
-    guardarUsuariosSeleccionados(){
-      this.set('model.minuta.asistentes', this.get('usuariosSeleccionados'));
-      this.minutaService().updateMinuta(this.get('model.minuta'));
-    },
 
     verEditorDeConclusion(tema){
       this._mostrarEditorDeConclusion(tema);
@@ -76,9 +70,22 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
     },
 
     quitarAsistente(usuario){
+      this.get('usuariosSeleccionables').pushObject(usuario);
+
       let usuariosSeleccionados = this.get('usuariosSeleccionados');
       this.set('usuariosSeleccionados', usuariosSeleccionados.filter(user  => user.name !== usuario.name));
-    }
+
+      this.guardarUsuariosSeleccionados();
+    },
+
+    agregarAsistente(usuario){
+      this.get('usuariosSeleccionados').pushObject(usuario);
+
+      let usuariosSeleccionables = this.get('usuariosSeleccionables');
+      this.set('usuariosSeleccionables', usuariosSeleccionables.filter(user  => user.name !== usuario.name));
+
+      this.guardarUsuariosSeleccionados();
+      },
   },
 
   anchoDeTabla: 's12',
@@ -109,5 +116,10 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
 
   _recargarLista(){
     this.get('target.router').refresh();
+  },
+
+  guardarUsuariosSeleccionados(){
+    this.set('model.minuta.asistentes', this.get('usuariosSeleccionados'));
+    this.minutaService().updateMinuta(this.get('model.minuta'));
   },
 });
