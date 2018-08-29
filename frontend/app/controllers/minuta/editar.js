@@ -6,6 +6,7 @@ import UserServiceInjected from "../../mixins/user-service-injected";
 
 export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServiceInjected, NavigatorInjected, UserServiceInjected, {
 
+<<<<<<< HEAD
   temasPendientes: Ember.computed('model.minuta', function () {
     var temas = this.get('model.minuta').temas;
     return temas.filter(tema => tema.fueTratado === false).length;
@@ -14,6 +15,9 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
   fueTratado: Ember.computed('temaDeMinuta.conclusion', function () {
     return !!(this.get('temaDeMinuta.conclusion'));
   }),
+=======
+  nombresDePersonasSinMail: "",
+>>>>>>> 9b169c1cf06f1606f5b028c41dd3f2d439b60e26
 
   reunionId: Ember.computed('model.reunionId', function () {
     return this.get('model.reunionId');
@@ -64,6 +68,34 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
       this.set('model.minuta.asistentes', this.get('usuariosSeleccionados'));
       this.minutaService().updateMinuta(this.get('model.minuta'));
     },
+<<<<<<< HEAD
+=======
+
+    verEditorDeConclusion(tema) {
+      this._mostrarEditorDeConclusion(tema);
+    },
+
+    cerrarEditor() {
+      this._ocultarEditor();
+    },
+
+    guardarConclusion(fueTratado) {
+      var tema = this.get('temaAEditar');
+      tema.actionItems.forEach((actionItem) => {
+        delete actionItem.usuarios;
+        delete actionItem.usuariosSeleccionables;
+      });
+
+      tema.set('fueTratado', fueTratado);
+
+      this.temaDeMinutaService().updateTemaDeMinuta(tema)
+        .then((response) => {
+          this._mostrarUsuariosSinMail(response);
+          this._recargarLista();
+          this._ocultarEditor();
+        });
+    },
+>>>>>>> 9b169c1cf06f1606f5b028c41dd3f2d439b60e26
   },
 
   anchoDeTabla: 's12',
@@ -74,4 +106,56 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
 
     return temas.objectAt(indiceSeleccionado);
   }),
+<<<<<<< HEAD
+=======
+
+  _mostrarEditorDeConclusion(tema) {
+    var indiceClickeado = this.get('minuta.temas').indexOf(tema);
+    this.set('indiceSeleccionado', indiceClickeado);
+    this._mostrarEditor();
+  },
+
+  _mostrarEditor() {
+    this.set('anchoDeTabla', 's4');
+    this.set('mostrandoEditor', true);
+  },
+
+  _ocultarEditor() {
+    this.set('indiceSeleccionado', null);
+    this.set('mostrandoEditor', false);
+    this.set('anchoDeTabla', 's12');
+  },
+
+  _mostrarUsuariosSinMail(response) {
+
+    let nombresDePersonasSinMailConRepetidos = [].concat.apply([],
+      response.actionItems.map(actionItem => actionItem.responsables)
+    )
+      .filter(user => user.mail === undefined || user.mail === "" || user.mail === null)
+      .map(resp => resp.name);
+
+    let nombresDePersonasSinMailSinRepetidos =
+      nombresDePersonasSinMailConRepetidos
+        .filter(function (elem, pos) {
+          return nombresDePersonasSinMailConRepetidos.indexOf(elem) === pos;
+        });
+
+    if (nombresDePersonasSinMailSinRepetidos.length !== 0) {
+      this.set('nombresDePersonasSinMail', nombresDePersonasSinMailSinRepetidos);
+      this.mostrar_alerta_por_falta_de_mail();
+    }
+  },
+
+  mostrar_alerta_por_falta_de_mail() {
+    var x = document.getElementById("toast");
+    x.className = "show";
+    setTimeout(function () {
+      x.className = x.className.replace("show", "");
+    }, 5000);
+  },
+
+  _recargarLista() {
+    this.get('target.router').refresh();
+  }
+>>>>>>> 9b169c1cf06f1606f5b028c41dd3f2d439b60e26
 });
