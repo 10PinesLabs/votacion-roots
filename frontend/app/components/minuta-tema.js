@@ -15,15 +15,14 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
       this._ocultarEditor();
     },
 
-      guardarConclusion(fueTratado) {
-        debugger;
-        var tema = this.get('temaDeMinuta');
-        tema.actionItems.forEach((actionItem) => {
-          delete actionItem.usuarios;
+    guardarConclusion(fueTratado) {
+      debugger;
+      this.set('temaDeMinuta.fueTratado', true)
+      var tema = this.get('temaDeMinuta');
+      tema.actionItems.forEach((actionItem) => {
+        delete actionItem.usuarios;
         delete actionItem.usuariosSeleccionables;
       });
-
-      tema.set('fueTratado', fueTratado);
 
       this.temaDeMinutaService().updateTemaDeMinuta(tema)
         .then(() => {
@@ -47,5 +46,8 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
     this.set('indiceSeleccionado', null);
     this.set('mostrandoEditor', false);
     this.set('anchoDeTabla', 's12');
-  }
+  },
+  _recargarLista() {
+   // this.get('target.router').refresh();
+  },
 });

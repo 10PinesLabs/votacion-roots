@@ -6,7 +6,7 @@ import UserServiceInjected from "../../mixins/user-service-injected";
 
 export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServiceInjected, NavigatorInjected, UserServiceInjected, {
 
-  temasPendientes: Ember.computed('model.minuta',function(){
+  temasPendientes: Ember.computed('model.minuta', function () {
     var temas = this.get('model.minuta').temas;
     return temas.filter(tema => tema.fueTratado === false).length;
   }),
@@ -23,7 +23,7 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
     return this.get('model.minuta');
   }),
 
-  fecha: Ember.computed('model.minuta', function(){
+  fecha: Ember.computed('model.minuta', function () {
     return moment(this.get('model.minuta').fecha).format('DD-MM-YYYY');
   }),
 
@@ -64,23 +64,6 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
       this.set('model.minuta.asistentes', this.get('usuariosSeleccionados'));
       this.minutaService().updateMinuta(this.get('model.minuta'));
     },
-    guardarConclusion(fueTratado) {
-     debugger;
-      var tema = this.get('temaAEditar');
-      tema.actionItems.forEach((actionItem) => {
-        delete actionItem.usuarios;
-        delete actionItem.usuariosSeleccionables;
-      });
-
-      tema.set('fueTratado', fueTratado);
-
-      this.temaDeMinutaService().updateTemaDeMinuta(tema)
-        .then(() => {
-          this._recargarLista();
-
-          this._ocultarEditor();
-        });
-    }
   },
 
   anchoDeTabla: 's12',
@@ -91,8 +74,4 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
 
     return temas.objectAt(indiceSeleccionado);
   }),
-
-  _recargarLista() {
-    this.get('target.router').refresh();
-  },
 });
