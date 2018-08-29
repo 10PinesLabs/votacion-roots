@@ -10,6 +10,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -26,7 +27,7 @@ public class DuracionesResource {
 
     public List<DuracionDeTema> getAllDuraciones(){
             List<DuracionDeTema> listaOrdenada=Arrays.asList(DuracionDeTema.values());
-            listaOrdenada.sort((duracion1, duracion2) ->duracion1.getCantidadDeMinutos()-duracion2.getCantidadDeMinutos() );
+            listaOrdenada.sort(Comparator.comparingInt(DuracionDeTema::getCantidadDeMinutos));
             return   getResourceHelper().createOperation().
                     insideASession()
                     .taking(listaOrdenada)
