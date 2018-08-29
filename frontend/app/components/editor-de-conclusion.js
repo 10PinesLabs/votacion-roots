@@ -23,11 +23,5 @@ export default Ember.Component.extend({
         }));
       this.rerender();
     },
-<<<<<<< HEAD
-
   },
 });
-=======
-    },
-  });
->>>>>>> 9b169c1cf06f1606f5b028c41dd3f2d439b60e26

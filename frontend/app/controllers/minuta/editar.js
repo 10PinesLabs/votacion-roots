@@ -6,7 +6,6 @@ import UserServiceInjected from "../../mixins/user-service-injected";
 
 export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServiceInjected, NavigatorInjected, UserServiceInjected, {
 
-<<<<<<< HEAD
   temasPendientes: Ember.computed('model.minuta', function () {
     var temas = this.get('model.minuta').temas;
     return temas.filter(tema => tema.fueTratado === false).length;
@@ -15,9 +14,7 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
   fueTratado: Ember.computed('temaDeMinuta.conclusion', function () {
     return !!(this.get('temaDeMinuta.conclusion'));
   }),
-=======
-  nombresDePersonasSinMail: "",
->>>>>>> 9b169c1cf06f1606f5b028c41dd3f2d439b60e26
+
 
   reunionId: Ember.computed('model.reunionId', function () {
     return this.get('model.reunionId');
@@ -68,8 +65,6 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
       this.set('model.minuta.asistentes', this.get('usuariosSeleccionados'));
       this.minutaService().updateMinuta(this.get('model.minuta'));
     },
-<<<<<<< HEAD
-=======
 
     verEditorDeConclusion(tema) {
       this._mostrarEditorDeConclusion(tema);
@@ -95,7 +90,7 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
           this._ocultarEditor();
         });
     },
->>>>>>> 9b169c1cf06f1606f5b028c41dd3f2d439b60e26
+
   },
 
   anchoDeTabla: 's12',
@@ -106,8 +101,6 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
 
     return temas.objectAt(indiceSeleccionado);
   }),
-<<<<<<< HEAD
-=======
 
   _mostrarEditorDeConclusion(tema) {
     var indiceClickeado = this.get('minuta.temas').indexOf(tema);
@@ -156,6 +149,5 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
 
   _recargarLista() {
     this.get('target.router').refresh();
-  }
->>>>>>> 9b169c1cf06f1606f5b028c41dd3f2d439b60e26
+  },
 });
