@@ -23,6 +23,10 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
     return this.get('model.minuta');
   }),
 
+  fecha: Ember.computed('model.minuta', function(){
+    return moment(this.get('model.minuta').fecha).format('DD-MM-YYYY');
+  }),
+
   usuariosSeleccionables: Ember.computed('model.usuarios', 'usuariosSeleccionados', function () {
     var todosLosUsuarios = this.get('model.usuarios');
     var usuariosSeleccionados = this.get('usuariosSeleccionados');

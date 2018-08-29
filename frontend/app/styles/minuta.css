@@ -1,0 +1,15 @@
+.minuta-title {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  margin: 20px;
+}
+
+.minuta-date {
+  margin-left: 15px;
+}
+
+.minuta-body {
+  width: 70%;
+  margin:auto;
+}
