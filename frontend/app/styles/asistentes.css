@@ -2,7 +2,7 @@
 .asistente-pill{
   background-color: #FFFFFF;
   border-radius: 15px;
-  padding: 6px 10px 6px 15px;
+  padding: 6px 15px 6px 10px;
   font-size: 16px;
   display: inline-flex;
   margin-bottom: 5px;
@@ -13,5 +13,6 @@
 }
 
 .asistente-pill #close-icon{
+  padding-right: 30px;
 }
 
