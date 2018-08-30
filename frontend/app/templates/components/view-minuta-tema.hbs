@@ -1,0 +1,29 @@
+
+<div class="temaContent white"  {{action 'verDetalleDeTema' temaDeMinuta}}>
+  <div class="mr-20" style="width:430px;">
+    <td class="noPadding" style="display: flex;
+    justify-content: space-between;">
+      <h5 class="titulo-de-tema">{{temaDeMinuta.tema.titulo}} </h5>
+      {{#if temaDeMinuta.actionItems.length}}
+        <i class="material-icons" style="color: #6b016b;">flag</i>
+      {{/if}}
+    </td>
+  </div>
+
+  <div>
+    {{#if mostrarDetalle}}
+      <p>{{temaDeMinuta.tema.descripcion}}</p>
+      <h5>Conclusiones</h5>
+      <p>{{temaDeMinuta.conclusion}}</p>
+      <h5>Action Items</h5>
+      {{#each temaDeMinuta.actionItems as |actionItem| }}
+        {{actionItem.descripcion}}
+        {{#each actionItem.responsables as |responsable|}}
+          <p>{{responsable.name}}</p>
+        {{/each}}
+      {{/each}}
+      <button class="circle-button" onclick={{action 'ocultarDetalleDeTema' temaDeMinuta}}> >< </button>
+    {{/if}}
+  </div>
+</div>
+

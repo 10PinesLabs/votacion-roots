@@ -6,6 +6,15 @@ import UserServiceInjected from "../mixins/user-service-injected";
 
 export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaServiceInjected, NavigatorInjected, UserServiceInjected, {
 
+  fueTratado: Ember.computed('temaDeMinuta.fueTratado', function(){
+    if(this.get('temaDeMinuta.fueTratado')){
+      return "disabled";
+    }
+    else {
+      return "";
+    }
+  }),
+
   actions: {
     verEditorDeConclusion(tema) {
       this._mostrarEditorDeConclusion(tema);
@@ -15,21 +24,23 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
       this._ocultarEditor();
     },
 
+    setTratado(tema){
+      this.set('temaDeMinuta.fueTratado', true);
+      this._updateTema(tema);
+    },
+
+    setNoTratado(tema){
+      this.set('temaDeMinuta.fueTratado', false);
+      this._updateTema(tema);
+    },
+
     guardarConclusion(fueTratado) {
-      debugger;
-      this.set('temaDeMinuta.fueTratado', true)
       var tema = this.get('temaDeMinuta');
       tema.actionItems.forEach((actionItem) => {
         delete actionItem.usuarios;
         delete actionItem.usuariosSeleccionables;
       });
-
-      this.temaDeMinutaService().updateTemaDeMinuta(tema)
-        .then(() => {
-          this._recargarLista();
-
-          this._ocultarEditor();
-        });
+      this._updateTema(tema);
     }
   },
   _mostrarEditorDeConclusion(tema) {
@@ -49,5 +60,13 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
   },
   _recargarLista() {
     this.get('router').refresh();
+  },
+  _updateTema(tema){
+    this.temaDeMinutaService().updateTemaDeMinuta(tema)
+      .then(() => {
+        this._recargarLista();
+
+        this._ocultarEditor();
+      });
   },
 });

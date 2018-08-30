@@ -29,27 +29,30 @@
     <div class="col s9">
       <div class="flex-center">
         <h4 class="minuta-subtitle no-margin">Temas pendientes de minutear</h4>
-        <h6 class="minuta-count">{{temasPendientes}}</h6>
+        <h6 class="minuta-count">{{temasPendientes.length}}</h6>
       </div>
       <table class="bordered highlight table">
         <tbody>
-        {{#each  minuta.temas as |temaDeMinuta|}}
+        {{#each  temasPendientes as |temaDeMinuta|}}
           <tr>
             {{minuta-tema model=model temaDeMinuta=temaDeMinuta router=router}}
           </tr>
         {{/each}}
-
         </tbody>
-
       </table>
 
-
       <div>
-        <h5>Temas tratados</h5>
+        <h4 class="minuta-subtitle no-margin">Temas tratados</h4>
       </div>
-      <div>
-        <h5>Temas dejados afuera</h5>
-      </div>
+      <table class="bordered highlight table">
+        <tbody>
+        {{#each  temasTratados as |tema|}}
+          <tr>
+            {{view-minuta-tema model=model temaDeMinuta=tema}}
+          </tr>
+        {{/each}}
+        </tbody>
+      </table>
 
       <div id="toast">
         <i class="material-icons" id="img">email</i>
