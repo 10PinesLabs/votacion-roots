@@ -70,19 +70,13 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
     },
 
     quitarAsistente(usuario){
-      this.get('usuariosSeleccionables').pushObject(usuario);
-
-      let usuariosSeleccionados = this.get('usuariosSeleccionados');
-      this.set('usuariosSeleccionados', usuariosSeleccionados.filter(user  => user.name !== usuario.name));
+      this.agregarUsuarioAYSacarUsuarioDe(usuario, 'usuariosSeleccionables', 'usuariosSeleccionados');
 
       this.guardarUsuariosSeleccionados();
     },
 
     agregarAsistente(usuario){
-      this.get('usuariosSeleccionados').pushObject(usuario);
-
-      let usuariosSeleccionables = this.get('usuariosSeleccionables');
-      this.set('usuariosSeleccionables', usuariosSeleccionables.filter(user  => user.name !== usuario.name));
+      this.agregarUsuarioAYSacarUsuarioDe(usuario, 'usuariosSeleccionados', 'usuariosSeleccionables');
 
       this.guardarUsuariosSeleccionados();
       },
@@ -121,5 +115,15 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
   guardarUsuariosSeleccionados(){
     this.set('model.minuta.asistentes', this.get('usuariosSeleccionados'));
     this.minutaService().updateMinuta(this.get('model.minuta'));
+  },
+
+  agregarUsuarioAYSacarUsuarioDe(usuario, nombreLista1, nombreLista2){
+    let lista1 = this.get(nombreLista1);
+    lista1.pushObject(usuario);
+    this.set(nombreLista1, lista1);
+
+    let lista2 = this.get(nombreLista2);
+    lista2.removeObject(usuario);
+    this.set(nombreLista2, lista2);
   },
 });
