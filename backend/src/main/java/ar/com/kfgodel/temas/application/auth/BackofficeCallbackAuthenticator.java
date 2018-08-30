@@ -86,18 +86,27 @@ public abstract class BackofficeCallbackAuthenticator implements Function<WebCre
       .insideASession()
       .applying(UserByBackofficeId.create(backofficeUser.uid))
       .mapping(usuarioExistente -> usuarioExistente.orElseGet(() -> crearUsuarioNuevo(backofficeUser)))
+      .mapping(user -> actualizarEmail(user, backofficeUser))
+      .applyingResultOf(Save::create)
       .get();
     return usuario.getId();
   }
 
+    private Usuario actualizarEmail(Usuario user, BackofficeUserTo backofficeUser) {
+      if(!user.getMail().equals(backofficeUser.email)) {
+          user.setMail(backofficeUser.email);
+      }
+      return user;
+    }
 
-  private Usuario crearUsuarioNuevo(BackofficeUserTo backofficeUser) {
+    private Usuario crearUsuarioNuevo(BackofficeUserTo backofficeUser) {
     return createOperation()
       .insideATransaction()
       .taking(Usuario.create(backofficeUser.fullName,
         backofficeUser.username,
         "password",
-        backofficeUser.uid))
+        backofficeUser.uid,
+        backofficeUser.email))
       .applyingResultOf(Save::create)
       .get();
   }
