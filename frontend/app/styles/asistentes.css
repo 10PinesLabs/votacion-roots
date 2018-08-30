@@ -3,6 +3,11 @@
   background-color: transparent;
 }
 
+.selector-asistente .ember-power-select-trigger:focus{
+  border-bottom: 2px solid #800080;
+  background-color: transparent;
+}
+
 .minuta-body .asistente-pill{
   background-color: #FFFFFF;
   border-radius: 15px;
