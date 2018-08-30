@@ -1,5 +1,10 @@
 <div class="row">
-  <div class="col s3">
+  <div class="col s12 minuta-title">
+    <h4 class="title-label">Minuta de reunión </h4>
+    <h4 class="minuta-date"> {{fecha}}</h4>
+  </div>
+  <div class="minuta-body">
+    <div class="col s3">
 
     <h5>Asistentes</h5>
       <table>
@@ -20,7 +25,7 @@
     {{#power-select
       options=usuariosSeleccionables
       searchField="name"
-      placeholder="Seleccione los asistentes a la reunión"
+      placeholder="Seleccione a los asistentes"
       noMatchesMessage="No more pinos"
       onchange=(action 'agregarAsistente')
     as |usuario|
@@ -28,32 +33,33 @@
       {{usuario.name}}
     {{/power-select}}
 
-  </div>
-  <div class="col s9">
-    <h5>Temas</h5>
+    </div>
+    <div class="col s9">
+      <h5>Temas</h5>
 
-    {{#tenpines/object-table titulos='Prioridad, Tema, Autor, Duración, Obligatoriedad ' col=anchoDeTabla bordered=true
-                             highlight=true }}
+      {{#tenpines/object-table titulos='Prioridad, Tema, Autor, Duración, Obligatoriedad ' col=anchoDeTabla
+                               bordered=true highlight=true }}
 
-      {{#each  minuta.temas as |temaDeMinuta|}}
-        <tr  {{action 'verEditorDeConclusion' temaDeMinuta}} >
-          <td>{{temaDeMinuta.tema.prioridad}}</td>
-          <td>{{temaDeMinuta.tema.titulo}}</td>
-          <td>{{temaDeMinuta.tema.autor}}</td>
-          <td>{{temaDeMinuta.tema.duracion}}</td>
-          <td>{{temaDeMinuta.tema.obligatoriedad}}</td>
-          {{tema-de-minuta-conclusion-checked usuarios=usuarios temaDeMinuta=temaDeMinuta}}
-        </tr>
-      {{/each}}
-    {{/tenpines/object-table}}
+        {{#each  minuta.temas as |temaDeMinuta|}}
+          <tr  {{action 'verEditorDeConclusion' temaDeMinuta}} >
+            <td>{{temaDeMinuta.tema.prioridad}}</td>
+            <td>{{temaDeMinuta.tema.titulo}}</td>
+            <td>{{temaDeMinuta.tema.autor}}</td>
+            <td>{{temaDeMinuta.tema.duracion}}</td>
+            <td>{{temaDeMinuta.tema.obligatoriedad}}</td>
+            {{tema-de-minuta-conclusion-checked usuarios=usuarios temaDeMinuta=temaDeMinuta}}
+          </tr>
+        {{/each}}
+      {{/tenpines/object-table}}
 
-    {{# if mostrandoEditor}}
-      {{editor-de-conclusion
-        alGuardar=(action 'guardarConclusion')
-        alCerrar=(action 'cerrarEditor')
-        temaDeMinuta=temaAEditar
-        usuarios=model.usuarios
-      }}
-    {{/if}}
+      {{# if mostrandoEditor}}
+        {{editor-de-conclusion
+          alGuardar=(action 'guardarConclusion')
+          alCerrar=(action 'cerrarEditor')
+          temaDeMinuta=temaAEditar
+          usuarios=model.usuarios
+        }}
+      {{/if}}
+    </div>
   </div>
 </div>
