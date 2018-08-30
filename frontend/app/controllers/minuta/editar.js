@@ -121,13 +121,13 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
     this.minutaService().updateMinuta(this.get('model.minuta'));
   },
 
-  agregarUsuarioAYSacarUsuarioDe(usuario, nombreLista1, nombreLista2){
-    let lista1 = this.get(nombreLista1);
-    lista1.pushObject(usuario);
-    this.set(nombreLista1, lista1);
+  agregarUsuarioAYSacarUsuarioDe(usuario, nombreListaDestino, nombreListaOrigen){
+    let listaDestino = this.get(nombreListaDestino);
+    listaDestino.pushObject(usuario);
+    this.set(nombreListaDestino, listaDestino);
 
-    let lista2 = this.get(nombreLista2);
-    lista2.removeObject(usuario);
-    this.set(nombreLista2, lista2);
+    let listaOrigen = this.get(nombreListaOrigen);
+    listaOrigen.removeObject(usuario);
+    this.set(nombreListaOrigen, listaOrigen);
   },
 });
