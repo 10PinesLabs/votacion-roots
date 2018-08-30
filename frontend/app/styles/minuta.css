@@ -55,3 +55,25 @@
   height: 42px;
   width: 42px;
 }
+
+.view-tema-subtitle{
+  font-weight: bold;
+}
+
+#corners {
+  border-radius: 15px;
+  border: 1px solid lightgrey;
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+}
+
+.responsable-item {
+  background: purple;
+  color: white;
+  border-radius: 15px;
+  padding: 6px 10px 6px 15px;
+  font-size: 16px;
+  display: inline-flex;
+  margin-bottom: 5px;
+}
