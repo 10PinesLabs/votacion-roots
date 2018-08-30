@@ -127,10 +127,12 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
       cerrarEditorDeTemaNuevo() {
         this.set('mostrandoFormularioXTemaNuevo', false);
       },
+
       cerrarEditorDeTema() {
-        this.set('mostrandoFormularioDeEdicion', false);
+        this._ocultarEditorDeTema();
         this._recargarReunion();
       },
+
       restarVoto(tema) {
         this._siNoEstaCerrada(function () {
           this._quitarVotoDeTema(tema);
@@ -198,6 +200,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
       borrarTemaElegido(temaABorrar) {
         delete this.temaABorrar; // Desreferenciamos el objeto
         this._quitarTema(temaABorrar);
+        this._ocultarEditorDeTema();
       },
       editarFecha() {
         this._siNoEstaCerrada(function () {
@@ -218,6 +221,10 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
         return tema.autor.login !== tema.ultimoModificador.login;
       }
     },
+
+  _ocultarEditorDeTema() {
+    this.set('mostrandoFormularioDeEdicion', false);
+  },
 
   _traerDuraciones() {
     return this.duracionesService().getAll().then((duraciones) => {
