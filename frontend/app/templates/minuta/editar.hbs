@@ -9,11 +9,15 @@
       <h5 class="center">Asistentes</h5>
       <ul>
         {{#each usuariosSeleccionados as |usuario|}}
-          <li class="asistente-pill">
-            <button type="button" id="close-button" onclick={{action 'quitarAsistente' usuario}}>
-              <i class="material-icons" id="close-icon">close</i>
-            </button>
-            {{usuario.name}}
+          <li>
+            <div class="asistente-pill">
+              <button type="button" id="close-button" onclick={{action 'quitarAsistente' usuario}}>
+                <i class="material-icons" id="close-icon">close</i>
+              </button>
+              <span>
+                {{usuario.name}}
+              </span>
+            </div>
           </li>
         {{/each}}
       </ul>
