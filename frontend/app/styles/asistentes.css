@@ -1,4 +1,7 @@
-
+.selector-asistente .ember-power-select-trigger{
+  border-bottom: 2px solid #800080;
+  background-color: transparent;
+}
 
 .asistente-pill{
   background-color: #FFFFFF;

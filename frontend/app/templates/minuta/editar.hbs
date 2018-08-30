@@ -6,7 +6,7 @@
   <div class="minuta-body">
     <div class="col s3">
 
-    <h5>Asistentes</h5>
+      <h5 class="center">Asistentes</h5>
       <ul>
         {{#each usuariosSeleccionados as |usuario|}}
           <li class="asistente-pill">
@@ -18,20 +18,22 @@
         {{/each}}
       </ul>
 
-    {{#power-select
-      options=usuariosSeleccionables
-      searchField="name"
-      placeholder="Seleccione a los asistentes"
-      noMatchesMessage="No more pinos"
-      onchange=(action 'agregarAsistente')
-    as |usuario|
-    }}
-      {{usuario.name}}
-    {{/power-select}}
+      <div class="selector-asistente">
+        {{#power-select
+          options=usuariosSeleccionables
+          searchField="name"
+          placeholder="Seleccione a los asistentes"
+          noMatchesMessage="No more pinos"
+          onchange=(action 'agregarAsistente')
+        as |usuario|
+        }}
+          {{usuario.name}}
+        {{/power-select}}
+      </div>
 
     </div>
     <div class="col s9">
-      <h5>Temas</h5>
+      <h5 class="center">Temas</h5>
 
       {{#tenpines/object-table titulos='Prioridad, Tema, Autor, Duración, Obligatoriedad ' col=anchoDeTabla
                                bordered=true highlight=true }}
