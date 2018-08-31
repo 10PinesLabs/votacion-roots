@@ -91,17 +91,32 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
         });
     },
 
-    quitarAsistente(usuario){
+    quitarAsistente(usuario) {
       this.agregarUsuarioAYSacarUsuarioDe(usuario, 'usuariosSeleccionables', 'usuariosSeleccionados');
 
       this.guardarUsuariosSeleccionados();
     },
 
-    agregarAsistente(usuario){
+    agregarAsistente(usuario) {
       this.agregarUsuarioAYSacarUsuarioDe(usuario, 'usuariosSeleccionados', 'usuariosSeleccionables');
 
       this.guardarUsuariosSeleccionados();
-      },
+    },
+
+    guardarUsuariosSeleccionados() {
+      this.set('model.minuta.asistentes', this.get('usuariosSeleccionados'));
+      this.minutaService().updateMinuta(this.get('model.minuta'));
+    },
+
+    agregarUsuarioAYSacarUsuarioDe(usuario, nombreListaDestino, nombreListaOrigen) {
+      let listaDestino = this.get(nombreListaDestino);
+      listaDestino.pushObject(usuario);
+      this.set(nombreListaDestino, listaDestino);
+
+      let listaOrigen = this.get(nombreListaOrigen);
+      listaOrigen.removeObject(usuario);
+      this.set(nombreListaOrigen, listaOrigen);
+    },
   },
 
   anchoDeTabla: 's12',
@@ -148,21 +163,6 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
       this.set('nombresDePersonasSinMail', nombresDePersonasSinMailSinRepetidos);
       this.mostrar_alerta_por_falta_de_mail();
     }
-  },
-
-  guardarUsuariosSeleccionados(){
-    this.set('model.minuta.asistentes', this.get('usuariosSeleccionados'));
-    this.minutaService().updateMinuta(this.get('model.minuta'));
-  },
-
-  agregarUsuarioAYSacarUsuarioDe(usuario, nombreListaDestino, nombreListaOrigen){
-    let listaDestino = this.get(nombreListaDestino);
-    listaDestino.pushObject(usuario);
-    this.set(nombreListaDestino, listaDestino);
-
-    let listaOrigen = this.get(nombreListaOrigen);
-    listaOrigen.removeObject(usuario);
-    this.set(nombreListaOrigen, listaOrigen);
   },
 
   mostrar_alerta_por_falta_de_mail() {
