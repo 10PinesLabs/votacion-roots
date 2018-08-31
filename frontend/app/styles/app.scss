@@ -6,10 +6,12 @@
 @import 'toast';
 @import 'navigation-bar';
 @import 'reuniones';
+@import 'asistentes';
 @import 'minuta';
 
 $primary-color: purple;
 $yellow-star: #FFCE54;
+$ember-power-select-placeholder-color: black !important;
 
 .ultimo-tema-style {
   border-bottom: dashed;
