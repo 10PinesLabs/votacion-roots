@@ -39,7 +39,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
       return temasOrdenados;
     }),
 
-  temasVotados: Ember.computed('reunion.temasVotados', function () {
+  temasVotados: Ember.computed('reunion.temaPropuestos','reunion.temasVotados', function () {
     let usuarioId = this.model.usuarioActual.id;
     let todosLosTemas = this.get('reunion.temasPropuestos');
     let temasVotados = todosLosTemas.filter(function (tema) {
@@ -268,14 +268,32 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
   },
 
   _votarPorTema(tema) {
-    tema.agregarInteresado(this._idDeUsuarioActual());
+    this._agregarVoto(tema);
     this.temaService().votarTema(tema.id).then(() => {
       this._recargarReunion();
     });
   },
 
-  _quitarVotoDeTema(tema) {
+  _agregarVoto(tema) {
+    tema.agregarInteresado(this._idDeUsuarioActual());
+    this._updateVotos(tema);
+  },
+
+  _quitarVoto(tema) {
     tema.quitarInteresado(this._idDeUsuarioActual());
+    this._updateVotos(tema);
+  },
+
+  _updateVotos(tema) {
+    let temaPropuestos = this.get('reunion.temasPropuestos');
+    let index = temaPropuestos.indexOf(tema);
+    temaPropuestos[index] = tema;
+    this.set('reunion.temaPropuestos', temaPropuestos);
+    this.set('reunion', this.get('reunion'));
+  },
+
+  _quitarVotoDeTema(tema) {
+    this._quitarVoto(tema);
     this.temaService().quitarVotoTema(tema.id).then(() => {
       this._recargarReunion();
     });
