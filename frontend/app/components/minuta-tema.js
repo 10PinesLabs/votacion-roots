@@ -34,7 +34,7 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
       this._updateTema(tema);
     },
 
-    guardarConclusion(fueTratado) {
+    guardarConclusion() {
       var tema = this.get('temaDeMinuta');
       tema.actionItems.forEach((actionItem) => {
         delete actionItem.usuarios;

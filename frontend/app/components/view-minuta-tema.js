@@ -10,6 +10,23 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
     return false;
   }),
 
+  mostrarBotonAdd:Ember.computed('mostrarBotonAdd', function(){
+    var agregarItem = this.get('agregarItem');
+    if(agregarItem){
+      return "hidden";
+    }else{
+      return "";
+    }
+  }),
+
+  agregarItem: Ember.computed('agregarItem', function(){
+    return false;
+  }),
+
+  usuarios: Ember.computed('model.usuarios', function(){
+    return this.get('model.usuarios');
+  }),
+
   actions: {
     verDetalleDeTema(tema){
       return this._mostrarDetalle(tema);
@@ -17,9 +34,32 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
 
     ocultarDetalleDeTema(tema){
       return this._ocultarDetalle(tema);
-    }
-  },
+    },
 
+    agregarActionItem(){
+      this.get('temaDeMinuta').actionItems.pushObject(
+        Ember.Object.extend().create({
+          descripcion: "",
+          responsables: [],
+        }));
+      this.set('agregarItem',true);
+      this.rerender();
+    },
+
+    ocultarAgregadoActionItem(){
+      this.set('agregarItem',false);
+    },
+
+    soloGuardar(){
+
+    },
+
+    guardarYCrearOtro(){
+      this.soloGuardar();
+      this.agregarActionItem();
+    },
+
+  },
   _mostrarDetalle(tema){
     var indiceClickeado = this.get('model.minuta.temas').indexOf(tema);
     this.set('indiceSeleccionado', indiceClickeado);

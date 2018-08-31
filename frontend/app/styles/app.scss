@@ -116,6 +116,13 @@ $yellow-star: #FFCE54;
   color: white;
 }
 
+.border-btn{
+  border: 2px solid $primary-color;
+  color:$primary-color;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
 .btn:hover {
   background: #6b016b;
 }
@@ -155,4 +162,5 @@ h6 {
 .mr-20 {
   margin-right: 20px;
 }
+
 @import "ember-power-select";

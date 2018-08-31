@@ -1,45 +1,60 @@
-
-<div class="temaContent white"  {{action 'verDetalleDeTema' temaDeMinuta}}>
-  <div class="mr-20" style="width:430px;">
-    <td class="noPadding" style="display: flex;
+<div class="card">
+  <div class="temaContent white"  {{action 'verDetalleDeTema' temaDeMinuta}}>
+    <div class="mr-20" style="width:100%; padding-bottom: 10px">
+      <td class="noPadding" style="display: flex;
     justify-content: space-between;">
-      <h5 class="titulo-de-tema">{{temaDeMinuta.tema.titulo}} </h5>
-      {{#if temaDeMinuta.actionItems.length}}
-        <i class="material-icons" style="color: #6b016b;">flag</i>
-      {{/if}}
-    </td>
-  </div>
+        <h5 class="titulo-de-tema">{{temaDeMinuta.tema.titulo}} </h5>
+        {{#if temaDeMinuta.actionItems.length}}
+          <i class="material-icons" style="color: #6b016b;">flag</i>
+        {{/if}}
+      </td>
+    </div>
 
-  <div>
-    {{#if mostrarDetalle}}
-      <p>{{temaDeMinuta.tema.descripcion}}</p>
-      <h4 class="view-tema-subtitle">Conclusiones</h4>
-      <p>{{temaDeMinuta.conclusion}}</p>
-    <br/>
-      <li class="divider"></li>
-      <h4 class="view-tema-subtitle">Action Items</h4>
-    <div id="corners" style="display: flex; align-items: center; ">
-      <div>
-        <i class="material-icons" style="color: #6b016b; margin-right: 10px;">flag</i>
-      </div>
-       <div style="margin-bottom:0px">
-      {{#each temaDeMinuta.actionItems as |actionItem| }}
-        <p>{{actionItem.descripcion}}</p>
-        {{#each actionItem.responsables as |responsable|}}
-         <p class="responsable-item" style="margin-top:0px">{{responsable.name}}</p>
-        {{/each}}
-      {{/each}}
-      </div>
-    </div>
-    <br/>
-      <span class="flex-center justify-center" {{action "agregarActionItem"}}>
-        <i class="material-icons primary-color pointer">add_circle</i>
-       <h6 class="primary-color add-tema cursor pointer">AGREGAR ACTION ITEM</h6>
-     </span>
     <div>
-      <button class="circle-button" onclick={{action 'ocultarDetalleDeTema' temaDeMinuta}}> >< </button>
+      {{#if mostrarDetalle}}
+        <p>{{temaDeMinuta.tema.descripcion}}</p>
+        <h4 class="view-tema-subtitle">Conclusiones</h4>
+        <p>{{temaDeMinuta.conclusion}}</p>
+        <br/>
+        <li class="divider"></li>
+        <h4 class="view-tema-subtitle">Action Items</h4>
+        {{#if temaDeMinuta.actionItems.lenght}}
+          <div id="corners" style="display: flex; align-items: center; ">
+            <div>
+              <i class="material-icons" style="color: #6b016b; margin-right: 10px;">flag</i>
+            </div>
+            <div style="margin-bottom:0px">
+              {{#each temaDeMinuta.actionItems as |actionItem| }}
+                <p>{{actionItem.descripcion}}</p>
+                {{#each actionItem.responsables as |responsable|}}
+                  <p class="responsable-item" style="margin-top:0px">{{responsable.name}}</p>
+                {{/each}}
+              {{/each}}
+            </div>
+          </div>
+        {{/if}}
+        <br/>
+        {{#if (not agregarItem)}}
+          <span class="flex-center justify-center" {{action "agregarActionItem"}} >
+            <i class="material-icons primary-color pointer">add_circle</i>
+            <h6 class="primary-color add-tema cursor pointer">AGREGAR ACTION ITEM</h6>
+          </span>
+        {{else}}
+          {{add-action-item
+            alCancelar=(action 'ocultarAgregadoActionItem')
+            model=model
+            alGuardarYCrearOtro=(action 'guardarYCrearOtro')
+            alSoloGuardar=(action 'soloGuardar')
+          }}
+        {{/if}}
+        <div class="relative-position-button">
+          <button class="circle-button" onclick={{action "ocultarDetalleDeTema" temaDeMinuta}}>
+            <i class="material-icons">unfold_less</i>
+          </button>
+        </div>
+      {{/if}}
     </div>
-    {{/if}}
   </div>
 </div>
+
 
