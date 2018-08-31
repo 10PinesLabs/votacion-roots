@@ -6,16 +6,16 @@
           <h4 class="bold" style="margin-left:10px">Nuevo Action Item</h4>
         </span>
     <div >
-      {{tenpines/input-text label="descripción" value=unActionItem.descripcion}}
+      {{tenpines/input-text label="Descripción" value=descripcion}}
     </div>
     <div>
       {{#power-select-multiple
         options=usuarios
-        selected=unActionItem.responsables
+        selected=responsables
         searchField="name"
         placeholder="Seleccione los responsables"
         noMatchesMessage="No more pinos"
-        onchange=(action (mut unActionItem.responsables))
+        onchange=(action (mut responsables))
       as |usuario|
       }}
         {{usuario.name}}
