@@ -158,3 +158,15 @@
   color: black;
   line-height: inherit;
 }
+
+.btn:disabled {
+  background:purple !important;
+  opacity: 0.7;
+}
+
+.btn:disabled #minus-button {
+  color: red !important;
+  opacity: 0.7 !important;
+  background: red !important;
+}
+
