@@ -39,7 +39,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
       return temasOrdenados;
     }),
 
-  temasVotados: Ember.computed('reunion.temasVotados', function () {
+  temasVotados: Ember.computed('reunion.temaPropuestos', 'reunion.temasVotados', function () {
     let usuarioId = this.model.usuarioActual.id;
     let todosLosTemas = this.get('reunion.temasPropuestos');
     let temasVotados = todosLosTemas.filter(function (tema) {
@@ -71,6 +71,21 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
       return id == usuarioId
     }).length - 1;
   },
+
+  votosOpacity: Ember.computed('updatingVotos', function () {
+    if (this.get('updatingVotos')) {
+      console.log("Agrego opacidad al boton")
+      return "opacity-35";
+    }
+  }),
+
+  votarDisabled: Ember.computed('votarDisabled', 'updatingVotos', function () {
+    if (this.get('updatingVotos')) {
+      console.log("disabled buttons")
+      return "disabled";
+    }
+    return "";
+  }),
 
   estaCerrada:
     Ember.computed('reunion.status', function () {
@@ -268,17 +283,52 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
   },
 
   _votarPorTema(tema) {
-    tema.agregarInteresado(this._idDeUsuarioActual());
+    console.log("Se esta votando a " + tema.id)
+    let self = this;
+    this._agregarVoto(tema);
     this.temaService().votarTema(tema.id).then(() => {
-      this._recargarReunion();
+      console.log("Se guardo la suma a " + tema.id);
+      self.set('updatingVotos', false);
+      self._recargarReunion();
+    }, function (error) {
+      debugger;
+      self._quitarVoto(tema);
+      self.set('updatingVotos', false);
     });
   },
 
-  _quitarVotoDeTema(tema) {
+  _agregarVoto(tema) {
+    tema.agregarInteresado(this._idDeUsuarioActual());
+    this._updateVotos(tema);
+  },
+
+  _quitarVoto(tema) {
     tema.quitarInteresado(this._idDeUsuarioActual());
+    this._updateVotos(tema);
+  },
+
+  _updateVotos(tema) {
+    this.set('updatingVotos', true);
+    let temaPropuestos = this.get('reunion.temasPropuestos');
+    let index = temaPropuestos.indexOf(tema);
+    temaPropuestos[index] = tema;
+    this.set('reunion.temaPropuestos', temaPropuestos);
+  },
+
+  _quitarVotoDeTema(tema) {
+    let self = this;
+    console.log("Se quito el voto a " + tema.id);
+    this._quitarVoto(tema);
     this.temaService().quitarVotoTema(tema.id).then(() => {
-      this._recargarReunion();
-    });
+      console.log("Se guardo la resta a " + tema.id);
+      self.set('updatingVotos', false);
+      self._recargarReunion();
+      }, function (error) {
+        debugger;
+      self._agregarVoto(tema);
+      self.set('updatingVotos', false);
+      }
+    );
   },
 
   _usarInstanciasDeTemas(reunion, usuarioActual) {
