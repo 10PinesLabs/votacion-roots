@@ -248,7 +248,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
   },
 
   _recargarReunion() {
-    this.reunionService().getReunion(this._idDeReunion()).then((reunion) => {
+    return this.reunionService().getReunion(this._idDeReunion()).then((reunion) => {
       this._actualizarreunionCon(reunion);
     });
   },
@@ -257,7 +257,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
     var tema = this.get('temaAEditar');
     this.temaService().updateTema(tema).then(() => {
       this.set('mostrandoFormularioDeEdicion', false);
-      this._recargarReunion();
+      //  this._recargarReunion();
     });
   },
   _guardarTemaYRecargar: function () {
@@ -288,10 +288,10 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
     this._agregarVoto(tema);
     this.temaService().votarTema(tema.id).then(() => {
       console.log("Se guardo la suma a " + tema.id);
-      self.set('updatingVotos', false);
-      self._recargarReunion();
-    }, function (error) {
-      debugger;
+      self._recargarReunion().then(function () {
+        self.set('updatingVotos', false);
+      });
+    }, function () {
       self._quitarVoto(tema);
       self.set('updatingVotos', false);
     });
@@ -320,13 +320,13 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
     console.log("Se quito el voto a " + tema.id);
     this._quitarVoto(tema);
     this.temaService().quitarVotoTema(tema.id).then(() => {
-      console.log("Se guardo la resta a " + tema.id);
-      self.set('updatingVotos', false);
-      self._recargarReunion();
-      }, function (error) {
-        debugger;
-      self._agregarVoto(tema);
-      self.set('updatingVotos', false);
+        console.log("Se guardo la resta a " + tema.id);
+        self._recargarReunion().then(function () {
+          self.set('updatingVotos', false);
+        });
+      }, function ( ) {
+        self._agregarVoto(tema);
+        self.set('updatingVotos', false);
       }
     );
   },
