@@ -68,7 +68,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
 
   _votosRepetidosPor: function (tema, usuarioId) {
     return tema.idsDeInteresados.filter(function (id) {
-      return id == usuarioId
+      return id == usuarioId;
     }).length - 1;
   },
 
@@ -126,6 +126,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
 
       cerrarEditorDeTemaNuevo() {
         this.set('mostrandoFormularioXTemaNuevo', false);
+        this.cerrar_modal();
       },
 
       cerrarEditorDeTema() {
@@ -168,12 +169,14 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
               idDeReunion: this._idDeReunion(),
               idDeAutor: this._idDeUsuarioActual(),
             }));
+            var modal = document.getElementById('myModal');
+            modal.style.display = "block";
           });
         });
-
       },
       agregarTema() {
         this._guardarTemaYRecargar();
+        this.cerrar_modal();
       },
       updatearTemaConfirmado() {
         this.set('temaAEditar.idsDeInteresados', []);
@@ -346,5 +349,10 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
     else {
       return "NO_OBLIGATORIO";
     }
+  },
+
+  cerrar_modal(){
+    var modal = document.getElementById('myModal');
+    modal.style.display = "none";
   }
 });

@@ -1,6 +1,7 @@
 {{vot-star temasVotados=temasVotados}}
 
 <div class="container w-650">
+
   <div class="title-container">
 
     <div class="center">
@@ -104,25 +105,24 @@
       {{/each}}
       </tbody>
     </table>
-
-    {{#unless estaCerrada}}
-
-      {{#if mostrandoFormularioDeEdicion}}
-        {{editor-de-tema titulo='Modificar Propuesta' tema=temaAEditar nombreDeDuraciones=nombreDeDuraciones
-                         duraciones=duraciones cerrarEditor=(action 'cerrarEditorDeTema')
-                         alGuardar=(action 'updatearTema')  esObligatorio=esObligatorio
-                         seleccionarDuracion=(action 'seleccionarDuracion') classNames='col s11'}}
-      {{/if}}
-      {{#if mostrandoFormularioXTemaNuevo}}
-        {{editor-de-tema titulo='Nueva Propuesta' tema=nuevoTema nombreDeDuraciones=nombreDeDuraciones
-                         duraciones=duraciones cerrarEditor=(action 'cerrarEditorDeTemaNuevo')
-                         alGuardar=(action 'agregarTema')  esObligatorio=esObligatorio
-                         seleccionarDuracion=(action 'seleccionarDuracion') classNames='col s11'}}
-      {{/if}}
-    {{/unless}}
-
-
   </div>
+
+  {{#unless estaCerrada}}
+    <div id="myModal" class="modal">
+        {{#if mostrandoFormularioDeEdicion}}
+          {{editor-de-tema titulo='Modificar Propuesta' tema=temaAEditar nombreDeDuraciones=nombreDeDuraciones
+                           duraciones=duraciones cerrarEditor=(action 'cerrarEditorDeTema')
+                           alGuardar=(action 'updatearTema')  esObligatorio=esObligatorio
+                           seleccionarDuracion=(action 'seleccionarDuracion') classNames='col s11'}}
+        {{/if}}
+        {{#if mostrandoFormularioXTemaNuevo}}
+          {{editor-de-tema titulo='Nueva Propuesta' tema=nuevoTema nombreDeDuraciones=nombreDeDuraciones
+                           duraciones=duraciones cerrarEditor=(action 'cerrarEditorDeTemaNuevo')
+                           alGuardar=(action 'agregarTema')  esObligatorio=esObligatorio
+                           seleccionarDuracion=(action 'seleccionarDuracion') classNames='col s11'}}
+        {{/if}}
+    </div>
+  {{/unless}}
 
 </div>
 
