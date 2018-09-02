@@ -29,6 +29,28 @@
 }
 
 .width-60{
+  padding: 0.5%;
   margin: 15% auto;
   width: 60%;
+}
+
+.selector-duracion .ember-power-select-trigger{
+  border-bottom: 1px solid #800080;
+  background-color: transparent;
+}
+.selector-duracion .ember-power-select-trigger:focus{
+  border-bottom: 1px solid #800080;
+  background-color: transparent;
+}
+
+.texto-tema input:not([type]), input[type=text], textarea.materialize-textarea{
+  border-bottom: 1px solid #800080;
+}
+
+.texto-tema .active{
+  color: grey !important;
+}
+
+.duracion-label{
+  color: grey;
 }
