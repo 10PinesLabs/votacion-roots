@@ -126,12 +126,13 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
 
       cerrarEditorDeTemaNuevo() {
         this.set('mostrandoFormularioXTemaNuevo', false);
-        this.cerrar_modal();
+        this.cerrar_modal_tema();
       },
 
       cerrarEditorDeTema() {
         this._ocultarEditorDeTema();
         this._recargarReunion();
+        this.cerrar_modal_tema();
       },
 
       restarVoto(tema) {
@@ -157,6 +158,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
             this.set('esObligatorio', this.get('temaAEditar.esObligatorio'));
             this.set('mostrandoFormularioXTemaNuevo', false);
             this.set('mostrandoFormularioDeEdicion', true);
+            this.mostrar_modal_tema();
           });
         });
       },
@@ -169,23 +171,27 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
               idDeReunion: this._idDeReunion(),
               idDeAutor: this._idDeUsuarioActual(),
             }));
-            var modal = document.getElementById('myModal');
-            modal.style.display = "block";
+            this.mostrar_modal_tema();
           });
         });
       },
+
       agregarTema() {
         this._guardarTemaYRecargar();
-        this.cerrar_modal();
+        this.cerrar_modal_tema();
       },
+
       updatearTemaConfirmado() {
         this.set('temaAEditar.idsDeInteresados', []);
         this._updatearTemaYRecargar();
       },
+
       updatearTema() {
         var tema = this.get('temaAEditar');
 
         tema.set('obligatoriedad', this._obligatoriedad(this.get('esObligatorio')));
+        this.cerrar_modal_tema();
+        
         if (this.get('temaAEditar.obligatoriedad') === 'OBLIGATORIO' && this.get('obligatoriedadPasada') === 'NO_OBLIGATORIO') {
           this.set('modalDeCambioDeObligatoriedadAbierto', true);
         }
@@ -193,6 +199,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
           this._updatearTemaYRecargar();
         }
       },
+
       pedirConfirmacionDeBorrado(temaABorrar) {
         this.set('mostrandoFormularioDeEdicion', false);
         this.set('mostrandoFormularioXTemaNuevo', false);
@@ -200,22 +207,27 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
         this.set('mensajeDeConfirmacionDeBorrado', `Estás seguro de borrar el tema "${temaABorrar.titulo}"? Los votos seran devueltos`);
         this.set('modalDeBorradoAbierto', true);
       },
+
       borrarTemaElegido(temaABorrar) {
         delete this.temaABorrar; // Desreferenciamos el objeto
         this._quitarTema(temaABorrar);
         this._ocultarEditorDeTema();
       },
+
       editarFecha() {
         this._siNoEstaCerrada(function () {
           this.set('editandoFecha', true);
         });
       },
+
       pedirConfirmacionDeCierre() {
         this.set('modalDeCierreAbierto', true);
       },
+
       cerrarVotacion() {
         this._cerrarReunion();
       },
+
       reabrirVotacion() {
         this._reabrirReunion();
       },
@@ -351,8 +363,13 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
     }
   },
 
-  cerrar_modal(){
-    var modal = document.getElementById('myModal');
+  mostrar_modal_tema(){
+    let modal = document.getElementById('myModal');
+    modal.style.display = "block";
+  },
+
+  cerrar_modal_tema(){
+    let modal = document.getElementById('myModal');
     modal.style.display = "none";
   }
 });
