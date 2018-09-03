@@ -18,21 +18,26 @@
         <br/>
         <li class="divider"></li>
         <h4 class="view-tema-subtitle">Action Items</h4>
-        {{#if temaDeMinuta.actionItems.lenght}}
-          <div id="corners" style="display: flex; align-items: center; ">
-            <div>
-              <i class="material-icons" style="color: #6b016b; margin-right: 10px;">flag</i>
-            </div>
-            <div style="margin-bottom:0px">
-              {{#each temaDeMinuta.actionItems as |actionItem| }}
+
+
+        <div style="margin-bottom:0px;">
+          {{#each temaDeMinuta.actionItems as |actionItem| }}
+            <div id="corners" style="display: flex;
+    align-items: center;">
+              <div>
+                <i class="material-icons" style="color: #6b016b; margin-right: 10px;">flag</i>
+              </div>
+              <div>
                 <p>{{actionItem.descripcion}}</p>
                 {{#each actionItem.responsables as |responsable|}}
                   <p class="responsable-item" style="margin-top:0px">{{responsable.name}}</p>
                 {{/each}}
-              {{/each}}
+              </div>
             </div>
-          </div>
-        {{/if}}
+            <br/>
+          {{/each}}
+        </div>
+
         <br/>
         {{#if (not agregarItem)}}
           <span class="flex-center justify-center" {{action "agregarActionItem"}} >
@@ -40,7 +45,9 @@
             <h6 class="primary-color add-tema cursor pointer">AGREGAR ACTION ITEM</h6>
           </span>
         {{else}}
+
           {{add-action-item
+            tema=temaDeMinuta
             alCancelar=(action 'ocultarAgregadoActionItem')
             model=model
             alGuardarYCrearOtro=(action 'guardarYCrearOtro' actionItem)

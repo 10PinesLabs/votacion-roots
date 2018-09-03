@@ -26,12 +26,12 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
 
     setTratado(tema){
       this.set('temaDeMinuta.fueTratado', true);
-      this._updateTema(tema);
+      this._mostrarEditor(tema);
     },
 
     setNoTratado(tema){
       this.set('temaDeMinuta.fueTratado', false);
-      this._updateTema(tema);
+      this._mostrarEditor(tema);
     },
 
     guardarConclusion() {
