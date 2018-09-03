@@ -6,7 +6,19 @@ import UserServiceInjected from "../../mixins/user-service-injected";
 
 export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServiceInjected, NavigatorInjected, UserServiceInjected, {
 
-  nombresDePersonasSinMail: "",
+  temasPendientes: Ember.computed('model.minuta', function () {
+    var temas = this.get('model.minuta').temas;
+    return temas.filter(tema => tema.fueTratado === false).length;
+  }),
+
+  router: Ember.computed('target.router', function () {
+    return this.get('target.router');
+  }),
+
+  fueTratado: Ember.computed('temaDeMinuta.conclusion', function () {
+    return !!(this.get('temaDeMinuta.conclusion'));
+  }),
+
 
   reunionId: Ember.computed('model.reunionId', function () {
     return this.get('model.reunionId');
@@ -16,7 +28,7 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
     return this.get('model.minuta');
   }),
 
-  fecha: Ember.computed('model.minuta', function(){
+  fecha: Ember.computed('model.minuta', function () {
     return moment(this.get('model.minuta').fecha).format('DD-MM-YYYY');
   }),
 
@@ -48,6 +60,10 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
     });
   }),
 
+  mostrarEditor: Ember.computed('mostrandoEditor', function () {
+    return "hidden";
+  }),
+
   actions: {
 
     verEditorDeConclusion(tema) {
@@ -75,17 +91,32 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
         });
     },
 
-    quitarAsistente(usuario){
+    quitarAsistente(usuario) {
       this.agregarUsuarioAYSacarUsuarioDe(usuario, 'usuariosSeleccionables', 'usuariosSeleccionados');
 
       this.guardarUsuariosSeleccionados();
     },
 
-    agregarAsistente(usuario){
+    agregarAsistente(usuario) {
       this.agregarUsuarioAYSacarUsuarioDe(usuario, 'usuariosSeleccionados', 'usuariosSeleccionables');
 
       this.guardarUsuariosSeleccionados();
-      },
+    },
+
+    guardarUsuariosSeleccionados() {
+      this.set('model.minuta.asistentes', this.get('usuariosSeleccionados'));
+      this.minutaService().updateMinuta(this.get('model.minuta'));
+    },
+
+    agregarUsuarioAYSacarUsuarioDe(usuario, nombreListaDestino, nombreListaOrigen) {
+      let listaDestino = this.get(nombreListaDestino);
+      listaDestino.pushObject(usuario);
+      this.set(nombreListaDestino, listaDestino);
+
+      let listaOrigen = this.get(nombreListaOrigen);
+      listaOrigen.removeObject(usuario);
+      this.set(nombreListaOrigen, listaOrigen);
+    },
   },
 
   anchoDeTabla: 's12',
@@ -134,21 +165,6 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
     }
   },
 
-  guardarUsuariosSeleccionados(){
-    this.set('model.minuta.asistentes', this.get('usuariosSeleccionados'));
-    this.minutaService().updateMinuta(this.get('model.minuta'));
-  },
-
-  agregarUsuarioAYSacarUsuarioDe(usuario, nombreListaDestino, nombreListaOrigen){
-    let listaDestino = this.get(nombreListaDestino);
-    listaDestino.pushObject(usuario);
-    this.set(nombreListaDestino, listaDestino);
-
-    let listaOrigen = this.get(nombreListaOrigen);
-    listaOrigen.removeObject(usuario);
-    this.set(nombreListaOrigen, listaOrigen);
-  },
-
   mostrar_alerta_por_falta_de_mail() {
     var x = document.getElementById("toast");
     x.className = "show";
@@ -159,5 +175,5 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
 
   _recargarLista() {
     this.get('target.router').refresh();
-  }
+  },
 });

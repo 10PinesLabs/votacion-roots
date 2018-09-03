@@ -18,9 +18,17 @@ $ember-power-select-placeholder-color: black !important;
   border-bottom-color: $primary-color;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 .space-between {
   display: flex;
   justify-content: space-between;
+}
+
+.justify-center {
+  justify-content: center;
 }
 
 .flex-center {
@@ -120,8 +128,32 @@ input:not([type]):focus:not([readonly]), input[type=text]:focus:not([readonly]),
   box-shadow: 0 1px 0 0 $primary-color;
 }
 
+h4 {
+  font-size: 24px;
+}
+
+h5 {
+  font-size: 20px;
+}
+
 h6 {
   font-size: 16px;
 }
 
+.no-margin {
+  margin: 0px;
+}
+
+.action-item-list li {
+  background: $primary-color;
+  color: white;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.mr-20 {
+  margin-right: 20px;
+}
 @import "ember-power-select";

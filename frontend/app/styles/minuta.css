@@ -5,6 +5,11 @@
   margin: 20px;
 }
 
+.minuta-subtitle {
+  color: #EF5467;
+  font-weight: bold;
+}
+
 .minuta-date {
   margin-left: 15px;
 }
@@ -12,4 +17,28 @@
 .minuta-body {
   width: 80%;
   margin:auto;
+}
+
+.minuta-count {
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  display: flex;
+  background: #EF5467;
+  color: white;
+  font-weight: bold;
+  margin-left: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.minuta-paragraph {
+  height: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-height: 1.20;
+  max-height: 70px;
 }
