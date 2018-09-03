@@ -118,9 +118,9 @@ $ember-power-select-placeholder-color: black !important;
   color: white;
 }
 
-.border-btn{
+.border-btn {
   border: 2px solid $primary-color;
-  color:$primary-color;
+  color: $primary-color;
   margin-left: 10px;
   margin-right: 10px;
 }
@@ -156,12 +156,20 @@ h6 {
   color: white;
 }
 
-.action-item-description .input-field label{
+.action-item-description .input-field label {
   color: grey !important;
+}
+
+.mt-10 {
+  margin-top: 10px;
 }
 
 .mt-20 {
   margin-top: 20px;
+}
+
+.mr-10 {
+  margin-right: 10px;
 }
 
 .mr-20 {
