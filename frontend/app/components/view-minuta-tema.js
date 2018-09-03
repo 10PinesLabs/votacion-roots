@@ -19,6 +19,11 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
     }
   }),
 
+  emptyActionItem: Ember.Object.extend().create({
+      descripcion: "",
+      responsables: [],
+    }),
+
   agregarItem: Ember.computed('agregarItem', function(){
     return false;
   }),
@@ -44,12 +49,12 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
       this.set('agregarItem',false);
     },
 
-    soloGuardar(tema){
-      this._guardar(tema);
+    soloGuardar(actionItem){
+      this._guardar(actionItem);
     },
 
-    guardarYCrearOtro(tema){
-      this._guardar(tema);
+    guardarYCrearOtro(){
+      this._guardar();
       this._agregarNuevoActionItem();
     },
 
@@ -66,27 +71,29 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
     this.set('mostrarDetalle', false);
   },
 
-  _guardar(tema){
+  _guardar(actionItem){
+    this.get('temaDeMinuta').actionItems.pushObject(actionItem);
+
+    var tema = this.get('temaDeMinuta');
     tema.actionItems.forEach((actionItem) => {
       delete actionItem.usuarios;
       delete actionItem.usuariosSeleccionables;
     });
 
     this.temaDeMinutaService().updateTemaDeMinuta(tema)
-      .then((response) => {
-        this._mostrarUsuariosSinMail(response);
+      .then(() => {
         this._recargarLista();
-        this._ocultarEditor();
       });
+
+  },
+
+  _recargarLista() {
+    this.get('router').refresh();
   },
 
   _agregarNuevoActionItem(){
-    this.get('temaDeMinuta').actionItems.pushObject(
-      Ember.Object.extend().create({
-        descripcion: "",
-        responsables: [],
-      }));
     this.set('agregarItem',true);
     this.rerender();
-  }
+  },
+
 });

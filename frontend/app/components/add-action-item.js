@@ -10,4 +10,12 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
     return this.get('model.usuarios');
   }),
 
+  init() {
+    this._super(...arguments);
+    this.set('actionItemEnCreacion',Ember.Object.extend().create({
+      descripcion: "",
+      responsables: [],
+    }));
+  },
+
 });

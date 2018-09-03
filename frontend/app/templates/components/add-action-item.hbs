@@ -6,12 +6,12 @@
           <h4 class="bold" style="margin-left:10px">Nuevo Action Item</h4>
         </span>
     <div >
-      {{tenpines/input-text label="Descripción" value=descripcion}}
+      {{tenpines/input-text label="Descripción" value=actionItemEnCreacion.descripcion}}
     </div>
     <div class="action-item-list">
       {{#power-select-multiple
         options=usuarios
-        selected=responsables
+        selected=actionItemEnCreacion.responsables
         searchField="name"
         placeholder="Seleccione los responsables"
         noMatchesMessage="No more pinos"
@@ -25,7 +25,7 @@
   <div class="card-content" style="display: flex;
     flex-direction: row-reverse;">
     <button type="button"  class="btn-flat bold btn" onclick={{action alGuardarYCrearOtro}}>GUARDAR Y CREAR OTRO</button>
-    <button type="button" class="btn-flat bold border-btn" onclick="{{action alSoloGuardar}}">SOLO GUARDAR</button>
+    <button type="button" class="btn-flat bold border-btn" onclick={{action alSoloGuardar actionItemEnCreacion}}>SOLO GUARDAR</button>
     <button type="button" class="btn-flat bold" onclick={{action alCancelar}}>CANCELAR</button>
   </div>
 </div>
