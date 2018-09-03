@@ -183,8 +183,6 @@
   border-radius: 6px;
   left: 50%;
   margin-left: -60px;
-
-  /* Position the tooltip text - see examples below! */
   position: absolute;
   z-index: 1;
 }
@@ -192,12 +190,11 @@
 .the-lock .tool-tip-text::after {
   content: " ";
   position: absolute;
-  bottom: 100%;  /* At the top of the tooltip */
+  bottom: 100%;
   left: 50%;
   margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: transparent transparent grey transparent;
+  border: 5px solid transparent;
+  border-bottom-color: grey;
 }
 
 .the-lock:hover .tool-tip-text {
