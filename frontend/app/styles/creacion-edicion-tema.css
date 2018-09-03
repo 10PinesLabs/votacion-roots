@@ -47,10 +47,10 @@
   border-bottom: 1px solid #800080;
 }
 
-.texto-tema .active{
+.texto-tema .input-field label{
   color: grey !important;
 }
 
 .duracion-label{
-  color: grey;
+  color: grey !important;
 }
