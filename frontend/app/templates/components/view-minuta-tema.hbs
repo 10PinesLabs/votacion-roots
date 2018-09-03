@@ -1,6 +1,6 @@
 <div class="card">
-  <div class="temaContent white"  {{action 'verDetalleDeTema' temaDeMinuta}}>
-    <div class="mr-20" style="width:100%; padding-bottom: 10px">
+  <div {{action 'verDetalleDeTema' temaDeMinuta}}>
+    <div class="temaContent mr-20" style="width:100%; padding-bottom: 10px">
       <td class="noPadding" style="display: flex;
     justify-content: space-between;">
         <h5 class="titulo-de-tema">{{temaDeMinuta.tema.titulo}} </h5>
@@ -12,52 +12,56 @@
 
     <div>
       {{#if mostrarDetalle}}
-        <p>{{temaDeMinuta.tema.descripcion}}</p>
-        <h4 class="view-tema-subtitle">Conclusiones</h4>
-        <p>{{temaDeMinuta.conclusion}}</p>
-        <br/>
-        <li class="divider"></li>
-        <h4 class="view-tema-subtitle">Action Items</h4>
-
-
-        <div style="margin-bottom:0px;">
-          {{#each temaDeMinuta.actionItems as |actionItem| }}
-            <div id="corners" style="display: flex;
-    align-items: center;">
-              <div>
-                <i class="material-icons" style="color: #6b016b; margin-right: 10px;">flag</i>
-              </div>
-              <div>
-                <p>{{actionItem.descripcion}}</p>
-                {{#each actionItem.responsables as |responsable|}}
-                  <p class="responsable-item" style="margin-top:0px">{{responsable.name}}</p>
-                {{/each}}
-              </div>
-            </div>
-            <br/>
-          {{/each}}
+        <div class="temaContent">
+          <p>{{temaDeMinuta.tema.descripcion}}</p>
         </div>
+        <li class="divider"></li>
+        <h4 class="gray-subtitle ml-20">Conclusiones</h4>
+        <p class="ml-20">{{temaDeMinuta.conclusion}}</p>
+        <li class="divider"></li>
+        <h4 class="gray-subtitle ml-20">Action Items</h4>
+        <div class="temaContent">
 
-        <br/>
-        {{#if (not agregarItem)}}
-          <span class="flex-center justify-center" {{action "agregarActionItem"}} >
+
+          <div style="margin-bottom:0px;">
+            {{#each temaDeMinuta.actionItems as |actionItem| }}
+              <div id="corners" style="display: flex;
+    align-items: center;">
+                <div>
+                  <i class="material-icons" style="color: #6b016b; margin-right: 10px;">flag</i>
+                </div>
+                <div>
+                  <p>{{actionItem.descripcion}}</p>
+                  {{#each actionItem.responsables as |responsable|}}
+                    <p class="responsable-item" style="margin-top:0px">{{responsable.name}}</p>
+                  {{/each}}
+                </div>
+              </div>
+              <br/>
+            {{/each}}
+          </div>
+
+          <br/>
+          {{#if (not agregarItem)}}
+            <span class="flex-center justify-center" {{action "agregarActionItem"}} >
             <i class="material-icons primary-color pointer">add_circle</i>
             <h6 class="primary-color add-tema cursor pointer">AGREGAR ACTION ITEM</h6>
           </span>
-        {{else}}
+          {{else}}
 
-          {{add-action-item
-            tema=temaDeMinuta
-            alCancelar=(action 'ocultarAgregadoActionItem')
-            model=model
-            alGuardarYCrearOtro=(action 'guardarYCrearOtro')
-            alSoloGuardar=(action 'soloGuardar')
-          }}
-        {{/if}}
-        <div class="relative-position-button">
-          <button class="colapse-button" onclick={{action "ocultarDetalleDeTema" temaDeMinuta}}>
-            <i class="material-icons">unfold_less</i>
-          </button>
+            {{add-action-item
+              tema=temaDeMinuta
+              alCancelar=(action 'ocultarAgregadoActionItem')
+              model=model
+              alGuardarYCrearOtro=(action 'guardarYCrearOtro')
+              alSoloGuardar=(action 'soloGuardar')
+            }}
+          {{/if}}
+          <div class="relative-position-button">
+            <button class="colapse-button" onclick={{action "ocultarDetalleDeTema" temaDeMinuta}}>
+              <i class="material-icons">unfold_less</i>
+            </button>
+          </div>
         </div>
       {{/if}}
     </div>
