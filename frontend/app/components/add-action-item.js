@@ -6,16 +6,6 @@ import TemaDeMinutaServiceInjected from "../mixins/tema-de-minuta-service-inject
 
 export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaServiceInjected, NavigatorInjected, UserServiceInjected,{
 
-  usuarios: Ember.computed('model.usuarios', 'actionItemEnCreacion.responsables' , function() {
-      var todosLosUsuarios = this.get('model.usuarios');
-      var usuariosSeleccionados = this.get('actionItemEnCreacion.responsables');
-      return todosLosUsuarios.filter(function (usuario) {
-        return !usuariosSeleccionados.some(function (seleccionado) {
-          return usuario.id === seleccionado.id;
-        });
-      });
-    }),
-
   guardarHabilitado: Ember.computed('actionItemEnCreacion.descripcion', 'actionItemEnCreacion.responsables', function () {
     var descripcion = this.get('actionItemEnCreacion.descripcion');
     var responsables = this.get('actionItemEnCreacion.responsables');

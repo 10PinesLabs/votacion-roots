@@ -1,20 +1,6 @@
 <div class="card-panel">
   <a class="btn-floating waves-effect waves-light purple right"  {{action 'borrarActionItem' unAction-item }}><i class="material-icons ">close</i></a>
 
-  <div >
-    {{tenpines/input-text label="descripción" value=unAction-item.descripcion}}
-  </div>
-  <div class="action-item-list">
-    {{#power-select-multiple
-      options=usuariosSeleccionables
-      selected=unAction-item.responsables
-      searchField="name"
-      placeholder="Seleccione los responsables del action item"
-      noMatchesMessage="No more pinos"
-      onchange=(action (mut unAction-item.responsables))
-    as |usuario|
-    }}
-      {{usuario.name}}
-    {{/power-select-multiple}}
-  </div>
+  {{selector-y-descripcion-action-item usuariosParaListar=usuarios actionItem=unAction-item}}
+
 </div>
