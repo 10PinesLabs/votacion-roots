@@ -10,68 +10,68 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
     return false;
   }),
 
-  mostrarBotonAdd:Ember.computed('mostrarBotonAdd', function(){
+  mostrarBotonAdd: Ember.computed('mostrarBotonAdd', function () {
     var agregarItem = this.get('agregarItem');
-    if(agregarItem){
+    if (agregarItem) {
       return "hidden";
-    }else{
+    } else {
       return "";
     }
   }),
 
   emptyActionItem: Ember.Object.extend().create({
-      descripcion: "",
-      responsables: [],
-    }),
+    descripcion: "",
+    responsables: [],
+  }),
 
-  agregarItem: Ember.computed('agregarItem', function(){
+  agregarItem: Ember.computed('agregarItem', function () {
     return false;
   }),
 
-  usuarios: Ember.computed('model.usuarios', function(){
+  usuarios: Ember.computed('model.usuarios', function () {
     return this.get('model.usuarios');
   }),
 
   actions: {
-    verDetalleDeTema(tema){
+    verDetalleDeTema(tema) {
       return this._mostrarDetalle(tema);
     },
 
-    ocultarDetalleDeTema(tema){
+    ocultarDetalleDeTema(tema) {
       return this._ocultarDetalle(tema);
     },
 
-    agregarActionItem(){
+    agregarActionItem() {
       this._agregarNuevoActionItem();
     },
 
-    ocultarAgregadoActionItem(){
-      this.set('agregarItem',false);
+    ocultarAgregadoActionItem() {
+      this.set('agregarItem', false);
     },
 
-    soloGuardar(actionItem){
+    soloGuardar(actionItem) {
+      this._guardar(actionItem).then(()=> this._recargarLista());
+    },
+
+    guardarYCrearOtro(actionItem) {
       this._guardar(actionItem);
-    },
-
-    guardarYCrearOtro(){
-      this._guardar();
       this._agregarNuevoActionItem();
     },
 
   },
-  _mostrarDetalle(tema){
+  _mostrarDetalle(tema) {
     var indiceClickeado = this.get('model.minuta.temas').indexOf(tema);
     this.set('indiceSeleccionado', indiceClickeado);
     this.set('mostrarDetalle', true);
   },
 
-  _ocultarDetalle(tema){
+  _ocultarDetalle(tema) {
     var indiceClickeado = this.get('model.minuta.temas').indexOf(tema);
     this.set('indiceSeleccionado', indiceClickeado);
     this.set('mostrarDetalle', false);
   },
 
-  _guardar(actionItem){
+  _guardar(actionItem) {
     this.get('temaDeMinuta').actionItems.pushObject(actionItem);
 
     var tema = this.get('temaDeMinuta');
@@ -80,19 +80,15 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
       delete actionItem.usuariosSeleccionables;
     });
 
-    this.temaDeMinutaService().updateTemaDeMinuta(tema)
-      .then(() => {
-        this._recargarLista();
-      });
-
+    return this.temaDeMinutaService().updateTemaDeMinuta(tema);
   },
 
   _recargarLista() {
     this.get('router').refresh();
   },
 
-  _agregarNuevoActionItem(){
-    this.set('agregarItem',true);
+  _agregarNuevoActionItem() {
+    this.set('agregarItem', true);
     this.rerender();
   },
 
