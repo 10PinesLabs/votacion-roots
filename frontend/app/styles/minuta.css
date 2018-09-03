@@ -49,7 +49,7 @@
   top: 20px;
 }
 
-.circle-button {
+.colapse-button {
   background-color: #EFEFEF;
   border-radius: 50%;
   height: 42px;
@@ -58,6 +58,10 @@
   justify-content: center;
   border: 2px solid #EFEFEF;
   box-shadow: 1px 1px lightgrey;
+}
+
+.colapse-button:focus{
+  background-color: lightgrey;
 }
 
 .view-tema-subtitle{
