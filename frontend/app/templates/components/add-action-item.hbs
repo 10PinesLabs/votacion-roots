@@ -15,7 +15,7 @@
         searchField="name"
         placeholder="Seleccione los responsables"
         noMatchesMessage="No more pinos"
-        onchange=(action (mut responsables))
+        onchange=(action (mut actionItemEnCreacion.responsables))
       as |usuario|
       }}
         {{usuario.name}}
