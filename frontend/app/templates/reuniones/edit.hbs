@@ -1,4 +1,4 @@
-{{vot-star temasVotados=temasVotados updatingVotos=updatingVotos}}
+{{vot-star temasVotados=temasVotados}}
 
 <div class="container w-650">
   <div class="title-container">
@@ -59,7 +59,7 @@
 
                 {{#unless (or tema.esObligatorio or estaCerrada)}}
 
-                  <button type="button" {{action 'sumarVoto' tema}} class="btn-flat bold btn" disabled={{votarDisabled}}>
+                  <button type="button" id="agregar-button" {{action 'sumarVoto' tema}} class="btn-flat bold btn" disabled={{votarDisabled}}>
 
                     <div class="flex-center">
                       {{#repetir-pedazo class="flex-center" veces=tema.cantidadVotosPropios}}
@@ -78,8 +78,8 @@
                   </button>
 
                   {{#if tema.tieneVotos}}
-                    <button class="btn-flat noPadding w-46 noHover ml-5"  {{action 'restarVoto' tema}} disabled={{votarDisabled}}>
-                      <i class="material-icons primary-color menus-button" id="minus-button" >
+                    <button class="btn noPadding w-46 noHover ml-5" id="quitar-button" {{action 'restarVoto' tema}} disabled={{votarDisabled}}>
+                      <i class="material-icons primary-color menus-button" id="quitar-icon" >
                         indeterminate_check_box</i>
                     </button>
 
