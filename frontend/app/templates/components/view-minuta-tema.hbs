@@ -40,23 +40,16 @@
               <br/>
             {{/each}}
           </div>
-
           <br/>
-          {{#if (not agregarItem)}}
-            <span class="flex-center justify-center" {{action "agregarActionItem"}} >
-            <i class="material-icons primary-color pointer">add_circle</i>
-            <h6 class="primary-color add-tema cursor pointer">AGREGAR ACTION ITEM</h6>
-          </span>
-          {{else}}
-
-            {{add-action-item
-              tema=temaDeMinuta
-              alCancelar=(action 'ocultarAgregadoActionItem')
-              model=model
-              alGuardarYCrearOtro=(action 'guardarYCrearOtro')
-              alSoloGuardar=(action 'soloGuardar')
-            }}
-          {{/if}}
+          {{add-action-item
+            tema=temaDeMinuta
+            alCancelar=(action 'ocultarAgregadoActionItem')
+            model=model
+            alGuardarYCrearOtro=(action 'guardarYCrearOtro')
+            alSoloGuardar=(action 'soloGuardar')
+            agregarActionItem=(action 'agregarActionItem')
+            agregarItem = agregarItem
+          }}
           <div class="relative-position-button">
             <button class="colapse-button" onclick={{action "ocultarDetalleDeTema" temaDeMinuta}}>
               <i class="material-icons">unfold_less</i>

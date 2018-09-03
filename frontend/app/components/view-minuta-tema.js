@@ -50,7 +50,7 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
     },
 
     soloGuardar(actionItem) {
-      this._guardar(actionItem).then(()=> this._recargarLista());
+      this._guardar(actionItem).then(() => this._recargarLista());
     },
 
     guardarYCrearOtro(actionItem) {
