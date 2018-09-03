@@ -297,14 +297,12 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
   _agregarVoto(tema) {
     tema.agregarInteresado(this._idDeUsuarioActual());
     this._actualizarVotantesDelTema(tema);
-  }
-  ,
+  },
 
   _quitarVoto(tema) {
     tema.quitarInteresado(this._idDeUsuarioActual());
     this._actualizarVotantesDelTema(tema);
-  }
-  ,
+  },
 
   _actualizarVotantesDelTema(tema) {
     this.set('updatingVotos', true);
@@ -312,8 +310,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
     let index = temaPropuestos.indexOf(tema);
     temaPropuestos[index] = tema;
     this.set('reunion.temaPropuestos', temaPropuestos);
-  }
-  ,
+  },
 
   _quitarVotoDeTema(tema) {
     this._quitarVoto(tema);
@@ -346,8 +343,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
       return !tema.get('esDeUnTemaGeneral');
     });
     reunion.set('temasPropuestos', temasFiltrados);
-  }
-  ,
+  },
 
   _cerrarReunion() {
     var reunion = this.get('reunion');
@@ -355,8 +351,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
       .then((cerrada) => {
         this._actualizarreunionCon(cerrada);
       });
-  }
-  ,
+  },
 
   _reabrirReunion() {
     var reunion = this.get('reunion');
@@ -364,29 +359,25 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
       .then((abierta) => {
         this._actualizarreunionCon(abierta);
       });
-  }
-  ,
+  },
 
   _actualizarreunionCon(reunion) {
     this._usarInstanciasDeTemas(reunion, this.get('usuarioActual'));
     this._filtrarTemasGeneradosPorTemasGenerales(reunion);
     this.set('model.reunion', reunion);
-  }
-  ,
+  },
 
   _siNoEstaCerrada(accion) {
     if (!this.get('estaCerrada')) {
       accion.call(this);
     }
-  }
-  ,
+  },
 
   _quitarTema(tema) {
     this._siNoEstaCerrada(function () {
       this._borrarTemaYRecargar(tema);
     });
-  }
-  ,
+  },
 
   _obligatoriedad(esObligatorio) {
     if (esObligatorio) {
@@ -396,5 +387,4 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
       return "NO_OBLIGATORIO";
     }
   }
-})
-;
+});
