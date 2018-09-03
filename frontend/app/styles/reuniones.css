@@ -175,14 +175,14 @@
 
 .the-lock .tool-tip-text {
   visibility: hidden;
-  width: 120px;
+  width: 130px;
   background-color: grey;
   color: #fff;
   text-align: center;
   padding: 5px 5px;
   border-radius: 6px;
   left: 50%;
-  margin-left: -60px;
+  margin-left: -65px;
   position: absolute;
   z-index: 1;
 }
