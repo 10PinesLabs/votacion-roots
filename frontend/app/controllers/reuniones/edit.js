@@ -39,7 +39,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
       return temasOrdenados;
     }),
 
-  temasVotados: Ember.computed('reunion.temasVotados', function () {
+  temasVotados: Ember.computed('reunion.temaPropuestos', 'reunion.temasVotados', function () {
     let usuarioId = this.model.usuarioActual.id;
     let todosLosTemas = this.get('reunion.temasPropuestos');
     let temasVotados = todosLosTemas.filter(function (tema) {
@@ -71,6 +71,18 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
       return id == usuarioId
     }).length - 1;
   },
+
+  votosOpacity: Ember.computed('updatingVotos', function () {
+    if (this.get('updatingVotos')) {
+      return "opacity-35";
+    }
+  }),
+
+  votarDisabled: Ember.computed('votarDisabled', 'updatingVotos', function () {
+    if (this.get('updatingVotos')) {
+      return "disabled";
+    }
+  }),
 
   estaCerrada:
     Ember.computed('reunion.status', function () {
@@ -127,10 +139,12 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
       cerrarEditorDeTemaNuevo() {
         this.set('mostrandoFormularioXTemaNuevo', false);
       },
+
       cerrarEditorDeTema() {
-        this.set('mostrandoFormularioDeEdicion', false);
+        this._ocultarEditorDeTema();
         this._recargarReunion();
       },
+
       restarVoto(tema) {
         this._siNoEstaCerrada(function () {
           this._quitarVotoDeTema(tema);
@@ -198,6 +212,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
       borrarTemaElegido(temaABorrar) {
         delete this.temaABorrar; // Desreferenciamos el objeto
         this._quitarTema(temaABorrar);
+        this._ocultarEditorDeTema();
       },
       editarFecha() {
         this._siNoEstaCerrada(function () {
@@ -219,6 +234,10 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
       }
     },
 
+  _ocultarEditorDeTema() {
+    this.set('mostrandoFormularioDeEdicion', false);
+  },
+
   _traerDuraciones() {
     return this.duracionesService().getAll().then((duraciones) => {
       this.set('duraciones', duraciones);
@@ -233,7 +252,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
   },
 
   _recargarReunion() {
-    this.reunionService().getReunion(this._idDeReunion()).then((reunion) => {
+    return this.reunionService().getReunion(this._idDeReunion()).then((reunion) => {
       this._actualizarreunionCon(reunion);
     });
   },
@@ -268,17 +287,44 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
   },
 
   _votarPorTema(tema) {
+    this._agregarVoto(tema);
+    this.temaService().votarTema(tema.id).then(() => this._recargarTemas(), () => {
+      this._quitarVoto(tema);
+      this.set('updatingVotos', false);
+    })
+  },
+
+  _agregarVoto(tema) {
     tema.agregarInteresado(this._idDeUsuarioActual());
-    this.temaService().votarTema(tema.id).then(() => {
-      this._recargarReunion();
-    });
+    this._actualizarVotantesDelTema(tema);
+  },
+
+  _quitarVoto(tema) {
+    tema.quitarInteresado(this._idDeUsuarioActual());
+    this._actualizarVotantesDelTema(tema);
+  },
+
+  _actualizarVotantesDelTema(tema) {
+    this.set('updatingVotos', true);
+    let temaPropuestos = this.get('reunion.temasPropuestos');
+    let index = temaPropuestos.indexOf(tema);
+    temaPropuestos[index] = tema;
+    this.set('reunion.temaPropuestos', temaPropuestos);
   },
 
   _quitarVotoDeTema(tema) {
-    tema.quitarInteresado(this._idDeUsuarioActual());
-    this.temaService().quitarVotoTema(tema.id).then(() => {
-      this._recargarReunion();
-    });
+    this._quitarVoto(tema);
+    this.temaService().quitarVotoTema(tema.id).then(() => this._recargarTemas(), () => {
+        this._agregarVoto(tema);
+        this.set('updatingVotos', false);
+      }
+    );
+  },
+
+  _recargarTemas() {
+    this._recargarReunion().then(() =>
+      this.set('updatingVotos', false)
+    )
   },
 
   _usarInstanciasDeTemas(reunion, usuarioActual) {
@@ -289,7 +335,8 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
       var tema = Tema.create(objetoEmber);
       temasPropuestos[i] = tema;
     }
-  },
+  }
+  ,
 
   _filtrarTemasGeneradosPorTemasGenerales(reunion) {
     var temasFiltrados = reunion.get('temasPropuestos').filter(function (tema) {
