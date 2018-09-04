@@ -1,0 +1,28 @@
+{{#if (not agregarItem)}}
+  <span class="flex-center justify-center" {{action agregarActionItem}} >
+            <i class="material-icons primary-color pointer">add_circle</i>
+            <h6 class="primary-color add-tema cursor pointer">AGREGAR ACTION ITEM</h6>
+          </span>
+{{else}}
+  <div class="card">
+    <div class="card-content">
+
+        <span class="card-title" style="display:flex; align-items:center; justify-content:flex-start">
+          <i class="material-icons primary-color">flag</i>
+          <h4 class="bold" style="margin-left:10px">Nuevo Action Item</h4>
+        </span>
+      {{selector-y-descripcion-action-item usuariosParaListar=model.usuarios actionItem=actionItemEnCreacion}}
+    </div>
+    <div class="card-content" style="display: flex;
+    flex-direction: row-reverse;">
+      <button type="button" class="btn-flat bold btn {{guardarHabilitado}}"
+              onclick={{ action 'limpiarDespuesDe' (action alGuardarYCrearOtro actionItemEnCreacion)}}>GUARDAR Y CREAR
+        OTRO
+      </button>
+      <button type="button" class="btn-flat bold border-btn {{guardarHabilitado}}"
+              onclick={{action 'limpiarDespuesDe' (action alSoloGuardar actionItemEnCreacion)}}>SOLO GUARDAR
+      </button>
+      <button type="button" class="btn-flat bold" onclick={{action alCancelar}}>CANCELAR</button>
+    </div>
+  </div>
+{{/if}}

@@ -6,19 +6,30 @@
 @import 'toast';
 @import 'navigation-bar';
 @import 'reuniones';
+@import 'asistentes';
+@import 'minuta';
 @import 'creacion-edicion-tema';
 
 $primary-color: purple;
 $yellow-star: #FFCE54;
+$ember-power-select-placeholder-color: black !important;
 
 .ultimo-tema-style {
   border-bottom: dashed;
   border-bottom-color: $primary-color;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 .space-between {
   display: flex;
   justify-content: space-between;
+}
+
+.justify-center {
+  justify-content: center;
 }
 
 .flex-center {
@@ -108,6 +119,13 @@ $yellow-star: #FFCE54;
   color: white;
 }
 
+.border-btn {
+  border: 2px solid $primary-color;
+  color: $primary-color;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
 .btn:hover {
   background: #6b016b;
 }
@@ -118,8 +136,49 @@ input:not([type]):focus:not([readonly]), input[type=text]:focus:not([readonly]),
   box-shadow: 0 1px 0 0 $primary-color;
 }
 
+h4 {
+  font-size: 24px;
+}
+
+h5 {
+  font-size: 20px;
+}
+
 h6 {
   font-size: 16px;
+}
+
+.no-margin {
+  margin: 0px;
+}
+
+.action-item-list li {
+  background: $primary-color;
+  color: white;
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.mr-10 {
+  margin-right: 10px;
+}
+
+.mr-20 {
+  margin-right: 20px;
+}
+
+.ml-20 {
+  margin-left: 20px;
+}
+
+.mb-20 {
+  margin-bottom: 20px;
 }
 
 @import "ember-power-select";

@@ -1,0 +1,101 @@
+.minuta-title {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  margin: 20px;
+}
+
+.minuta-subtitle {
+  color: #EF5467;
+  font-weight: bold;
+}
+
+.minuta-date {
+  margin-left: 15px;
+}
+
+.minuta-body {
+  width: 80%;
+  margin:auto;
+  display:flex;
+}
+
+.minuta-count {
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  display: flex;
+  background: #EF5467;
+  color: white;
+  font-weight: bold;
+  margin-left: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.minuta-paragraph {
+  height: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-height: 1.20;
+  max-height: 70px;
+}
+.relative-position-button{
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+  top: 20px;
+}
+
+.colapse-button {
+  background-color: #EFEFEF;
+  border-radius: 50%;
+  height: 42px;
+  width: 42px;
+  display: flex;
+  justify-content: center;
+  border: 2px solid #EFEFEF;
+  box-shadow: 1px 1px lightgrey;
+}
+
+.colapse-button:focus{
+  background-color: lightgrey;
+}
+
+.minuta-action-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  border-radius: 4px;
+  border: 1px solid lightgrey;
+  width: 100%;
+  height: 100%;
+}
+
+.responsable-item {
+  background: purple;
+  color: white;
+  border-radius: 15px;
+  padding: 6px 10px 6px 15px;
+  font-size: 16px;
+  display: inline-flex;
+  margin-bottom: 5px;
+}
+
+.gray-subtitle {
+  font-weight: bold;
+  opacity: 0.7;
+}
+
+.white-text {
+  text-decoration: white;
+}
+
+.minuta-botom-tema {
+  padding: 15px 30px 20px 20px;
+  text-align: right;
+}
+
