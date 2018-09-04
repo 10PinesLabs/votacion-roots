@@ -40,6 +40,7 @@
             {{/each}}
           </div>
           <br/>
+          {{#if addActionItem}}
           {{add-action-item
             tema=temaDeMinuta
             alCancelar=(action 'ocultarAgregadoActionItem')
@@ -49,6 +50,7 @@
             agregarActionItem=(action 'agregarActionItem')
             agregarItem = agregarItem
           }}
+          {{/if}}
           <div class="relative-position-button">
             <button class="colapse-button" onclick={{action "ocultarDetalleDeTema" temaDeMinuta}}>
               <i class="material-icons">unfold_less</i>

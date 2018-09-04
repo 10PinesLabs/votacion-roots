@@ -17,6 +17,7 @@
 .minuta-body {
   width: 80%;
   margin:auto;
+  display:flex;
 }
 
 .minuta-count {
