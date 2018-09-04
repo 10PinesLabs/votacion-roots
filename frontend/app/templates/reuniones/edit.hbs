@@ -60,11 +60,11 @@
                 {{#unless estaCerrada}}
                   {{#unless tema.esObligatorio}}
 
-                    <button type="button" {{action 'sumarVoto' tema}} class="btn-flat bold btn">
+                    <button type="button" {{action 'sumarVoto' tema}} class="btn-flat bold btn" disabled={{votarDisabled}}>
 
                       <div class="flex-center">
                         {{#repetir-pedazo class="flex-center" veces=tema.cantidadVotosPropios}}
-                          <i class="material-icons yellow-text height-inherit">star</i>
+                          <i class="material-icons yellow-text height-inherit" {{votosOpacity}}>star</i>
                         {{/repetir-pedazo}}
 
                         <h6 class="bold">{{#if tema.tieneVotos}}
@@ -77,9 +77,8 @@
                     </button>
 
                     {{#if tema.tieneVotos}}
-                      <button class="btn-flat noPadding w-46 noHover ml-5" {{action 'restarVoto' tema}}>
-                        <i class="material-icons primary-color menus-button">
-                          indeterminate_check_box</i>
+                      <button class="btn-flat noPadding w-46 noHover ml-5" {{action 'restarVoto' tema}} disabled={{votarDisabled}}>
+                        <i class="material-icons primary-color menus-button">indeterminate_check_box</i>
                       </button>
 
                     {{/if}}

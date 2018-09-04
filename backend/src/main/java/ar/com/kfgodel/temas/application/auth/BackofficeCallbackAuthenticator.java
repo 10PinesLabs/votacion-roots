@@ -93,7 +93,7 @@ public abstract class BackofficeCallbackAuthenticator implements Function<WebCre
   }
 
     private Usuario actualizarEmail(Usuario user, BackofficeUserTo backofficeUser) {
-    if(!backofficeUser.email.equals(user.getMail())) {
+      if(!user.getMail().equals(backofficeUser.email)) {
           user.setMail(backofficeUser.email);
       }
       return user;
