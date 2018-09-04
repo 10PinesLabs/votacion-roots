@@ -12,12 +12,11 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
     }
   }),
 
-  noFueTratado: Ember.computed('temaDeMinuta.fueTratado', function(){
-    if(!this.get('temaDeMinuta.fueTratado')){
+  noFueTratado: Ember.computed('fueTratado', function(){
+    if(!this.get('fueTratado')){
       return "btn";
     }
   }),
-
 
   actions: {
     verEditorDeConclusion(tema) {
