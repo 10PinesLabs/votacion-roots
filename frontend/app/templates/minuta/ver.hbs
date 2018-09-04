@@ -5,15 +5,19 @@
   </div>
   <div class="minuta-body">
 
-    <div class="col s3 mr-20">
-
-      <h4>Asistentes</h4>
-      {{#each minuta.asistentes as |asistente|}}
-        <li class="asistente-pill purple white-text">
-          {{asistente.name}}
-        </li>
-      {{/each}}
-
+    <div class="col s3 mr-20" style="width:30%">
+      <h5>Asistentes</h5>
+      <ul>
+        {{#each minuta.asistentes as |usuario|}}
+          <li>
+            <div class="asistente-pill purple white-text">
+              <span>
+                {{usuario.name}}
+              </span>
+            </div>
+          </li>
+        {{/each}}
+      </ul>
     </div>
 
     <div class="col s9" style="width:100%">
