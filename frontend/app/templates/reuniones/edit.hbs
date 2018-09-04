@@ -35,10 +35,15 @@
         {{#if (or mostrarObligatorios (not tema.esObligatorio))}}
 
           <tr bgcolor='white'>
-
-            <div class="tema-content">
+            {{#if tema.esObligatorio}}
+              <div class="the-lock lock-margin right clickable">
+                <i class="material-icons opacity-20">lock</i>
+                <span class="tool-tip-text">Tema obligatorio</span>
+              </div>
+            {{/if}}
+            <div class="temaContent">
               <td class="noPadding">
-                <h5 class="titulo-de-tema">{{tema.titulo}}</h5>
+                  <h5 class="titulo-de-tema">{{tema.titulo}}</h5>
                 <p class="crop">{{markdown-view value=tema.descripcion}}</p>
               </td>
             </div>
