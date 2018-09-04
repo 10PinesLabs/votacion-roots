@@ -10,11 +10,6 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
     return false;
   }),
 
-  emptyActionItem: Ember.Object.extend().create({
-    descripcion: "",
-    responsables: [],
-  }),
-
   agregarItem: Ember.computed('agregarItem', function () {
     return false;
   }),
