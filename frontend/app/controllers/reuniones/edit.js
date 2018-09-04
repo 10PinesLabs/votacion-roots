@@ -68,7 +68,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
 
   _votosRepetidosPor: function (tema, usuarioId) {
     return tema.idsDeInteresados.filter(function (id) {
-      return id == usuarioId;
+      return id === usuarioId;
     }).length - 1;
   },
 
@@ -178,26 +178,30 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
       },
 
       agregarTema() {
-        this._guardarTemaYRecargar();
-        this.cerrarModalTema();
+        this._guardarTemaYRecargar().then(() => {
+          this.cerrarModalTema();
+        });
       },
 
       updatearTemaConfirmado() {
         this.set('temaAEditar.idsDeInteresados', []);
-        this._updatearTemaYRecargar();
+        this._updatearTemaYRecargar().then(() => {
+          this.cerrarModalTema();
+        });
       },
 
       updatearTema() {
         var tema = this.get('temaAEditar');
 
         tema.set('obligatoriedad', this._obligatoriedad(this.get('esObligatorio')));
-        this.cerrarModalTema();
         
         if (this.get('temaAEditar.obligatoriedad') === 'OBLIGATORIO' && this.get('obligatoriedadPasada') === 'NO_OBLIGATORIO') {
           this.set('modalDeCambioDeObligatoriedadAbierto', true);
         }
         else {
-          this._updatearTemaYRecargar();
+          this._updatearTemaYRecargar().then(() => {
+            this.cerrarModalTema();
+          });
         }
       },
 
@@ -263,7 +267,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
 
   _updatearTemaYRecargar: function () {
     var tema = this.get('temaAEditar');
-    this.temaService().updateTema(tema).then(() => {
+    return this.temaService().updateTema(tema).then(() => {
       this.set('mostrandoFormularioDeEdicion', false);
       this._recargarReunion();
     });
@@ -271,7 +275,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
   _guardarTemaYRecargar: function () {
     var tema = this.get('nuevoTema');
     tema.obligatoriedad = this._obligatoriedad(this.get('esObligatorio'));
-    this.temaService().createTema(tema).then(() => {
+    return this.temaService().createTema(tema).then(() => {
       this.set('mostrandoFormularioXTemaNuevo', false);
       this._recargarReunion();
     });
