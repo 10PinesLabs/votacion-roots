@@ -6,15 +6,19 @@ import UserServiceInjected from "../mixins/user-service-injected";
 
 export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaServiceInjected, NavigatorInjected, UserServiceInjected, {
 
-  fueTratado: Ember.computed('temaDeMinuta.fueTratado', function(){
+  btnColorSi: Ember.computed('temaDeMinuta.fueTratado', function(){
     if(this.get('temaDeMinuta.fueTratado')){
       return "btn";
+    }else{
+      return "";
     }
   }),
 
-  noFueTratado: Ember.computed('fueTratado', function(){
-    if(!this.get('fueTratado')){
+ btnColorNo: Ember.computed('btnColorSi', function(){
+    if(!this.get('btnColorSi')){
       return "btn";
+    }else{
+      return "";
     }
   }),
 
