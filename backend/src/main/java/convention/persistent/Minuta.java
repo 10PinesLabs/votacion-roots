@@ -41,7 +41,8 @@ public class Minuta extends PersistableSupport {
                 .map(temaDeReunion -> TemaDeMinuta.create(temaDeReunion, nuevaMinuta))
                 .collect(Collectors.toList());
         nuevaMinuta.setTemas(temas);
-        nuevaMinuta.asistentes = reunion.usuariosQueVotaron();
+        nuevaMinuta.asistentes = new ArrayList<>();
+        nuevaMinuta.asistentes.addAll(reunion.usuariosQueVotaron().stream().distinct().collect(Collectors.toList()));
         return nuevaMinuta;
     }
 

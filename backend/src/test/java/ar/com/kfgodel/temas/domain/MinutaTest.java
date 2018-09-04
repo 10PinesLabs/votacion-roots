@@ -18,21 +18,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class MinutaTest {
 
     @Test
-    public void test01UnaMinutaNuevaNoTieneAsistentesSiNingunTemaFueVotado(){
+    public void test01UnaMinutaNuevaNoTieneAsistentesSiNingunTemaFueVotado() {
         Reunion reunion = Reunion.create(LocalDate.of(2017, 06, 26));
         Minuta minuta = Minuta.create(reunion);
         assertThat(minuta.getAsistentes()).hasSize(0);
     }
 
     @Test
-    public void test02UnaMinutaNuevaTieneComoAsistentesALosVotantesDeLosTemas(){
+    public void test02UnaMinutaNuevaTieneComoAsistentesALosVotantesDeLosTemas() {
         Reunion reunion = Reunion.create(LocalDate.of(2017, 06, 26));
         TemaDeReunion unTema = TemaDeReunion.create();
-        Usuario unVotante = Usuario.create("Juan","Juan","juan","88","juan@10pines.com");
-        unTema.setInteresados(Arrays.asList(unVotante));
+        Usuario unVotante = Usuario.create("Juan", "Juan", "juan", "88", "juan@10pines.com");
+        unTema.setInteresados(Arrays.asList(unVotante, unVotante, unVotante));
         reunion.setTemasPropuestos(Arrays.asList(unTema));
         Minuta minuta = Minuta.create(reunion);
 
         assertThat(minuta.getAsistentes()).contains(unVotante);
+        assertThat(minuta.getAsistentes()).hasSize(1);
     }
 }
