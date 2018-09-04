@@ -36,11 +36,12 @@ public class Minuta extends PersistableSupport {
 
     public static Minuta create(Reunion reunion) {
         Minuta nuevaMinuta = new Minuta();
-        nuevaMinuta.asistentes = new ArrayList<>();
-        nuevaMinuta.reunion=reunion;
-        List<TemaDeMinuta> temas=reunion.getTemasPropuestos().stream()
-                .map(temaDeReunion -> TemaDeMinuta.create(temaDeReunion,nuevaMinuta)).collect(Collectors.toList());
+        nuevaMinuta.reunion = reunion;
+        List<TemaDeMinuta> temas = reunion.getTemasPropuestos().stream()
+                .map(temaDeReunion -> TemaDeMinuta.create(temaDeReunion, nuevaMinuta))
+                .collect(Collectors.toList());
         nuevaMinuta.setTemas(temas);
+        nuevaMinuta.asistentes = reunion.usuariosQueVotaron();
         return nuevaMinuta;
     }
 
@@ -48,25 +49,25 @@ public class Minuta extends PersistableSupport {
         return reunion.getFecha();
     }
 
-    public List<TemaDeMinuta> getTemas(){
+    public List<TemaDeMinuta> getTemas() {
         return temas;
     }
 
     public void setTemas(List<TemaDeMinuta> temas) {
-        if(this.temas == null) {
+        if (this.temas == null) {
             this.temas = temas;
-        }else{
+        } else {
             this.temas.clear();
             this.temas.addAll(temas);
         }
 
     }
 
-    public Reunion getReunion(){
+    public Reunion getReunion() {
         return reunion;
     }
 
-    public void setReunion(Reunion reunion){
+    public void setReunion(Reunion reunion) {
         this.reunion = reunion;
     }
 
