@@ -6,13 +6,9 @@ import UserServiceInjected from "../mixins/user-service-injected";
 
 export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaServiceInjected, NavigatorInjected, UserServiceInjected, {
 
-  mostrarDetalle: Ember.computed('mostrarDetalle', function () {
-    return false;
-  }),
+  mostrarDetalle: false,
 
-  agregarItem: Ember.computed('agregarItem', function () {
-    return false;
-  }),
+  agregarItem: false,
 
   usuarios: Ember.computed('model.usuarios', function () {
     return this.get('model.usuarios');
