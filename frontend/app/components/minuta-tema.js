@@ -28,14 +28,9 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
       this._ocultarEditor();
     },
 
-    setTratado(tema){
-      this.set('temaDeMinuta.fueTratado', true);
-      this._mostrarEditor(tema);
-    },
-
-    setNoTratado(tema){
-      this.set('temaDeMinuta.fueTratado', false);
-      this._mostrarEditor(tema);
+    setTratado(fueTratado){
+      this.set('temaDeMinuta.fueTratado', fueTratado);
+      this._mostrarEditor();
     },
 
     guardarConclusion() {
