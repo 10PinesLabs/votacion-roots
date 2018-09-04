@@ -10,15 +10,6 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
     return false;
   }),
 
-  mostrarBotonAdd: Ember.computed('mostrarBotonAdd', function () {
-    var agregarItem = this.get('agregarItem');
-    if (agregarItem) {
-      return "hidden";
-    } else {
-      return "";
-    }
-  }),
-
   emptyActionItem: Ember.Object.extend().create({
     descripcion: "",
     responsables: [],
