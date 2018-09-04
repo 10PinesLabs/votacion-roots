@@ -17,6 +17,7 @@
 .minuta-body {
   width: 80%;
   margin:auto;
+  display:flex;
 }
 
 .minuta-count {
@@ -87,6 +88,10 @@
 .gray-subtitle {
   font-weight: bold;
   opacity: 0.7;
+}
+
+.white-text {
+  text-decoration: white;
 }
 
 .minuta-botom-tema {
