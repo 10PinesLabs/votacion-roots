@@ -8,6 +8,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
 
   esObligatorio: false,
   mostrarObligatorios: false,
+  visibilidadCardDeTema: false,
 
   fechaDeReunion: Ember.computed('reunion.fecha', function () {
       let fecha = this.reunion.fecha;
@@ -123,6 +124,10 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
       },
       seleccionarDuracion(duracion) {
         this.set('nuevoTema.duracion', duracion);
+      },
+
+      cerrarModalTema(){
+        this.set('visibilidadCardDeTema', false);
       },
 
       cerrarEditorDeTemaNuevo() {
@@ -369,12 +374,10 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
   },
 
   mostrarModalTema(){
-    let modal = document.getElementById('myModal');
-    modal.style.display = "block";
+    this.set('visibilidadCardDeTema', true);
   },
 
   cerrarModalTema(){
-    let modal = document.getElementById('myModal');
-    modal.style.display = "none";
+    this.set('visibilidadCardDeTema', false);
   }
 });

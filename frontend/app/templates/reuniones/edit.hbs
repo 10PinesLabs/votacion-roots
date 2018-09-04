@@ -108,7 +108,11 @@
   </div>
 
   {{#unless estaCerrada}}
-    <div id="myModal" class="modal-tema">
+    {{#if visibilidadCardDeTema}}
+      <div class="modal-background" {{action 'cerrarEditorDeTemaNuevo'}}>
+        HolaAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+      </div>
+      <div id="myModal" class="modal-tema">
         {{#if mostrandoFormularioDeEdicion}}
           {{editor-de-tema titulo='Modificar Propuesta' tema=temaAEditar nombreDeDuraciones=nombreDeDuraciones
                            duraciones=duraciones cerrarEditor=(action 'cerrarEditorDeTema')
@@ -121,7 +125,8 @@
                            alGuardar=(action 'agregarTema')  esObligatorio=esObligatorio
                            seleccionarDuracion=(action 'seleccionarDuracion') classNames='col s11'}}
         {{/if}}
-    </div>
+      </div>
+    {{/if}}
   {{/unless}}
 
 </div>
