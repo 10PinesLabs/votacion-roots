@@ -7,8 +7,11 @@ import UserServiceInjected from "../../mixins/user-service-injected";
 export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServiceInjected, NavigatorInjected, UserServiceInjected, {
 
   temasPendientes: Ember.computed('model.minuta', function () {
-    var temas = this.get('model.minuta').temas;
-    return temas.filter(tema => tema.fueTratado === false).length;
+    return  this.get('model.minuta').temas.filter(tema => !tema.fueTratado);
+  }),
+
+  temasTratados: Ember.computed('model.minuta', function () {
+    return  this.get('model.minuta').temas.filter(tema => tema.fueTratado);
   }),
 
   router: Ember.computed('target.router', function () {
@@ -102,6 +105,7 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
 
       this.guardarUsuariosSeleccionados();
     },
+  },
 
     guardarUsuariosSeleccionados() {
       this.set('model.minuta.asistentes', this.get('usuariosSeleccionados'));
@@ -117,7 +121,6 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
       listaOrigen.removeObject(usuario);
       this.set(nombreListaOrigen, listaOrigen);
     },
-  },
 
   anchoDeTabla: 's12',
 

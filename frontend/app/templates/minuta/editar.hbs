@@ -6,50 +6,63 @@
   <div class="minuta-body">
     <div class="col s3">
 
-      <h5>Asistentes</h5>
+      <h5 class="center">Asistentes</h5>
+      <ul>
+        {{#each usuariosSeleccionados as |usuario|}}
+          <li>
+            <div class="asistente-pill">
+              <button type="button" id="close-button" onclick={{action 'quitarAsistente' usuario}}>
+                <i class="material-icons" id="close-icon">close</i>
+              </button>
+              <span>
+                {{usuario.name}}
+              </span>
+            </div>
+          </li>
+        {{/each}}
+      </ul>
 
-      {{#power-select-multiple
-        options=usuariosSeleccionables
-        selected=usuariosSeleccionados
-        searchField="name"
-        placeholder="Seleccione los asistentes a la reunión"
-        noMatchesMessage="No more pinos"
-        onchange=(action (mut usuariosSeleccionados))
-      as |usuario|
-      }}
-        {{usuario.name}}
-      {{/power-select-multiple}}
-      <div class="card-action center-align con-padding">
-        <a class="waves-effect waves-light btn" onclick={{action 'guardarUsuariosSeleccionados'}}
-           type="button">Agregar</a>
+      <div class="selector-asistente">
+        {{#power-select
+          options=usuariosSeleccionables
+          searchField="name"
+          placeholder="Seleccione a los asistentes"
+          noMatchesMessage="No more pinos"
+          onchange=(action 'agregarAsistente')
+        as |usuario|
+        }}
+          {{usuario.name}}
+        {{/power-select}}
       </div>
 
     </div>
-
     <div class="col s9">
       <div class="flex-center">
-        <h4 class="minuta-subtitle no-margin">Temas pendientes de minutear</h4>
-        <h6 class="minuta-count">{{temasPendientes}}</h6>
+        <h4 class="minuta-subtitle no-margin">Temas no tratados a minutear</h4>
+        <h6 class="minuta-count">{{temasPendientes.length}}</h6>
       </div>
       <table class="bordered highlight table">
         <tbody>
-        {{#each  minuta.temas as |temaDeMinuta|}}
+        {{#each  temasPendientes as |temaDeMinuta|}}
           <tr>
             {{minuta-tema model=model temaDeMinuta=temaDeMinuta router=router}}
           </tr>
         {{/each}}
-
         </tbody>
-
       </table>
 
-
       <div>
-        <h5>Temas tratados</h5>
+        <h4 class="minuta-subtitle no-margin" style="color:#68BD44;">Temas tratados</h4>
       </div>
-      <div>
-        <h5>Temas dejados afuera</h5>
-      </div>
+      <table class="bordered highlight table">
+        <tbody>
+        {{#each  temasTratados as |tema|}}
+          <tr>
+            {{view-minuta-tema model=model temaDeMinuta=tema router=router}}
+          </tr>
+        {{/each}}
+        </tbody>
+      </table>
 
       <div id="toast">
         <i class="material-icons" id="img">email</i>

@@ -6,6 +6,22 @@ import UserServiceInjected from "../mixins/user-service-injected";
 
 export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaServiceInjected, NavigatorInjected, UserServiceInjected, {
 
+  btnColorSi: Ember.computed('temaDeMinuta.fueTratado', function(){
+    if(this.get('temaDeMinuta.fueTratado')){
+      return "btn";
+    }else{
+      return "";
+    }
+  }),
+
+ btnColorNo: Ember.computed('btnColorSi', function(){
+    if(!this.get('btnColorSi')){
+      return "btn";
+    }else{
+      return "";
+    }
+  }),
+
   actions: {
     verEditorDeConclusion(tema) {
       this._mostrarEditorDeConclusion(tema);
@@ -15,21 +31,18 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
       this._ocultarEditor();
     },
 
-    guardarConclusion(fueTratado) {
-      debugger;
-      this.set('temaDeMinuta.fueTratado', true)
+    setTratado(fueTratado){
+      this.set('temaDeMinuta.fueTratado', fueTratado);
+      this._mostrarEditor();
+    },
+
+    guardarConclusion() {
       var tema = this.get('temaDeMinuta');
       tema.actionItems.forEach((actionItem) => {
         delete actionItem.usuarios;
         delete actionItem.usuariosSeleccionables;
       });
-
-      this.temaDeMinutaService().updateTemaDeMinuta(tema)
-        .then(() => {
-          this._recargarLista();
-
-          this._ocultarEditor();
-        });
+      this._updateTema(tema);
     }
   },
   _mostrarEditorDeConclusion(tema) {
@@ -49,5 +62,13 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
   },
   _recargarLista() {
     this.get('router').refresh();
+  },
+  _updateTema(tema){
+    this.temaDeMinutaService().updateTemaDeMinuta(tema)
+      .then(() => {
+        this._recargarLista();
+
+        this._ocultarEditor();
+      });
   },
 });

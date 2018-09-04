@@ -1,0 +1,12 @@
+<div class="action-item-description">
+  {{tenpines/input-text label="Descripción" value=actionItem.descripcion}}
+</div>
+<div class="action-item-list">
+  {{#power-select-multiple options=usuariosSeleccionables selected=actionItem.responsables
+    searchField="name" placeholder="Seleccione los responsables" noMatchesMessage="No more pinos" onchange=(action (mut actionItem.responsables))
+  as |usuario|
+  }}
+    {{usuario.name}}
+  {{/power-select-multiple}}
+</div>
+

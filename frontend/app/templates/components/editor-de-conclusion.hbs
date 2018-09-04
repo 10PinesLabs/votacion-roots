@@ -1,27 +1,30 @@
-<div class="card">
-  <div class="card-content">
+<div class="mb-20">
+  <div class="tema-content">
         <span class="card-title">
           <h4 class="bold">{{temaDeMinuta.tema.titulo}}</h4>
         </span>
-    <h5 class="bold opacity-70">Conclusiones</h5>
+    <h5 class="gray-subtitle">Conclusiones</h5>
     {{text-area value=temaDeMinuta.conclusion}}
 
   </div>
   <div class="card-action">
-    <div class="flex-center">
-      <i class="material-icons opacity-20">flag</i>
-      <h5 class="opacity-70 ml-10 bold">Action Items</h5>
+    <div class="divider"></div>
+    <div class="tema-content mb-20">
+      <div class="flex-center">
+        <i class="material-icons opacity-20">flag</i>
+        <h5 class="gray-subtitle ml-10">Action Items</h5>
 
-    </div>
-    <span class="flex-center justify-center" {{action "agregarActionItem"}}>
+      </div>
+      <span class="flex-center justify-center" {{action "agregarActionItem"}}>
         <i class="material-icons primary-color pointer">add_circle</i>
        <h6 class="primary-color add-tema cursor pointer">AGREGAR ACTION ITEM</h6>
      </span>
 
-    {{each-action-items actionItems=temaDeMinuta.actionItems usuarios=usuarios }}
-
+      {{each-action-items actionItems=temaDeMinuta.actionItems usuarios=usuarios }}
+    </div>
   </div>
-  <div class="card-action right-align">
+  <div class="divider"></div>
+  <div class="minuta-botom-tema">
     <button type="button"{{action alCerrar}} class="btn-flat bold">
       <h6 class="bold"> Cancelar </h6>
     </button>

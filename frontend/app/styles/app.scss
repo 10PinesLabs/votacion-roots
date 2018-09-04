@@ -118,6 +118,13 @@ $ember-power-select-placeholder-color: black !important;
   color: white;
 }
 
+.border-btn {
+  border: 2px solid $primary-color;
+  color: $primary-color;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
 .btn:hover {
   background: #6b016b;
 }
@@ -149,11 +156,28 @@ h6 {
   color: white;
 }
 
+.mt-10 {
+  margin-top: 10px;
+}
+
 .mt-20 {
   margin-top: 20px;
+}
+
+.mr-10 {
+  margin-right: 10px;
 }
 
 .mr-20 {
   margin-right: 20px;
 }
+
+.ml-20 {
+  margin-left: 20px;
+}
+
+.mb-20 {
+  margin-bottom: 20px;
+}
+
 @import "ember-power-select";

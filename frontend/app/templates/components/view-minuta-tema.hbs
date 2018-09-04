@@ -1,0 +1,63 @@
+<div class="card">
+  <div {{action 'verDetalleDeTema' temaDeMinuta}}>
+    <div class="tema-content mr-20" style="width:100%; padding-bottom: 10px">
+      <td class="noPadding" style="display: flex;
+    justify-content: space-between;">
+        <h5 class="titulo-de-tema">{{temaDeMinuta.tema.titulo}} </h5>
+        {{#if temaDeMinuta.actionItems.length}}
+          <i class="material-icons" style="color: #6b016b;">flag</i>
+        {{/if}}
+      </td>
+    </div>
+
+    <div>
+      {{#if mostrarDetalle}}
+        <div class="tema-horizontal-margin">
+          <p>{{temaDeMinuta.tema.descripcion}}</p>
+        </div>
+        <li class="divider"></li>
+        <h4 class="gray-subtitle ml-20">Conclusiones</h4>
+        <p class="ml-20">{{temaDeMinuta.conclusion}}</p>
+        <li class="divider"></li>
+        <h4 class="gray-subtitle ml-20">Action Items</h4>
+        <div class="tema-content">
+
+
+          <div style="margin-bottom:0px;">
+            {{#each temaDeMinuta.actionItems as |actionItem| }}
+              <div class="minuta-action-item">
+                <div>
+                  <i class="material-icons primary-color mr-10">flag</i>
+                </div>
+                <div>
+                  <p class="no-margin">{{actionItem.descripcion}}</p>
+                  {{#each actionItem.responsables as |responsable|}}
+                    <p class="responsable-item mt-10">{{responsable.name}}</p>
+                  {{/each}}
+                </div>
+              </div>
+              <br/>
+            {{/each}}
+          </div>
+          <br/>
+          {{add-action-item
+            tema=temaDeMinuta
+            alCancelar=(action 'ocultarAgregadoActionItem')
+            model=model
+            alGuardarYCrearOtro=(action 'guardarYCrearOtro')
+            alSoloGuardar=(action 'soloGuardar')
+            agregarActionItem=(action 'agregarActionItem')
+            agregarItem = agregarItem
+          }}
+          <div class="relative-position-button">
+            <button class="colapse-button" onclick={{action "ocultarDetalleDeTema" temaDeMinuta}}>
+              <i class="material-icons">unfold_less</i>
+            </button>
+          </div>
+        </div>
+      {{/if}}
+    </div>
+  </div>
+</div>
+
+
