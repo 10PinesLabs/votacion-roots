@@ -1,6 +1,7 @@
 {{vot-star temasVotados=temasVotados}}
 
 <div class="container w-650">
+
   <div class="title-container">
 
     <div class="center">
@@ -43,7 +44,7 @@
             {{/if}}
             <div class="tema-horizontal-margin">
               <td class="noPadding">
-                  <h5 class="titulo-de-tema">{{tema.titulo}}</h5>
+                <h5 class="titulo-de-tema">{{tema.titulo}}</h5>
                 <p class="crop">{{markdown-view value=tema.descripcion}}</p>
               </td>
             </div>
@@ -113,24 +114,28 @@
       {{/each}}
       </tbody>
     </table>
-
-    {{#unless estaCerrada}}
-
-      {{#if mostrandoFormularioDeEdicion}}
-        {{editor-de-tema titulo='Modificar Propuesta' tema=temaAEditar nombreDeDuraciones=nombreDeDuraciones
-                         duraciones=duraciones cerrarEditor=(action 'cerrarEditorDeTema')
-                         alGuardar=(action 'updatearTema')  esObligatorio=esObligatorio
-                         seleccionarDuracion=(action 'seleccionarDuracion') classNames='col s11'}}
-      {{/if}}
-      {{#if mostrandoFormularioXTemaNuevo}}
-        {{editor-de-tema titulo='Nueva Propuesta' tema=nuevoTema nombreDeDuraciones=nombreDeDuraciones
-                         duraciones=duraciones cerrarEditor=(action 'cerrarEditorDeTemaNuevo')
-                         alGuardar=(action 'agregarTema')  esObligatorio=esObligatorio
-                         seleccionarDuracion=(action 'seleccionarDuracion') classNames='col s11'}}
-      {{/if}}
-    {{/unless}}
-
   </div>
+
+  {{#unless estaCerrada}}
+    {{#if visibilidadCardDeTema}}
+      <div class="modal-background" {{action 'cerrarEditorDeTemaNuevo'}}>
+      </div>
+      <div id="myModal" class="modal-tema">
+        {{#if mostrandoFormularioDeEdicion}}
+          {{editor-de-tema titulo='Modificar Propuesta' tema=temaAEditar nombreDeDuraciones=nombreDeDuraciones
+                           duraciones=duraciones cerrarEditor=(action 'cerrarEditorDeTema')
+                           alGuardar=(action 'updatearTema')  esObligatorio=esObligatorio
+                           seleccionarDuracion=(action 'seleccionarDuracion') classNames='col s11'}}
+        {{/if}}
+        {{#if mostrandoFormularioXTemaNuevo}}
+          {{editor-de-tema titulo='Nueva Propuesta' tema=nuevoTema nombreDeDuraciones=nombreDeDuraciones
+                           duraciones=duraciones cerrarEditor=(action 'cerrarEditorDeTemaNuevo')
+                           alGuardar=(action 'agregarTema')  esObligatorio=esObligatorio
+                           seleccionarDuracion=(action 'seleccionarDuracion') classNames='col s11'}}
+        {{/if}}
+      </div>
+    {{/if}}
+  {{/unless}}
 
 </div>
 
@@ -183,6 +188,5 @@
       descripcion='¿Estás seguro que querés cerrar la votación, que comience la reunión y que nadie más pueda seguir votando?'
       accionAceptar=(action 'cerrarVotacion')
     }}
-
   </div>
 {{/if}}
