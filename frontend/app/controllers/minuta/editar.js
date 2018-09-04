@@ -6,7 +6,22 @@ import UserServiceInjected from "../../mixins/user-service-injected";
 
 export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServiceInjected, NavigatorInjected, UserServiceInjected, {
 
-  nombresDePersonasSinMail: "",
+  temasPendientes: Ember.computed('model.minuta', function () {
+    return  this.get('model.minuta').temas.filter(tema => !tema.fueTratado);
+  }),
+
+  temasTratados: Ember.computed('model.minuta', function () {
+    return  this.get('model.minuta').temas.filter(tema => tema.fueTratado);
+  }),
+
+  router: Ember.computed('target.router', function () {
+    return this.get('target.router');
+  }),
+
+  fueTratado: Ember.computed('temaDeMinuta.conclusion', function () {
+    return !!(this.get('temaDeMinuta.conclusion'));
+  }),
+
 
   reunionId: Ember.computed('model.reunionId', function () {
     return this.get('model.reunionId');
@@ -14,6 +29,10 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
 
   minuta: Ember.computed('model.minuta', function () {
     return this.get('model.minuta');
+  }),
+
+  fecha: Ember.computed('model.minuta', function () {
+    return moment(this.get('model.minuta').fecha).format('DD-MM-YYYY');
   }),
 
   usuariosSeleccionables: Ember.computed('model.usuarios', 'usuariosSeleccionados', function () {
@@ -26,8 +45,8 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
     });
   }),
 
-  usuariosSeleccionados: Ember.computed('model.votantes', function () {
-    return this.get('model.votantes');
+  usuariosSeleccionados: Ember.computed('model.minuta.asistentes', function () {
+    return this.get('model.minuta.asistentes');
   }),
 
   temaAEditar: Ember.computed('temaSeleccionado', function () {
@@ -44,11 +63,11 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
     });
   }),
 
+  mostrarEditor: Ember.computed('mostrandoEditor', function () {
+    return "hidden";
+  }),
+
   actions: {
-    guardarUsuariosSeleccionados() {
-      this.set('model.minuta.asistentes', this.get('usuariosSeleccionados'));
-      this.minutaService().updateMinuta(this.get('model.minuta'));
-    },
 
     verEditorDeConclusion(tema) {
       this._mostrarEditorDeConclusion(tema);
@@ -74,7 +93,34 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
           this._ocultarEditor();
         });
     },
+
+    quitarAsistente(usuario) {
+      this.agregarUsuarioAYSacarUsuarioDe(usuario, 'usuariosSeleccionables', 'usuariosSeleccionados');
+
+      this.guardarUsuariosSeleccionados();
+    },
+
+    agregarAsistente(usuario) {
+      this.agregarUsuarioAYSacarUsuarioDe(usuario, 'usuariosSeleccionados', 'usuariosSeleccionables');
+
+      this.guardarUsuariosSeleccionados();
+    },
   },
+
+    guardarUsuariosSeleccionados() {
+      this.set('model.minuta.asistentes', this.get('usuariosSeleccionados'));
+      this.minutaService().updateMinuta(this.get('model.minuta'));
+    },
+
+    agregarUsuarioAYSacarUsuarioDe(usuario, nombreListaDestino, nombreListaOrigen) {
+      let listaDestino = this.get(nombreListaDestino);
+      listaDestino.pushObject(usuario);
+      this.set(nombreListaDestino, listaDestino);
+
+      let listaOrigen = this.get(nombreListaOrigen);
+      listaOrigen.removeObject(usuario);
+      this.set(nombreListaOrigen, listaOrigen);
+    },
 
   anchoDeTabla: 's12',
 
@@ -132,5 +178,5 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
 
   _recargarLista() {
     this.get('target.router').refresh();
-  }
+  },
 });

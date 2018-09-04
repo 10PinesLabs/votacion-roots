@@ -10,10 +10,16 @@ export default Ember.Controller.extend({
     return this.get('model.reunionId');
   }),
 
+  fecha: Ember.computed('model.minuta', function () {
+    return moment(this.get('model.minuta').fecha).format('DD-MM-YYYY');
+  }),
+
   temasTratados: Ember.computed('minuta.temas', function () {
-    return this.get('minuta.temas').filter(function (tema) {
-      return tema.fueTratado;
-    });
+    return this.get('minuta.temas').filter((tema) => tema.fueTratado);
+  }),
+
+  asistentes:Ember.computed('model.minuta.asistentes', function () {
+    return this.get('model.minuta.asistentes');
   }),
 
 });

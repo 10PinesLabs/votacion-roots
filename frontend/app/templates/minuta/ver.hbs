@@ -1,64 +1,57 @@
 <div>
-
-  <div class="card-action right-align">
-    {{#link-to 'minuta.editar' reunionId}}
-      {{tenpines/material-button label='Editar'}}
-    {{/link-to}}
-
-    {{#link-to 'minuta.ver-txt' reunionId}}
-      {{tenpines/material-button label='Ver TXT'}}
-    {{/link-to}}
+  <div class="col s12 minuta-title">
+    <h4 class="title-label">Minuta de reunión </h4>
+    <h4 class="minuta-date"> {{fecha}}</h4>
   </div>
+  <div class="minuta-body">
 
-  <h5>
-    Fecha: {{minuta.fecha}}
-  </h5>
+    <div class="col s3 mr-20" style="width:30%">
+      <h5>Asistentes</h5>
+      <ul>
+        {{#each asistentes as |usuario|}}
+          <li>
+            <div class="asistente-pill purple white-text">
+              <span>
+                {{usuario.name}}
+              </span>
+            </div>
+          </li>
+        {{/each}}
+      </ul>
+    </div>
 
-  <h5>
-    Último Minuteador: {{minuta.minuteador}}
-  </h5>
-  <div class="card-panel">
-  <h5>
-    Asistentes
-  </h5>
-  <div>
-    {{#each minuta.asistentes as |asistente|}}
-      {{tenpines/colored-label value=asistente.name bgColor='green'}}
-    {{/each}}
-  </div>
-  </div>
-  <div class="card-panel">
-  <h4>
-    Temas Tratados
-  </h4>
+    <div class="col s9" style="width:100%">
+      <div class="space-between flex-center">
+        <div>
+          <h4 class="minuta-subtitle no-margin">Temas minuteados</h4>
+          <h6>Último Minuteador: {{minuta.minuteador}}</h6>
+        </div>
 
-  {{#cp-panels as |panels|}}
-    {{#each temasTratados as |tema|}}
-      {{#panels.panel as |panel|}}
-        {{#panel.toggle}}
-          <div class="card-panel">
-          <div>{{tema.tema.titulo}}</div>
-          </div>
-        {{/panel.toggle}}
-        {{#panel.body}}
-          <div>{{markdown-view value=tema.tema.descripcion}}</div>
-          <h6><b>Conclusión</b></h6>
-          <div>{{markdown-view value=tema.conclusion}}</div>
-          <ul class="collection">
-            {{#each tema.actionItems as |actionItem|}}
-              <li class="collection-item">
-                <span>{{markdown-view value=actionItem.descripcion}}</span>
-                <span>
-                  {{#each actionItem.responsables as |responsable|}}
-                    {{tenpines/colored-label value=responsable.name bgColor='green'}}
-                  {{/each}}
-                </span>
-              </li>
-            {{/each}}
-          </ul>
-        {{/panel.body}}
-      {{/panels.panel}}
-    {{/each}}
-  {{/cp-panels}}
+
+        <div class="card-action right-align">
+          {{#link-to 'minuta.editar' reunionId}}
+            <button type="button" class="btn-flat bold btn mr-20">
+              Editar
+            </button>
+          {{/link-to}}
+
+          {{#link-to 'minuta.ver-txt' reunionId}}
+            <button type="button" class="btn-flat bold btn">
+              Ver TXT
+            </button>
+          {{/link-to}}
+        </div>
+
+      </div>
+      <table class="bordered highlight table" style="border-spacing: 0px 0px">
+        <tbody>
+        {{#each temasTratados as |tema|}}
+          <tr>
+            {{view-minuta-tema model=model temaDeMinuta=tema router=router addActionItem=false}}
+          </tr>
+        {{/each}}
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>

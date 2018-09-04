@@ -22,8 +22,8 @@
         <i class="material-icons opacity-20">lock</i>
       </div>
       <div class="flex-center pl-10" {{action 'mostrarFormulario'}}>
-        <i class="material-icons primary-color">add_circle</i>
-        <h5 class="primary-color size-16 add-tema">AGREGAR TEMA</h5>
+        <i class="material-icons primary-color clickable">add_circle</i>
+        <h5 class="primary-color size-16 add-tema clickable">AGREGAR TEMA</h5>
       </div>
     </div>
 
@@ -42,9 +42,9 @@
                 <span class="tool-tip-text">Tema obligatorio</span>
               </div>
             {{/if}}
-            <div class="temaContent">
+            <div class="tema-horizontal-margin">
               <td class="noPadding">
-                  <h5 class="titulo-de-tema">{{tema.titulo}}</h5>
+                <h5 class="titulo-de-tema">{{tema.titulo}}</h5>
                 <p class="crop">{{markdown-view value=tema.descripcion}}</p>
               </td>
             </div>
@@ -66,25 +66,29 @@
                 {{#unless estaCerrada}}
                   {{#unless tema.esObligatorio}}
 
-                    <button type="button" {{action 'sumarVoto' tema}} class="btn-flat bold btn">
+                    <button type="button" id="agregar-button" {{action 'sumarVoto' tema}} class="btn-flat bold btn"
+                            disabled={{votarDisabled}}>
 
                       <div class="flex-center">
                         {{#repetir-pedazo class="flex-center" veces=tema.cantidadVotosPropios}}
-                          <i class="material-icons yellow-text height-inherit">star</i>
+                          <i class="material-icons yellow-text height-inherit {{votosOpacity}}">star</i>
                         {{/repetir-pedazo}}
 
-                        <h6 class="bold">{{#if tema.tieneVotos}}
-                          VOTAR DE NUEVO
-                        {{else}}
-                          VOTAR
-                        {{/if}}</h6>
+                        <h6 class="bold">
+                          {{#if tema.tieneVotos}}
+                            VOTAR DE NUEVO
+                          {{else}}
+                            VOTAR
+                          {{/if}}
+                        </h6>
                       </div>
 
                     </button>
 
                     {{#if tema.tieneVotos}}
-                      <button class="btn-flat noPadding w-46 noHover ml-5" {{action 'restarVoto' tema}}>
-                        <i class="material-icons primary-color menus-button">
+                      <button class="btn noPadding w-46 noHover ml-5" id="quitar-button" {{action 'restarVoto' tema}}
+                              disabled={{votarDisabled}}>
+                        <i class="material-icons primary-color menus-button" id="quitar-icon">
                           indeterminate_check_box</i>
                       </button>
 
@@ -160,7 +164,7 @@
       <p class="mt-0">Una vez votados todos los temas y antes de comenzar la reunión, debemos cerrar el
         temario. Al cerrar el
         temario, todos los temas se ordenarán desde el primero más votado por todos los pinos, y <b>nadie mas podrá
-          seguir votando</b><br>
+          seguir votando</b>
       </p>
 
       {{#unless estaCerrada}}
