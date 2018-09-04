@@ -173,3 +173,44 @@
   opacity: 0.7;
 }
 
+.inline-flex{
+  display: inline-flex;
+}
+
+.lock-margin{
+  margin-right: 15px;
+  margin-top: 12px;
+}
+
+.the-lock{
+  position: relative;
+  display: inline-block;
+}
+
+.the-lock .tool-tip-text {
+  visibility: hidden;
+  width: 130px;
+  background-color: grey;
+  color: #fff;
+  text-align: center;
+  padding: 5px 5px;
+  border-radius: 6px;
+  left: 50%;
+  margin-left: -65px;
+  position: absolute;
+  z-index: 1;
+}
+
+.the-lock .tool-tip-text::after {
+  content: " ";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border: 5px solid transparent;
+  border-bottom-color: grey;
+}
+
+.the-lock:hover .tool-tip-text {
+  visibility: visible;
+}
