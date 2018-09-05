@@ -181,4 +181,8 @@ h6 {
   margin-bottom: 20px;
 }
 
+.btn-flat:focus{
+  background-color: #6b016b;
+}
+
 @import "ember-power-select";
