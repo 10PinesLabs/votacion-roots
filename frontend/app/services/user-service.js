@@ -27,9 +27,7 @@ export default Ember.Service.extend(EmberizedResourceCreatorInjected, {
   getNoVotantes: function (reunion) {
     return this._noVotaronUserResource().getSingle(reunion);
   },
-  getVotantes: function (reunion){
-    return this._votaronUserResource().getSingle(reunion);
-  },
+
   // PRIVATE
   _userResource: function () {
     var resourceCreator = this.resourceCreator();
@@ -46,10 +44,4 @@ export default Ember.Service.extend(EmberizedResourceCreatorInjected, {
     var resource = resourceCreator.createResource('users/noVotaron');
     return resource;
   },
-  _votaronUserResource: function() {
-    var resourceCreator = this.resourceCreator();
-    var resource = resourceCreator.createResource('users/votaron');
-    return resource;
-  }
-
 });

@@ -26,8 +26,8 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
     });
   }),
 
-  usuariosSeleccionados: Ember.computed('model.votantes', function () {
-    return this.get('model.votantes');
+  usuariosSeleccionados: Ember.computed('model.minuta.asistentes', function () {
+    return this.get('model.minuta.asistentes');
   }),
 
   temaAEditar: Ember.computed('temaSeleccionado', function () {
