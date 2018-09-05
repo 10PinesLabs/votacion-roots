@@ -41,6 +41,12 @@ $ember-power-select-placeholder-color: black !important;
   margin: auto;
 }
 
+.hide-text-overflow {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .ultimo-tema-stile {
   border-bottom: dashed;
   border-bottom-color: $primary-color;
