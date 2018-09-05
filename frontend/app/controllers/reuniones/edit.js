@@ -158,7 +158,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
           this._quitarVotoDeTema(tema);
         });
       },
-      mostrarFormularioDeEdicion(tema) {
+      mostrarFormularioDeEdicion(tema) {;
         this._siNoEstaCerrada(function () {
           this._traerDuraciones().then(() => {
             this.set('temaAEditar', Tema.create({}));
@@ -196,6 +196,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
 
       agregarTema() {
         this._guardarTemaYRecargar().then(() => {
+          this._limpiarObligatoriedad();
           this.cerrarModalTema();
         });
       },
@@ -259,6 +260,9 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
       },
     },
 
+  _limpiarObligatoriedad(){
+    this.set('esObligatorio',false);
+  },
   _ocultarEditorDeTema() {
     this.set('mostrandoFormularioDeEdicion', false);
   },
