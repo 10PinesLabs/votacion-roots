@@ -60,3 +60,8 @@
 .duracion-label{
   color: grey !important;
 }
+
+#texto-descripcion .materialize-textarea {
+  max-height: 20vh;
+  overflow-y: auto;
+}
