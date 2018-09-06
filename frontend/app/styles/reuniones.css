@@ -136,7 +136,7 @@
   padding: 9px;
   margin-top: 5px;
   box-shadow: 1px 1px lightgray;
-  transition: 1s Ease;
+  transition: width 0.6s cubic-bezier(0.5, 0.01, 0.15, 0.99);
   width: 42px;
   height: 42px;
 }
