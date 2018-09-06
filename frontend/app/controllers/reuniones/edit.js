@@ -144,13 +144,13 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
 
       cerrarEditorDeTemaNuevo() {
         this.set('mostrandoFormularioXTemaNuevo', false);
-        this.cerrarModalTema();
+        this._cerrarModalTema();
       },
 
       cerrarEditorDeTema() {
         this._ocultarEditorDeTema();
         this._recargarReunion();
-        this.cerrarModalTema();
+        this._cerrarModalTema();
       },
 
       restarVoto(tema) {
@@ -176,7 +176,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
             this.set('esObligatorio', this.get('temaAEditar.esObligatorio'));
             this.set('mostrandoFormularioXTemaNuevo', false);
             this.set('mostrandoFormularioDeEdicion', true);
-            this.mostrarModalTema();
+            this._mostrarModalTema();
           });
         });
       },
@@ -189,21 +189,22 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
               idDeReunion: this._idDeReunion(),
               idDeAutor: this._idDeUsuarioActual(),
             }));
-            this.mostrarModalTema();
+            this._mostrarModalTema();
           });
         });
       },
 
       agregarTema() {
         this._guardarTemaYRecargar().then(() => {
-          this.cerrarModalTema();
+          this._limpiarObligatoriedad();
+          this._cerrarModalTema();
         });
       },
 
       updatearTemaConfirmado() {
         this.set('temaAEditar.idsDeInteresados', []);
         this._updatearTemaYRecargar().then(() => {
-          this.cerrarModalTema();
+          this._cerrarModalTema();
         });
       },
 
@@ -217,7 +218,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
         }
         else {
           this._updatearTemaYRecargar().then(() => {
-            this.cerrarModalTema();
+            this._cerrarModalTema();
           });
         }
       },
@@ -259,6 +260,9 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
       },
     },
 
+  _limpiarObligatoriedad(){
+    this.set('esObligatorio',false);
+  },
   _ocultarEditorDeTema() {
     this.set('mostrandoFormularioDeEdicion', false);
   },
@@ -413,11 +417,11 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
     }
   },
 
-  mostrarModalTema(){
+  _mostrarModalTema(){
     this.set('visibilidadCardDeTema', true);
   },
 
-  cerrarModalTema(){
+  _cerrarModalTema(){
     this.set('visibilidadCardDeTema', false);
   }
 });
