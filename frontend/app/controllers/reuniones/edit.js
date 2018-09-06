@@ -3,8 +3,9 @@ import ReunionServiceInjected from "../../mixins/reunion-service-injected";
 import TemaServiceInjected from "../../mixins/tema-service-injected";
 import DuracionesServiceInjected from "../../mixins/duraciones-service-injected";
 import Tema from "../../concepts/tema";
+import NavigatorInjected from "../../mixins/navigator-injected";
 
-export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInjected, DuracionesServiceInjected, {
+export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInjected, DuracionesServiceInjected, NavigatorInjected, {
 
   esObligatorio: false,
   mostrarObligatorios: false,
@@ -138,7 +139,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
         this.set('nuevoTema.duracion', duracion);
       },
 
-      cerrarModalTema(){
+      cerrarModalTema() {
         this.set('visibilidadCardDeTema', false);
       },
 
@@ -211,7 +212,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
         var tema = this.get('temaAEditar');
 
         tema.set('obligatoriedad', this._obligatoriedad(this.get('esObligatorio')));
-        
+
         if (this.get('temaAEditar.obligatoriedad') === 'OBLIGATORIO' && this.get('obligatoriedadPasada') === 'NO_OBLIGATORIO') {
           this.set('modalDeCambioDeObligatoriedadAbierto', true);
         }
@@ -374,7 +375,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
     var reunion = this.get('reunion');
     this.reunionService().cerrarReunion(reunion)
       .then((cerrada) => {
-        this._actualizarreunionCon(cerrada);
+        this.navigator().navigateToVerMinuta(reunion.id);
       });
   },
 
@@ -413,11 +414,11 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
     }
   },
 
-  mostrarModalTema(){
+  mostrarModalTema() {
     this.set('visibilidadCardDeTema', true);
   },
 
-  cerrarModalTema(){
+  cerrarModalTema() {
     this.set('visibilidadCardDeTema', false);
   }
 });
