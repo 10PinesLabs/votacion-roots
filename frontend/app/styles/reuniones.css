@@ -121,7 +121,6 @@
 #vot-container {
   display: flex;
   flex-direction: column;
-  cursor: pointer;
 }
 
 #vot-container:hover .vot-star {
