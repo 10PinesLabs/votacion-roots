@@ -5,6 +5,7 @@ import NavigatorInjected from "../mixins/navigator-injected";
 import UserServiceInjected from "../mixins/user-service-injected";
 
 export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaServiceInjected, NavigatorInjected, UserServiceInjected, {
+  classNames: ['card'],
 
   mostrarDetalle: false,
 
@@ -48,6 +49,7 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
   },
 
   _ocultarDetalle(tema) {
+    debugger;
     var indiceClickeado = this.get('model.minuta.temas').indexOf(tema);
     this.set('indiceSeleccionado', indiceClickeado);
     this.set('mostrarDetalle', false);
