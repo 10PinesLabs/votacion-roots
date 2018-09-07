@@ -216,3 +216,7 @@
 .the-lock:hover .tool-tip-text {
   visibility: visible;
 }
+
+.btn-guardar--focus:focus{
+  background-color: #6b016b;
+}
