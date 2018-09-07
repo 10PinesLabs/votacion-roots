@@ -16,7 +16,7 @@
   <div id="mostrar-edito">
     {{# if mostrandoEditor}}
       {{editor-de-conclusion
-        alGuardar=(action 'guardarConclusion')
+        alGuardar=guardarConclusion
         alCerrar=(action 'cerrarEditor')
         temaDeMinuta=temaDeMinuta
         usuarios=model.usuarios

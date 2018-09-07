@@ -14,7 +14,9 @@
       {{#if mostrarDetalle}}
         <div class="tema-horizontal-margin flex space-between">
           <p>{{temaDeMinuta.tema.descripcion}}</p>
-          {{switch-tratado tema=temaDeMinuta}}
+          {{#if editable}}
+            {{switch-tratado tema=temaDeMinuta}}
+          {{/if}}
         </div>
         <li class="divider"></li>
         <div class="tema-horizontal-margin">
@@ -47,7 +49,7 @@
             {{/each}}
           </div>
           <br/>
-          {{#if addActionItem}}
+          {{#if editable}}
             {{add-action-item
               tema=temaDeMinuta
               alCancelar=(action 'ocultarAgregadoActionItem')
@@ -57,7 +59,13 @@
               agregarActionItem=(action 'agregarActionItem')
               agregarItem = agregarItem
             }}
+
+            {{minuta-tema-buttons alCerrar=(action "ocultarDetalleDeTema" temaDeMinuta)
+                                  alGuardar=guardarConclusion
+                                  temaDeMinuta=temaDeMinuta}}
+
           {{/if}}
+
           <div class="relative-position-button">
             <button class="colapse-button" onclick={{action "ocultarDetalleDeTema" temaDeMinuta}}>
               <i class="material-icons">unfold_less</i>

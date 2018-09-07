@@ -20,7 +20,6 @@ export default Ember.Component.extend({
 
   actions: {
     tratar(fueTratado) {
-      debugger;
       this.set('tema.fueTratado', fueTratado);
     }
   }

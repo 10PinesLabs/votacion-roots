@@ -77,14 +77,13 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
       this._ocultarEditor();
     },
 
-    guardarConclusion(fueTratado) {
-      var tema = this.get('temaAEditar');
+    guardarConclusion(tema) {
+      debugger;
+
       tema.actionItems.forEach((actionItem) => {
         delete actionItem.usuarios;
         delete actionItem.usuariosSeleccionables;
       });
-
-      tema.set('fueTratado', fueTratado);
 
       this.temaDeMinutaService().updateTemaDeMinuta(tema)
         .then((response) => {
