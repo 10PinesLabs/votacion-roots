@@ -78,8 +78,6 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
     },
 
     guardarConclusion(tema) {
-      debugger;
-
       tema.actionItems.forEach((actionItem) => {
         delete actionItem.usuarios;
         delete actionItem.usuariosSeleccionables;

@@ -18,15 +18,6 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
     mostrarEditor(){
       this._mostrarEditor();
     },
-
-    guardarConclusion() {
-      var tema = this.get('temaDeMinuta');
-      tema.actionItems.forEach((actionItem) => {
-        delete actionItem.usuarios;
-        delete actionItem.usuariosSeleccionables;
-      });
-      this._updateTema(tema);
-    }
   },
   _mostrarEditorDeConclusion(tema) {
     var indiceClickeado = this.get('model.minuta.temas').indexOf(tema);
