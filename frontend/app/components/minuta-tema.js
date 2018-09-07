@@ -6,6 +6,8 @@ import UserServiceInjected from "../mixins/user-service-injected";
 
 export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaServiceInjected, NavigatorInjected, UserServiceInjected, {
 
+  mostrandoToastUsuariosSinMail: false,
+
   btnColorSi: Ember.computed('temaDeMinuta.fueTratado', function () {
     if (this.get('temaDeMinuta.fueTratado')) {
       return "btn";
@@ -70,7 +72,6 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
       .then((response) => {
         this._ocultarEditor();
         this._mostrarUsuariosSinMail(response);
-        debugger;
       }, (error) => {
         this._recargarLista();
       });
@@ -96,11 +97,11 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
   },
 
   mostrar_alerta_por_falta_de_mail() {
-    console.log(this.$("#toast"));
-    let x = this.$("#toast")[0];
+    this.set('mostrandoToastUsuariosSinMail', true);
+    /*t x = this.$("#toast")[0];
     x.className = "show";
     setTimeout(function () {
       x.className = x.className.replace("show", "");
-    }, 5000);
+    }, 5000);*/
   },
 });

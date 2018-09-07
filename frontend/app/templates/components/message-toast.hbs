@@ -1,0 +1,7 @@
+<div id="toast">
+  <i class="material-icons" id="img">email</i>
+  <div id="desc">Las siguientes personas deben volver a loggearse para poder recibir un mail:</div>
+  {{#each nombresDePersonasSinMail as |nombre|}}
+    {{nombre}}
+  {{/each}}
+</div>
