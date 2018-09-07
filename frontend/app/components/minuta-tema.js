@@ -70,6 +70,7 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
       .then((response) => {
         this._ocultarEditor();
         this._mostrarUsuariosSinMail(response);
+        debugger;
       }, (error) => {
         this._recargarLista();
       });
@@ -95,7 +96,8 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
   },
 
   mostrar_alerta_por_falta_de_mail() {
-    var x = document.getElementById("toast");
+    console.log(this.$("#toast"));
+    let x = this.$("#toast")[0];
     x.className = "show";
     setTimeout(function () {
       x.className = x.className.replace("show", "");
