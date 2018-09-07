@@ -10,6 +10,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
   esObligatorio: false,
   mostrarObligatorios: false,
   visibilidadCardDeTema: false,
+  expandido: false,
 
   fechaDeReunion: Ember.computed('reunion.fecha', function () {
       let fecha = this.reunion.fecha;
@@ -258,6 +259,14 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
 
       fueModificado(tema) {
         return tema.autor.login !== tema.ultimoModificador.login;
+      },
+
+      expandirDescripcion(){
+        this.set('expandido', true);
+      },
+
+      colapsarDescripcion(){
+        this.set('expandido', false);
       },
     },
 

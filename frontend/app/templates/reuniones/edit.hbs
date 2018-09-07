@@ -47,8 +47,24 @@
             <div class="tema-horizontal-margin">
               <td class="noPadding">
                 <h5 class="titulo-de-tema">{{tema.titulo}}</h5>
-                <p class="crop">{{markdown-view value=tema.descripcion}}</p>
+                {{#if expandido}}
+                  <p class="crop" id="descripcion-expandida">
+                    {{markdown-view value=tema.descripcion}}
+                  </p>
+                {{else}}
+                  <p class="crop clickable" id="descripcion-no-expandida" {{action 'expandirDescripcion'}}>
+                    {{markdown-view value=tema.descripcion}}
+                  </p>
+                {{/if}}
               </td>
+
+              {{#if expandido}}
+                <div id="tema-colapse-button">
+                  <button class="colapse-button" onclick={{action 'colapsarDescripcion'}}>
+                    <i class="material-icons">unfold_less</i>
+                  </button>
+                </div>
+              {{/if}}
             </div>
 
             <div class="divider"></div>
