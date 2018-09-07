@@ -5,6 +5,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by fede on 07/07/17.
@@ -66,8 +67,12 @@ public class TemaDeMinuta extends PersistableSupport {
         if (this.actionItems == null) {
             this.actionItems = actionItems;
         } else {
-            this.actionItems.clear();
-            this.actionItems.addAll(actionItems);
+            List<ActionItem> actionItemsNoRepetidos = actionItems.stream()
+                    .filter(actionItem -> !this.actionItems.stream().anyMatch(action -> action.getId().equals(actionItem.getId())))
+                    .collect(Collectors.toList());
+            actionItemsNoRepetidos.forEach(actionItem -> actionItem.setFueNotificado(false));
+            this.actionItems.addAll(actionItemsNoRepetidos);
+
         }
     }
 
