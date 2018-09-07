@@ -14,6 +14,16 @@ $primary-color: purple;
 $yellow-star: #FFCE54;
 $ember-power-select-placeholder-color: black !important;
 
+.wormhole {
+  height: 100%;
+  width: 100%;
+  background-image: url("hole.gif");
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 .ultimo-tema-style {
   border-bottom: dashed;
   border-bottom-color: $primary-color;
