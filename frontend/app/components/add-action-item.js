@@ -44,15 +44,6 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
       responsables: [],
     }));
   },
-  agregarActionItem() {
-    this.get('temaDeMinuta').actionItems.pushObject(
-      Ember.Object.extend().create({
-        descripcion: "",
-        responsables: [],
-      }));
-    this.rerender();
-  },
-
 
 });
 

@@ -9,8 +9,6 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
 
   mostrarDetalle: false,
 
-  agregarItem: false,
-
   usuarios: Ember.computed('model.usuarios', function () {
     return this.get('model.usuarios');
   }),
@@ -24,23 +22,6 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
       return this._ocultarDetalle(tema);
     },
 
-    agregarActionItem() {
-      this._agregarNuevoActionItem();
-    },
-
-    ocultarAgregadoActionItem() {
-      this.set('agregarItem', false);
-    },
-
-    soloGuardar(actionItem) {
-      this._guardar(actionItem).then(() => this._recargarLista());
-    },
-
-    guardarYCrearOtro(actionItem) {
-      this._guardar(actionItem);
-      this._agregarNuevoActionItem();
-    },
-
   },
   _mostrarDetalle(tema) {
     var indiceClickeado = this.get('model.minuta.temas').indexOf(tema);
@@ -49,31 +30,13 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
   },
 
   _ocultarDetalle(tema) {
-    debugger;
     var indiceClickeado = this.get('model.minuta.temas').indexOf(tema);
     this.set('indiceSeleccionado', indiceClickeado);
     this.set('mostrarDetalle', false);
   },
 
-  _guardar(actionItem) {
-    this.get('temaDeMinuta').actionItems.pushObject(actionItem);
-
-    var tema = this.get('temaDeMinuta');
-    tema.actionItems.forEach((actionItem) => {
-      delete actionItem.usuarios;
-      delete actionItem.usuariosSeleccionables;
-    });
-
-    return this.temaDeMinutaService().updateTemaDeMinuta(tema);
-  },
-
   _recargarLista() {
     this.get('router').refresh();
-  },
-
-  _agregarNuevoActionItem() {
-    this.set('agregarItem', true);
-    this.rerender();
   },
 
 });
