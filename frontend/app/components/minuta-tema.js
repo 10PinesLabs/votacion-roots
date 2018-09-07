@@ -6,22 +6,6 @@ import UserServiceInjected from "../mixins/user-service-injected";
 
 export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaServiceInjected, NavigatorInjected, UserServiceInjected, {
 
-  btnColorSi: Ember.computed('temaDeMinuta.fueTratado', function(){
-    if(this.get('temaDeMinuta.fueTratado')){
-      return "btn";
-    }else{
-      return "";
-    }
-  }),
-
- btnColorNo: Ember.computed('btnColorSi', function(){
-    if(!this.get('btnColorSi')){
-      return "btn";
-    }else{
-      return "";
-    }
-  }),
-
   actions: {
     verEditorDeConclusion(tema) {
       this._mostrarEditorDeConclusion(tema);
@@ -31,8 +15,7 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
       this._ocultarEditor();
     },
 
-    setTratado(fueTratado){
-      this.set('temaDeMinuta.fueTratado', fueTratado);
+    mostrarEditor(){
       this._mostrarEditor();
     },
 

@@ -12,12 +12,19 @@
 
     <div>
       {{#if mostrarDetalle}}
-        <div class="tema-horizontal-margin">
+        <div class="tema-horizontal-margin flex space-between">
           <p>{{temaDeMinuta.tema.descripcion}}</p>
+          {{switch-tratado tema=temaDeMinuta}}
         </div>
         <li class="divider"></li>
-        <h4 class="gray-subtitle ml-20">Conclusiones</h4>
-        <p class="ml-20">{{temaDeMinuta.conclusion}}</p>
+        <div class="tema-horizontal-margin">
+          <h4 class="gray-subtitle">Conclusiones</h4>
+          {{#if editable}}
+            {{text-area value=temaDeMinuta.conclusion}}
+          {{else}}
+            <p>{{temaDeMinuta.conclusion}}</p>
+          {{/if}}
+        </div>
         <li class="divider"></li>
         <h4 class="gray-subtitle ml-20">Action Items</h4>
         <div class="tema-content">
@@ -41,15 +48,15 @@
           </div>
           <br/>
           {{#if addActionItem}}
-          {{add-action-item
-            tema=temaDeMinuta
-            alCancelar=(action 'ocultarAgregadoActionItem')
-            model=model
-            alGuardarYCrearOtro=(action 'guardarYCrearOtro')
-            alSoloGuardar=(action 'soloGuardar')
-            agregarActionItem=(action 'agregarActionItem')
-            agregarItem = agregarItem
-          }}
+            {{add-action-item
+              tema=temaDeMinuta
+              alCancelar=(action 'ocultarAgregadoActionItem')
+              model=model
+              alGuardarYCrearOtro=(action 'guardarYCrearOtro')
+              alSoloGuardar=(action 'soloGuardar')
+              agregarActionItem=(action 'agregarActionItem')
+              agregarItem = agregarItem
+            }}
           {{/if}}
           <div class="relative-position-button">
             <button class="colapse-button" onclick={{action "ocultarDetalleDeTema" temaDeMinuta}}>
