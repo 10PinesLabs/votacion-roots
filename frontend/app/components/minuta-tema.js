@@ -63,12 +63,14 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
   _recargarLista() {
     this.get('router').refresh();
   },
-  _updateTema(tema){
-    this.temaDeMinutaService().updateTemaDeMinuta(tema)
-      .then(() => {
-        this._recargarLista();
 
-        this._ocultarEditor();
+  _updateTema(tema) {
+    this._ocultarEditor();
+    this.temaDeMinutaService().updateTemaDeMinuta(tema)
+      .then((response) => {
+        this._mostrarUsuariosSinMail(response);
+      }, (error) => {
+        this._recargarLista();
       });
   },
 });
