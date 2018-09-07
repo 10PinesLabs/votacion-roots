@@ -77,4 +77,12 @@ public class ActionItem  extends PersistableSupport {
     public boolean getFueNotificado() {
         return this.fueNotificado;
     }
+
+    public boolean equals(ActionItem unActionItem){
+        return this.getDescripcion().equals(unActionItem.getDescripcion())
+                && this.getId() == unActionItem.getId()
+                && this.getResponsables().containsAll(unActionItem.getResponsables());
+
+    }
+
 }
