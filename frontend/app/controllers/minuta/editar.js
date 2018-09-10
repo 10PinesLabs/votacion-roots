@@ -6,6 +6,8 @@ import UserServiceInjected from "../../mixins/user-service-injected";
 
 export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServiceInjected, NavigatorInjected, UserServiceInjected, {
 
+  mostrandoToastUsuariosSinMail: false,
+
   temasPendientes: Ember.computed('model.minuta', function () {
     return  this.get('model.minuta').temas.filter(tema => !tema.fueTratado);
   }),
@@ -85,9 +87,11 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
 
       this.temaDeMinutaService().updateTemaDeMinuta(tema)
         .then((response) => {
-          this._recargarLista();
+          this._mostrarUsuariosSinMail(response);
           this._ocultarEditor();
-        });
+        }, (error) => {
+        this._recargarLista();
+      });
     },
 
     quitarAsistente(usuario) {
@@ -146,5 +150,31 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
 
   _recargarLista() {
     this.get('target.router').refresh();
+  },
+
+  _mostrarUsuariosSinMail(response) {
+    let nombresDePersonasSinMailConRepetidos = [].concat.apply([],
+      response.actionItems.map(actionItem => actionItem.responsables)
+    )
+      .filter(user => user.mail === undefined || user.mail === "" || user.mail === null)
+      .map(resp => resp.name);
+
+    let nombresDePersonasSinMailSinRepetidos =
+      nombresDePersonasSinMailConRepetidos
+        .filter(function (elem, pos) {
+          return nombresDePersonasSinMailConRepetidos.indexOf(elem) === pos;
+        });
+
+    if (nombresDePersonasSinMailSinRepetidos.length !== 0) {
+      this.set('nombresDePersonasSinMail', nombresDePersonasSinMailSinRepetidos);
+      this.mostrar_alerta_por_falta_de_mail();
+    }
+  },
+
+  mostrar_alerta_por_falta_de_mail() {
+    this.set('mostrandoToastUsuariosSinMail', true);
+    setTimeout(() => {
+      this.set('mostrandoToastUsuariosSinMail', false);
+    }, 4000);
   },
 });
