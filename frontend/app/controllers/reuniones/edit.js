@@ -354,7 +354,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
   _recargarTemas() {
     this._recargarReunion().then(() =>
       this.set('updatingVotos', false)
-    )
+    );
   },
 
   _usarInstanciasDeTemas(reunion, usuarioActual) {
@@ -365,8 +365,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
       var tema = Tema.create(objetoEmber);
       temasPropuestos[i] = tema;
     }
-  }
-  ,
+  },
 
   _filtrarTemasGeneradosPorTemasGenerales(reunion) {
     var temasFiltrados = reunion.get('temasPropuestos').filter(function (tema) {
