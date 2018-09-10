@@ -85,7 +85,6 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
 
       this.temaDeMinutaService().updateTemaDeMinuta(tema)
         .then((response) => {
-          this._mostrarUsuariosSinMail(response);
           this._recargarLista();
           this._ocultarEditor();
         });
