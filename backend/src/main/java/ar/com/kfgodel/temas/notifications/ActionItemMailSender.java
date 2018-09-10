@@ -27,8 +27,10 @@ public class ActionItemMailSender extends MailerObserver {
         Email email = EmailBuilder.startingBlank()
                 .from("Reminder Action Item", "votacion-roots@10pines.com")
                 .to(responsable.getName(), responsable.getMail())
-                .withSubject("Tenes Action-Items pendientes")
-                .withPlainText("Recordá hacerte cargo del Action Item: " + actionItem.getDescripcion())
+                .withSubject("Tenes Action-Items pendientes del tema " + actionItem.getTema().getTema().getTitulo())
+                .withPlainText("Recordá hacerte cargo del Action Item: " + actionItem.getDescripcion() +
+                ". Para más información entrá en: http://votacion-roots.herokuapp.com/minuta/"
+                        + actionItem.getTema().getMinuta().getReunion().getId() +"/ver")
                 .buildEmail();
         mailer.sendMail(email);
     }
