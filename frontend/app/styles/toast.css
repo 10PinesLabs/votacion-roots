@@ -1,6 +1,6 @@
 #toast {
   visibility: visible;
-  max-width: 50%;
+  max-width: 55%;
   margin: auto;
   background-color: #333;
   color: #fff;
@@ -28,6 +28,10 @@
   color: #fff;
   padding: 16px;
   overflow: hidden;
+}
+
+#toast span:not(:last-of-type):after {
+  content: ',';
 }
 
 #toast.show {

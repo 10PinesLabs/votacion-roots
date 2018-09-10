@@ -1,7 +1,9 @@
 <div id="toast">
   <i class="material-icons" id="img">{{nombre-icono}}</i>
   <div id="desc">{{mensaje}}</div>
-  {{#each lista-opcional as |elemento|}}
-    {{elemento}}
-  {{/each}}
+    {{#each lista-opcional as |elemento|}}
+      <span>
+        {{elemento}}
+      </span>
+    {{/each}}
 </div>
