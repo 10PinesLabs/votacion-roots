@@ -69,6 +69,7 @@ public class TemaDeMinuta extends PersistableSupport {
             this.actionItems.clear();
             this.actionItems.addAll(actionItems);
         }
+        actionItems.forEach(actionItem -> actionItem.setTema(this));
     }
 
     public boolean getFueTratado() {

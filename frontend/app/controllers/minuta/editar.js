@@ -145,34 +145,6 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
     this.set('anchoDeTabla', 's12');
   },
 
-  _mostrarUsuariosSinMail(response) {
-
-    let nombresDePersonasSinMailConRepetidos = [].concat.apply([],
-      response.actionItems.map(actionItem => actionItem.responsables)
-    )
-      .filter(user => user.mail === undefined || user.mail === "" || user.mail === null)
-      .map(resp => resp.name);
-
-    let nombresDePersonasSinMailSinRepetidos =
-      nombresDePersonasSinMailConRepetidos
-        .filter(function (elem, pos) {
-          return nombresDePersonasSinMailConRepetidos.indexOf(elem) === pos;
-        });
-
-    if (nombresDePersonasSinMailSinRepetidos.length !== 0) {
-      this.set('nombresDePersonasSinMail', nombresDePersonasSinMailSinRepetidos);
-      this.mostrar_alerta_por_falta_de_mail();
-    }
-  },
-
-  mostrar_alerta_por_falta_de_mail() {
-    var x = document.getElementById("toast");
-    x.className = "show";
-    setTimeout(function () {
-      x.className = x.className.replace("show", "");
-    }, 5000);
-  },
-
   _recargarLista() {
     this.get('target.router').refresh();
   },
