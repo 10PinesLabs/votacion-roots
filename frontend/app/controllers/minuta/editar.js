@@ -77,18 +77,14 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
       this._ocultarEditor();
     },
 
-    guardarConclusion(fueTratado) {
-      var tema = this.get('temaAEditar');
+    guardarConclusion(tema) {
       tema.actionItems.forEach((actionItem) => {
         delete actionItem.usuarios;
         delete actionItem.usuariosSeleccionables;
       });
 
-      tema.set('fueTratado', fueTratado);
-
       this.temaDeMinutaService().updateTemaDeMinuta(tema)
         .then((response) => {
-          this._mostrarUsuariosSinMail(response);
           this._recargarLista();
           this._ocultarEditor();
         });
@@ -146,34 +142,6 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
     this.set('indiceSeleccionado', null);
     this.set('mostrandoEditor', false);
     this.set('anchoDeTabla', 's12');
-  },
-
-  _mostrarUsuariosSinMail(response) {
-
-    let nombresDePersonasSinMailConRepetidos = [].concat.apply([],
-      response.actionItems.map(actionItem => actionItem.responsables)
-    )
-      .filter(user => user.mail === undefined || user.mail === "" || user.mail === null)
-      .map(resp => resp.name);
-
-    let nombresDePersonasSinMailSinRepetidos =
-      nombresDePersonasSinMailConRepetidos
-        .filter(function (elem, pos) {
-          return nombresDePersonasSinMailConRepetidos.indexOf(elem) === pos;
-        });
-
-    if (nombresDePersonasSinMailSinRepetidos.length !== 0) {
-      this.set('nombresDePersonasSinMail', nombresDePersonasSinMailSinRepetidos);
-      this.mostrar_alerta_por_falta_de_mail();
-    }
-  },
-
-  mostrar_alerta_por_falta_de_mail() {
-    var x = document.getElementById("toast");
-    x.className = "show";
-    setTimeout(function () {
-      x.className = x.className.replace("show", "");
-    }, 5000);
   },
 
   _recargarLista() {

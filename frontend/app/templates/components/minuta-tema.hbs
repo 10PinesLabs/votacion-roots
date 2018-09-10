@@ -1,4 +1,13 @@
 <div class="white">
+
+  {{#if mostrandoToastUsuariosSinMail}}
+    {{message-toast
+      nombre-icono="email"
+      mensaje="Las siguientes personas deben volver a loggearse para poder recibir un mail:"
+      lista-opcional=nombresDePersonasSinMail
+    }}
+  {{/if}}
+
   <div class="tema-content flex-center space-between white" {{action 'verEditorDeConclusion' temaDeMinuta}}>
     <div class="mr-20">
       <td class="noPadding">
@@ -8,24 +17,15 @@
       </td>
     </div>
 
-    <div>
-      <h6 class="center-align"> ¿Fue tratado?</h6>
-      <div class="space-between mt-20">
-        <button type="button" {{action 'setTratado' true}} class="btn-flat bold mr-20 {{btnColorSi}}">
-          <h6 class="bold"> SI </h6>
-        </button>
-        <button type="button" {{action 'setTratado' false}} class="btn-flat bold {{btnColorNo}}">
-          <h6 class="bold"> NO </h6>
-        </button>
-      </div>
-
+    <div {{action 'mostrarEditor'}}>
+      {{switch-tratado tema=temaDeMinuta}}
     </div>
   </div>
 
   <div id="mostrar-edito">
     {{# if mostrandoEditor}}
       {{editor-de-conclusion
-        alGuardar=(action 'guardarConclusion')
+        alGuardar=guardarConclusion
         alCerrar=(action 'cerrarEditor')
         temaDeMinuta=temaDeMinuta
         usuarios=model.usuarios
