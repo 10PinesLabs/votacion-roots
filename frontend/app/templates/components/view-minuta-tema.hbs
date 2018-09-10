@@ -62,6 +62,13 @@
           {{minuta-tema-buttons alCerrar=(action "ocultarDetalleDeTema")
                                 alGuardar=guardarConclusion
                                 temaDeMinuta=temaDeMinuta}}
+        {{else}}
+
+          <div class="relative-position-button">
+            <button class="colapse-button" onclick={{action "ocultarDetalleDeTema" temaDeMinuta}}>
+              <i class="material-icons">unfold_less</i>
+            </button>
+          </div>
 
         {{/if}}
 
