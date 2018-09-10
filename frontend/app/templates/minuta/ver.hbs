@@ -47,7 +47,7 @@
         <tbody>
         {{#each temasTratados as |tema|}}
           <tr>
-            {{view-minuta-tema model=model temaDeMinuta=tema router=router addActionItem=false}}
+            {{view-minuta-tema model=model temaDeMinuta=tema router=router editable=false}}
           </tr>
         {{/each}}
         </tbody>

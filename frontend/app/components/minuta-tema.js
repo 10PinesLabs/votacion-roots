@@ -8,22 +8,6 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
 
   mostrandoToastUsuariosSinMail: false,
 
-  btnColorSi: Ember.computed('temaDeMinuta.fueTratado', function () {
-    if (this.get('temaDeMinuta.fueTratado')) {
-      return "btn";
-    } else {
-      return "";
-    }
-  }),
-
-  btnColorNo: Ember.computed('btnColorSi', function () {
-    if (!this.get('btnColorSi')) {
-      return "btn";
-    } else {
-      return "";
-    }
-  }),
-
   actions: {
     verEditorDeConclusion(tema) {
       this._mostrarEditorDeConclusion(tema);
@@ -32,20 +16,10 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
     cerrarEditor() {
       this._ocultarEditor();
     },
-
-    setTratado(fueTratado) {
-      this.set('temaDeMinuta.fueTratado', fueTratado);
+    
+    mostrarEditor(){
       this._mostrarEditor();
     },
-
-    guardarConclusion() {
-      var tema = this.get('temaDeMinuta');
-      tema.actionItems.forEach((actionItem) => {
-        delete actionItem.usuarios;
-        delete actionItem.usuariosSeleccionables;
-      });
-      this._updateTema(tema);
-    }
   },
   _mostrarEditorDeConclusion(tema) {
     var indiceClickeado = this.get('model.minuta.temas').indexOf(tema);

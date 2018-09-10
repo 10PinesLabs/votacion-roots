@@ -77,6 +77,19 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
       this._ocultarEditor();
     },
 
+    guardarConclusion(tema) {
+      tema.actionItems.forEach((actionItem) => {
+        delete actionItem.usuarios;
+        delete actionItem.usuariosSeleccionables;
+      });
+
+      this.temaDeMinutaService().updateTemaDeMinuta(tema)
+        .then((response) => {
+          this._recargarLista();
+          this._ocultarEditor();
+        });
+    },
+
     quitarAsistente(usuario) {
       this.agregarUsuarioAYSacarUsuarioDe(usuario, 'usuariosSeleccionables', 'usuariosSeleccionados');
 
