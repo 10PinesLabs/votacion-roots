@@ -22,6 +22,13 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
     }
   }),
 
+  minutaParagraph: Ember.computed('mostrandoEditor', function () {
+    if (!this.get('mostrandoEditor')) {
+      return "minuta-paragraph";
+    }
+    return "";
+  }),
+
   actions: {
     verEditorDeConclusion(tema) {
       this._mostrarEditorDeConclusion(tema);
