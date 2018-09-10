@@ -1,4 +1,13 @@
 <div class="row">
+
+  {{#if mostrandoToastUsuariosSinMail}}
+    {{message-toast
+      nombre-icono="email"
+      mensaje="Las siguientes personas deben volver a loggearse para poder recibir un mail:"
+      lista-opcional=nombresDePersonasSinMail
+    }}
+  {{/if}}
+
   <div class="col s12 minuta-title">
     <h4 class="title-label">Minuta de reunión </h4>
     <h4 class="minuta-date"> {{fecha}}</h4>
@@ -45,7 +54,7 @@
         <tbody>
         {{#each  temasPendientes as |temaDeMinuta|}}
           <tr>
-            {{minuta-tema model=model temaDeMinuta=temaDeMinuta router=router}}
+            {{minuta-tema guardarConclusion=(action 'guardarConclusion') model=model temaDeMinuta=temaDeMinuta router=router}}
           </tr>
         {{/each}}
         </tbody>
@@ -58,7 +67,7 @@
         <tbody>
         {{#each  temasTratados as |tema|}}
           <tr>
-            {{view-minuta-tema model=model temaDeMinuta=tema router=router addActionItem=true}}
+            {{view-minuta-tema guardarConclusion=(action 'guardarConclusion') model=model temaDeMinuta=tema router=router editable=true}}
           </tr>
         {{/each}}
         </tbody>

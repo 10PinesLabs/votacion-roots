@@ -23,13 +23,5 @@
     </div>
   </div>
   <div class="divider"></div>
-  <div class="minuta-botom-tema">
-    <button type="button"{{action alCerrar}} class="btn-flat bold">
-      <h6 class="bold"> Cancelar </h6>
-    </button>
-    <button type="button" onclick={{action alGuardar fueTratado}}
-            class="btn-flat btn bold {{guardarConclusionHabilitado}}">
-      <h6 class="bold"> Guardar </h6>
-    </button>
-  </div>
+  {{minuta-tema-buttons alCerrar=alCerrar alGuardar=alGuardar temaDeMinuta=temaDeMinuta}}
 </div>
