@@ -193,4 +193,8 @@ h6 {
   background-color: #6b016b;
 }
 
+.fit-correct-width .ember-view{
+  display: contents;
+}
+
 @import "ember-power-select";

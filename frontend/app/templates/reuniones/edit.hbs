@@ -33,102 +33,19 @@
 
   <div class="row">
     <table class="bordered highlight table">
-      <tbody>
+      <tbody class="fit-correct-width">
       {{#each reunion.temasPropuestos as |tema|}}
-        {{#if (or mostrarObligatorios (not tema.esObligatorio))}}
-
-          <tr bgcolor='white'>
-            {{#if tema.esObligatorio}}
-              <div class="the-lock lock-margin right clickable">
-                <i class="material-icons opacity-20">lock</i>
-                <span class="tool-tip-text">Tema obligatorio</span>
-              </div>
-            {{/if}}
-            <div class="tema-horizontal-margin">
-              <td class="noPadding">
-                <h5 class="titulo-de-tema">{{tema.titulo}}</h5>
-                {{#if expandido}}
-                  <p class="crop" id="descripcion-expandida">
-                    {{markdown-view value=tema.descripcion}}
-                  </p>
-                {{else}}
-                  <p class="crop clickable" id="descripcion-no-expandida" {{action 'expandirDescripcion'}}>
-                    {{markdown-view value=tema.descripcion}}
-                  </p>
-                {{/if}}
-              </td>
-
-              {{#if expandido}}
-                <div id="tema-colapse-button">
-                  <button class="colapse-button" onclick={{action 'colapsarDescripcion'}}>
-                    <i class="material-icons">unfold_less</i>
-                  </button>
-                </div>
-              {{/if}}
-            </div>
-
-            <div class="divider"></div>
-
-            <div class="space-between m-5">
-
-              <div class="flex-center tema-bottom">
-                <h6 class="size-16 m-10 opacity-35">#{{tema.id}}</h6>
-                <i class="material-icons opacity-70">person</i>
-                <h6 class="opacity-70 m-10">{{tema.autor}}</h6>
-                <i class="material-icons m-5">access_time</i>
-                <label class={{tema.colorDuracion }}>{{tema.duracion}}</label>
-              </div>
-
-              <div class="flex-center m-10">
-
-                {{#unless estaCerrada}}
-                  {{#unless tema.esObligatorio}}
-
-                    <button type="button" id="agregar-button" {{action 'sumarVoto' tema}} class="btn-flat bold btn"
-                            disabled={{votarDisabled}}>
-
-                      <div class="flex-center">
-                        {{#repetir-pedazo class="flex-center" veces=tema.cantidadVotosPropios}}
-                          <i class="material-icons yellow-text height-inherit {{votosOpacity}}">star</i>
-                        {{/repetir-pedazo}}
-
-                        <h6 class="bold">
-                          {{#if tema.tieneVotos}}
-                            VOTAR DE NUEVO
-                          {{else}}
-                            VOTAR
-                          {{/if}}
-                        </h6>
-                      </div>
-
-                    </button>
-
-                    {{#if tema.tieneVotos}}
-                      <button class="btn noPadding w-46 noHover ml-5" id="quitar-button" {{action 'restarVoto' tema}}
-                              disabled={{votarDisabled}}>
-                        <i class="material-icons primary-color menus-button" id="quitar-icon">
-                          indeterminate_check_box</i>
-                      </button>
-
-                    {{/if}}
-                  {{/unless}}
-
-                  <div id="edit-menu">
-                    {{#tenpines/drop-down icon='more_vert' removeBtn=true }}
-                      <li class="light-grey" {{action 'mostrarFormularioDeEdicion' tema}}>
-                        <a class="black-text">Editar</a></li>
-                      <li class="divider"></li>
-                      <li class="light-grey"><a class="black-text" {{action 'borrarTemaElegido' tema}}>Eliminar</a></li>
-                    {{/tenpines/drop-down }}
-                  </div>
-
-                {{/unless}}
-
-              </div>
-            </div>
-          </tr>
-
-        {{/if}}
+        {{each-card-tema
+          tema=tema
+          mostrarObligatorios=mostrarObligatorios
+          estaCerrada=estaCerrada
+          sumarVoto=(action 'sumarVoto')
+          restarVoto=(action 'restarVoto')
+          votarDisabled=votarDisabled
+          votosOpacity=votosOpacity
+          mostrarFormularioDeEdicion=(action 'mostrarFormularioDeEdicion')
+          borrarTemaElegido=(action 'borrarTemaElegido')
+        }}
       {{/each}}
       </tbody>
     </table>
