@@ -81,8 +81,8 @@ public class ActionItem  extends PersistableSupport {
     public boolean equals(ActionItem unActionItem){
         return this.getDescripcion().equals(unActionItem.getDescripcion())
                 && this.getId() == unActionItem.getId()
-                && this.getResponsables().containsAll(unActionItem.getResponsables());
-
+                && this.getResponsables().containsAll(unActionItem.getResponsables())
+                && this.getResponsables().size() == unActionItem.getResponsables().size();
     }
 
 }
