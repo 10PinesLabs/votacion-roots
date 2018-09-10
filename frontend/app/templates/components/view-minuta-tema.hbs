@@ -1,3 +1,4 @@
+
 <div class="minuta-tratado-title" {{action 'verDetalleDeTema' temaDeMinuta}}>
   <td class="noPadding flex space-between">
     <h5 class="titulo-de-tema">{{temaDeMinuta.tema.titulo}} </h5>
@@ -28,11 +29,11 @@
 
     {{#if editable}}
       {{add-action-item temaDeMinuta=temaDeMinuta usuarios=usuarios }}
-
       {{minuta-tema-buttons alCerrar=(action "ocultarDetalleDeTema" temaDeMinuta)
                             alGuardar=guardarConclusion
                             temaDeMinuta=temaDeMinuta}}
     {{else}}
+
 
       <div class="tema-horizontal-margin">
         <div class="flex-center mb-20">
