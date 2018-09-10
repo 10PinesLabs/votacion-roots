@@ -32,7 +32,7 @@ public class ActionItemMailSender extends MailerObserver {
                 ". Para más información entrá en: http://votacion-roots.herokuapp.com/minuta/"
                         + actionItem.getTema().getMinuta().getReunion().getId() +"/ver")
                 .buildEmail();
-        mailer.sendMail(email);
+        mailer.sendMail(email,true);
     }
 
     private void validarActionItem(ActionItem unActionItem) {
