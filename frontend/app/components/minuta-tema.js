@@ -98,10 +98,8 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
 
   mostrar_alerta_por_falta_de_mail() {
     this.set('mostrandoToastUsuariosSinMail', true);
-    /*t x = this.$("#toast")[0];
-    x.className = "show";
-    setTimeout(function () {
-      x.className = x.className.replace("show", "");
-    }, 5000);*/
+    setTimeout(() => {
+      this.set('mostrandoToastUsuariosSinMail', false);
+    }, 4000);
   },
 });

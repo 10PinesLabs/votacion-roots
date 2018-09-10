@@ -1,7 +1,11 @@
 <div class="white">
 
   {{#if mostrandoToastUsuariosSinMail}}
-    {{message-toast nombresDePersonasSinMail=nombresDePersonasSinMail }}
+    {{message-toast
+      nombre-icono="email"
+      mensaje="Las siguientes personas deben volver a loggearse para poder recibir un mail:"
+      lista-opcional=nombresDePersonasSinMail
+    }}
   {{/if}}
 
   <div class="tema-content flex-center space-between white" {{action 'verEditorDeConclusion' temaDeMinuta}}>
