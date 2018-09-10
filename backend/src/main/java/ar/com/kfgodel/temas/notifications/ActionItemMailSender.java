@@ -44,8 +44,11 @@ public class ActionItemMailSender extends MailerObserver {
     @Override
     public void onSetResponsables(ActionItem actionItem) {
         validarActionItem(actionItem);
-        actionItem.getResponsables().stream()
-                .filter(responsables -> StringUtils.isNotBlank(responsables.getMail()))
-                .forEach(responsable -> sendMail(actionItem, responsable));
+        if(!actionItem.getFueNotificado()){
+            actionItem.getResponsables().stream()
+                    .filter(responsables -> StringUtils.isNotBlank(responsables.getMail()))
+                    .forEach(responsable -> sendMail(actionItem, responsable));
+            actionItem.setFueNotificado(true);
+        }
     }
 }
