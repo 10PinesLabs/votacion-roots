@@ -3,6 +3,8 @@ package ar.com.kfgodel.temas.notifications;
 import convention.persistent.ActionItem;
 import org.junit.platform.commons.util.StringUtils;
 
+import java.util.List;
+
 public class ActionItemMailSender extends MailerObserver {
     public static final String EMPTY_ITEM_ACTION_EXCEPTION = "El item debe tener descripción y responsables";
     private final MailSender mailSender;
@@ -24,6 +26,11 @@ public class ActionItemMailSender extends MailerObserver {
             notificarAResponsables(actionItem);
             actionItem.setFueNotificado(true);
         }
+    }
+
+    @Override
+    public void notificar(List<ActionItem> oldActionItem, List<ActionItem> newActionItem) {
+
     }
 
     private void notificarAResponsables(ActionItem actionItem) {

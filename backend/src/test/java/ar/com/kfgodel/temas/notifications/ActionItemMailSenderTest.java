@@ -82,4 +82,5 @@ public class ActionItemMailSenderTest {
         Mockito.verify(mockMailSender,times(0)).sendMail(usuarioSinMail.getMail(), actionItemMailSender.getAsunto(actionItem), actionItemMailSender.getDescripcion(actionItem));
         Mockito.verify(mockMailSender,times(0)).sendMail(otroUsuarioSinMail.getMail(), actionItemMailSender.getAsunto(actionItem), actionItemMailSender.getDescripcion(actionItem));
     }
+
 }
