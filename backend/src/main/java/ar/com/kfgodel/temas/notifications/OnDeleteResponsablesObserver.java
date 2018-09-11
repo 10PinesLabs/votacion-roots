@@ -16,11 +16,6 @@ public class OnDeleteResponsablesObserver extends MailerObserver {
     }
 
     @Override
-    public void onSetResponsables(ActionItem actionItem) {
-
-    }
-
-    @Override
     public void notificar(List<ActionItem> oldActionItems, List<ActionItem> newActionItems) {
         Stream<ActionItem> actionItemsExistentes = oldActionItems.stream().filter(oldItem -> newActionItems.stream().anyMatch(newItem -> oldItem.getId().equals(newItem.getId())));
         newActionItems.stream().filter(newItem -> !newItem.getResponsables().containsAll(actionItemsExistentes.filter(ai -> ai.getId().equals(newItem.getId())).findFirst().get().getResponsables())).collect(Collectors.toList());
