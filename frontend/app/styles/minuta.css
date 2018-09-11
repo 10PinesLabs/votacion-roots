@@ -75,6 +75,10 @@
   height: 100%;
 }
 
+.full-width{
+  width: 100%;
+}
+
 .responsable-item {
   background: purple;
   color: white;
@@ -104,11 +108,7 @@
   font-size: 24px !important;
 }
 
-.noPadding .descripcion-minuta{
+.descripcion-minuta{
   text-align: justify;
-  max-width: 90vh;
-}
-
-#ancho-card-tema-tratado{
-  /*max-width: 80vh;*/
+  max-width: 80vh !important;
 }
