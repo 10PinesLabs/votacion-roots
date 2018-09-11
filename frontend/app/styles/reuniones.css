@@ -217,6 +217,10 @@
   visibility: visible;
 }
 
+.texto-tema input {
+  height: 2.5rem;
+}
+
 .btn-guardar--focus:focus {
   background-color: #6b016b;
 }
