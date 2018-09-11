@@ -7,7 +7,7 @@ import UserServiceInjected from "../mixins/user-service-injected";
 export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaServiceInjected, NavigatorInjected, UserServiceInjected, {
 
   mostrarDetalle: false,
-
+  expandido: false,
   agregarItem: false,
 
   usuarios: Ember.computed('model.usuarios', function () {
@@ -38,6 +38,14 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
     guardarYCrearOtro(actionItem) {
       this._guardar(actionItem);
       this._agregarNuevoActionItem();
+    },
+
+    expandirDescripcion(){
+      this.set('expandido', true);
+    },
+
+    colapsarDescripcion(){
+      this.set('expandido', false);
     },
 
   },

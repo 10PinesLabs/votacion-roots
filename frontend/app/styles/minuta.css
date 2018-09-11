@@ -105,6 +105,10 @@
 }
 
 .noPadding .descripcion-minuta{
-  max-width: 90vh !important;
+  text-align: justify;
+  max-width: 90vh;
 }
 
+#ancho-card-tema-tratado{
+  /*max-width: 80vh;*/
+}

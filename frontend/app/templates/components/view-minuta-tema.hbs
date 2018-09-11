@@ -9,14 +9,37 @@
     </td>
   </div>
 
-  <div>
+  <div id="ancho-card-tema-tratado">
     {{#if mostrarDetalle}}
       <div class="tema-horizontal-margin flex space-between">
-        <p>{{temaDeMinuta.tema.descripcion}}</p>
+          {{#if expandido}}
+            <p class="crop clickable descripcion-minuta" id="descripcion-expandida">
+              {{markdown-view
+                value=temaDeMinuta.tema.descripcion
+              }}
+            </p>
+          {{else}}
+            <p class="crop clickable descripcion-minuta" id="descripcion-no-expandida" {{action 'expandirDescripcion'}}>
+              {{markdown-view
+                value=temaDeMinuta.tema.descripcion
+              }}
+            </p>
+          {{/if}}
+
         {{#if editable}}
           {{switch-tratado tema=temaDeMinuta}}
         {{/if}}
       </div>
+
+      {{#if expandido}}
+        <div id="tema-colapse-button">
+          <button class="colapse-button" onclick={{action 'colapsarDescripcion'}}>
+            <i class="material-icons">unfold_less</i>
+          </button>
+        </div>
+
+        <div class="divider"></div>
+      {{/if}}
       <div class="tema-horizontal-margin">
         <h4 class="gray-subtitle">Conclusiones</h4>
         {{#if editable}}
