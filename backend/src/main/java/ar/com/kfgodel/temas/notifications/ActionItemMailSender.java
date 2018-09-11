@@ -1,42 +1,18 @@
 package ar.com.kfgodel.temas.notifications;
 
 import convention.persistent.ActionItem;
-import convention.persistent.Usuario;
 import org.junit.platform.commons.util.StringUtils;
-import org.simplejavamail.email.Email;
-import org.simplejavamail.email.EmailBuilder;
-import org.simplejavamail.mailer.Mailer;
-import org.simplejavamail.mailer.MailerBuilder;
-
-import java.util.Optional;
 
 public class ActionItemMailSender extends MailerObserver {
     public static final String EMPTY_ITEM_ACTION_EXCEPTION = "El item debe tener descripción y responsables";
-    private Mailer mailer;
+    private final MailSender mailSender;
 
-    public ActionItemMailSender(){
-        mailer = MailerBuilder
-                .withSMTPServer(System.getenv("SMTP_HOST"),
-                        Integer.parseInt(System.getenv("SMTP_PORT")),
-                        System.getenv("SMTP_MAIL"),
-                        System.getenv("SMTP_PASSWORD"))
-                .buildMailer();
-    }
-
-    public void sendMail(ActionItem actionItem, Usuario responsable) {
-        Email email = EmailBuilder.startingBlank()
-                .from("Reminder Action Item", "votacion-roots@10pines.com")
-                .to(responsable.getName(), responsable.getMail())
-                .withSubject("Tenes Action-Items pendientes del tema " + actionItem.getTema().getTema().getTitulo())
-                .withPlainText("Recordá hacerte cargo del Action Item: " + actionItem.getDescripcion() +
-                ". Para más información entrá en: http://votacion-roots.herokuapp.com/minuta/"
-                        + actionItem.getTema().getMinuta().getReunion().getId() +"/ver")
-                .buildEmail();
-        mailer.sendMail(email,true);
+    public ActionItemMailSender(MailSender unMailSender){
+        this.mailSender = unMailSender;
     }
 
     private void validarActionItem(ActionItem unActionItem) {
-        if(unActionItem.getDescripcion() == null|| unActionItem.getResponsables() == null) {
+        if (unActionItem.getDescripcion() == null || unActionItem.getResponsables() == null) {
             throw new RuntimeException(EMPTY_ITEM_ACTION_EXCEPTION);
         }
     }
@@ -44,11 +20,25 @@ public class ActionItemMailSender extends MailerObserver {
     @Override
     public void onSetResponsables(ActionItem actionItem) {
         validarActionItem(actionItem);
-        if(!actionItem.getFueNotificado()){
-            actionItem.getResponsables().stream()
-                    .filter(responsables -> StringUtils.isNotBlank(responsables.getMail()))
-                    .forEach(responsable -> sendMail(actionItem, responsable));
+        if (!actionItem.getFueNotificado()) {
+            notificarAResponsables(actionItem);
             actionItem.setFueNotificado(true);
         }
+    }
+
+    private void notificarAResponsables(ActionItem actionItem) {
+        actionItem.getResponsables().stream()
+                .filter(responsables -> StringUtils.isNotBlank(responsables.getMail()))
+                .forEach(responsable -> mailSender.sendMail(responsable.getMail(), getAsunto(actionItem), getDescripcion(actionItem)));
+    }
+
+    public String getAsunto(ActionItem actionItem) {
+        return "Tenes Action-Items pendientes del tema " + actionItem.getTema().getTema().getTitulo();
+    }
+
+    public String getDescripcion(ActionItem actionItem) {
+        return "Recordá hacerte cargo del Action Item: " + actionItem.getDescripcion() +
+                ". Para más información entrá en: http://votacion-roots.herokuapp.com/minuta/"
+                + actionItem.getTema().getMinuta().getReunion().getId() + "/ver";
     }
 }

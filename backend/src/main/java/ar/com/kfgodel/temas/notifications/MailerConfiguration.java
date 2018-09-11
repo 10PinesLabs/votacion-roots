@@ -2,10 +2,10 @@ package ar.com.kfgodel.temas.notifications;
 
 public class MailerConfiguration {
 
-    public static MailerObserver getMailer() {
+    public static MailSender getMailer() {
         if("PROD".equals(System.getenv("ENVIROMENT")) || "STG".equals(System.getenv("ENVIROMENT"))) {
-            return new ActionItemMailSender();
+            return new RealMailSender();
         }
-        return new ActionItemStubMailSender();
+        return new StubMailSender();
     }
 }

@@ -66,8 +66,8 @@ public class ActionItem  extends PersistableSupport {
     public void addObserver(MailerObserver unObserver) {
         this.observers.add(unObserver);
     }
-    public void removeObserver(MailerObserver unObserver){
-        this.observers.remove(unObserver);
+    public void removeAllObservers(){
+        this.observers.removeAll(this.observers);
     }
 
     public void setFueNotificado(Boolean fueNotificado) {
