@@ -5,6 +5,12 @@
   margin: 20px;
 }
 
+.minuta-tratado-title {
+  margin-right: 20px;
+  padding: 15px 30px 10px 20px;
+  width: 100%;
+}
+
 .minuta-subtitle {
   color: #EF5467;
   font-weight: bold;
@@ -16,8 +22,8 @@
 
 .minuta-body {
   width: 80%;
-  margin:auto;
-  display:flex;
+  margin: auto;
+  display: flex;
 }
 
 .minuta-count {
@@ -43,7 +49,8 @@
   line-height: 1.20;
   max-height: 70px;
 }
-.relative-position-button{
+
+.relative-position-button {
   display: flex;
   justify-content: flex-end;
   position: relative;
@@ -61,7 +68,7 @@
   box-shadow: 1px 1px lightgrey;
 }
 
-.colapse-button:focus{
+.colapse-button:focus {
   background-color: lightgrey;
 }
 
@@ -99,7 +106,7 @@
   text-align: right;
 }
 
-.plus-size{
+.plus-size {
   line-height: 130% !important;
   font-size: 24px !important;
 }
