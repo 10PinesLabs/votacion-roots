@@ -104,3 +104,7 @@
   font-size: 24px !important;
 }
 
+.noPadding .descripcion-minuta{
+  max-width: 90vh !important;
+}
+

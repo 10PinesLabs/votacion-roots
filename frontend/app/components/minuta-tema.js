@@ -7,6 +7,7 @@ import UserServiceInjected from "../mixins/user-service-injected";
 export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaServiceInjected, NavigatorInjected, UserServiceInjected, {
 
   mostrandoToastUsuariosSinMail: false,
+  expandido: false,
 
   minutaParagraph: Ember.computed('mostrandoEditor', function () {
     if (!this.get('mostrandoEditor')) {
@@ -27,6 +28,14 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
     mostrarEditor(){
       this._mostrarEditor();
     },
+
+    expandirDescripcion(){
+      this.set('expandido', true);
+    },
+
+    colapsarDescripcion(){
+      this.set('expandido', false);
+    },
   },
   _mostrarEditorDeConclusion(tema) {
     var indiceClickeado = this.get('model.minuta.temas').indexOf(tema);
@@ -37,4 +46,5 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
   _mostrarEditor() {
     this.set('mostrandoEditor', true);
   },
+
 });

@@ -4,8 +4,19 @@
     <div class="mr-20">
       <td class="noPadding">
         <h5 class="titulo-de-tema">{{temaDeMinuta.tema.titulo}}</h5>
-        <p class="{{minutaParagraph}}">{{markdown-view
-          value=temaDeMinuta.tema.descripcion}}</p>
+        {{#if expandido}}
+        <p class="crop clickable descripcion-minuta" id="descripcion-expandida">
+          {{markdown-view
+          value=temaDeMinuta.tema.descripcion
+        }}
+        </p>
+        {{else}}
+        <p class="crop clickable descripcion-minuta" id="descripcion-no-expandida" {{action 'expandirDescripcion'}}>
+          {{markdown-view
+          value=temaDeMinuta.tema.descripcion
+        }}
+        </p>
+        {{/if}}
       </td>
     </div>
 
