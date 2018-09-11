@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+  classNames: ["minuta-botom-tema"],
 
   guardarConclusionHabilitado: Ember.computed('temaDeMinuta.actionItems.@each.descripcion',
     'temaDeMinuta.actionItems.@each.responsables',
@@ -13,15 +14,5 @@ export default Ember.Component.extend({
       else {
         return "";
       }
-    }),
-  actions: {
-    agregarActionItem() {
-      this.get('temaDeMinuta').actionItems.pushObject(
-        Ember.Object.extend().create({
-          descripcion: "",
-          responsables: [],
-        }));
-      this.rerender();
-    },
-  },
+    })
 });

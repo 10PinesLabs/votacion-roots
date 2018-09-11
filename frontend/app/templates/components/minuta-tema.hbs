@@ -1,4 +1,5 @@
 <div class="white">
+
   <div class="tema-content flex-center space-between white" {{action 'verEditorDeConclusion' temaDeMinuta}}>
     <div class="mr-20">
       <td class="noPadding">
@@ -8,28 +9,26 @@
       </td>
     </div>
 
-    <div>
-      <h6 class="center-align"> ¿Fue tratado?</h6>
-      <div class="space-between mt-20">
-        <button type="button" {{action 'setTratado' true}} class="btn-flat bold mr-20 {{btnColorSi}}">
-          <h6 class="bold"> SI </h6>
-        </button>
-        <button type="button" {{action 'setTratado' false}} class="btn-flat bold {{btnColorNo}}">
-          <h6 class="bold"> NO </h6>
-        </button>
-      </div>
-
+    <div {{action 'mostrarEditor'}}>
+      {{switch-tratado tema=temaDeMinuta}}
     </div>
   </div>
 
-  <div id="mostrar-edito">
-    {{# if mostrandoEditor}}
-      {{editor-de-conclusion
-        alGuardar=(action 'guardarConclusion')
-        alCerrar=(action 'cerrarEditor')
-        temaDeMinuta=temaDeMinuta
-        usuarios=model.usuarios
-      }}
-    {{/if}}
-  </div>
+  {{# if mostrandoEditor}}
+    <div class="mb-20">
+      <div class="tema-content">
+        <h5 class="gray-subtitle">Conclusiones</h5>
+        {{text-area value=temaDeMinuta.conclusion}}
+
+      </div>
+
+      <div class="tema-horizontal-margin">
+        {{add-action-item temaDeMinuta=temaDeMinuta usuarios=model.usuarios }}
+      </div>
+
+      <div class="divider"></div>
+      {{minuta-tema-buttons alCerrar=(action 'cerrarEditor') alGuardar=guardarConclusion temaDeMinuta=temaDeMinuta}}
+    </div>
+  {{/if}}
+
 </div>

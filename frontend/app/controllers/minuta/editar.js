@@ -6,6 +6,8 @@ import UserServiceInjected from "../../mixins/user-service-injected";
 
 export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServiceInjected, NavigatorInjected, UserServiceInjected, {
 
+  mostrandoToastUsuariosSinMail: false,
+
   temasPendientes: Ember.computed('model.minuta', function () {
     return  this.get('model.minuta').temas.filter(tema => !tema.fueTratado);
   }),
@@ -77,21 +79,19 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
       this._ocultarEditor();
     },
 
-    guardarConclusion(fueTratado) {
-      var tema = this.get('temaAEditar');
+    guardarConclusion(tema) {
       tema.actionItems.forEach((actionItem) => {
         delete actionItem.usuarios;
         delete actionItem.usuariosSeleccionables;
       });
 
-      tema.set('fueTratado', fueTratado);
-
       this.temaDeMinutaService().updateTemaDeMinuta(tema)
         .then((response) => {
           this._mostrarUsuariosSinMail(response);
-          this._recargarLista();
           this._ocultarEditor();
-        });
+        }, (error) => {
+        this._recargarLista();
+      });
     },
 
     quitarAsistente(usuario) {
@@ -148,8 +148,11 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
     this.set('anchoDeTabla', 's12');
   },
 
-  _mostrarUsuariosSinMail(response) {
+  _recargarLista() {
+    this.get('target.router').refresh();
+  },
 
+  _mostrarUsuariosSinMail(response) {
     let nombresDePersonasSinMailConRepetidos = [].concat.apply([],
       response.actionItems.map(actionItem => actionItem.responsables)
     )
@@ -169,14 +172,9 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
   },
 
   mostrar_alerta_por_falta_de_mail() {
-    var x = document.getElementById("toast");
-    x.className = "show";
-    setTimeout(function () {
-      x.className = x.className.replace("show", "");
-    }, 5000);
-  },
-
-  _recargarLista() {
-    this.get('target.router').refresh();
+    this.set('mostrandoToastUsuariosSinMail', true);
+    setTimeout(() => {
+      this.set('mostrandoToastUsuariosSinMail', false);
+    }, 4000);
   },
 });

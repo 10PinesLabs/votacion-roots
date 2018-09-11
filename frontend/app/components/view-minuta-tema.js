@@ -5,10 +5,9 @@ import NavigatorInjected from "../mixins/navigator-injected";
 import UserServiceInjected from "../mixins/user-service-injected";
 
 export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaServiceInjected, NavigatorInjected, UserServiceInjected, {
+  classNames: ['card'],
 
   mostrarDetalle: false,
-
-  agregarItem: false,
 
   usuarios: Ember.computed('model.usuarios', function () {
     return this.get('model.usuarios');
@@ -21,23 +20,6 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
 
     ocultarDetalleDeTema(tema) {
       return this._ocultarDetalle(tema);
-    },
-
-    agregarActionItem() {
-      this._agregarNuevoActionItem();
-    },
-
-    ocultarAgregadoActionItem() {
-      this.set('agregarItem', false);
-    },
-
-    soloGuardar(actionItem) {
-      this._guardar(actionItem).then(() => this._recargarLista());
-    },
-
-    guardarYCrearOtro(actionItem) {
-      this._guardar(actionItem);
-      this._agregarNuevoActionItem();
     },
 
   },
@@ -53,25 +35,8 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
     this.set('mostrarDetalle', false);
   },
 
-  _guardar(actionItem) {
-    this.get('temaDeMinuta').actionItems.pushObject(actionItem);
-
-    var tema = this.get('temaDeMinuta');
-    tema.actionItems.forEach((actionItem) => {
-      delete actionItem.usuarios;
-      delete actionItem.usuariosSeleccionables;
-    });
-
-    return this.temaDeMinutaService().updateTemaDeMinuta(tema);
-  },
-
   _recargarLista() {
     this.get('router').refresh();
-  },
-
-  _agregarNuevoActionItem() {
-    this.set('agregarItem', true);
-    this.rerender();
   },
 
 });
