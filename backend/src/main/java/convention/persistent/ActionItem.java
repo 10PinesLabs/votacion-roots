@@ -30,7 +30,11 @@ public class ActionItem  extends PersistableSupport {
     @Transient
     private List<MailerObserver> observers = new ArrayList<>();
 
+    @Transient
+    private Boolean fueNotificado;
+
     public ActionItem() {
+        this.fueNotificado =true;
         this.addObserver(MailerObserver.create());
     }
 
@@ -65,4 +69,20 @@ public class ActionItem  extends PersistableSupport {
     public void removeObserver(MailerObserver unObserver){
         this.observers.remove(unObserver);
     }
+
+    public void setFueNotificado(Boolean fueNotificado) {
+        this.fueNotificado=fueNotificado;
+    }
+
+    public boolean getFueNotificado() {
+        return this.fueNotificado;
+    }
+
+    public boolean equals(ActionItem unActionItem){
+        return this.getDescripcion().equals(unActionItem.getDescripcion())
+                && this.getId() == unActionItem.getId()
+                && this.getResponsables().containsAll(unActionItem.getResponsables())
+                && this.getResponsables().size() == unActionItem.getResponsables().size();
+    }
+
 }
