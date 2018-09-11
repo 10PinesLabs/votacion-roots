@@ -216,3 +216,18 @@
 .the-lock:hover .tool-tip-text {
   visibility: visible;
 }
+
+#descripcion-expandida{
+  max-height: 100%;
+}
+
+#descripcion-no-expandida{
+  max-height: 30vh;
+}
+
+#tema-colapse-button{
+  display: flex;
+  justify-content: center;
+  position: relative;
+  top: 20px;
+}
