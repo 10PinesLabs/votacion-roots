@@ -7,6 +7,10 @@ export default Ember.Component.extend({
     $('select').material_select();
   },
 
+  didInsertElement() {
+    this.$('#titulo').focus();
+  },
+
   guardarHabilitado: Ember.computed('tema.duracion', 'tema.titulo','tema.actionItems', function () {
     if (!this.get('tema.duracion') || !this.get('tema.titulo') ) {
       return "disabled";
