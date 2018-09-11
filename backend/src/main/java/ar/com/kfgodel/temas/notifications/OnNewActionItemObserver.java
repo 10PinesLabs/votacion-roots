@@ -7,26 +7,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class OnNewActionItemObserver extends MailerObserver {
-    public static final String EMPTY_ITEM_ACTION_EXCEPTION = "El item debe tener descripción y responsables";
     private final MailSender mailSender;
 
     public OnNewActionItemObserver(MailSender unMailSender){
         this.mailSender = unMailSender;
-    }
-
-    private void validarActionItem(ActionItem unActionItem) {
-        if (unActionItem.getDescripcion() == null || unActionItem.getResponsables() == null) {
-            throw new RuntimeException(EMPTY_ITEM_ACTION_EXCEPTION);
-        }
-    }
-
-    @Override
-    public void onSetResponsables(ActionItem actionItem) {
-        validarActionItem(actionItem);
-        if (!actionItem.getFueNotificado()) {
-            notificarAResponsables(actionItem);
-            actionItem.setFueNotificado(true);
-        }
     }
 
     @Override

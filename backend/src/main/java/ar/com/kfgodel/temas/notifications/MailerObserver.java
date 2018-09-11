@@ -10,8 +10,6 @@ public abstract class MailerObserver {
         return new OnNewActionItemObserver(MailerConfiguration.getMailer());
     }
 
-    public abstract void onSetResponsables(ActionItem actionItem);
-
     public abstract void notificar(List<ActionItem> oldActionItem, List<ActionItem> newActionItem);
 
 }
