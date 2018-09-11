@@ -63,9 +63,11 @@ $ember-power-select-placeholder-color: black !important;
 }
 
 .crop {
-  overflow: auto;
+  overflow-y: hidden;
   overflow-wrap: break-word;
   margin: 0px;
+  max-width: 100vh;
+  max-height: 30vh;
 }
 
 .titulo-de-tema {
@@ -185,6 +187,14 @@ h6 {
 
 .mb-20 {
   margin-bottom: 20px;
+}
+
+.btn-flat:focus{
+  background-color: #6b016b;
+}
+
+.fit-correct-width .ember-view{
+  display: contents;
 }
 
 @import "ember-power-select";
