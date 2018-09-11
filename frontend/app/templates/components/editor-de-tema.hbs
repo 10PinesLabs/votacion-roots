@@ -1,12 +1,14 @@
 <div class="card">
-  <a class="btn-floating waves-effect waves-light btn right close-button-margin"  {{action cerrarEditor}}><i class="material-icons ">close</i></a>
+  <a class="btn-floating waves-effect waves-light btn right close-button-margin"  {{action cerrarEditor}}><i
+    class="material-icons ">close</i></a>
   <div class="card-content">
     <span class="card-title">{{titulo}}</span>
 
     <div class="row ">
 
-      <div class="texto-tema">
-        {{tenpines/input-text label='Título' value=tema.titulo col='s4' }}
+      <div class="texto-tema col s4">
+        <label>Título</label>
+        {{input id="titulo" value=tema.titulo}}
       </div>
       <div class="col s4 selector-duracion">
         <label class="duracion-label">Duración</label>
@@ -17,26 +19,28 @@
           searchEnabled=false
           placeholder=""
           onchange=(action (mut tema.duracion))
-          as |duracion|
+        as |duracion|
         }}
           {{duracion}} {{minutos-de-duracion duracion duraciones }}
         {{/power-select}}
       </div>
 
       <div class="col s2 parcheDeContEditor">
-        <div class="parcheDeEditorBottom " >
-          {{materialize/check-box label='Obligatorio' checked=esObligatorio checkboxClasses="filled-in" disabled=checkboxDeshabilitado}}
+        <div class="parcheDeEditorBottom ">
+          {{materialize/check-box label='Obligatorio' checked=esObligatorio checkboxClasses="filled-in"
+                                  disabled=checkboxDeshabilitado}}
         </div>
       </div>
       <div class="texto-tema" id="texto-descripcion">
-      {{text-area label='Descripción' value=tema.descripcion col='s12' }}
+        {{text-area label='Descripción' value=tema.descripcion col='s12' }}
       </div>
     </div>
 
   </div>
 
   <div class="card-action right-align">
-    <button type="button" onclick={{action 'guardar' alGuardar}} class="btn-flat btn bold {{guardarHabilitado}}">
+    <button type="button" onclick={{action 'guardar' alGuardar}}
+            class="btn-flat btn bold btn-guardar--focus {{guardarHabilitado}}">
       <h6 class="bold">Guardar</h6>
     </button>
   </div>

@@ -41,14 +41,20 @@
   <div class="divider"></div>
   {{/if}}
 
-  <div id="mostrar-edito">
-    {{# if mostrandoEditor}}
-      {{editor-de-conclusion
-        alGuardar=guardarConclusion
-        alCerrar=(action 'cerrarEditor')
-        temaDeMinuta=temaDeMinuta
-        usuarios=model.usuarios
-      }}
-    {{/if}}
-  </div>
+  {{# if mostrandoEditor}}
+    <div class="mb-20">
+      <div class="tema-content">
+        <h5 class="gray-subtitle">Conclusiones</h5>
+        {{text-area value=temaDeMinuta.conclusion}}
+
+      </div>
+
+      <div class="tema-horizontal-margin">
+        {{add-action-item temaDeMinuta=temaDeMinuta usuarios=model.usuarios }}
+      </div>
+
+      <div class="divider"></div>
+      {{minuta-tema-buttons alCerrar=(action 'cerrarEditor') alGuardar=guardarConclusion temaDeMinuta=temaDeMinuta}}
+    </div>
+  {{/if}}
 </div>

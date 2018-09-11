@@ -1,5 +1,6 @@
 import Ember from "ember";
 import EmberizedResourceCreatorInjected from "ateam-ember-resource/mixins/emberized-resource-creator-injected";
+import {promiseHandling} from "../helpers/promise-handling";
 /**
  * Esta clase permite interactuar con el backend para modificar los usuarios
  */
@@ -19,10 +20,10 @@ export default Ember.Service.extend(EmberizedResourceCreatorInjected, {
     return this._userResource().getSingle(userId);
   },
   updateUser: function (user) {
-    return this._userResource().update(user);
+    return promiseHandling(this._userResource().update(user));
   },
   removeUser: function (user) {
-    return this._userResource().remove(user);
+    return promiseHandling(this._userResource().remove(user));
   },
   getNoVotantes: function (reunion) {
     return this._noVotaronUserResource().getSingle(reunion);

@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import EmberizedResourceCreatorInjected from "ateam-ember-resource/mixins/emberized-resource-creator-injected";
+import {promiseHandling} from "../helpers/promise-handling";
 
 export default Ember.Service.extend(EmberizedResourceCreatorInjected, {
 
@@ -8,15 +9,15 @@ export default Ember.Service.extend(EmberizedResourceCreatorInjected, {
   },
 
   createTemaGeneral:function(tema){
-    return this._temaGeneralResource().create(tema);
+    return promiseHandling(this._temaGeneralResource().create(tema));
   },
 
   deleteTemaGeneral:function(tema){
-    return this._temaGeneralResource().remove(tema);
+    return promiseHandling(this._temaGeneralResource().remove(tema));
   },
 
   updateTemaGeneral:function(tema) {
-    return this._temaGeneralResource().update(tema);
+    return promiseHandling(this._temaGeneralResource().update(tema));
   },
 
   // PRIVATE
