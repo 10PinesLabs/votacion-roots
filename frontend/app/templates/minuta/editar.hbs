@@ -1,4 +1,13 @@
 <div class="row">
+
+  {{#if mostrandoToastUsuariosSinMail}}
+    {{message-toast
+      nombre-icono="email"
+      mensaje="Las siguientes personas deben volver a loggearse para poder recibir un mail:"
+      lista-opcional=nombresDePersonasSinMail
+    }}
+  {{/if}}
+
   <div class="col s12 minuta-title">
     <h4 class="title-label">Minuta de reunión </h4>
     <h4 class="minuta-date"> {{fecha}}</h4>
