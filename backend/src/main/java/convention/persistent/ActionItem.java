@@ -28,14 +28,10 @@ public class ActionItem  extends PersistableSupport {
     public static final String descripcion_FIELD = "descripcion";
 
     @Transient
-    private List<MailerObserver> observers = new ArrayList<>();
-
-    @Transient
     private Boolean fueNotificado;
 
     public ActionItem() {
         this.fueNotificado =true;
-        this.addObserver(MailerObserver.create());
     }
 
     public List<Usuario> getResponsables() {
@@ -44,7 +40,6 @@ public class ActionItem  extends PersistableSupport {
 
     public void setResponsables(List<Usuario> responsables) {
         this.responsables = responsables;
-        observers.forEach(observer -> observer.onSetResponsables(this));
     }
 
     public TemaDeMinuta getTema() {
@@ -61,13 +56,6 @@ public class ActionItem  extends PersistableSupport {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
-    }
-
-    public void addObserver(MailerObserver unObserver) {
-        this.observers.add(unObserver);
-    }
-    public void removeAllObservers(){
-        this.observers.removeAll(this.observers);
     }
 
     public void setFueNotificado(Boolean fueNotificado) {

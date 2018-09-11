@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.times;
 
-public class DeleteResponsablesObserverTest {
+public class OnDeleteResponsablesObserverTest {
 
     private RealMailSender mailSender;
     private OnDeleteResponsablesObserver onDeleteObserver;

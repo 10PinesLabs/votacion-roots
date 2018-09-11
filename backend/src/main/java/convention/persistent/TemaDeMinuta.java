@@ -1,9 +1,11 @@
 package convention.persistent;
 
+import ar.com.kfgodel.temas.notifications.*;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,12 +29,21 @@ public class TemaDeMinuta extends PersistableSupport {
     private TemaDeReunion tema;
     private String conclusion;
     private boolean fueTratado;
+    @Transient
+    private List<MailerObserver> observers;
 
     public static TemaDeMinuta create(TemaDeReunion temaDeReunion, Minuta minuta) {
+        MailSender mailerConfiguration = MailerConfiguration.getMailer();
         TemaDeMinuta nuevoTema = new TemaDeMinuta();
         nuevoTema.setTema(temaDeReunion);
         nuevoTema.setMinuta(minuta);
+        nuevoTema.setObservers(Arrays.asList(new OnDeleteResponsablesObserver(mailerConfiguration),
+                new OnNewActionItemObserver(mailerConfiguration)));
         return nuevoTema;
+    }
+
+    private void setObservers(List<MailerObserver> mailerObservers) {
+        this.observers = mailerObservers;
     }
 
     public TemaDeReunion getTema() {
@@ -64,16 +75,15 @@ public class TemaDeMinuta extends PersistableSupport {
     }
 
     public void setActionItems(List<ActionItem> actionItems) {
+        List<ActionItem> oldActionItems = this.actionItems;
         if (this.actionItems == null) {
             this.actionItems = actionItems;
         } else {
-            List<ActionItem> actionItemsNoRepetidos = actionItems.stream()
-                    .filter(actionItem -> !this.actionItems.stream().anyMatch(action -> action.equals(actionItem)))
-                    .collect(Collectors.toList());
-            actionItemsNoRepetidos.forEach(actionItem -> actionItem.setFueNotificado(false));
-            this.actionItems.addAll(actionItemsNoRepetidos);
+            this.actionItems.clear();
+            this.actionItems.addAll(actionItems);
         }
         actionItems.forEach(actionItem -> actionItem.setTema(this));
+        this.observers.forEach(observer -> observer.notificar(oldActionItems, actionItems));
     }
 
     public boolean getFueTratado() {
