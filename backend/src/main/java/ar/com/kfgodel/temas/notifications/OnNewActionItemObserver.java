@@ -4,12 +4,13 @@ import convention.persistent.ActionItem;
 import org.junit.platform.commons.util.StringUtils;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class ActionItemMailSender extends MailerObserver {
+public class OnNewActionItemObserver extends MailerObserver {
     public static final String EMPTY_ITEM_ACTION_EXCEPTION = "El item debe tener descripción y responsables";
     private final MailSender mailSender;
 
-    public ActionItemMailSender(MailSender unMailSender){
+    public OnNewActionItemObserver(MailSender unMailSender){
         this.mailSender = unMailSender;
     }
 
@@ -30,7 +31,10 @@ public class ActionItemMailSender extends MailerObserver {
 
     @Override
     public void notificar(List<ActionItem> oldActionItem, List<ActionItem> newActionItem) {
-
+        newActionItem.stream()
+                .filter(newItem -> !oldActionItem.stream().anyMatch(old -> old.equals(newItem)))
+                .collect(Collectors.toList())
+                .forEach(newItem -> notificarAResponsables(newItem));
     }
 
     private void notificarAResponsables(ActionItem actionItem) {

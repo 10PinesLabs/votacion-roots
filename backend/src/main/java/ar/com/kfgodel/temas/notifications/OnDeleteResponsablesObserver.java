@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class DeleteResponsablesObserver extends MailerObserver {
+public class OnDeleteResponsablesObserver extends MailerObserver {
 
     private final MailSender mailSender;
 
-    public DeleteResponsablesObserver(MailSender mailSender) {
+    public OnDeleteResponsablesObserver(MailSender mailSender) {
         this.mailSender = mailSender;
     }
 

@@ -3,11 +3,7 @@ package ar.com.kfgodel.temas.notifications;
 import convention.persistent.*;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,7 +15,7 @@ import static org.mockito.Mockito.times;
 public class DeleteResponsablesObserverTest {
 
     private RealMailSender mailSender;
-    private DeleteResponsablesObserver onDeleteObserver;
+    private OnDeleteResponsablesObserver onDeleteObserver;
     private List<ActionItem> oldActionItems;
     private List<ActionItem> newActionItems;
     private Usuario unUsuario;
@@ -45,7 +41,7 @@ public class DeleteResponsablesObserverTest {
         newActionItems = Arrays.asList(otroActionItem);
 
         mailSender = Mockito.mock(RealMailSender.class);
-        onDeleteObserver = new DeleteResponsablesObserver(mailSender);
+        onDeleteObserver = new OnDeleteResponsablesObserver(mailSender);
     }
 
     @Test

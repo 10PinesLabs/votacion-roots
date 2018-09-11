@@ -7,7 +7,7 @@ import java.util.List;
 public abstract class MailerObserver {
 
     public static MailerObserver create(){
-        return new ActionItemMailSender(MailerConfiguration.getMailer());
+        return new OnNewActionItemObserver(MailerConfiguration.getMailer());
     }
 
     public abstract void onSetResponsables(ActionItem actionItem);

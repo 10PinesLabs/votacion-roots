@@ -13,7 +13,6 @@ import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
-import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.times;
 
 @RunWith(PowerMockRunner.class)
@@ -21,7 +20,7 @@ import static org.mockito.Mockito.times;
 public class ActionItemMailSenderTest {
 
     RealMailSender mockMailSender;
-    ActionItemMailSender actionItemMailSender;
+    OnNewActionItemObserver actionItemMailSender;
     ActionItem actionItem;
     String port = "SMTP_PORT";
     String host = "SMTP_HOST";
@@ -32,7 +31,7 @@ public class ActionItemMailSenderTest {
         PowerMockito.when(System.getenv(port)).thenReturn("587");
         PowerMockito.when(System.getenv(host)).thenReturn("smtp.gmail.com");
         mockMailSender = Mockito.mock(RealMailSender.class);
-        actionItemMailSender = new ActionItemMailSender(mockMailSender);
+        actionItemMailSender = new OnNewActionItemObserver(mockMailSender);
         actionItem = new ActionItem();
         actionItem.removeAllObservers();
         actionItem.addObserver(actionItemMailSender);
