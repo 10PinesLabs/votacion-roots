@@ -34,7 +34,7 @@ public class ActionItem  extends PersistableSupport {
     private Boolean fueNotificado;
 
     public ActionItem() {
-        this.fueNotificado =true;
+        this.fueNotificado = false;
         this.addObserver(MailerObserver.create());
     }
 
