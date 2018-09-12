@@ -47,4 +47,7 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
     this.set('mostrandoEditor', true);
   },
 
+  _ocultarEditor() {
+    this.set('mostrandoEditor', false);
+  }
 });

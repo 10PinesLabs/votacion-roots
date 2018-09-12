@@ -17,7 +17,7 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
 
   actions: {
     verDetalleDeTema(tema) {
-      return this._mostrarDetalle(tema);
+      this._mostrarDetalle(tema);
     },
 
     ocultarDetalleDeTema(tema) {
@@ -53,13 +53,13 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
   _mostrarDetalle(tema) {
     var indiceClickeado = this.get('model.minuta.temas').indexOf(tema);
     this.set('indiceSeleccionado', indiceClickeado);
-    this.set('mostrarDetalle', true);
+    this.set('mostrandoEditor', true);
   },
 
   _ocultarDetalle(tema) {
     var indiceClickeado = this.get('model.minuta.temas').indexOf(tema);
     this.set('indiceSeleccionado', indiceClickeado);
-    this.set('mostrarDetalle', false);
+    this.set('mostrandoEditor', false);
   },
 
   _recargarLista() {
