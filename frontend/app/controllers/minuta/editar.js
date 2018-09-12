@@ -154,7 +154,6 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
   },
 
   _mostrarUsuariosSinMail(response) {
-    debugger;
     let nombresDePersonasSinMailConRepetidos = [].concat.apply([],
       response.actionItems.map(actionItem => actionItem.responsables)
     )
