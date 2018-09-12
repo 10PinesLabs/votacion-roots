@@ -353,7 +353,7 @@ public class PersistenciaTest {
     }
     @Test
     public void test20UnTemaDeMinutaSePuedePersistirConActionItems(){
-        TemaDeMinuta temaDeMinuta=new TemaDeMinuta();
+        TemaDeMinuta temaDeMinuta=TemaDeMinuta.create(TemaDeReunion.create(), Minuta.create(Reunion.create(LocalDate.now())) );
         temaDeMinuta.setConclusion("una conclusion");
         ActionItem unActionItem=new ActionItem();
         unActionItem.setDescripcion("unActionItem");
@@ -367,7 +367,7 @@ public class PersistenciaTest {
     }
     @Test
     public void test21UnTemaDeMinutaPuedeUpdatearSusActionItems(){
-        TemaDeMinuta temaDeMinuta=new TemaDeMinuta();
+        TemaDeMinuta temaDeMinuta=TemaDeMinuta.create(TemaDeReunion.create(), Minuta.create(Reunion.create(LocalDate.now())) );
         temaDeMinuta.setConclusion("una conclusion");
         ActionItem unActionItem=new ActionItem();
         unActionItem.setDescripcion("unActionItem");

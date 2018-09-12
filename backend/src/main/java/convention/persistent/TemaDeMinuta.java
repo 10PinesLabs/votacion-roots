@@ -5,6 +5,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -75,14 +76,18 @@ public class TemaDeMinuta extends PersistableSupport {
     }
 
     public void setActionItems(List<ActionItem> actionItems) {
-        List<ActionItem> oldActionItems = this.actionItems;
+        List<ActionItem> oldActionItems;
+
         if (this.actionItems == null) {
             this.actionItems = actionItems;
+            oldActionItems = new ArrayList<>();
         } else {
+            oldActionItems = this.actionItems;
             this.actionItems.clear();
             this.actionItems.addAll(actionItems);
         }
-        actionItems.forEach(actionItem -> actionItem.setTema(this));
+
+        this.actionItems.forEach(actionItem -> actionItem.setTema(this));
         this.observers.forEach(observer -> observer.notificar(oldActionItems, actionItems));
     }
 

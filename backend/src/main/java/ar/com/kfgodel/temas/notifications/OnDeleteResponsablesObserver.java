@@ -17,13 +17,11 @@ public class OnDeleteResponsablesObserver extends MailerObserver {
 
     @Override
     public void notificar(List<ActionItem> oldActionItems, List<ActionItem> newActionItems) {
-        Stream<ActionItem> actionItemsExistentes = oldActionItems.stream().filter(oldItem -> newActionItems.stream().anyMatch(newItem -> oldItem.getId().equals(newItem.getId())));
-        newActionItems.stream().filter(newItem -> !newItem.getResponsables().containsAll(actionItemsExistentes.filter(ai -> ai.getId().equals(newItem.getId())).findFirst().get().getResponsables())).collect(Collectors.toList());
         oldActionItems.forEach(oldActionItem -> {
                     ActionItem nuevoActionItem = newActionItems.stream().filter(newActionItem -> oldActionItem.getId().equals(newActionItem.getId()))
                             .findFirst().get();
                     usuariosEliminados(oldActionItem.getResponsables(), nuevoActionItem.getResponsables()).forEach(
-                            usuarioEliminado -> mailSender.sendMail(usuarioEliminado.getMail(), getAsunto(), getDescripcion()));
+                            usuarioEliminado -> mailSender.sendMail(usuarioEliminado.getMail(), getAsunto(oldActionItem), getDescripcion(oldActionItem)));
                 }
         );
     }
@@ -35,11 +33,13 @@ public class OnDeleteResponsablesObserver extends MailerObserver {
                                 .contains(old.getBackofficeId())).collect(Collectors.toList());
     }
 
-    private String getDescripcion() {
-        return "Fuiste eliminado de un action item. Para más información ingresá en: ";
+    private String getDescripcion(ActionItem actionItem) {
+        return "Fuiste eliminado del action item: " + actionItem.getDescripcion() +
+        ". Para más información entrá en: http://votacion-roots.herokuapp.com/minuta/"
+                + actionItem.getTema().getMinuta().getReunion().getId() + "/ver";
     }
 
-    private String getAsunto() {
-        return "Fuiste removido de un action item";
+    private String getAsunto(ActionItem actionItem) {
+        return "Fuiste removido del action item: " + actionItem.getTema().getTema().getTitulo();
     }
 }
