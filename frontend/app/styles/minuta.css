@@ -82,6 +82,10 @@
   height: 100%;
 }
 
+.full-width{
+  width: 100%;
+}
+
 .responsable-item {
   background: purple;
   color: white;
@@ -111,3 +115,7 @@
   font-size: 24px !important;
 }
 
+.descripcion-minuta{
+  text-align: justify;
+  max-width: 80vh !important;
+}

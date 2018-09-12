@@ -1,18 +1,45 @@
 <div class="white">
 
   <div class="tema-content flex-center space-between white" {{action 'verEditorDeConclusion' temaDeMinuta}}>
-    <div class="mr-20">
-      <td class="noPadding">
+    <table style="display: block">
+    <tr class="mr-20">
+      <td class="noPadding full-width">
         <h5 class="titulo-de-tema">{{temaDeMinuta.tema.titulo}}</h5>
-        <p class="minuta-paragraph">{{markdown-view
-          value=temaDeMinuta.tema.descripcion}}</p>
+        {{#if expandido}}
+          <p class="crop clickable descripcion-minuta" id="descripcion-expandida">
+            {{markdown-view
+              value=temaDeMinuta.tema.descripcion
+            }}
+          </p>
+        {{else}}
+          <p class="crop clickable descripcion-minuta" id="descripcion-no-expandida" {{action 'expandirDescripcion'}}>
+            {{markdown-view
+              value=temaDeMinuta.tema.descripcion
+            }}
+          </p>
+        {{/if}}
       </td>
-    </div>
 
-    <div {{action 'mostrarEditor'}}>
-      {{switch-tratado tema=temaDeMinuta}}
-    </div>
+      <td style="display: flex" class="ml-20">
+      <div {{action 'mostrarEditor'}}>
+        {{switch-tratado tema=temaDeMinuta}}
+      </div>
+      </td>
+    </tr>
+
+    <tr class="flex-center justify-center">
+      {{#if expandido}}
+          <button class="colapse-button" id="tema-colapse-button" onclick={{action 'colapsarDescripcion'}}>
+            <i class="material-icons">unfold_less</i>
+          </button>
+      {{/if}}
+    </tr>
+    </table>
   </div>
+
+  {{#if expandido}}
+  <div class="divider"></div>
+  {{/if}}
 
   {{# if mostrandoEditor}}
     <div class="mb-20">
@@ -30,5 +57,4 @@
       {{minuta-tema-buttons alCerrar=(action 'cerrarEditor') alGuardar=guardarConclusion temaDeMinuta=temaDeMinuta}}
     </div>
   {{/if}}
-
 </div>
