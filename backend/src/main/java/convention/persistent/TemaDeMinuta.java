@@ -71,7 +71,8 @@ public class TemaDeMinuta extends PersistableSupport {
                     .filter(actionItem -> !this.actionItems.stream().anyMatch(action -> action.equals(actionItem)))
                     .collect(Collectors.toList());
             actionItemsNoRepetidos.forEach(actionItem -> actionItem.setFueNotificado(false));
-            this.actionItems.addAll(actionItemsNoRepetidos);
+            this.actionItems.clear();
+            this.actionItems.addAll(actionItems);
         }
         actionItems.forEach(actionItem -> actionItem.setTema(this));
     }
