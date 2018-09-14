@@ -24,6 +24,9 @@
     },
     "ENVIROMENT": {
       "required": "true"
+    },
+    "HOSTNAME":{
+      "required": "true"
     }
   },
   "buildpacks": [
