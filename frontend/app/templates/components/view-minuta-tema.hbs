@@ -1,30 +1,69 @@
-
-<div class="minuta-tratado-title" {{action 'verDetalleDeTema' temaDeMinuta}}>
-  <td class="noPadding flex space-between">
-    <h5 class="titulo-de-tema">{{temaDeMinuta.tema.titulo}} </h5>
-    {{#if temaDeMinuta.actionItems.length}}
-      <i class="material-icons primary-color">flag</i>
-    {{/if}}
-  </td>
-</div>
-
-<div>
-  {{#if mostrandoDetalle}}
-    <div class="tema-horizontal-margin flex space-between">
-      {{#if expandido}}
-        <p class="crop clickable descripcion-minuta" id="descripcion-expandida">
-          {{markdown-view
-            value=temaDeMinuta.tema.descripcion
-          }}
-        </p>
-      {{else}}
-        <p class="crop clickable descripcion-minuta" id="descripcion-no-expandida" {{action 'expandirDescripcion'}}>
-          {{markdown-view
-            value=temaDeMinuta.tema.descripcion
-          }}
-        </p>
+{{#if temaTratado}}
+  <div class="minuta-tratado-title" {{action 'verDetalleDeTema' temaDeMinuta}}>
+    <td class="noPadding flex space-between">
+      <h5 class="titulo-de-tema">{{temaDeMinuta.tema.titulo}} </h5>
+      {{#if temaDeMinuta.actionItems.length}}
+        <i class="material-icons primary-color">flag</i>
       {{/if}}
-      {{#if editable}}
+    </td>
+  </div>
+{{else}}
+  <div class="tema-content flex-center space-between white" {{action 'verDetalleDeTema' temaDeMinuta}}>
+    <table style="display: block">
+      <tr class="mr-20">
+        <td class="noPadding full-width">
+          <h5 class="titulo-de-tema">{{temaDeMinuta.tema.titulo}}</h5>
+          {{#if expandido}}
+            <p class="crop descripcion-minuta" id="descripcion-expandida">
+              {{markdown-view
+                value=temaDeMinuta.tema.descripcion
+              }}
+            </p>
+          {{else}}
+            <p class="crop clickable descripcion-minuta" id="descripcion-no-expandida" {{action 'expandirDescripcion'}}>
+              {{markdown-view
+                value=temaDeMinuta.tema.descripcion
+              }}
+            </p>
+          {{/if}}
+        </td>
+
+        <td style="display: flex" class="ml-20">
+          <div {{action 'mostrarEditor'}}>
+            {{switch-tratado tema=temaDeMinuta}}
+          </div>
+        </td>
+      </tr>
+
+      <tr class="flex-center justify-center">
+        {{#if expandido}}
+          <button class="colapse-button" id="tema-colapse-button" onclick={{action 'colapsarDescripcion'}}>
+            <i class="material-icons">unfold_less</i>
+          </button>
+        {{/if}}
+      </tr>
+    </table>
+  </div>
+{{/if}}
+<div>
+  {{#if mostrandoDetalle }}
+    <div class="tema-horizontal-margin flex space-between">
+      {{#if temaTratado}}
+        {{#if expandido}}
+          <p class="crop descripcion-minuta" id="descripcion-expandida">
+            {{markdown-view
+              value=temaDeMinuta.tema.descripcion
+            }}
+          </p>
+        {{else}}
+          <p class="crop clickable descripcion-minuta" id="descripcion-no-expandida" {{action 'expandirDescripcion'}}>
+            {{markdown-view
+              value=temaDeMinuta.tema.descripcion
+            }}
+          </p>
+        {{/if}}
+      {{/if}}
+      {{#if (and editable temaTratado)}}
         {{switch-tratado tema=temaDeMinuta}}
       {{/if}}
     </div>
@@ -76,13 +115,12 @@
           <br/>
         {{/each}}
       </div>
+      <div class="relative-position-button mr-20">
+        <button class="colapse-button" onclick={{action "ocultarDetalleDeTema" temaDeMinuta}}>
+          <i class="material-icons">unfold_less</i>
+        </button>
+      </div>
     {{/if}}
-
-    <div class="relative-position-button mr-20">
-      <button class="colapse-button" onclick={{action "ocultarDetalleDeTema" temaDeMinuta}}>
-        <i class="material-icons">unfold_less</i>
-      </button>
-    </div>
   {{/if}}
 </div>
 

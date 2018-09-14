@@ -15,6 +15,10 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
     return this.get('model.usuarios');
   }),
 
+  temaTratado: Ember.computed('model', function () {
+    return this.get('temaDeMinuta').fueTratado;
+  }),
+
   actions: {
     verDetalleDeTema(tema) {
       this._mostrarDetalle(tema);
@@ -41,15 +45,24 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
       this._agregarNuevoActionItem();
     },
 
-    expandirDescripcion(){
-      this.set('expandido', true);
+    expandirDescripcion() {
+      if (this._conclusionExpandible()) {
+        this.set('expandido', true);
+      }
+
     },
 
-    colapsarDescripcion(){
+    colapsarDescripcion() {
       this.set('expandido', false);
     },
 
   },
+
+  _conclusionExpandible() {
+    let maxTextSize = $(window).height() * 0.30;
+    return $('#descripcion-no-expandida').height() > maxTextSize;
+  },
+
   _mostrarDetalle(tema) {
     var indiceClickeado = this.get('model.minuta.temas').indexOf(tema);
     this.set('indiceSeleccionado', indiceClickeado);
