@@ -123,7 +123,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
     }),
   puedeCerrar:
     Ember.computed('terminoDeVotar', 'reunion.status', function () {
-      return this.get('terminoDeVotar') && !(this.get('reunion.status') === 'CON_MINUTA');
+      return this.get('terminoDeVotar') && this.get('reunion.status') !== 'CON_MINUTA';
     }),
 
   actions:
@@ -377,7 +377,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
   _cerrarReunion() {
     var reunion = this.get('reunion');
     this.reunionService().cerrarReunion(reunion)
-      .then((cerrada) => {
+      .then(() => {
         this.navigator().navigateToVerMinuta(reunion.id);
       });
   },

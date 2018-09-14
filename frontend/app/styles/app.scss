@@ -197,4 +197,16 @@ h6 {
   display: contents;
 }
 
+div input[type=text]:focus:not([readonly]) + label{
+  color: grey;
+}
+
+.ember-power-select-trigger:focus, div .ember-power-select-trigger{
+  border-bottom: 1px solid $primary-color;
+}
+
+img {
+  max-width: 100%;
+}
+
 @import "ember-power-select";

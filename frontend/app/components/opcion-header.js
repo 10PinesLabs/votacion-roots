@@ -5,7 +5,7 @@ export default Ember.Component.extend({
   classNames: ['tab'],
 
   marcable: Ember.computed('route', function () {
-    if (window.location.pathname.replace(/\d/g, "") == this.route) {
+    if (window.location.pathname.replace(/\d/g, "") === this.route) {
       return 'bold';
     }
   })

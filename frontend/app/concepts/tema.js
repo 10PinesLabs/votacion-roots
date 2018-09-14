@@ -27,7 +27,7 @@ export default Ember.Object.extend({
   }),
 
   noTieneVotos: Ember.computed('noTieneVotos', 'cantidadVotosPropios', function () {
-    return this.get('cantidadVotosPropios') == 0;
+    return this.get('cantidadVotosPropios') === 0;
   }),
 
   cantidadVotosPropios: Ember.computed('idsDeInteresados.[]', 'usuarioActual', function () {
