@@ -16,11 +16,15 @@
     </div>
 
     <div class="space-between">
-      <div class="col s12 left-align flex-center" id="check-box">
+      <div class="flex-center">
+        <h6 style="margin: 0.5vw 1.5vw;font-size:14px">Temas propuestos (x)</h6>
+        <h6 style="margin: 0.5vw 1.5vw;font-size:14px">Temas obligatorios (x)</h6>
+      </div>
+      <!--<div class="col s12 left-align flex-center" id="check-box">
         {{materialize/check-box class="size-16" label='Ver temas obligatorios' checked=mostrarObligatorios
                                 checkboxClasses="filled-in"}}
         <i class="material-icons opacity-20">lock</i>
-      </div>
+      </div>-->
       {{#unless estaCerrada}}
       <div class="flex-center pl-10" {{action 'mostrarFormulario'}}>
         <i class="material-icons primary-color clickable">add_circle</i>
@@ -28,6 +32,8 @@
       </div>
       {{/unless}}
     </div>
+
+    <div class="divider"></div>
 
   </div>
 
