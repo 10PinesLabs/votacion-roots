@@ -63,9 +63,11 @@
           </p>
         {{/if}}
       {{/if}}
-      {{#if (and editable temaTratado)}}
-        {{switch-tratado tema=temaDeMinuta}}
-      {{/if}}
+      <div class="ml-20">
+        {{#if (and editable temaTratado)}}
+          {{switch-tratado tema=temaDeMinuta}}
+        {{/if}}
+      </div>
     </div>
 
     {{#if expandido}}
