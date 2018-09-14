@@ -8,7 +8,7 @@
     </td>
   </div>
 {{else}}
-  <div class="tema-content flex-center space-between white" {{action 'verDetalleDeTema' temaDeMinuta}}>
+  <div class="tema-content flex-center space-between white" style="padding-bottom:15px" {{action 'verDetalleDeTema' temaDeMinuta}}>
     <table style="display: block">
       <tr class="mr-20">
         <td class="noPadding full-width">
@@ -33,14 +33,6 @@
             {{switch-tratado tema=temaDeMinuta}}
           </div>
         </td>
-      </tr>
-
-      <tr class="flex-center justify-center">
-        {{#if expandido}}
-          <button class="colapse-button" id="tema-colapse-button" onclick={{action 'colapsarDescripcion'}}>
-            <i class="material-icons">unfold_less</i>
-          </button>
-        {{/if}}
       </tr>
     </table>
   </div>

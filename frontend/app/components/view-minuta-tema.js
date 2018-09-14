@@ -59,7 +59,7 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
   },
 
   _conclusionExpandible() {
-    let maxTextSize = $(window).height() * 0.30;
+    let maxTextSize = $(window).height() * 0.14;
     return $('#descripcion-no-expandida').height() > maxTextSize;
   },
 
