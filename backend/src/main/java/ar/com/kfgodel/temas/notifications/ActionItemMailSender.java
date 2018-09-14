@@ -13,6 +13,7 @@ import java.util.Optional;
 public class ActionItemMailSender extends MailerObserver {
     public static final String EMPTY_ITEM_ACTION_EXCEPTION = "El item debe tener descripción y responsables";
     private Mailer mailer;
+    private String hostName;
 
     public ActionItemMailSender(){
         mailer = MailerBuilder
@@ -21,6 +22,7 @@ public class ActionItemMailSender extends MailerObserver {
                         System.getenv("SMTP_MAIL"),
                         System.getenv("SMTP_PASSWORD"))
                 .buildMailer();
+        hostName = System.getenv("TEMAS_ROOTS_HOST");
     }
 
     public void sendMail(ActionItem actionItem, Usuario responsable) {
@@ -29,7 +31,7 @@ public class ActionItemMailSender extends MailerObserver {
                 .to(responsable.getName(), responsable.getMail())
                 .withSubject("Tenes Action-Items pendientes del tema " + actionItem.getTema().getTema().getTitulo())
                 .withPlainText("Recordá hacerte cargo del Action Item: " + actionItem.getDescripcion() +
-                ". Para más información entrá en: http://votacion-roots.herokuapp.com/minuta/"
+                ". Para más información entrá en: "+ this.hostName +"/minuta/"
                         + actionItem.getTema().getMinuta().getReunion().getId() +"/ver")
                 .buildEmail();
         mailer.sendMail(email,true);
