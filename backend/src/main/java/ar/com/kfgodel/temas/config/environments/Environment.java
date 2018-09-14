@@ -18,4 +18,6 @@ public abstract class Environment {
     public abstract TemasConfiguration getConfig(Logger log);
 
     protected abstract boolean canHandle(String enviroment);
+
+    public abstract String getHostName();
 }

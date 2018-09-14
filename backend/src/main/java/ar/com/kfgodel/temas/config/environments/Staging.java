@@ -18,4 +18,9 @@ public class Staging extends Environment {
     protected boolean canHandle(String enviroment) {
         return environmentVariable.equals(enviroment);
     }
+
+    @Override
+    public String getHostName() {
+        return System.getenv("HEROKU_APP_NAME");
+    }
 }

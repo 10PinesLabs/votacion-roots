@@ -1,5 +1,6 @@
 package ar.com.kfgodel.temas.notifications;
 
+import ar.com.kfgodel.temas.config.environments.Environment;
 import convention.persistent.ActionItem;
 import convention.persistent.Usuario;
 import org.junit.platform.commons.util.StringUtils;
@@ -15,14 +16,14 @@ public class ActionItemMailSender extends MailerObserver {
     private Mailer mailer;
     private String hostName;
 
-    public ActionItemMailSender(){
+    public ActionItemMailSender() {
         mailer = MailerBuilder
                 .withSMTPServer(System.getenv("SMTP_HOST"),
                         Integer.parseInt(System.getenv("SMTP_PORT")),
                         System.getenv("SMTP_MAIL"),
                         System.getenv("SMTP_PASSWORD"))
                 .buildMailer();
-        hostName = System.getenv("TEMAS_ROOTS_HOST");
+        hostName =  Environment.toHandle(System.getenv("ENVIROMENT")).getHostName();
     }
 
     public void sendMail(ActionItem actionItem, Usuario responsable) {
@@ -31,14 +32,14 @@ public class ActionItemMailSender extends MailerObserver {
                 .to(responsable.getName(), responsable.getMail())
                 .withSubject("Tenes Action-Items pendientes del tema " + actionItem.getTema().getTema().getTitulo())
                 .withPlainText("Recordá hacerte cargo del Action Item: " + actionItem.getDescripcion() +
-                ". Para más información entrá en: "+ this.hostName +"/minuta/"
-                        + actionItem.getTema().getMinuta().getReunion().getId() +"/ver")
+                        ". Para más información entrá en: " + this.hostName + "/minuta/"
+                        + actionItem.getTema().getMinuta().getReunion().getId() + "/ver")
                 .buildEmail();
-        mailer.sendMail(email,true);
+        mailer.sendMail(email, true);
     }
 
     private void validarActionItem(ActionItem unActionItem) {
-        if(unActionItem.getDescripcion() == null|| unActionItem.getResponsables() == null) {
+        if (unActionItem.getDescripcion() == null || unActionItem.getResponsables() == null) {
             throw new RuntimeException(EMPTY_ITEM_ACTION_EXCEPTION);
         }
     }
@@ -46,7 +47,7 @@ public class ActionItemMailSender extends MailerObserver {
     @Override
     public void onSetResponsables(ActionItem actionItem) {
         validarActionItem(actionItem);
-        if(!actionItem.getFueNotificado()){
+        if (!actionItem.getFueNotificado()) {
             actionItem.getResponsables().stream()
                     .filter(responsables -> StringUtils.isNotBlank(responsables.getMail()))
                     .forEach(responsable -> sendMail(actionItem, responsable));

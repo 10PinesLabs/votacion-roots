@@ -16,4 +16,9 @@ public class Development extends Environment {
     protected boolean canHandle(String enviroment) {
         return false;
     }
+
+    @Override
+    public String getHostName() {
+        return "localhost:4200";
+    }
 }
