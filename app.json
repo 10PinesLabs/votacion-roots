@@ -25,7 +25,7 @@
     "ENVIROMENT": {
       "required": "true"
     },
-    "HOSTNAME":{
+    "TEMAS_ROOTS_HOST":{
       "required": "true"
     }
   },

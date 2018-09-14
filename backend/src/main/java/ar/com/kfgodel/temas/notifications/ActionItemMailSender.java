@@ -22,7 +22,7 @@ public class ActionItemMailSender extends MailerObserver {
                         System.getenv("SMTP_MAIL"),
                         System.getenv("SMTP_PASSWORD"))
                 .buildMailer();
-        hostName = System.getenv("HOSTNAME");
+        hostName = System.getenv("TEMAS_ROOTS_HOST");
     }
 
     public void sendMail(ActionItem actionItem, Usuario responsable) {
