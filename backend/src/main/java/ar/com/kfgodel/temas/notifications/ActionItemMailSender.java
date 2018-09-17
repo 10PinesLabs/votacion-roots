@@ -32,7 +32,7 @@ public class ActionItemMailSender extends MailerObserver {
                 .to(responsable.getName(), responsable.getMail())
                 .withSubject("Tenes Action-Items pendientes del tema " + actionItem.getTema().getTema().getTitulo())
                 .withPlainText("Recordá hacerte cargo del Action Item: " + actionItem.getDescripcion() +
-                        ". Para más información entrá en: " + this.hostName + "/minuta/"
+                        ". Para más información entrá a: " + this.hostName + "/minuta/"
                         + actionItem.getTema().getMinuta().getReunion().getId() + "/ver")
                 .buildEmail();
         mailer.sendMail(email, true);
