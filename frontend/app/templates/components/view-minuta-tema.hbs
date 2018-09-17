@@ -9,6 +9,7 @@
   </div>
 {{else}}
   <div class="tema-content flex-center space-between white" style="padding-bottom:15px" {{action 'verDetalleDeTema'}}>
+<<<<<<< HEAD
 
     <div class="minuta-tema-no-tratado">
       <div>
@@ -19,6 +20,36 @@
         {{switch-tratado tema=temaDeMinuta}}
       </div>
     </div>
+=======
+
+    <div class="minuta-tema-no-tratado">
+      <div>
+        <h5 class="titulo-de-tema">{{temaDeMinuta.tema.titulo}}</h5>
+        {{texto-extensible texto=temaDeMinuta.tema.descripcion extendido=textoExtendido}}
+      </div>
+      <div class="ml-20">
+        <div {{action 'mostrarEditor'}}>
+          {{switch-tratado tema=temaDeMinuta}}
+        </div>
+      </div>
+    </div>
+
+<!--
+    <table style="display: block">
+      <tr class="mr-20">
+        <td class="noPadding full-width">
+          <h5 class="titulo-de-tema">{{temaDeMinuta.tema.titulo}}</h5>
+          {{texto-extensible texto=temaDeMinuta.tema.descripcion extendido=textoExtendido}}
+        </td>
+
+        <td style="display: flex" class="ml-20">
+          <div {{action 'mostrarEditor'}}>
+            {{switch-tratado tema=temaDeMinuta}}
+          </div>
+        </td>
+      </tr>
+    </table>-->
+>>>>>>> 6c4f41b511a7ba599dd6f368dad54822b51dacd0
   </div>
 {{/if}}
 <div>
