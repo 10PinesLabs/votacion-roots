@@ -26,7 +26,6 @@
       "required": "true"
     },
     "TEMAS_ROOTS_HOST":{
-      "required": "true"
     }
   },
   "buildpacks": [
