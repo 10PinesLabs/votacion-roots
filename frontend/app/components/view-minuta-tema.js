@@ -20,12 +20,12 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
   }),
 
   actions: {
-    verDetalleDeTema(tema) {
-      this._mostrarDetalle(tema);
+    verDetalleDeTema() {
+      this._mostrarDetalle();
     },
 
-    ocultarDetalleDeTema(tema) {
-      return this._ocultarDetalle(tema);
+    ocultarDetalleDeTema() {
+      return this._ocultarDetalle();
     },
 
     agregarActionItem() {
@@ -46,10 +46,7 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
     },
 
     expandirDescripcion() {
-      if (this._conclusionExpandible()) {
-        this.set('expandido', true);
-      }
-
+      this.set('expandido', true);
     },
 
     colapsarDescripcion() {
@@ -58,20 +55,11 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
 
   },
 
-  _conclusionExpandible() {
-    let maxTextSize = $(window).height() * 0.14;
-    return $('#descripcion-no-expandida').height() > maxTextSize;
-  },
-
-  _mostrarDetalle(tema) {
-    var indiceClickeado = this.get('model.minuta.temas').indexOf(tema);
-    this.set('indiceSeleccionado', indiceClickeado);
+  _mostrarDetalle() {
     this.set('mostrandoDetalle', true);
   },
 
-  _ocultarDetalle(tema) {
-    var indiceClickeado = this.get('model.minuta.temas').indexOf(tema);
-    this.set('indiceSeleccionado', indiceClickeado);
+  _ocultarDetalle() {
     this.set('mostrandoDetalle', false);
   },
 

@@ -1,5 +1,5 @@
 {{#if temaTratado}}
-  <div class="minuta-tratado-title" {{action 'verDetalleDeTema' temaDeMinuta}}>
+  <div class="minuta-tratado-title" {{action 'verDetalleDeTema'}}>
     <td class="noPadding flex space-between">
       <h5 class="titulo-de-tema">{{temaDeMinuta.tema.titulo}} </h5>
       {{#if temaDeMinuta.actionItems.length}}
@@ -8,7 +8,7 @@
     </td>
   </div>
 {{else}}
-  <div class="tema-content flex-center space-between white" style="padding-bottom:15px" {{action 'verDetalleDeTema' temaDeMinuta}}>
+  <div class="tema-content flex-center space-between white" style="padding-bottom:15px" {{action 'verDetalleDeTema'}}>
     <table style="display: block">
       <tr class="mr-20">
         <td class="noPadding full-width">
@@ -20,7 +20,7 @@
               }}
             </p>
           {{else}}
-            <p class="crop clickable descripcion-minuta" id="descripcion-no-expandida" {{action 'expandirDescripcion'}}>
+            <p class="crop descripcion-minuta" id="descripcion-no-expandida" {{action 'expandirDescripcion'}}>
               {{markdown-view
                 value=temaDeMinuta.tema.descripcion
               }}
@@ -48,7 +48,7 @@
             }}
           </p>
         {{else}}
-          <p class="crop clickable descripcion-minuta" id="descripcion-no-expandida" {{action 'expandirDescripcion'}}>
+          <p class="crop descripcion-minuta" id="descripcion-no-expandida" {{action 'expandirDescripcion'}}>
             {{markdown-view
               value=temaDeMinuta.tema.descripcion
             }}
@@ -83,7 +83,7 @@
 
     {{#if editable}}
       {{add-action-item temaDeMinuta=temaDeMinuta usuarios=usuarios }}
-      {{minuta-tema-buttons alCerrar=(action "ocultarDetalleDeTema" temaDeMinuta)
+      {{minuta-tema-buttons alCerrar=(action "ocultarDetalleDeTema")
                             alGuardar=guardarConclusion
                             temaDeMinuta=temaDeMinuta}}
     {{else}}
@@ -110,7 +110,7 @@
         {{/each}}
       </div>
       <div class="relative-position-button mr-20">
-        <button class="colapse-button" onclick={{action "ocultarDetalleDeTema" temaDeMinuta}}>
+        <button class="colapse-button" onclick={{action "ocultarDetalleDeTema"}}>
           <i class="material-icons">unfold_less</i>
         </button>
       </div>

@@ -230,7 +230,8 @@
 }
 
 #descripcion-no-expandida {
-  max-height: 14vh;
+  max-height: 5em;
+  cursor: pointer;
 }
 
 #tema-colapse-button {
