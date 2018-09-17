@@ -8,7 +8,7 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
   classNames: ['card'],
 
   mostrarDetalle: false,
-  expandido: false,
+  textoExtendido: false,
   agregarItem: false,
 
   usuarios: Ember.computed('model.usuarios', function () {
@@ -44,15 +44,6 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
       this._guardar(actionItem);
       this._agregarNuevoActionItem();
     },
-
-    expandirDescripcion() {
-      this.set('expandido', true);
-    },
-
-    colapsarDescripcion() {
-      this.set('expandido', false);
-    },
-
   },
 
   _mostrarDetalle() {
@@ -61,6 +52,7 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
 
   _ocultarDetalle() {
     this.set('mostrandoDetalle', false);
+    this.set('textoExtendido', false);
   },
 
   _recargarLista() {
