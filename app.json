@@ -24,10 +24,6 @@
     },
     "ENVIROMENT": {
       "required": "true"
-    },
-    "TEMAS_ROOTS_HOST":{
-    },
-    "HEROKU_APP_NAME": {
     }
   },
   "buildpacks": [
