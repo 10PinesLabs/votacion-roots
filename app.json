@@ -25,6 +25,9 @@
     "ENVIROMENT": {
       "required": "true"
     },
+    "TEMAS_ROOTS_HOST":{
+      "required":"false"
+    },
     "HEROKU_APP_NAME": {
       "required": "false"
     }
