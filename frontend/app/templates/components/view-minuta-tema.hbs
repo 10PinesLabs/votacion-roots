@@ -9,23 +9,25 @@
   </div>
 {{else}}
   <div class="tema-content flex-center space-between white" style="padding-bottom:15px" {{action 'verDetalleDeTema'}}>
+
+    <div class="minuta-tema-no-tratado">
+      <div>
+        <h5 class="titulo-de-tema">{{temaDeMinuta.tema.titulo}}</h5>
+        {{texto-extensible texto=temaDeMinuta.tema.descripcion extendido=textoExtendido}}
+      </div>
+      <div class="ml-20">
+        <div {{action 'mostrarEditor'}}>
+          {{switch-tratado tema=temaDeMinuta}}
+        </div>
+      </div>
+    </div>
+
+<!--
     <table style="display: block">
       <tr class="mr-20">
         <td class="noPadding full-width">
           <h5 class="titulo-de-tema">{{temaDeMinuta.tema.titulo}}</h5>
-          {{#if expandido}}
-            <p class="crop descripcion-minuta" id="descripcion-expandida">
-              {{markdown-view
-                value=temaDeMinuta.tema.descripcion
-              }}
-            </p>
-          {{else}}
-            <p class="crop descripcion-minuta" id="descripcion-no-expandida" {{action 'expandirDescripcion'}}>
-              {{markdown-view
-                value=temaDeMinuta.tema.descripcion
-              }}
-            </p>
-          {{/if}}
+          {{texto-extensible texto=temaDeMinuta.tema.descripcion extendido=textoExtendido}}
         </td>
 
         <td style="display: flex" class="ml-20">
@@ -34,26 +36,14 @@
           </div>
         </td>
       </tr>
-    </table>
+    </table>-->
   </div>
 {{/if}}
 <div>
   {{#if mostrandoDetalle }}
     <div class="tema-horizontal-margin flex space-between">
       {{#if temaTratado}}
-        {{#if expandido}}
-          <p class="crop descripcion-minuta" id="descripcion-expandida">
-            {{markdown-view
-              value=temaDeMinuta.tema.descripcion
-            }}
-          </p>
-        {{else}}
-          <p class="crop descripcion-minuta" id="descripcion-no-expandida" {{action 'expandirDescripcion'}}>
-            {{markdown-view
-              value=temaDeMinuta.tema.descripcion
-            }}
-          </p>
-        {{/if}}
+        {{texto-extensible texto=temaDeMinuta.tema.descripcion extendido=textoExtendido}}
       {{/if}}
       <div class="ml-20">
         {{#if (and editable temaTratado)}}
@@ -62,9 +52,9 @@
       </div>
     </div>
 
-    {{#if expandido}}
+    {{#if textoExtendido}}
       <div id="tema-colapse-button">
-        <button class="colapse-button" onclick={{action 'colapsarDescripcion'}}>
+        <button class="colapse-button" onclick={{action set "textoExtendido" false}}>
           <i class="material-icons">unfold_less</i>
         </button>
       </div>
