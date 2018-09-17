@@ -16,25 +16,29 @@
     </div>
 
     <div class="space-between">
-      <div class="col s12 left-align flex-center" id="check-box">
-        {{materialize/check-box class="size-16" label='Ver temas obligatorios' checked=mostrarObligatorios
-                                checkboxClasses="filled-in"}}
-        <i class="material-icons opacity-20">lock</i>
+      <div class="flex-center" id="obligatoriedad-resaltable">
+        <h6 class="{{resaltarPropuesas}}" {{action 'verObligatorios' false}}>Temas propuestos
+          ({{contarPropuestasNoObligatorias}})</h6>
+        <h6 class="{{resaltarObligatoriedad}}" {{action 'verObligatorios' true}}>Temas obligatorios
+          ({{contarPropuestasObligatorias}})</h6>
       </div>
       {{#unless estaCerrada}}
-      <div class="flex-center pl-10" {{action 'mostrarFormulario'}}>
-        <i class="material-icons primary-color clickable">add_circle</i>
-        <h5 class="primary-color size-16 add-tema clickable">AGREGAR TEMA</h5>
-      </div>
+        <div class="flex-center pl-10" {{action 'mostrarFormulario'}}>
+          <i class="material-icons primary-color clickable">add_circle</i>
+          <h6 class="primary-color no-margin add-tema clickable">AGREGAR TEMA</h6>
+        </div>
       {{/unless}}
+      
     </div>
+
+    <div class="divider"></div>
 
   </div>
 
-  <div class="row">
-    <table class="bordered highlight table">
-      <tbody class="fit-correct-width">
-      {{#each reunion.temasPropuestos as |tema|}}
+  <table class="bordered highlight table">
+    <tbody class="fit-correct-width">
+    {{#each reunion.temasPropuestos as |tema|}}
+      {{#if (eq mostrarObligatorios tema.esObligatorio)}}
         {{each-card-tema
           tema=tema
           mostrarObligatorios=mostrarObligatorios
@@ -46,10 +50,10 @@
           mostrarFormularioDeEdicion=(action 'mostrarFormularioDeEdicion')
           borrarTemaElegido=(action 'borrarTemaElegido')
         }}
-      {{/each}}
-      </tbody>
-    </table>
-  </div>
+      {{/if}}
+    {{/each}}
+    </tbody>
+  </table>
 
   {{#unless estaCerrada}}
     {{#if visibilidadCardDeTema}}

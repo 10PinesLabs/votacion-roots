@@ -17,9 +17,26 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
     }
   ),
 
+  resaltarPropuesas: Ember.computed('mostrarObligatorios', function () {
+    return this._resaltarCuando(!this.mostrarObligatorios);
+  }),
+
+  resaltarObligatoriedad: Ember.computed('mostrarObligatorios', function () {
+    return this._resaltarCuando(this.mostrarObligatorios);
+  }),
+
+  contarPropuestasNoObligatorias: Ember.computed('model.reunion', 'mostrarObligatorios', function () {
+    return this._contarReunionesCon("NO_OBLIGATORIO");
+  }),
+
+  contarPropuestasObligatorias: Ember.computed('model.reunion', 'mostrarObligatorios', function () {
+    return this._contarReunionesCon("OBLIGATORIO");
+  }),
+
   reunion: Ember.computed('model.reunion', function () {
     return this.get('model.reunion');
   }),
+
   nombreDeDuraciones:
     Ember.computed('duraciones', function () {
       return this.get('duraciones').map(function (duracion) {
@@ -128,6 +145,10 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
 
   actions:
     {
+      verObligatorios(mostrar) {
+        this.set('mostrarObligatorios', mostrar);
+      },
+
       sumarVoto(tema) {
         this._siNoEstaCerrada(function () {
           if (this.get('votosRestantes')) {
@@ -261,8 +282,22 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
       },
     },
 
-  _limpiarObligatoriedad(){
-    this.set('esObligatorio',false);
+  _resaltarCuando(condicion) {
+    if (condicion) {
+      return "resaltar";
+    } else {
+      return "no-resaltar";
+    }
+  },
+
+  _contarReunionesCon(obligatoriedad) {
+    return this.get('reunion.temasPropuestos').filter(function (tema) {
+      return tema.obligatoriedad == obligatoriedad
+    }).length;
+  },
+
+  _limpiarObligatoriedad() {
+    this.set('esObligatorio', false);
   },
   _ocultarEditorDeTema() {
     this.set('mostrandoFormularioDeEdicion', false);
@@ -417,11 +452,11 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
     }
   },
 
-  _mostrarModalTema(){
+  _mostrarModalTema() {
     this.set('visibilidadCardDeTema', true);
   },
 
-  _cerrarModalTema(){
+  _cerrarModalTema() {
     this.set('visibilidadCardDeTema', false);
   }
 });
