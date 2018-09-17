@@ -18,4 +18,9 @@ public class Production extends Environment {
         return environmentVariable.equals(environment);
     }
 
+    @Override
+    public String getHostName() {
+        return System.getenv("TEMAS_ROOTS_HOST");
+    }
+
 }
