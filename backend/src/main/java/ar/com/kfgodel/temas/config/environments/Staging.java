@@ -21,6 +21,6 @@ public class Staging extends Environment {
 
     @Override
     public String getHostName() {
-        return System.getenv("HEROKU_APP_NAME");
+        return "https://" + System.getenv("HEROKU_APP_NAME") + ".herokuapp.com";
     }
 }
