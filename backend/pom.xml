@@ -216,6 +216,34 @@
       <version>5.0.7</version>
     </dependency>
 
+    <!-- To notificar email notifications -->
+      <dependency>
+          <groupId>org.simplejavamail</groupId>
+          <artifactId>simple-java-mail</artifactId>
+          <version>5.0.3</version>
+      </dependency>
+      <dependency>
+          <groupId>org.junit.jupiter</groupId>
+          <artifactId>junit-jupiter-api</artifactId>
+          <version>5.0.3</version>
+          <scope>compile</scope>
+      </dependency>
+    <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-api-mockito2</artifactId>
+      <version>2.0.0-beta.5</version>
+    </dependency>
+    <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-module-junit4</artifactId>
+      <version>2.0.0-beta.5</version>
+    </dependency>
+      <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-lang3</artifactId>
+          <version>3.5</version>
+      </dependency>
+
   </dependencies>
 
   <profiles>

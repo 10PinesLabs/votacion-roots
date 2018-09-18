@@ -36,11 +36,12 @@ public class Minuta extends PersistableSupport {
 
     public static Minuta create(Reunion reunion) {
         Minuta nuevaMinuta = new Minuta();
-        nuevaMinuta.asistentes = new ArrayList<>();
         nuevaMinuta.reunion=reunion;
         List<TemaDeMinuta> temas=reunion.getTemasPropuestos().stream()
                 .map(temaDeReunion -> TemaDeMinuta.create(temaDeReunion,nuevaMinuta)).collect(Collectors.toList());
         nuevaMinuta.setTemas(temas);
+        nuevaMinuta.asistentes = new ArrayList<>();
+        reunion.usuariosQueVotaron().stream().distinct().collect(Collectors.toCollection(() -> nuevaMinuta.asistentes));
         return nuevaMinuta;
     }
 

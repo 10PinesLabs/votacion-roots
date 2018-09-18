@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import EmberizedResourceCreatorInjected from "ateam-ember-resource/mixins/emberized-resource-creator-injected";
+import {promiseHandling} from "../helpers/promise-handling";
 
 export default Ember.Service.extend(EmberizedResourceCreatorInjected,{
 

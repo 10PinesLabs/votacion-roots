@@ -12,6 +12,8 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.SecurityContext;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -86,11 +88,19 @@ public class UserResource{
         UserResource userResource = new UserResource();
         userResource.resourceHelper=ResourceHelper.create(appInjector);
         userResource.userService = appInjector.createInjected(UsuarioService.class);
+        userResource.reunionService = appInjector.createInjected(ReunionService.class);
         userResource.getResourceHelper().bindAppInjectorTo(UserResource.class,userResource);
         return userResource;
     }
 
     public ResourceHelper getResourceHelper() {
         return resourceHelper;
+    }
+
+    @GET
+    @Path("votaron/{reunionId}")
+    public List<UserTo> getUsersQueVotaron(@PathParam("reunionId")Long reunionId) {
+        List<Usuario> votantes = reunionService.get(reunionId).usuariosQueVotaron().stream().distinct().collect(Collectors.toList());
+        return getResourceHelper().convertir(votantes, LIST_OF_USER_TOS);
     }
 }

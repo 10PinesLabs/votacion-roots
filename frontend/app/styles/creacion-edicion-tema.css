@@ -1,0 +1,67 @@
+.modal-tema {
+  position: fixed;
+  z-index: 1;
+  top:0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 60%;
+  height: 60%;
+  max-height: 100%;
+  overflow: visible;
+}
+
+.modal-background{
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.close-button-margin{
+  margin: 1%;
+}
+
+.selector-duracion .ember-power-select-trigger{
+  border-bottom: 1px solid #800080;
+  background-color: transparent;
+}
+.selector-duracion .ember-power-select-trigger:focus{
+  border-bottom: 1px solid #800080;
+  background-color: transparent;
+}
+
+.texto-tema input:not([type]), input[type=text], textarea.materialize-textarea{
+  border-bottom: 1px solid #800080;
+}
+
+.texto-tema .input-field label{
+  color: grey !important;
+}
+
+.duracion-label{
+  color: grey !important;
+}
+
+#texto-descripcion .materialize-textarea {
+  max-height: 20vh;
+  overflow-y: auto;
+}

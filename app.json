@@ -3,8 +3,35 @@
   "description": "Application to manage roots topics",
   "image": "heroku/java",
   "addons": [
-    "heroku-4postgresql"
+    "heroku-postgresql"
   ],
+  "env": {
+    "MAVEN_CUSTOM_GOALS": {
+      "description": "Para que buildee bien",
+        "value": "clean package"
+      },
+    "SMTP_MAIL":{
+      "required":"true"
+    },
+    "SMTP_PASSWORD":{
+      "required":"true"
+    },
+    "SMTP_HOST": {
+      "required": "true"
+    },
+    "SMTP_PORT": {
+      "required": "true"
+    },
+    "ENVIROMENT": {
+      "required": "true"
+    },
+    "TEMAS_ROOTS_HOST":{
+      "required":"false"
+    },
+    "HEROKU_APP_NAME": {
+      "required": "false"
+    }
+  },
   "buildpacks": [
     {
       "url": "https://github.com/heroku/heroku-buildpack-java"

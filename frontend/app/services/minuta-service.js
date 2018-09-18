@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import EmberizedResourceCreatorInjected from "ateam-ember-resource/mixins/emberized-resource-creator-injected";
+import {promiseHandling} from "../helpers/promise-handling";
 
 export default Ember.Service.extend(EmberizedResourceCreatorInjected,{
 
@@ -8,7 +9,7 @@ export default Ember.Service.extend(EmberizedResourceCreatorInjected,{
   },
 
   updateMinuta(minuta){
-    return this._minutaResource().update(minuta);
+    return promiseHandling(this._minutaResource().update(minuta));
   },
 
   //private

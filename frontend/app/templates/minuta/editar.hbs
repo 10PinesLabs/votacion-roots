@@ -1,0 +1,77 @@
+<div class="row">
+
+  {{#if mostrandoToastUsuariosSinMail}}
+    {{message-toast
+      nombre-icono="email"
+      mensaje="Las siguientes personas deben volver a loggearse para poder recibir un mail:"
+      lista-opcional=nombresDePersonasSinMail
+    }}
+  {{/if}}
+
+  <div class="col s12 minuta-title">
+    <h4 class="title-label">Minuta de reunión </h4>
+    <h4 class="minuta-date"> {{fecha}}</h4>
+  </div>
+  <div class="minuta-body">
+    <div class="col s3">
+
+      <h5 class="center">Asistentes</h5>
+      <ul>
+        {{#each usuariosSeleccionados as |usuario|}}
+          <li>
+            <div class="asistente-pill">
+              <button type="button" id="close-button" onclick={{action 'quitarAsistente' usuario}}>
+                <i class="material-icons" id="close-icon">close</i>
+              </button>
+              <span>
+                {{usuario.name}}
+              </span>
+            </div>
+          </li>
+        {{/each}}
+      </ul>
+
+      <div class="selector-asistente">
+        {{#power-select
+          options=usuariosSeleccionables
+          searchField="name"
+          placeholder="Seleccione a los asistentes"
+          noMatchesMessage="No more pinos"
+          onchange=(action 'agregarAsistente')
+        as |usuario|
+        }}
+          {{usuario.name}}
+        {{/power-select}}
+      </div>
+
+    </div>
+    <div class="col s9">
+      <div class="flex-center">
+        <h4 class="minuta-subtitle no-margin">Temas no tratados</h4>
+        <h6 class="minuta-count">{{temasPendientes.length}}</h6>
+      </div>
+      <table class="bordered highlight table">
+        <tbody>
+        {{#each  temasPendientes as |temaDeMinuta|}}
+          <tr>
+            {{minuta-tema guardarConclusion=(action 'guardarConclusion') model=model temaDeMinuta=temaDeMinuta router=router}}
+          </tr>
+        {{/each}}
+        </tbody>
+      </table>
+
+      <div>
+        <h4 class="minuta-subtitle no-margin" style="color:#68BD44;">Temas tratados</h4>
+      </div>
+      <table class="bordered highlight table">
+        <tbody>
+        {{#each  temasTratados as |tema|}}
+          <tr>
+            {{view-minuta-tema guardarConclusion=(action 'guardarConclusion') model=model temaDeMinuta=tema router=router editable=true}}
+          </tr>
+        {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

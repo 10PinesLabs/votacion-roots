@@ -1,0 +1,13 @@
+<div class="flex-center">
+  <i class="material-icons opacity-20">flag</i>
+  <h5 class="gray-subtitle ml-10">Action Items</h5>
+
+</div>
+<span class="flex-center justify-center">
+  <button type="button" class="btn-flat space-between transparent" {{action "agregarActionItem"}}>
+    <i class="material-icons primary-color pointer plus-size">add_circle</i>
+    <h6 class="primary-color add-tema cursor pointer">AGREGAR ACTION ITEM</h6>
+  </button>
+</span>
+
+{{each-action-items actionItems=temaDeMinuta.actionItems usuarios=usuarios }}
