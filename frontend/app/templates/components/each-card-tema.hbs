@@ -10,15 +10,7 @@
     <div class="tema-horizontal-margin">
       <td class="noPadding">
         <h5 class="titulo-de-tema">{{tema.titulo}}</h5>
-        {{#if expandido}}
-          <div class="crop" id="descripcion-expandida">
-            {{markdown-view value=tema.descripcion}}
-          </div>
-        {{else}}
-          <div class="crop" id="descripcion-no-expandida" {{action 'expandirDescripcion' this}}>
-            {{markdown-view value=tema.descripcion}}
-          </div>
-        {{/if}}
+        {{texto-extensible texto=tema.descripcion extendido=expandido}}
       </td>
 
       {{#if expandido}}
