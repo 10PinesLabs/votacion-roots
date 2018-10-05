@@ -34,12 +34,12 @@
         <label class={{tema.colorDuracion }}>{{tema.duracion}}</label>
       </div>
 
-      <div id="seccion-votar" class="flex-center m-10">
+      <div class="flex-center m-10">
 
         {{#unless estaCerrada}}
           {{#unless tema.esObligatorio}}
 
-            <button type="button" id="agregar-button" {{action sumarVoto tema}} class="btn-flat bold btn"
+            <button type="button" id="agregar-button" {{action sumarVoto tema}} class="btn-flat bold btn fit-content-height"
                     disabled={{votarDisabled}}>
 
               <div class="flex-center">

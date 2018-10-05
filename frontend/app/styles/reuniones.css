@@ -251,6 +251,6 @@
   top: 20px;
 }
 
-#seccion-votar{
-  display: -webkit-box;
+.fit-content-height{
+  height: fit-content;
 }
