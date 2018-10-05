@@ -11,13 +11,13 @@
       <td class="noPadding">
         <h5 class="titulo-de-tema">{{tema.titulo}}</h5>
         {{#if expandido}}
-          <p class="crop" id="descripcion-expandida">
+          <div class="crop" id="descripcion-expandida">
             {{markdown-view value=tema.descripcion}}
-          </p>
+          </div>
         {{else}}
-          <p class="crop clickable" id="descripcion-no-expandida" {{action 'expandirDescripcion'}}>
+          <div class="crop" id="descripcion-no-expandida" {{action 'expandirDescripcion' this}}>
             {{markdown-view value=tema.descripcion}}
-          </p>
+          </div>
         {{/if}}
       </td>
 
