@@ -1,4 +1,4 @@
-{{#if temaTratado}}
+{{#if (or temaTratado (not editable))}}
   <div class="minuta-tratado-title" {{action 'verDetalleDeTema'}}>
     <td class="noPadding flex space-between">
       <h5 class="titulo-de-tema">{{temaDeMinuta.tema.titulo}} </h5>
