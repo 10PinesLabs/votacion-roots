@@ -52,6 +52,18 @@
         {{/each}}
         </tbody>
       </table>
+
+      <h4 class="minuta-subtitle no-margin">Temas no tratados</h4>
+      <table class="bordered highlight table" style="border-spacing: 0px 0px">
+        <tbody>
+        {{#each temasNoTratados as |tema|}}
+          <tr>
+            {{view-minuta-tema model=model temaDeMinuta=tema router=router editable=false}}
+          </tr>
+        {{/each}}
+        </tbody>
+      </table>
+
     </div>
   </div>
 </div>
