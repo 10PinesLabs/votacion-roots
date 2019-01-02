@@ -250,3 +250,7 @@
   position: relative;
   top: 20px;
 }
+
+.fit-content-height{
+  height: fit-content;
+}
