@@ -111,10 +111,12 @@ public class TemasApplication implements Application {
     }
 
     protected WebServer createWebServer() {
+        int MAX_TIME_IN_SECONDS = 14400;
+
         WebServerConfiguration serverConfig = ConfigurationByConvention.create()
                 .authenticatingWith(config.autenticador())
                 .listeningHttpOn(config.getHttpPort())
-                .expiringSessionsAfter(10800)
+                .expiringSessionsAfter(MAX_TIME_IN_SECONDS)
                 .withInjections((binder) -> {
                     //Make application the only jetty injectable dependency
                     binder.bind(this).to(Application.class);
