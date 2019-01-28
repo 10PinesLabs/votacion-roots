@@ -22,6 +22,9 @@
     "SMTP_PORT": {
       "required": "true"
     },
+    "TEMAS_ROOTS_HOST":{
+      "required":"false"
+    },
     "ENVIROMENT": {
       "required": "true"
     },
