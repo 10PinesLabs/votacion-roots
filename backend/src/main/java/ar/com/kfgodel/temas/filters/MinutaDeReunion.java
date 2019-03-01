@@ -15,7 +15,7 @@ public class MinutaDeReunion implements TransactionOperation<Nary<Minuta>> {
     private static Long reunionId;
 
     public static MinutaDeReunion create(Long reunionId){
-            MinutaDeReunion minutaDeReunion=new MinutaDeReunion();
+        MinutaDeReunion minutaDeReunion = new MinutaDeReunion();
         MinutaDeReunion.reunionId = reunionId;
         return minutaDeReunion;
     }
