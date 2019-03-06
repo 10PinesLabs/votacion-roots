@@ -12,10 +12,20 @@ export default Ember.Service.extend(EmberizedResourceCreatorInjected,{
     return promiseHandling(this._minutaResource().update(minuta));
   },
 
+  getUltimaMinuta(){
+    return promiseHandling(this._ultimaMinutaResource().getAll());
+  },
+
   //private
   _minutaResource: function () {
     var resourceCreator = this.resourceCreator();
     var resource = resourceCreator.createResource('minuta');
+    return resource;
+  },
+
+  _ultimaMinutaResource: function () {
+    var resourceCreator = this.resourceCreator();
+    var resource = resourceCreator.createResource('minuta/ultimaMinuta');
     return resource;
   },
 

@@ -14,6 +14,7 @@ import java.util.List;
  * Created by sandro on 07/07/17.
  */
 public class MinutaService extends Service<Minuta> {
+
     @Inject
     ReunionService reunionService;
 
@@ -36,8 +37,12 @@ public class MinutaService extends Service<Minuta> {
                                 ).get();
 
     }
+
     public List<Minuta> getAll() {
         return getAll(FindAll.of(Minuta.class));
     }
 
+    public Minuta getUltimaMinuta() {
+      return this.getFromReunion(reunionService.getUltimaReunion().getId());
+    }
 }
