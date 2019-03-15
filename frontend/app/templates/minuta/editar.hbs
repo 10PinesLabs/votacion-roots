@@ -54,7 +54,7 @@
         <tbody>
         {{#each  temasPendientes as |tema|}}
           <tr>
-            {{view-minuta-tema guardarConclusion=(action 'guardarConclusion') model=model temaDeMinuta=tema router=router editable=true}}
+            {{tema-editable guardarConclusion=(action 'guardarConclusion') model=model temaDeMinuta=tema router=router}}
           </tr>
         {{/each}}
         </tbody>
@@ -67,7 +67,7 @@
         <tbody>
         {{#each  temasTratados as |tema|}}
           <tr>
-            {{view-minuta-tema guardarConclusion=(action 'guardarConclusion') model=model temaDeMinuta=tema router=router editable=true}}
+            {{tema-editable guardarConclusion=(action 'guardarConclusion') model=model temaDeMinuta=tema router=router}}
           </tr>
         {{/each}}
         </tbody>
