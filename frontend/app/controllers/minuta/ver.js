@@ -18,4 +18,8 @@ export default Ember.Controller.extend({
     return this.get('minuta.temas').filter((tema) => tema.fueTratado);
   }),
 
+  temasNoTratados: Ember.computed('minuta.temas', function () {
+    return this.get('minuta.temas').filter((tema) => !tema.fueTratado);
+  }),
+
 });
