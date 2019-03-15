@@ -58,6 +58,11 @@
 
 .tema-horizontal-margin {
   margin: 0px 30px 0px 20px;
+  
+  ul {
+    padding-left: 1em;
+    list-style-type: disc;
+  }
 }
 
 .temaBotton {
