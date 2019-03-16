@@ -27,12 +27,10 @@
     <div class="tema-horizontal-margin flex space-between">
       {{#if temaTratado}}
         {{texto-extensible texto=temaDeMinuta.tema.descripcion extendido=textoExtendido}}
-      {{/if}}
-      <div class="ml-20">
-        {{#if (and editable temaTratado)}}
+        <div class="ml-20">
           {{switch-tratado tema=temaDeMinuta}}
-        {{/if}}
-      </div>
+        </div>
+      {{/if}}
     </div>
 
     {{#if textoExtendido}}
@@ -46,48 +44,14 @@
 
     <div class="tema-horizontal-margin">
       <h4 class="gray-subtitle">Conclusiones</h4>
-      {{#if editable}}
-        {{text-area value=temaDeMinuta.conclusion}}
-      {{else}}
-        <p>{{temaDeMinuta.conclusion}}</p>
-      {{/if}}
+      {{text-area value=temaDeMinuta.conclusion}}
     </div>
     <li class="divider"></li>
 
-    {{#if editable}}
-      {{add-action-item temaDeMinuta=temaDeMinuta usuarios=usuarios }}
-      {{minuta-tema-buttons alCerrar=(action "ocultarDetalleDeTema")
-                            alGuardar=guardarConclusion
-                            temaDeMinuta=temaDeMinuta}}
-    {{else}}
-
-      <div class="tema-horizontal-margin">
-        <div class="flex-center mb-20">
-          <i class="material-icons opacity-35 mr-10">flag</i>
-          <h4 class="gray-subtitle">Action Items</h4>
-        </div>
-
-        {{#each temaDeMinuta.actionItems as |actionItem| }}
-          <div class="minuta-action-item">
-            <div>
-              <i class="material-icons primary-color mr-10">flag</i>
-            </div>
-            <div>
-              <p class="no-margin">{{actionItem.descripcion}}</p>
-              {{#each actionItem.responsables as |responsable|}}
-                <p class="responsable-item mt-10">{{responsable.name}}</p>
-              {{/each}}
-            </div>
-          </div>
-          <br/>
-        {{/each}}
-      </div>
-      <div class="relative-position-button mr-20">
-        <button class="colapse-button" onclick={{action "ocultarDetalleDeTema"}}>
-          <i class="material-icons">unfold_less</i>
-        </button>
-      </div>
-    {{/if}}
+    {{add-action-item temaDeMinuta=temaDeMinuta usuarios=usuarios }}
+    {{minuta-tema-buttons alCerrar=(action "ocultarDetalleDeTema")
+                          alGuardar=guardarConclusion
+                          temaDeMinuta=temaDeMinuta}}
   {{/if}}
 </div>
 
