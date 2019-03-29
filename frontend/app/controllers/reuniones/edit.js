@@ -160,10 +160,6 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
         this.set('nuevoTema.duracion', duracion);
       },
 
-      cerrarModalTema() {
-        this.set('visibilidadCardDeTema', false);
-      },
-
       cerrarEditorDeTemaNuevo() {
         this.set('mostrandoFormularioXTemaNuevo', false);
         this._cerrarModalTema();
