@@ -7,9 +7,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -114,8 +112,8 @@ public class Reunion extends PersistableSupport {
         this.setStatus(StatusDeReunion.CON_MINUTA);
     }
 
-    public List<Usuario> usuariosQueVotaron() {
-        List<Usuario> votantes = new ArrayList<>();
+    public Set<Usuario> usuariosQueVotaron() {
+        Set<Usuario> votantes = new HashSet<>();
         getTemasPropuestos().forEach(temaDeReunion -> votantes.addAll(temaDeReunion.getInteresados()));
         return votantes;
     }
