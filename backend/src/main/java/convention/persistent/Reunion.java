@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Esta clase representa una reunion de roots con el temario a realizar
@@ -106,7 +107,6 @@ public class Reunion extends PersistableSupport {
     }
 
     private void agregarTema(TemaDeReunion temaNuevo) {
-
         temasPropuestos.add(temaNuevo);
     }
 
@@ -114,12 +114,10 @@ public class Reunion extends PersistableSupport {
         this.setStatus(StatusDeReunion.CON_MINUTA);
     }
 
-    public List<Usuario> usuariosQueVotaron(){
-    return getTemasPropuestos().stream().
-            map(temaDeReunion -> temaDeReunion.getInteresados())
-            .reduce((usuarios, usuarios2) -> {usuarios.addAll(usuarios2);
-                                              return usuarios;})
-            .orElse(new ArrayList<>());
+    public List<Usuario> usuariosQueVotaron() {
+        List<Usuario> votantes = new ArrayList<>();
+        getTemasPropuestos().forEach(temaDeReunion -> votantes.addAll(temaDeReunion.getInteresados()));
+        return votantes;
     }
 
 }
