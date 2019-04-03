@@ -15,6 +15,9 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Created by sandro on 19/06/17.
@@ -133,5 +136,19 @@ public class ReunionTest {
         Assert.assertEquals(tema1, unaReunion.getTemasPropuestos().get(0));
         Assert.assertEquals(tema2, unaReunion.getTemasPropuestos().get(1));
         Assert.assertEquals(tema3, unaReunion.getTemasPropuestos().get(2));
+    }
+
+    @Test
+    public void test08AlObtenerLosUsuariosQueVotaronEstosNoAparecenDuplicados(){
+        Reunion unaReunion = Reunion.create(LocalDate.of(2017, 06, 16));
+        Usuario unUsuario = new Usuario();
+        TemaDeReunion tema1 = helper.nuevoTemaNoObligatorio();
+        TemaDeReunion tema2 = helper.nuevoTemaNoObligatorio();
+        tema1.setInteresados(Arrays.asList(unUsuario));
+        tema2.setInteresados(Arrays.asList(unUsuario, unUsuario));
+
+        unaReunion.setTemasPropuestos(Arrays.asList(tema1, tema2));
+
+        assertThat(unaReunion.usuariosQueVotaron()).containsExactly(unUsuario);
     }
 }
