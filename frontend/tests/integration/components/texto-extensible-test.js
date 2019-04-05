@@ -7,8 +7,8 @@ import {
 import hbs from 'htmlbars-inline-precompile';
 
 describeComponent(
-  'editor-de-conclusion',
-  'Integration: EditorDeConclusionComponent',
+  'texto-extensible',
+  'Integration: TextoExtensibleComponent',
   {
     integration: true
   },
@@ -18,12 +18,12 @@ describeComponent(
       // Handle any actions with this.on('myAction', function(val) { ... });
       // Template block usage:
       // this.render(hbs`
-      //   {{#editor-de-conclusion}}
+      //   {{#texto-extensible}}
       //     template content
-      //   {{/editor-de-conclusion}}
+      //   {{/texto-extensible}}
       // `);
 
-      this.render(hbs`{{editor-de-conclusion}}`);
+      this.render(hbs`{{texto-extensible}}`);
       expect(this.$()).to.have.length(1);
     });
   }

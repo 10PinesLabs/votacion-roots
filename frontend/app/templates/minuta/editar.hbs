@@ -52,9 +52,9 @@
       </div>
       <table class="bordered highlight table">
         <tbody>
-        {{#each  temasPendientes as |temaDeMinuta|}}
+        {{#each  temasPendientes as |tema|}}
           <tr>
-            {{minuta-tema guardarConclusion=(action 'guardarConclusion') model=model temaDeMinuta=temaDeMinuta router=router}}
+            {{tema-editable guardarConclusion=(action 'guardarConclusion') model=model temaDeMinuta=tema router=router}}
           </tr>
         {{/each}}
         </tbody>
@@ -67,7 +67,7 @@
         <tbody>
         {{#each  temasTratados as |tema|}}
           <tr>
-            {{view-minuta-tema guardarConclusion=(action 'guardarConclusion') model=model temaDeMinuta=tema router=router editable=true}}
+            {{tema-editable guardarConclusion=(action 'guardarConclusion') model=model temaDeMinuta=tema router=router}}
           </tr>
         {{/each}}
         </tbody>

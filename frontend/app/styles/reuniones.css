@@ -49,6 +49,13 @@
   padding: 15px 30px 0px 20px;
 }
 
+.minuta-tema-no-tratado {
+  width: 100%;
+  margin: 0px 30px 0px 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
 .tema-horizontal-margin {
   margin: 0px 30px 0px 20px;
 }
@@ -225,12 +232,16 @@
   background-color: #6b016b;
 }
 
-#descripcion-expandida {
+.descripcion-expandida {
   max-height: 100%;
+  margin: 0;
 }
 
-#descripcion-no-expandida {
-  max-height: 30vh;
+.descripcion-no-expandida {
+  overflow-y: hidden;
+  max-height: 5em;
+  margin: 0;
+  cursor: pointer;
 }
 
 #tema-colapse-button {
@@ -238,4 +249,8 @@
   justify-content: center;
   position: relative;
   top: 20px;
+}
+
+.fit-content-height{
+  height: fit-content;
 }

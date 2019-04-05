@@ -10,15 +10,7 @@
     <div class="tema-horizontal-margin">
       <td class="noPadding">
         <h5 class="titulo-de-tema">{{tema.titulo}}</h5>
-        {{#if expandido}}
-          <p class="crop" id="descripcion-expandida">
-            {{markdown-view value=tema.descripcion}}
-          </p>
-        {{else}}
-          <p class="crop clickable" id="descripcion-no-expandida" {{action 'expandirDescripcion'}}>
-            {{markdown-view value=tema.descripcion}}
-          </p>
-        {{/if}}
+        {{texto-extensible texto=tema.descripcion extendido=expandido}}
       </td>
 
       {{#if expandido}}
@@ -47,7 +39,7 @@
         {{#unless estaCerrada}}
           {{#unless tema.esObligatorio}}
 
-            <button type="button" id="agregar-button" {{action sumarVoto tema}} class="btn-flat bold btn"
+            <button type="button" id="agregar-button" {{action sumarVoto tema}} class="btn-flat bold btn fit-content-height"
                     disabled={{votarDisabled}}>
 
               <div class="flex-center">

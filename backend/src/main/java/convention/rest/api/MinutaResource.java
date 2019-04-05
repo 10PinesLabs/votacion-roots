@@ -25,9 +25,9 @@ public class MinutaResource{
     @GET
     @Path("reunion/{reunionId}")
     public MinutaTo getParaReunion(@PathParam("reunionId") Long id ){
-         Minuta minuta = minutaService.getFromReunion(id);
+        Minuta minuta = minutaService.getFromReunion(id);
         minutaService.update(minuta);
-        return  getResourceHelper().convertir(minuta, MinutaTo.class);
+        return getResourceHelper().convertir(minuta, MinutaTo.class);
     }
 
     @PUT
@@ -38,6 +38,13 @@ public class MinutaResource{
         minuta.setMinuteador(ultimoMinuteador);
         Minuta minutaActualizada = minutaService.update(minuta);
         return  getResourceHelper().convertir(minutaActualizada, MinutaTo.class);
+    }
+
+    @GET
+    @Path("/ultimaMinuta")
+    public MinutaTo getUltimaMinuta(){
+        Minuta minuta = minutaService.getUltimaMinuta();
+        return getResourceHelper().convertir(minuta, MinutaTo.class);
     }
 
     public static MinutaResource create(DependencyInjector appInjector) {

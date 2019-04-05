@@ -8,20 +8,24 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
   classNames: ['card'],
 
   mostrarDetalle: false,
-  expandido: false,
+  textoExtendido: false,
   agregarItem: false,
 
   usuarios: Ember.computed('model.usuarios', function () {
     return this.get('model.usuarios');
   }),
 
+  temaTratado: Ember.computed('model', function () {
+    return this.get('temaDeMinuta').fueTratado;
+  }),
+
   actions: {
-    verDetalleDeTema(tema) {
-      this._mostrarDetalle(tema);
+    verDetalleDeTema() {
+      this._mostrarDetalle();
     },
 
-    ocultarDetalleDeTema(tema) {
-      return this._ocultarDetalle(tema);
+    ocultarDetalleDeTema() {
+      return this._ocultarDetalle();
     },
 
     agregarActionItem() {
@@ -40,26 +44,15 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
       this._guardar(actionItem);
       this._agregarNuevoActionItem();
     },
-
-    expandirDescripcion(){
-      this.set('expandido', true);
-    },
-
-    colapsarDescripcion(){
-      this.set('expandido', false);
-    },
-
   },
-  _mostrarDetalle(tema) {
-    var indiceClickeado = this.get('model.minuta.temas').indexOf(tema);
-    this.set('indiceSeleccionado', indiceClickeado);
+
+  _mostrarDetalle() {
     this.set('mostrandoDetalle', true);
   },
 
-  _ocultarDetalle(tema) {
-    var indiceClickeado = this.get('model.minuta.temas').indexOf(tema);
-    this.set('indiceSeleccionado', indiceClickeado);
+  _ocultarDetalle() {
     this.set('mostrandoDetalle', false);
+    this.set('textoExtendido', false);
   },
 
   _recargarLista() {

@@ -15,6 +15,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -50,9 +51,9 @@ public class UserResource{
     {
 
                 List<Usuario> usuarios=userService.getAll();
-        List<Usuario> votantes=reunionService.get(reunionId).usuariosQueVotaron();
+        Set<Usuario> votantes = reunionService.get(reunionId).usuariosQueVotaron();
         usuarios=usuarios.stream().filter(usuario ->
-                !votantes.stream().anyMatch(votante -> votante.getId().equals(usuario.getId()) )).collect(Collectors.toList());
+                votantes.stream().noneMatch(votante -> votante.getId().equals(usuario.getId()) )).collect(Collectors.toList());
         return getResourceHelper().convertir(usuarios, LIST_OF_USER_TOS);
     }
 
@@ -100,7 +101,7 @@ public class UserResource{
     @GET
     @Path("votaron/{reunionId}")
     public List<UserTo> getUsersQueVotaron(@PathParam("reunionId")Long reunionId) {
-        List<Usuario> votantes = reunionService.get(reunionId).usuariosQueVotaron().stream().distinct().collect(Collectors.toList());
+        List<Usuario> votantes = new ArrayList<>(reunionService.get(reunionId).usuariosQueVotaron());
         return getResourceHelper().convertir(votantes, LIST_OF_USER_TOS);
     }
 }

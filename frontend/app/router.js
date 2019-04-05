@@ -18,6 +18,7 @@ Router.map(function () {
   this.route('minuta', function(){
     this.route('editar', {path:":reunion_id/editar"});
     this.route('ver', {path:":reunion_id/ver"});
+    this.route('ultima-minuta', {path:"/ultima"});
     this.route('ver-txt', {path:":reunion_id/ver-txt"});
   });
 
