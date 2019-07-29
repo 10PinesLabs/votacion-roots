@@ -14,9 +14,15 @@
       </td>
 
       {{#if expandido}}
-        <div id="tema-colapse-button">
+        <div class="tema-colapse-button">
           <button class="colapse-button" onclick={{action 'colapsarDescripcion'}}>
             <i class="material-icons">unfold_less</i>
+          </button>
+        </div>
+      {{else}}
+        <div class="tema-colapse-button">
+          <button class="colapse-button" onclick={{action 'expandirDescripcion'}}>
+            <i class="material-icons">unfold_more</i>
           </button>
         </div>
       {{/if}}

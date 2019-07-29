@@ -115,6 +115,33 @@
   font-size: 24px !important;
 }
 
-.descripcion-minuta{
+.text-extensible{
   max-width: 80vh !important;
+  position: relative;
+}
+
+.descripcion-minuta{
+  word-wrap: break-word;
+  overflow: hidden;
+  margin: 0;
+}
+
+.descripcion-expandida {
+  max-height: 100%;
+}
+
+.descripcion-no-expandida {
+  max-height: 5em;
+  margin-bottom: -50px;
+  cursor: pointer;
+}
+
+.descripcion-minuta.descripcion-no-expandida::after{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-image: linear-gradient(transparent 60%, rgba(255,255,255,.7) 100%);
 }
