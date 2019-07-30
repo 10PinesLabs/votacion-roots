@@ -12,7 +12,7 @@
 }
 
 .minuta-subtitle {
-  color: #EF5467;
+  color: #ef5467;
   font-weight: bold;
 }
 
@@ -31,7 +31,7 @@
   width: 25px;
   border-radius: 50%;
   display: flex;
-  background: #EF5467;
+  background: #ef5467;
   color: white;
   font-weight: bold;
   margin-left: 10px;
@@ -46,7 +46,7 @@
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
-  line-height: 1.20;
+  line-height: 1.2;
   max-height: 70px;
 }
 
@@ -58,13 +58,13 @@
 }
 
 .colapse-button {
-  background-color: #EFEFEF;
+  background-color: #efefef;
   border-radius: 50%;
   height: 42px;
   width: 42px;
   display: flex;
   justify-content: center;
-  border: 2px solid #EFEFEF;
+  border: 2px solid #efefef;
   box-shadow: 1px 1px lightgrey;
 }
 
@@ -82,7 +82,7 @@
   height: 100%;
 }
 
-.full-width{
+.full-width {
   width: 100%;
 }
 
@@ -115,33 +115,32 @@
   font-size: 24px !important;
 }
 
-.text-extensible{
+.text-extensible {
   max-width: 80vh !important;
   position: relative;
 }
 
-.descripcion-minuta{
+.descripcion-minuta {
   word-wrap: break-word;
   overflow: hidden;
-  margin: 0;
+  margin: 0 0 -50px 0;
+  cursor: pointer;
+  max-height: 5em;
 }
 
 .descripcion-expandida {
   max-height: 100%;
 }
 
-.descripcion-no-expandida {
-  max-height: 5em;
-  margin-bottom: -50px;
-  cursor: pointer;
-}
-
-.descripcion-minuta.descripcion-no-expandida::after{
+.descripcion-minuta.descripcion-no-expandida::after {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
   height: 100%;
   width: 100%;
-  background-image: linear-gradient(transparent 60%, rgba(255,255,255,.7) 100%);
+  background-image: linear-gradient(
+    transparent 60%,
+    rgba(255, 255, 255, 0.7) 100%
+  );
 }
