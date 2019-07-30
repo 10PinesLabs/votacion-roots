@@ -123,16 +123,16 @@
 .descripcion-minuta {
   word-wrap: break-word;
   overflow: hidden;
-  margin: 0 0 -50px 0;
-  cursor: pointer;
+  margin: 0;
   max-height: 5em;
+  transition: max-height 0.5s ease-in-out;
 }
 
-.descripcion-expandida {
-  max-height: 100%;
+.descripcion-minuta.colapsada{
+  cursor: pointer;
 }
 
-.descripcion-minuta.descripcion-no-expandida::after {
+.descripcion-minuta.colapsada::after {
   content: "";
   position: absolute;
   top: 0;

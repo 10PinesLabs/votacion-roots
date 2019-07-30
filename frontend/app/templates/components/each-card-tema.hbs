@@ -10,19 +10,13 @@
     <div class="tema-horizontal-margin">
       <td class="noPadding">
         <h5 class="titulo-de-tema">{{tema.titulo}}</h5>
-        {{texto-extensible texto=tema.descripcion extendido=expandido}}
+        {{texto-extensible texto=tema.descripcion expandido=expandido onClick=(action "expandirDescripcion")}}
       </td>
 
       {{#if expandido}}
         <div class="tema-colapse-button">
           <button class="colapse-button" onclick={{action 'colapsarDescripcion'}}>
             <i class="material-icons">unfold_less</i>
-          </button>
-        </div>
-      {{else}}
-        <div class="tema-colapse-button">
-          <button class="colapse-button" onclick={{action 'expandirDescripcion'}}>
-            <i class="material-icons">unfold_more</i>
           </button>
         </div>
       {{/if}}

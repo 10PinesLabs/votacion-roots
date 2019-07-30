@@ -1,5 +1,5 @@
-<div class="text-extensible" {{action set 'extendido' true}}>
-  <p class="descripcion-minuta {{tipoDeTexto}}">
+<div class="text-extensible" {{action onClick}}>
+  <p style={{if expandido descriptionMaxHeight}} class= "descripcion-minuta {{unless expandido "colapsada"}}">
     {{markdown-view value=texto}}
   </p>
 </div>

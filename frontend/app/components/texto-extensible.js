@@ -1,12 +1,15 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-
-  tipoDeTexto: Ember.computed('extendido', function () {
-    if(this.get('extendido')) {
-      return "descripcion-expandida";
-    } else {
-      return "descripcion-no-expandida";
-    }
-  }),
+  didInsertElement() {
+    Ember.run.schedule('afterRender', this, this.measureDescriptionAndSet);
+  },
+  measureDescriptionAndSet(){
+    this.set(
+      "descriptionMaxHeight",
+      Ember.String.htmlSafe("max-height: " +
+        this.get("element").getElementsByClassName("descripcion-minuta")[0].scrollHeight +
+        "px")
+    );
+  }
 });
