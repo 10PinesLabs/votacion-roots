@@ -10,7 +10,7 @@
     <div class="tema-horizontal-margin">
       <td class="noPadding">
         <h5 class="titulo-de-tema">{{tema.titulo}}</h5>
-        {{texto-extensible texto=tema.descripcion expandido=expandido onClick=(action "expandirDescripcion")}}
+        {{texto-extensible texto=tema.descripcion expandido=expandido onClick=(action 'expandirDescripcion')}}
       </td>
 
       {{#if expandido}}
