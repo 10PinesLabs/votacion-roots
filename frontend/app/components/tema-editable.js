@@ -20,6 +20,12 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
   }),
 
   actions: {
+    mostrarDescripcion(){
+      this.set('textoExtendido', true);
+    },
+    ocultarDescripcion(){
+      this.set('textoExtendido', false);
+    },
     verDetalleDeTema() {
       this._mostrarDetalle();
     },
