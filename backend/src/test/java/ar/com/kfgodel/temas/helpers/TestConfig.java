@@ -19,7 +19,7 @@ public class TestConfig extends DevelopmentConfig {
 
     @Override
     public DbCoordinates getDatabaseCoordinates() {
-        return ImmutableDbCoordinates.createDeductingDialect("jdbc:h2:mem:file:./db/testDB", "sa", "");
+        return ImmutableDbCoordinates.createDeductingDialect("jdbc:h2:mem:ludat;DB_CLOSE_DELAY=0", "sa", "");
     }
 
     public static TestConfig create() {
