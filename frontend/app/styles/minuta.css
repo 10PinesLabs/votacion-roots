@@ -124,11 +124,14 @@
   word-wrap: break-word;
   overflow: hidden;
   margin: 0;
-  max-height: 5em;
-  transition: max-height 0.5s ease-in-out;
+  transition: max-height 0.5s cubic-bezier(1,0,0.75,0.5);
+  /* Usamos 3000px porque es necesario un valor absoluto para transition */
+  max-height: 3000px;
 }
 
 .descripcion-minuta.colapsada{
+  transition: max-height 0.5s cubic-bezier(0,1,0,1);
+  max-height: 5em;
   cursor: pointer;
 }
 
