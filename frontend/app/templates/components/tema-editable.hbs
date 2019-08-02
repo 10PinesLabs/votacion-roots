@@ -13,20 +13,21 @@
     <div class="minuta-tema-no-tratado">
       <div>
         <h5 class="titulo-de-tema">{{temaDeMinuta.tema.titulo}}</h5>
-        {{texto-extensible texto=temaDeMinuta.tema.descripcion extendido=textoExtendido}}
+        {{texto-extensible texto=temaDeMinuta.tema.descripcion expandido=textoExtendido 
+        onClick=(action 'expandirDescripcion')}}
       </div>
-      <div class="ml-20" {{action 'mostrarEditor'}}>
+      <div class="ml-20">
         {{switch-tratado tema=temaDeMinuta}}
       </div>
     </div>
-
   </div>
 {{/if}}
 <div>
   {{#if mostrandoDetalle }}
     <div class="tema-horizontal-margin flex space-between">
       {{#if temaTratado}}
-        {{texto-extensible texto=temaDeMinuta.tema.descripcion extendido=textoExtendido}}
+        {{texto-extensible texto=temaDeMinuta.tema.descripcion expandido=textoExtendido 
+        onClick=(action 'expandirDescripcion')}}
         <div class="ml-20">
           {{switch-tratado tema=temaDeMinuta}}
         </div>
@@ -34,8 +35,8 @@
     </div>
 
     {{#if textoExtendido}}
-      <div id="tema-colapse-button">
-        <button class="colapse-button" onclick={{action set "textoExtendido" false}}>
+      <div class="tema-colapse-button">
+        <button class="colapse-button" onclick={{action 'colapsarDescripcion'}}>
           <i class="material-icons">unfold_less</i>
         </button>
       </div>

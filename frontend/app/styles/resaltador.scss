@@ -1,13 +1,12 @@
-@import 'colores';
+@import "colores";
 
 %obligatorio-espaciado {
   padding: 0px 1.7vw 1.2vh 1.7vw;
   margin: 0px;
-  font-size:14px;
+  font-size: 14px;
 }
 
 #obligatoriedad-resaltable {
-
   .resaltar {
     @extend %obligatorio-espaciado;
     font-weight: bold;

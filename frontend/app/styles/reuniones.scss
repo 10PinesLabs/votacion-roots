@@ -134,7 +134,8 @@
   width: 200px;
 }
 
-.vot-star, .no-voted {
+.vot-star,
+.no-voted {
   background: white;
   display: flex;
   align-items: center;
@@ -232,25 +233,13 @@
   background-color: #6b016b;
 }
 
-.descripcion-expandida {
-  max-height: 100%;
-  margin: 0;
-}
-
-.descripcion-no-expandida {
-  overflow-y: hidden;
-  max-height: 5em;
-  margin: 0;
-  cursor: pointer;
-}
-
-#tema-colapse-button {
+.tema-colapse-button {
   display: flex;
   justify-content: center;
   position: relative;
   top: 20px;
 }
 
-.fit-content-height{
+.fit-content-height {
   height: fit-content;
 }
