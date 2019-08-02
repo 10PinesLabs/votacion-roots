@@ -85,6 +85,14 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
         delete actionItem.usuariosSeleccionables;
       });
 
+      if (
+        this.get("temasPendientes").includes(tema) &&
+        tema.conclusion !== "" &&
+        tema.actionItems.length > 0
+      ) {
+        tema.set("fueTratado", true);
+      }
+
       this.temaDeMinutaService().updateTemaDeMinuta(tema)
         .then((response) => {
           this._mostrarUsuariosSinMail(response);
