@@ -15,24 +15,32 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
   }),
 
   actions: {
+    expandirDescripcion(){
+      this._extenderTexto();
+    },
+    colapsarDescripcion(){
+      this._colapsarTexto();
+    },
     verDetalleDeTema() {
       this._mostrarDetalle();
     },
-
     ocultarDetalleDeTema() {
-      return this._ocultarDetalle();
+      this._ocultarDetalle();
+      this._colapsarTexto();
     }
-
   },
 
+  _extenderTexto(){
+    this.set('textoExtendido', true);
+  },
+  _colapsarTexto(){
+    this.set('textoExtendido', false);
+  },
   _mostrarDetalle() {
     this.set('mostrandoDetalle', true);
   },
-
   _ocultarDetalle() {
     this.set('mostrandoDetalle', false);
-    this.set('textoExtendido', false);
   },
-
 
 });

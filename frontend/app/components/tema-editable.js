@@ -20,47 +20,46 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
   }),
 
   actions: {
-    mostrarDescripcion(){
-      this.set('textoExtendido', true);
+    expandirDescripcion(){
+      this._extenderTexto();
     },
-    ocultarDescripcion(){
-      this.set('textoExtendido', false);
+    colapsarDescripcion(){
+      this._colapsarTexto();
     },
     verDetalleDeTema() {
       this._mostrarDetalle();
     },
-
     ocultarDetalleDeTema() {
-      return this._ocultarDetalle();
+      this._colapsarTexto();
+      this._ocultarDetalle();
     },
-
     agregarActionItem() {
       this._agregarNuevoActionItem();
     },
-
     ocultarAgregadoActionItem() {
       this.set('agregarItem', false);
     },
-
     soloGuardar(actionItem) {
       this._guardar(actionItem).then(() => this._recargarLista());
     },
-
     guardarYCrearOtro(actionItem) {
       this._guardar(actionItem);
       this._agregarNuevoActionItem();
     },
   },
 
+  _extenderTexto(){
+    this.set('textoExtendido', true);
+  },
+  _colapsarTexto(){
+    this.set('textoExtendido', false);
+  },
   _mostrarDetalle() {
     this.set('mostrandoDetalle', true);
   },
-
   _ocultarDetalle() {
     this.set('mostrandoDetalle', false);
-    this.set('textoExtendido', false);
   },
-
   _recargarLista() {
     this.get('router').refresh();
   },

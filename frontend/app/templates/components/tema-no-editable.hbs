@@ -11,12 +11,12 @@
   {{#if mostrandoDetalle }}
     <div class="tema-horizontal-margin flex space-between">
       {{texto-extensible texto=temaDeMinuta.tema.descripcion expandido=textoExtendido
-       onClick=(action set "textoExtendido" true) }}
+       onClick=(action 'expandirDescripcion') }}
     </div>
 
     {{#if textoExtendido}}
       <div class="tema-colapse-button">
-        <button class="colapse-button" onclick={{action set "textoExtendido" false}}>
+        <button class="colapse-button" onclick={{action 'colapsarDescripcion'}}>
           <i class="material-icons">unfold_less</i>
         </button>
       </div>
