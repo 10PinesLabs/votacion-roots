@@ -10,12 +10,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -33,30 +31,30 @@ public class ReunionTest {
 
     @Test
     public void test01AlCrearUnaReunionSuEstadoEsPendiente(){
-        Reunion unaReunion = Reunion.create(LocalDate.of(2017, 06, 16));
+        Reunion unaReunion = helper.unaReunion();
         Assert.assertEquals(StatusDeReunion.PENDIENTE, unaReunion.getStatus());
     }
 
     @Test
     public void test02AlCrearUnaReunionNoTieneTemas(){
-        Reunion unaReunion = Reunion.create(LocalDate.of(2017, 06, 16));
+        Reunion unaReunion = helper.unaReunion();
         Assert.assertEquals(0, unaReunion.getTemasPropuestos().size());
     }
 
     @Test
     public void test03AlCerrarUnaReunionSuEstadoEsCerrada(){
-        Reunion unaReunion = Reunion.create(LocalDate.of(2017, 06, 16));
+        Reunion unaReunion = helper.unaReunion();
         unaReunion.cerrarVotacion();
         Assert.assertEquals(StatusDeReunion.CERRADA, unaReunion.getStatus());
     }
 
     @Test
     public void test04AlCerrarUnaReunionLosTemasPropuestosSeOrdenanPorCantidadDeVotos() {
-        Reunion unaReunion = Reunion.create(LocalDate.of(2017, 06, 16));
-        Usuario unUsuario = new Usuario();
-        TemaDeReunion tema1 = helper.nuevoTemaNoObligatorio();
-        TemaDeReunion tema2 = helper.nuevoTemaNoObligatorio();
-        TemaDeReunion tema3 = helper.nuevoTemaNoObligatorio();
+        Reunion unaReunion = helper.unaReunion();
+        Usuario unUsuario = helper.unUsuario();
+        TemaDeReunion tema1 = helper.unTemaNoObligatorio();
+        TemaDeReunion tema2 = helper.unTemaNoObligatorio();
+        TemaDeReunion tema3 = helper.unTemaNoObligatorio();
         List<TemaDeReunion> temasDeLaReunion = Arrays.asList(tema1, tema2, tema3);
         unaReunion.setTemasPropuestos(temasDeLaReunion);
 
@@ -81,7 +79,7 @@ public class ReunionTest {
 
     @Test
     public void test05AlReabrirUnaReunionCerradaSuEstadoEsPendiente(){
-        Reunion unaReunion = Reunion.create(LocalDate.of(2017, 06, 16));
+        Reunion unaReunion = helper.unaReunion();
         unaReunion.cerrarVotacion();
         unaReunion.reabrirVotacion();
         Assert.assertEquals(StatusDeReunion.PENDIENTE, unaReunion.getStatus());
@@ -90,24 +88,24 @@ public class ReunionTest {
     // No estoy seguro de que vaya acá
     @Test
     public void test06ElOrdenadorDeTemasOrdenaCorrectamenteUnConjuntoDeTemas() {
-        Usuario unUsuario = new Usuario();
+        Usuario unUsuario = helper.unUsuario();
 
-        TemaDeReunion tema1 = helper.nuevoTemaObligatorio();
+        TemaDeReunion tema1 = helper.unTemaObligatorio();
         tema1.setMomentoDeCreacion(LocalDateTime.of(2017, 06, 26, 0, 0));
 
-        TemaDeReunion tema2 = helper.nuevoTemaObligatorio();
+        TemaDeReunion tema2 = helper.unTemaObligatorio();
         tema2.setMomentoDeCreacion(LocalDateTime.of(2018, 06, 26, 0, 0));
 
-        TemaDeReunion tema3 = helper.nuevoTemaNoObligatorio();
+        TemaDeReunion tema3 = helper.unTemaNoObligatorio();
         tema3.setMomentoDeCreacion(LocalDateTime.of(2018, 02, 26, 0, 0));
         tema3.agregarInteresado(unUsuario);
         tema3.agregarInteresado(unUsuario);
 
-        TemaDeReunion tema4 = helper.nuevoTemaNoObligatorio();
+        TemaDeReunion tema4 = helper.unTemaNoObligatorio();
         tema4.setMomentoDeCreacion(LocalDateTime.of(2016, 02, 26, 0, 0));
         tema4.agregarInteresado(unUsuario);
 
-        TemaDeReunion tema5 = helper.nuevoTemaNoObligatorio();
+        TemaDeReunion tema5 = helper.unTemaNoObligatorio();
         tema5.setMomentoDeCreacion(LocalDateTime.of(2017, 05, 26, 0, 0));
         tema5.agregarInteresado(unUsuario);
 
@@ -123,11 +121,11 @@ public class ReunionTest {
 
     @Test
     public void test07NoSeReorganizanLosTemasPorCadaVezQueSeVota() {
-        Reunion unaReunion = Reunion.create(LocalDate.of(2017, 06, 16));
-        Usuario unUsuario = new Usuario();
-        TemaDeReunion tema1 = helper.nuevoTemaNoObligatorio();
-        TemaDeReunion tema2 = helper.nuevoTemaNoObligatorio();
-        TemaDeReunion tema3 = helper.nuevoTemaNoObligatorio();
+        Reunion unaReunion = helper.unaReunion();
+        Usuario unUsuario = helper.unUsuario();
+        TemaDeReunion tema1 = helper.unTemaNoObligatorio();
+        TemaDeReunion tema2 = helper.unTemaNoObligatorio();
+        TemaDeReunion tema3 = helper.unTemaNoObligatorio();
         List<TemaDeReunion> temasDeLaReunion = Arrays.asList(tema1, tema2, tema3);
         unaReunion.setTemasPropuestos(temasDeLaReunion);
 
@@ -140,10 +138,10 @@ public class ReunionTest {
 
     @Test
     public void test08AlObtenerLosUsuariosQueVotaronEstosNoAparecenDuplicados(){
-        Reunion unaReunion = Reunion.create(LocalDate.of(2017, 06, 16));
-        Usuario unUsuario = new Usuario();
-        TemaDeReunion tema1 = helper.nuevoTemaNoObligatorio();
-        TemaDeReunion tema2 = helper.nuevoTemaNoObligatorio();
+        Reunion unaReunion = helper.unaReunion();
+        Usuario unUsuario = helper.unUsuario();
+        TemaDeReunion tema1 = helper.unTemaNoObligatorio();
+        TemaDeReunion tema2 = helper.unTemaNoObligatorio();
         tema1.setInteresados(Arrays.asList(unUsuario));
         tema2.setInteresados(Arrays.asList(unUsuario, unUsuario));
 
@@ -151,4 +149,5 @@ public class ReunionTest {
 
         assertThat(unaReunion.usuariosQueVotaron()).containsExactly(unUsuario);
     }
+
 }
