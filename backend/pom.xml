@@ -2,282 +2,280 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
          xmlns="http://maven.apache.org/POM/4.0.0">
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>ar.com.kfgodel</groupId>
-        <artifactId>java-pom</artifactId>
-        <version>0.1-SNAPSHOT</version>
-    </parent>
-
+  <parent>
     <groupId>ar.com.kfgodel</groupId>
-    <artifactId>temas-10p-backend</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>java-pom</artifactId>
+    <version>0.1-SNAPSHOT</version>
+  </parent>
 
-    <name>Temas-10P Backend</name>
-    <description>Aplicacion muy simple para definir temas a tratar en la reunion de roots</description>
+  <groupId>ar.com.kfgodel</groupId>
+  <artifactId>temas-10p-backend</artifactId>
+  <version>1.0-SNAPSHOT</version>
 
-    <repositories>
-        <repository>
-            <id>kfgodel_mosquito</id>
-            <name>Repo Mosquito</name>
-            <url>http://kfgodel.info:8081/nexus/content/groups/public/</url>
-            <snapshots>
-                <updatePolicy>daily</updatePolicy>
-            </snapshots>
-        </repository>
-    </repositories>
+  <name>Temas-10P Backend</name>
+  <description>Aplicacion muy simple para definir temas a tratar en la reunion de roots</description>
 
-    <properties>
-        <version.plugin.assembly>2.5.3</version.plugin.assembly>
-        <version.plugin.shade>2.3</version.plugin.shade>
-        <version.plugin.dependency>2.10</version.plugin.dependency>
+  <repositories>
+    <repository>
+      <id>kfgodel_mosquito</id>
+      <name>Repo Mosquito</name>
+      <url>http://kfgodel.info:8081/nexus/content/groups/public/</url>
+      <snapshots>
+        <updatePolicy>daily</updatePolicy>
+      </snapshots>
+    </repository>
+  </repositories>
 
-        <version.webbyconvention>0.2-SNAPSHOT</version.webbyconvention>
-        <version.wrapper>3.5.25</version.wrapper>
-        <version.ateamhibernate>0.1-SNAPSHOT</version.ateamhibernate>
-        <version.hsqldb>2.3.2</version.hsqldb>
-        <version.execontainer>0.2-SNAPSHOT</version.execontainer>
-        <version.bean2bean>1.1.4</version.bean2bean>
-        <version.diamond>1.0.1-SNAPSHOT</version.diamond>
-        <version.groovy>2.1.5</version.groovy>
-        <version.h2>1.4.187</version.h2>
-        <flyway.version>1.4.191</flyway.version>
-        <maven.javadoc.skip>true</maven.javadoc.skip>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
+  <properties>
+    <version.plugin.assembly>2.5.3</version.plugin.assembly>
+    <version.plugin.shade>2.3</version.plugin.shade>
+    <version.plugin.dependency>2.10</version.plugin.dependency>
 
-    <build>
-        <plugins>
-            <!-- MIGRACIONES-->
-            <plugin>
-                <groupId>org.flywaydb</groupId>
-                <artifactId>flyway-maven-plugin</artifactId>
-                <version>5.0.7</version>
-                <configuration>
-                    <url>jdbc:${flyway.url}</url>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.h2database</groupId>
-                        <artifactId>h2</artifactId>
-                        <version>${flyway.version}</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
+    <version.webbyconvention>0.2-SNAPSHOT</version.webbyconvention>
+    <version.wrapper>3.5.25</version.wrapper>
+    <version.ateamhibernate>0.1-SNAPSHOT</version.ateamhibernate>
+    <version.hsqldb>2.3.2</version.hsqldb>
+    <version.execontainer>0.2-SNAPSHOT</version.execontainer>
+    <version.bean2bean>1.1.4</version.bean2bean>
+    <version.diamond>1.0.1-SNAPSHOT</version.diamond>
+    <version.groovy>2.1.5</version.groovy>
+    <version.h2>1.4.187</version.h2>
+    <flyway.version>1.4.191</flyway.version>
+    <maven.javadoc.skip>true</maven.javadoc.skip>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
 
-            <!-- Generates Queryable types for querydsl (inherited) -->
-            <plugin>
-                <groupId>com.mysema.maven</groupId>
-                <artifactId>apt-maven-plugin</artifactId>
-            </plugin>
+  <build>
+    <plugins>
+      <!-- MIGRACIONES-->
+      <plugin>
+          <groupId>org.flywaydb</groupId>
+          <artifactId>flyway-maven-plugin</artifactId>
+          <version>5.0.7</version>
+          <configuration>
+            <url>jdbc:${flyway.url}</url>
+          </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>com.h2database</groupId>
+              <artifactId>h2</artifactId>
+              <version>${flyway.version}</version>
+            </dependency>
+          </dependencies>
+        </plugin>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
+      <!-- Generates Queryable types for querydsl (inherited) -->
+      <plugin>
+        <groupId>com.mysema.maven</groupId>
+        <artifactId>apt-maven-plugin</artifactId>
+      </plugin>
 
-            <!-- Genera un sólo jar con todas las dependencias -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>2.3</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <filters>
-                        <filter>
-                            <artifact>*:*</artifact>
-                            <excludes>
-                                <exclude>META-INF/*.SF</exclude>
-                                <exclude>META-INF/*.DSA</exclude>
-                                <exclude>META-INF/*.RSA</exclude>
-                            </excludes>
-                        </filter>
-                    </filters>
-                    <transformers>
-                        <transformer
-                                implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
-                        <transformer
-                                implementation="org.apache.maven.plugins.shade.resource.ComponentsXmlResourceTransformer"/>
-                        <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                            <resource>META-INF/spring.handlers</resource>
-                        </transformer>
-                        <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                            <resource>META-INF/spring.schemas</resource>
-                        </transformer>
-                        <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                            <resource>META-INF/spring.tooling</resource>
-                        </transformer>
-                    </transformers>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <!-- use 2.9.1 for Java 7 projects -->
-            <version>3.11.1</version>
-            <scope>test</scope>
-        </dependency>
+      <!-- Genera un sólo jar con todas las dependencias -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>2.3</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <filters>
+            <filter>
+              <artifact>*:*</artifact>
+              <excludes>
+                <exclude>META-INF/*.SF</exclude>
+                <exclude>META-INF/*.DSA</exclude>
+                <exclude>META-INF/*.RSA</exclude>
+              </excludes>
+            </filter>
+          </filters>
+          <transformers>
+            <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+            <transformer implementation="org.apache.maven.plugins.shade.resource.ComponentsXmlResourceTransformer"/>
+            <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+              <resource>META-INF/spring.handlers</resource>
+            </transformer>
+            <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+              <resource>META-INF/spring.schemas</resource>
+            </transformer>
+            <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+              <resource>META-INF/spring.tooling</resource>
+            </transformer>
+          </transformers>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
-        <!-- Communication classes to manage executable host container -->
-        <dependency>
-            <groupId>org.tanukisoftware</groupId>
-            <artifactId>wrapper</artifactId>
-            <version>${version.wrapper}</version>
-            <scope>provided</scope>
-        </dependency>
+  <dependencies>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <!-- use 2.9.1 for Java 7 projects -->
+      <version>3.11.1</version>
+      <scope>test</scope>
+    </dependency>
 
-        <!-- Convention based application modules -->
-        <dependency>
-            <groupId>ar.com.kfgodel</groupId>
-            <artifactId>app-by-convention</artifactId>
-            <version>0.1-SNAPSHOT</version>
-        </dependency>
+    <!-- Communication classes to manage executable host container -->
+    <dependency>
+      <groupId>org.tanukisoftware</groupId>
+      <artifactId>wrapper</artifactId>
+      <version>${version.wrapper}</version>
+      <scope>provided</scope>
+    </dependency>
 
-        <!-- In file database -->
-        <dependency>
-            <groupId>org.hsqldb</groupId>
-            <artifactId>hsqldb</artifactId>
-            <version>${version.hsqldb}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>${version.h2}</version>
-        </dependency>
+    <!-- Convention based application modules -->
+    <dependency>
+      <groupId>ar.com.kfgodel</groupId>
+      <artifactId>app-by-convention</artifactId>
+      <version>0.1-SNAPSHOT</version>
+    </dependency>
 
-        <!-- Heroku database -->
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>42.1.4</version>
-        </dependency>
-        <!-- Optional for heroku? to manage database connections?-->
-        <dependency>
-            <groupId>com.heroku.sdk</groupId>
-            <artifactId>heroku-jdbc</artifactId>
-            <version>0.1.1</version>
-        </dependency>
+    <!-- In file database -->
+    <dependency>
+      <groupId>org.hsqldb</groupId>
+      <artifactId>hsqldb</artifactId>
+      <version>${version.hsqldb}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <version>${version.h2}</version>
+    </dependency>
 
-        <!-- programmatic dsl for queries (inherited) -->
-        <dependency>
-            <groupId>com.querydsl</groupId>
-            <artifactId>querydsl-apt</artifactId>
-            <exclusions>
-                <exclusion>
-                    <!-- Already provided by jetty under another groupid -->
-                    <groupId>javax.inject</groupId>
-                    <artifactId>javax.inject</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>com.querydsl</groupId>
-            <artifactId>querydsl-jpa</artifactId>
-            <exclusions>
-                <exclusion>
-                    <!-- Already provided by a reflections findbugs dependency -->
-                    <groupId>com.google.code.findbugs</groupId>
-                    <artifactId>jsr305</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+    <!-- Heroku database -->
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>42.1.4</version>
+    </dependency>
+    <!-- Optional for heroku? to manage database connections?-->
+    <dependency>
+      <groupId>com.heroku.sdk</groupId>
+      <artifactId>heroku-jdbc</artifactId>
+      <version>0.1.1</version>
+    </dependency>
 
-        <!-- Logging  as compile dependency-->
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-core</artifactId>
-            <version>${version.logback}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>${version.logback}</version>
-            <scope>compile</scope>
+    <!-- programmatic dsl for queries (inherited) -->
+    <dependency>
+      <groupId>com.querydsl</groupId>
+      <artifactId>querydsl-apt</artifactId>
+      <exclusions>
+        <exclusion>
+          <!-- Already provided by jetty under another groupid -->
+          <groupId>javax.inject</groupId>
+          <artifactId>javax.inject</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>com.querydsl</groupId>
+      <artifactId>querydsl-jpa</artifactId>
+      <exclusions>
+        <exclusion>
+          <!-- Already provided by a reflections findbugs dependency -->
+          <groupId>com.google.code.findbugs</groupId>
+          <artifactId>jsr305</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
 
-        </dependency>
+    <!-- Logging  as compile dependency-->
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-core</artifactId>
+      <version>${version.logback}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>${version.logback}</version>
+      <scope>compile</scope>
 
-        <!-- Spec for testing -->
-        <dependency>
-            <groupId>ar.com.dgarcia</groupId>
-            <artifactId>java-spec</artifactId>
-        </dependency>
+    </dependency>
 
-        <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-core</artifactId>
-            <version>5.0.7</version>
-        </dependency>
+    <!-- Spec for testing -->
+    <dependency>
+      <groupId>ar.com.dgarcia</groupId>
+      <artifactId>java-spec</artifactId>
+    </dependency>
 
-        <!-- To notificar email notifications -->
-        <dependency>
-            <groupId>org.simplejavamail</groupId>
-            <artifactId>simple-java-mail</artifactId>
-            <version>5.0.3</version>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.0.3</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.powermock</groupId>
-            <artifactId>powermock-api-mockito2</artifactId>
-            <version>2.0.0-beta.5</version>
-        </dependency>
-        <dependency>
-            <groupId>org.powermock</groupId>
-            <artifactId>powermock-module-junit4</artifactId>
-            <version>2.0.0-beta.5</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.5</version>
-        </dependency>
+    <dependency>
+      <groupId>org.flywaydb</groupId>
+      <artifactId>flyway-core</artifactId>
+      <version>5.0.7</version>
+    </dependency>
 
-    </dependencies>
+    <!-- To notificar email notifications -->
+      <dependency>
+          <groupId>org.simplejavamail</groupId>
+          <artifactId>simple-java-mail</artifactId>
+          <version>5.0.3</version>
+      </dependency>
+      <dependency>
+          <groupId>org.junit.jupiter</groupId>
+          <artifactId>junit-jupiter-api</artifactId>
+          <version>5.0.3</version>
+          <scope>compile</scope>
+      </dependency>
+    <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-api-mockito2</artifactId>
+      <version>2.0.0-beta.5</version>
+    </dependency>
+    <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-module-junit4</artifactId>
+      <version>2.0.0-beta.5</version>
+    </dependency>
+      <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-lang3</artifactId>
+          <version>3.5</version>
+      </dependency>
 
-    <profiles>
-        <profile>
-            <id>heroku-profile</id>
-            <activation>
-                <property>
-                    <name>env.DATABASE_URL</name>
-                </property>
-            </activation>
-            <properties>
-                <flyway.url>{$env.DATABASE_URL}</flyway.url>
-            </properties>
-        </profile>
+  </dependencies>
 
-        <profile>
-            <id>development-profile</id>
-            <activation>
-                <property>
-                    <name>!env.DATABASE_URL</name>
-                </property>
-            </activation>
-            <properties>
-                <flyway.url>h2:file:../db/h2;USER=sa</flyway.url>
-            </properties>
-        </profile>
-    </profiles>
+  <profiles>
+    <profile>
+      <id>heroku-profile</id>
+      <activation>
+        <property>
+          <name>env.DATABASE_URL</name>
+        </property>
+      </activation>
+      <properties>
+        <flyway.url> {$env.DATABASE_URL} </flyway.url>
+      </properties>
+    </profile>
+
+    <profile>
+      <id>development-profile</id>
+      <activation>
+        <property>
+          <name>!env.DATABASE_URL</name>
+        </property>
+      </activation>
+      <properties>
+        <flyway.url>h2:file:../db/h2;USER=sa</flyway.url>
+      </properties>
+    </profile>
+  </profiles>
 </project>
