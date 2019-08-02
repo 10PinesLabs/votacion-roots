@@ -1,14 +1,14 @@
 package ar.com.kfgodel.temas.domain;
 
-import convention.persistent.PropuestaDePinoARoot;
-import convention.persistent.TemaParaProponerPinosARoot;
-import convention.persistent.Usuario;
+import convention.persistent.*;
 import org.junit.Test;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collection;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class TemaParaProponerPinosARootTest {
 
@@ -52,6 +52,41 @@ public class TemaParaProponerPinosARootTest {
         assertThatThrownBy(() -> {
             unTemaParaProponerPinos.agregarPropuesta(otraPropuesta);
         }).hasMessage(TemaParaProponerPinosARoot.PINO_YA_PROPUESTO_ERROR_MSG);
+    }
+
+    @Test
+    public void sePuedeAgregarUnTemaParaProponerPinosARootAUnaReunion() {
+        Reunion reunion = Reunion.create(LocalDate.of(2019, 1, 1));
+        TemaParaProponerPinosARoot unTemaParaProponerPinos = unTemaParaProponerPinosARoot();
+
+        reunion.agregarTema(unTemaParaProponerPinos);
+
+        assertThat(reunion.getTemasPropuestos()).containsExactly(unTemaParaProponerPinos);
+    }
+
+    @Test
+    public void losTemasParaProponerPinosARootTienenUnTituloFijo() {
+        TemaParaProponerPinosARoot unTemaParaProponerPinos = unTemaParaProponerPinosARoot();
+
+        assertThat(unTemaParaProponerPinos.getTitulo()).isEqualTo(TemaParaProponerPinosARoot.TITULO);
+    }
+
+    @Test
+    public void losTemasParaProponerPinosARootNoSonObligatorios() {
+        TemaParaProponerPinosARoot unTemaParaProponerPinos = unTemaParaProponerPinosARoot();
+
+        assertThat(unTemaParaProponerPinos.getObligatoriedad()).isEqualTo(ObligatoriedadDeTema.OBLIGATORIO);
+    }
+
+    @Test
+    public void losTemasParaProponerPinosARootTienenDuracionCorta() {
+        TemaParaProponerPinosARoot unTemaParaProponerPinos = unTemaParaProponerPinosARoot();
+
+        assertThat(unTemaParaProponerPinos.getDuracion()).isEqualTo(DuracionDeTema.CORTO);
+    }
+
+    private TemaParaProponerPinosARoot unTemaParaProponerPinosARoot() {
+        return new TemaParaProponerPinosARoot(unaPropuestaDeUnPinoARoot());
     }
 
     private PropuestaDePinoARoot unaPropuestaDeUnPinoARootSponsoreadoPor(Usuario unSponsor) {

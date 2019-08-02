@@ -3,8 +3,11 @@ package convention.persistent;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class TemaParaProponerPinosARoot {
+public class TemaParaProponerPinosARoot extends TemaDeReunion {
+
     public static final String PINO_YA_PROPUESTO_ERROR_MSG = "el pino ya fue propuesto";
+    public static final String TITULO = "Proponer pinos a root";
+
     private Collection<PropuestaDePinoARoot> propuestas = new ArrayList<>();
 
     public TemaParaProponerPinosARoot(PropuestaDePinoARoot unaPropuesta) {
@@ -28,5 +31,17 @@ public class TemaParaProponerPinosARoot {
 
     private Boolean fuePropuesto(String unPino) {
         return propuestas().stream().anyMatch(propuesta -> propuesta.pino().equals(unPino));
+    }
+
+    public String getTitulo() {
+        return TITULO;
+    }
+
+    public ObligatoriedadDeTema getObligatoriedad() {
+        return ObligatoriedadDeTema.OBLIGATORIO;
+    }
+
+    public DuracionDeTema getDuracion() {
+        return DuracionDeTema.CORTO;
     }
 }

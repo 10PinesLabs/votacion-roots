@@ -16,7 +16,6 @@ import java.util.*;
 @Entity
 public class Reunion extends PersistableSupport {
 
-    public static final String AGREGAR_TEMA_PARA_PROPONER_PINOS_COMO_ROOT_ERROR_MSG = "no se puede agregar un tema para proponer pinos como root";
     @NotNull
     private LocalDate fecha;
     public static final String fecha_FIELD = "fecha";
@@ -31,9 +30,6 @@ public class Reunion extends PersistableSupport {
     private List<TemaDeReunion> temasPropuestos = new ArrayList<>();
 
     public static final String temasPropuestos_FIELD = "temasPropuestos";
-
-    @OneToOne
-    private TemaParaProponerPinosARoot temaParaProponerPinosComoRoot;
 
     public LocalDate getFecha() {
         return fecha;
@@ -95,7 +91,7 @@ public class Reunion extends PersistableSupport {
     }
 
     public void agregarTemasGenerales(List<TemaGeneral> temasGenerales) {
-        temasGenerales.forEach(this::agregarTemaGeneral);
+        temasGenerales.forEach(temaGeneral -> this.agregarTemaGeneral(temaGeneral));
     }
 
     public void agregarTemaGeneral(TemaGeneral temaGeneral) {
@@ -104,9 +100,6 @@ public class Reunion extends PersistableSupport {
     }
 
     public void agregarTema(TemaDeReunion temaNuevo) {
-        if (temaNuevo.getTitulo() == TemaParaProponerPinosARoot.TITULO) {
-            throw new RuntimeException(AGREGAR_TEMA_PARA_PROPONER_PINOS_COMO_ROOT_ERROR_MSG);
-        }
         temasPropuestos.add(temaNuevo);
     }
 
@@ -120,12 +113,4 @@ public class Reunion extends PersistableSupport {
         return votantes;
     }
 
-    public void proponerPinoComoRoot(String unPino, Usuario unSponsor) {
-        if (temaParaProponerPinosComoRoot == null) {
-            temaParaProponerPinosComoRoot = new TemaParaProponerPinosARoot();
-            temasPropuestos.add(temaParaProponerPinosComoRoot);
-        }
-        PropuestaDePinoARoot propuesta = new PropuestaDePinoARoot(unPino, unSponsor);
-        temaParaProponerPinosComoRoot.agregarPropuesta(propuesta);
-    }
 }
