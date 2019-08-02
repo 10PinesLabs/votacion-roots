@@ -8,7 +8,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Esta clase representa una reunion de roots con el temario a realizar
@@ -26,9 +25,10 @@ public class Reunion extends PersistableSupport {
     public static final String status_FIELD = "status";
 
     @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany( cascade = CascadeType.ALL, mappedBy = TemaDeReunion.reunion_FIELD, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = TemaDeReunion.reunion_FIELD, orphanRemoval = true)
     @OrderBy(TemaDeReunion.prioridad_FIELD)
-    private List<TemaDeReunion> temasPropuestos;
+    private List<TemaDeReunion> temasPropuestos = new ArrayList<>();
+
     public static final String temasPropuestos_FIELD = "temasPropuestos";
 
     public LocalDate getFecha() {
@@ -40,9 +40,6 @@ public class Reunion extends PersistableSupport {
     }
 
     public List<TemaDeReunion> getTemasPropuestos() {
-        if (temasPropuestos == null) {
-            temasPropuestos = new ArrayList<>();
-        }
         return temasPropuestos;
     }
 
@@ -65,13 +62,11 @@ public class Reunion extends PersistableSupport {
         Reunion reunion = new Reunion();
         reunion.fecha = fecha;
         reunion.status = StatusDeReunion.PENDIENTE;
-        if(reunion.getTemasPropuestos() == null)
-            reunion.setTemasPropuestos(new ArrayList<>());
         return reunion;
     }
 
     public void cerrarVotacion() {
-    this.getTemasPropuestos().sort(Collections.reverseOrder(OrdenarPorVotos.create()));
+        this.getTemasPropuestos().sort(Collections.reverseOrder(OrdenarPorVotos.create()));
         for (int i = 0; i < getTemasPropuestos().size(); i++) {
             TemaDeReunion tema = getTemasPropuestos().get(i);
             tema.setPrioridad(i + 1); // Queremos que empiece de 1 la prioridad
@@ -104,11 +99,11 @@ public class Reunion extends PersistableSupport {
         this.agregarTema(temaNuevo);
     }
 
-    private void agregarTema(TemaDeReunion temaNuevo) {
+    public void agregarTema(TemaDeReunion temaNuevo) {
         temasPropuestos.add(temaNuevo);
     }
 
-    public void marcarComoMinuteada(){
+    public void marcarComoMinuteada() {
         this.setStatus(StatusDeReunion.CON_MINUTA);
     }
 
