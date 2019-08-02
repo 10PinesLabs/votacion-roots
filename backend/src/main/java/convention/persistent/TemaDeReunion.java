@@ -176,4 +176,8 @@ public class TemaDeReunion extends Tema {
     public void setTemaGenerador(TemaGeneral temaGenerador) {
         this.temaGenerador = temaGenerador;
     }
+
+    public Boolean esParaProponerPinosARoot() {
+        return false;
+    }
 }

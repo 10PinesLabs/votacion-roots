@@ -32,10 +32,6 @@ public class TestHelper {
         return Reunion.create(LocalDate.of(2017, 06, 16));
     }
 
-    public Usuario unUsuario() {
-        return new Usuario();
-    }
-
     public String unPino() {
         return "un pino";
     }
@@ -44,27 +40,27 @@ public class TestHelper {
         return "otro pino";
     }
 
-    public Usuario unSponsor() {
+    public Usuario unUsuario() {
         return Usuario.create("jorge", "usuario", "contra", "id", "email");
     }
 
-    public Usuario otroSponsor() {
+    public Usuario otroUsuario() {
         return Usuario.create("carlos", "usuario", "contra", "id", "email");
     }
 
     public PropuestaDePinoARoot unaPropuestaDeUnPinoARoot() {
-        return new PropuestaDePinoARoot(unPino(), unSponsor());
+        return new PropuestaDePinoARoot(unPino(), unUsuario());
     }
 
     public PropuestaDePinoARoot unaPropuestaDeOtroPinoARoot() {
-        return new PropuestaDePinoARoot(otroPino(), unSponsor());
+        return new PropuestaDePinoARoot(otroPino(), unUsuario());
     }
 
     public PropuestaDePinoARoot unaPropuestaDeUnPinoARootSponsoreadoPor(Usuario unSponsor, TemaParaProponerPinosARootTest temaParaProponerPinosARootTest) {
         return new PropuestaDePinoARoot(unPino(), unSponsor);
     }
 
-    public TemaParaProponerPinosARoot unTemaParaProponerPinosARoot() {
-        return new TemaParaProponerPinosARoot(unaPropuestaDeUnPinoARoot());
+    public TemaDeReunion unTemaDeReunion() {
+        return unTemaNoObligatorio();
     }
 }
