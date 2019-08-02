@@ -2,16 +2,14 @@ package ar.com.kfgodel.temas.domain;
 
 import ar.com.kfgodel.temas.helpers.TestHelper;
 import ar.com.kfgodel.temas.model.OrdenarPorVotos;
-import convention.persistent.Reunion;
-import convention.persistent.StatusDeReunion;
-import convention.persistent.TemaDeReunion;
-import convention.persistent.Usuario;
+import convention.persistent.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -150,4 +148,74 @@ public class ReunionTest {
         assertThat(unaReunion.usuariosQueVotaron()).containsExactly(unUsuario);
     }
 
+    @Test
+    public void testProponerAUnPinoComoRootCreaUnTemaParaEso() {
+        Reunion unaReunion = helper.unaReunion();
+
+        String unPino = helper.unPino();
+        Usuario unSponsor = helper.unUsuario();
+        unaReunion.proponerPinoComoRoot(unPino, unSponsor);
+
+        TemaDeReunion temaCreado = unaReunion.getTemasPropuestos().get(0);
+        assertThat(temaCreado.esParaProponerPinosARoot()).isTrue();
+    }
+
+    @Test
+    public void testElTemaCreadoAlProponerAUnPinoComoRootTieneAlPinoPropuestoYASuSponsor() {
+        Reunion unaReunion = helper.unaReunion();
+
+        String unPino = helper.unPino();
+        Usuario unSponsor = helper.unUsuario();
+        unaReunion.proponerPinoComoRoot(unPino, unSponsor);
+
+        TemaParaProponerPinosARoot temaCreado = (TemaParaProponerPinosARoot) unaReunion.getTemasPropuestos().get(0);
+        Collection<PropuestaDePinoARoot> propuestas = temaCreado.propuestas();
+        assertThatExistePropuestaPara(propuestas, unPino, unSponsor);
+    }
+
+    @Test
+    public void testProponerAOtroPinoComoRootNoCreaOtroTema() {
+        Reunion unaReunion = helper.unaReunion();
+        String unPino = helper.unPino();
+        Usuario unSponsor = helper.unUsuario();
+        unaReunion.proponerPinoComoRoot(unPino, unSponsor);
+
+        String otroPino = helper.otroPino();
+        unaReunion.proponerPinoComoRoot(otroPino, unSponsor);
+
+        assertThat(unaReunion.getTemasPropuestos()).hasSize(1);
+    }
+
+    @Test
+    public void testElTemaParaProponerPinosComoRootsTieneATodosLosPinosPropuestos() {
+        Reunion unaReunion = helper.unaReunion();
+
+        String unPino = helper.unPino();
+        String otroPino = helper.otroPino();
+        Usuario unSponsor = helper.unUsuario();
+        unaReunion.proponerPinoComoRoot(unPino, unSponsor);
+        unaReunion.proponerPinoComoRoot(otroPino, unSponsor);
+
+        TemaParaProponerPinosARoot temaCreado = (TemaParaProponerPinosARoot) unaReunion.getTemasPropuestos().get(0);
+        Collection<PropuestaDePinoARoot> propuestas = temaCreado.propuestas();
+        assertThatExistePropuestaPara(propuestas, unPino, unSponsor);
+        assertThatExistePropuestaPara(propuestas, otroPino, unSponsor);
+    }
+
+    @Test
+    public void testProponerAUnPinoComoRootCreaUnTemaParaEsoCuandoYaHabianOtrosTemasComunes() {
+        Reunion unaReunion = helper.unaReunion();
+        unaReunion.agregarTema(helper.unTemaDeReunion());
+
+        String unPino = helper.unPino();
+        Usuario unSponsor = helper.unUsuario();
+        unaReunion.proponerPinoComoRoot(unPino, unSponsor);
+
+        assertThat(unaReunion.getTemasPropuestos()).hasSize(2);
+    }
+
+    private void assertThatExistePropuestaPara(Collection<PropuestaDePinoARoot> propuestas, String unPino, Usuario unSponsor) {
+        assertThat(propuestas).anyMatch(
+                propuesta -> propuesta.pino().equals(unPino) && propuesta.sponsor() == unSponsor);
+    }
 }

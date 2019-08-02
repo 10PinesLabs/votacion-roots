@@ -10,8 +10,8 @@ public class TemaParaProponerPinosARoot extends TemaDeReunion {
 
     private Collection<PropuestaDePinoARoot> propuestas = new ArrayList<>();
 
-    public TemaParaProponerPinosARoot(PropuestaDePinoARoot unaPropuesta) {
-        agregarPropuesta(unaPropuesta);
+    public TemaParaProponerPinosARoot() {
+
     }
 
     public Collection<PropuestaDePinoARoot> propuestas() {
@@ -43,5 +43,9 @@ public class TemaParaProponerPinosARoot extends TemaDeReunion {
 
     public DuracionDeTema getDuracion() {
         return DuracionDeTema.CORTO;
+    }
+
+    public Boolean esParaProponerPinosARoot() {
+        return true;
     }
 }
