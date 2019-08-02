@@ -16,6 +16,7 @@ import java.util.*;
 @Entity
 public class Reunion extends PersistableSupport {
 
+    public static final String EXISTE_TEMA_PARA_PROPONER_PINOS_COMO_ROOT_ERROR_MSG = "ya existe un tema para proponer pinos como root";
     @NotNull
     private LocalDate fecha;
     public static final String fecha_FIELD = "fecha";
@@ -31,7 +32,7 @@ public class Reunion extends PersistableSupport {
 
     public static final String temasPropuestos_FIELD = "temasPropuestos";
 
-    private Optional<TemaParaProponerPinosARoot> temaParaProponerPinosComoRoot = Optional.empty();
+    private TemaParaProponerPinosARoot temaParaProponerPinosComoRoot;
 
     public LocalDate getFecha() {
         return fecha;
@@ -93,7 +94,7 @@ public class Reunion extends PersistableSupport {
     }
 
     public void agregarTemasGenerales(List<TemaGeneral> temasGenerales) {
-        temasGenerales.forEach(temaGeneral -> this.agregarTemaGeneral(temaGeneral));
+        temasGenerales.forEach(this::agregarTemaGeneral);
     }
 
     public void agregarTemaGeneral(TemaGeneral temaGeneral) {
@@ -116,15 +117,11 @@ public class Reunion extends PersistableSupport {
     }
 
     public void proponerPinoComoRoot(String unPino, Usuario unSponsor) {
-        if (!temaParaProponerPinosComoRoot.isPresent()) {
-            temaParaProponerPinosComoRoot = Optional.of(new TemaParaProponerPinosARoot());
-            agregarTema(temaParaProponerPinosComoRoot.get());
+        if (temaParaProponerPinosComoRoot == null) {
+            temaParaProponerPinosComoRoot = new TemaParaProponerPinosARoot();
+            agregarTema(temaParaProponerPinosComoRoot);
         }
         PropuestaDePinoARoot propuesta = new PropuestaDePinoARoot(unPino, unSponsor);
-        temaParaProponerPinosComoRoot.get().agregarPropuesta(propuesta);
-    }
-
-    private Boolean noExisteUnTemaParaProponerPinosARoot() {
-        return getTemasPropuestos().stream().noneMatch(tema -> tema.esParaProponerPinosARoot());
+        temaParaProponerPinosComoRoot.agregarPropuesta(propuesta);
     }
 }
