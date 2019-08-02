@@ -1,18 +1,18 @@
-@import 'ember-power-select/themes/material';
-@import 'ember-power-select';
-@import 'tenpines-material-components';
-@import 'ember-power-select/themes/material';
-@import 'ember-power-select';
-@import 'toast';
-@import 'navigation-bar';
-@import 'reuniones';
-@import 'asistentes';
-@import 'minuta';
-@import 'creacion-edicion-tema';
-@import 'resaltador';
-@import 'colores';
+@import "ember-power-select/themes/material";
+@import "ember-power-select";
+@import "tenpines-material-components";
+@import "ember-power-select/themes/material";
+@import "ember-power-select";
+@import "toast";
+@import "navigation-bar";
+@import "reuniones";
+@import "asistentes";
+@import "minuta";
+@import "creacion-edicion-tema";
+@import "resaltador";
+@import "colores";
 
-$yellow-star: #FFCE54;
+$yellow-star: #ffce54;
 $ember-power-select-placeholder-color: black !important;
 
 .ultimo-tema-style {
@@ -139,7 +139,19 @@ $ember-power-select-placeholder-color: black !important;
   background: #6b016b;
 }
 
-input:not([type]):focus:not([readonly]), input[type=text]:focus:not([readonly]), input[type=password]:focus:not([readonly]), input[type=email]:focus:not([readonly]), input[type=url]:focus:not([readonly]), input[type=time]:focus:not([readonly]), input[type=date]:focus:not([readonly]), input[type=datetime]:focus:not([readonly]), input[type=datetime-local]:focus:not([readonly]), input[type=tel]:focus:not([readonly]), input[type=number]:focus:not([readonly]), input[type=search]:focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
+input:not([type]):focus:not([readonly]),
+input[type="text"]:focus:not([readonly]),
+input[type="password"]:focus:not([readonly]),
+input[type="email"]:focus:not([readonly]),
+input[type="url"]:focus:not([readonly]),
+input[type="time"]:focus:not([readonly]),
+input[type="date"]:focus:not([readonly]),
+input[type="datetime"]:focus:not([readonly]),
+input[type="datetime-local"]:focus:not([readonly]),
+input[type="tel"]:focus:not([readonly]),
+input[type="number"]:focus:not([readonly]),
+input[type="search"]:focus:not([readonly]),
+textarea.materialize-textarea:focus:not([readonly]) {
   border-bottom: $primary-color;
   box-shadow: $primary-color;
   box-shadow: 0 1px 0 0 $primary-color;
@@ -190,19 +202,20 @@ h6 {
   margin-bottom: 20px;
 }
 
-.btn-flat:focus{
+.btn-flat:focus {
   background-color: #6b016b;
 }
 
-.fit-correct-width .ember-view{
+.fit-correct-width .ember-view {
   display: contents;
 }
 
-div input[type=text]:focus:not([readonly]) + label{
+div input[type="text"]:focus:not([readonly]) + label {
   color: grey;
 }
 
-.ember-power-select-trigger:focus, div .ember-power-select-trigger{
+.ember-power-select-trigger:focus,
+div .ember-power-select-trigger {
   border-bottom: 1px solid $primary-color;
 }
 

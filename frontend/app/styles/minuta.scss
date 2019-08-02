@@ -129,12 +129,12 @@
   max-height: 80vh;
 }
 
-.descripcion-minuta.expandida{
+.descripcion-minuta.expandida {
   overflow-y: auto;
 }
 
-.descripcion-minuta.colapsada{
-  transition: max-height 0.5s cubic-bezier(0,1,0,1);
+.descripcion-minuta.colapsada {
+  transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
   max-height: 5em;
   cursor: pointer;
 }
@@ -146,8 +146,5 @@
   left: 0;
   height: 100%;
   width: 100%;
-  background-image: linear-gradient(
-    transparent 60%,
-    rgba(255, 255, 255, 0.7) 100%
-  );
+  background-image: linear-gradient(transparent 60%, rgba(255, 255, 255, 0.7) 100%);
 }

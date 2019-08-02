@@ -134,7 +134,8 @@
   width: 200px;
 }
 
-.vot-star, .no-voted {
+.vot-star,
+.no-voted {
   background: white;
   display: flex;
   align-items: center;
@@ -239,6 +240,6 @@
   top: 20px;
 }
 
-.fit-content-height{
+.fit-content-height {
   height: fit-content;
 }
