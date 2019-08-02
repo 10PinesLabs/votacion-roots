@@ -30,26 +30,26 @@ public class ReunionTest {
     }
 
     @Test
-    public void test01AlCrearUnaReunionSuEstadoEsPendiente(){
+    public void testAlCrearUnaReunionSuEstadoEsPendiente(){
         Reunion unaReunion = helper.unaReunion();
         Assert.assertEquals(StatusDeReunion.PENDIENTE, unaReunion.getStatus());
     }
 
     @Test
-    public void test02AlCrearUnaReunionNoTieneTemas(){
+    public void testAlCrearUnaReunionNoTieneTemas(){
         Reunion unaReunion = helper.unaReunion();
         Assert.assertEquals(0, unaReunion.getTemasPropuestos().size());
     }
 
     @Test
-    public void test03AlCerrarUnaReunionSuEstadoEsCerrada(){
+    public void testAlCerrarUnaReunionSuEstadoEsCerrada(){
         Reunion unaReunion = helper.unaReunion();
         unaReunion.cerrarVotacion();
         Assert.assertEquals(StatusDeReunion.CERRADA, unaReunion.getStatus());
     }
 
     @Test
-    public void test04AlCerrarUnaReunionLosTemasPropuestosSeOrdenanPorCantidadDeVotos() {
+    public void testAlCerrarUnaReunionLosTemasPropuestosSeOrdenanPorCantidadDeVotos() {
         Reunion unaReunion = helper.unaReunion();
         Usuario unUsuario = helper.unUsuario();
         TemaDeReunion tema1 = helper.unTemaNoObligatorio();
@@ -78,7 +78,7 @@ public class ReunionTest {
     }
 
     @Test
-    public void test05AlReabrirUnaReunionCerradaSuEstadoEsPendiente(){
+    public void testAlReabrirUnaReunionCerradaSuEstadoEsPendiente(){
         Reunion unaReunion = helper.unaReunion();
         unaReunion.cerrarVotacion();
         unaReunion.reabrirVotacion();
@@ -87,7 +87,7 @@ public class ReunionTest {
 
     // No estoy seguro de que vaya acá
     @Test
-    public void test06ElOrdenadorDeTemasOrdenaCorrectamenteUnConjuntoDeTemas() {
+    public void testElOrdenadorDeTemasOrdenaCorrectamenteUnConjuntoDeTemas() {
         Usuario unUsuario = helper.unUsuario();
 
         TemaDeReunion tema1 = helper.unTemaObligatorio();
@@ -120,7 +120,7 @@ public class ReunionTest {
     }
 
     @Test
-    public void test07NoSeReorganizanLosTemasPorCadaVezQueSeVota() {
+    public void testNoSeReorganizanLosTemasPorCadaVezQueSeVota() {
         Reunion unaReunion = helper.unaReunion();
         Usuario unUsuario = helper.unUsuario();
         TemaDeReunion tema1 = helper.unTemaNoObligatorio();
@@ -137,7 +137,7 @@ public class ReunionTest {
     }
 
     @Test
-    public void test08AlObtenerLosUsuariosQueVotaronEstosNoAparecenDuplicados(){
+    public void testAlObtenerLosUsuariosQueVotaronEstosNoAparecenDuplicados(){
         Reunion unaReunion = helper.unaReunion();
         Usuario unUsuario = helper.unUsuario();
         TemaDeReunion tema1 = helper.unTemaNoObligatorio();
