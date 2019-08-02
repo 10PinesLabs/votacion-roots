@@ -31,6 +31,8 @@ public class Reunion extends PersistableSupport {
 
     public static final String temasPropuestos_FIELD = "temasPropuestos";
 
+    private Optional<TemaParaProponerPinosARoot> temaParaProponerPinosComoRoot = Optional.empty();
+
     public LocalDate getFecha() {
         return fecha;
     }
@@ -113,4 +115,16 @@ public class Reunion extends PersistableSupport {
         return votantes;
     }
 
+    public void proponerPinoComoRoot(String unPino, Usuario unSponsor) {
+        if (!temaParaProponerPinosComoRoot.isPresent()) {
+            temaParaProponerPinosComoRoot = Optional.of(new TemaParaProponerPinosARoot());
+            agregarTema(temaParaProponerPinosComoRoot.get());
+        }
+        PropuestaDePinoARoot propuesta = new PropuestaDePinoARoot(unPino, unSponsor);
+        temaParaProponerPinosComoRoot.get().agregarPropuesta(propuesta);
+    }
+
+    private Boolean noExisteUnTemaParaProponerPinosARoot() {
+        return getTemasPropuestos().stream().noneMatch(tema -> tema.esParaProponerPinosARoot());
+    }
 }
