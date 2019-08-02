@@ -126,9 +126,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <argLine>--add-modules java.base  -Xmx1024m -XX:MaxPermSize=256m</argLine>
+                    <argLine>--add-modules java.base -Xmx1024m -XX:MaxPermSize=256m</argLine>
                     <forkCount>0</forkCount>
-                 </configuration>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -157,12 +157,22 @@
             <scope>provided</scope>
         </dependency>
 
+
         <!-- Convention based application modules -->
         <dependency>
             <groupId>ar.com.kfgodel</groupId>
             <artifactId>app-by-convention</artifactId>
             <version>0.1-SNAPSHOT</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <!-- use 2.9.1 for Java 7 projects -->
+            <version>3.11.1</version>
+            <scope>test</scope>
+        </dependency>
+
 
         <!-- In file database -->
         <dependency>
