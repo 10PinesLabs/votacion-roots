@@ -1,5 +1,6 @@
 package ar.com.kfgodel.temas.domain;
 
+import ar.com.kfgodel.temas.helpers.TestHelper;
 import convention.persistent.*;
 import org.junit.Test;
 
@@ -12,9 +13,11 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class TemaParaProponerPinosARootTest {
 
+    private TestHelper helper = new TestHelper();
+
     @Test
     public void sePuedeCrearUnTemaParaProponerPinosARootConUnaPropuesta() {
-        PropuestaDePinoARoot unaPropuesta = unaPropuestaDeUnPinoARoot();
+        PropuestaDePinoARoot unaPropuesta = helper.unaPropuestaDeUnPinoARoot();
 
         TemaParaProponerPinosARoot unTemaParaProponerPinos = new TemaParaProponerPinosARoot(unaPropuesta);
 
@@ -23,8 +26,8 @@ public class TemaParaProponerPinosARootTest {
 
     @Test
     public void sePuedeAgregarUnaPropuestaDePinoARoot() {
-        PropuestaDePinoARoot unaPropuesta = unaPropuestaDeUnPinoARoot();
-        PropuestaDePinoARoot otraPropuesta = unaPropuestaDeOtroPinoARoot();
+        PropuestaDePinoARoot unaPropuesta = helper.unaPropuestaDeUnPinoARoot();
+        PropuestaDePinoARoot otraPropuesta = helper.unaPropuestaDeOtroPinoARoot();
         Collection<PropuestaDePinoARoot> propuestas = Arrays.asList(unaPropuesta, otraPropuesta);
         TemaParaProponerPinosARoot unTemaParaProponerPinos = new TemaParaProponerPinosARoot(unaPropuesta);
 
@@ -35,7 +38,7 @@ public class TemaParaProponerPinosARootTest {
 
     @Test
     public void noSePuedeAgregarLaMismaPropuestaDePinoARootMasDeUnaVez() {
-        PropuestaDePinoARoot unaPropuesta = unaPropuestaDeUnPinoARoot();
+        PropuestaDePinoARoot unaPropuesta = helper.unaPropuestaDeUnPinoARoot();
         TemaParaProponerPinosARoot unTemaParaProponerPinos = new TemaParaProponerPinosARoot(unaPropuesta);
 
         assertThatThrownBy(() -> {
@@ -45,8 +48,8 @@ public class TemaParaProponerPinosARootTest {
 
     @Test
     public void noSePuedeProponerAlMismoPinoMasDeUnaVez() {
-        PropuestaDePinoARoot unaPropuesta = unaPropuestaDeUnPinoARootSponsoreadoPor(unSponsor());
-        PropuestaDePinoARoot otraPropuesta = unaPropuestaDeUnPinoARootSponsoreadoPor(otroSponsor());
+        PropuestaDePinoARoot unaPropuesta = helper.unaPropuestaDeUnPinoARootSponsoreadoPor(helper.unSponsor(), this);
+        PropuestaDePinoARoot otraPropuesta = helper.unaPropuestaDeUnPinoARootSponsoreadoPor(helper.otroSponsor(), this);
         TemaParaProponerPinosARoot unTemaParaProponerPinos = new TemaParaProponerPinosARoot(unaPropuesta);
 
         assertThatThrownBy(() -> {
@@ -57,7 +60,7 @@ public class TemaParaProponerPinosARootTest {
     @Test
     public void sePuedeAgregarUnTemaParaProponerPinosARootAUnaReunion() {
         Reunion reunion = Reunion.create(LocalDate.of(2019, 1, 1));
-        TemaParaProponerPinosARoot unTemaParaProponerPinos = unTemaParaProponerPinosARoot();
+        TemaParaProponerPinosARoot unTemaParaProponerPinos = helper.unTemaParaProponerPinosARoot();
 
         reunion.agregarTema(unTemaParaProponerPinos);
 
@@ -66,54 +69,23 @@ public class TemaParaProponerPinosARootTest {
 
     @Test
     public void losTemasParaProponerPinosARootTienenUnTituloFijo() {
-        TemaParaProponerPinosARoot unTemaParaProponerPinos = unTemaParaProponerPinosARoot();
+        TemaParaProponerPinosARoot unTemaParaProponerPinos = helper.unTemaParaProponerPinosARoot();
 
         assertThat(unTemaParaProponerPinos.getTitulo()).isEqualTo(TemaParaProponerPinosARoot.TITULO);
     }
 
     @Test
     public void losTemasParaProponerPinosARootNoSonObligatorios() {
-        TemaParaProponerPinosARoot unTemaParaProponerPinos = unTemaParaProponerPinosARoot();
+        TemaParaProponerPinosARoot unTemaParaProponerPinos = helper.unTemaParaProponerPinosARoot();
 
         assertThat(unTemaParaProponerPinos.getObligatoriedad()).isEqualTo(ObligatoriedadDeTema.OBLIGATORIO);
     }
 
     @Test
     public void losTemasParaProponerPinosARootTienenDuracionCorta() {
-        TemaParaProponerPinosARoot unTemaParaProponerPinos = unTemaParaProponerPinosARoot();
+        TemaParaProponerPinosARoot unTemaParaProponerPinos = helper.unTemaParaProponerPinosARoot();
 
         assertThat(unTemaParaProponerPinos.getDuracion()).isEqualTo(DuracionDeTema.CORTO);
     }
 
-    private TemaParaProponerPinosARoot unTemaParaProponerPinosARoot() {
-        return new TemaParaProponerPinosARoot(unaPropuestaDeUnPinoARoot());
-    }
-
-    private PropuestaDePinoARoot unaPropuestaDeUnPinoARootSponsoreadoPor(Usuario unSponsor) {
-        return new PropuestaDePinoARoot(unPino(), unSponsor);
-    }
-
-    private PropuestaDePinoARoot unaPropuestaDeOtroPinoARoot() {
-        return new PropuestaDePinoARoot(otroPino(), unSponsor());
-    }
-
-    private PropuestaDePinoARoot unaPropuestaDeUnPinoARoot() {
-        return new PropuestaDePinoARoot(unPino(), unSponsor());
-    }
-
-    private Usuario unSponsor() {
-        return Usuario.create("jorge", "usuario", "contra", "id", "email");
-    }
-
-    private Usuario otroSponsor() {
-        return Usuario.create("carlos", "usuario", "contra", "id", "email");
-    }
-
-    private String unPino() {
-        return "un pino";
-    }
-
-    private String otroPino() {
-        return "otro pino";
-    }
 }
