@@ -124,9 +124,13 @@
   word-wrap: break-word;
   overflow: hidden;
   margin: 0;
-  transition: max-height 0.5s cubic-bezier(1,0,0.75,0.5);
-  /* Usamos 3000px porque es necesario un valor absoluto para transition */
-  max-height: 3000px;
+  transition: max-height 0.5s ease-in;
+  /* Usamos 80vh porque es necesario un valor absoluto para transition */
+  max-height: 80vh;
+}
+
+.descripcion-minuta.expandida{
+  overflow-y: auto;
 }
 
 .descripcion-minuta.colapsada{
