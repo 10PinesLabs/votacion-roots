@@ -32,6 +32,7 @@ public class Reunion extends PersistableSupport {
 
     public static final String temasPropuestos_FIELD = "temasPropuestos";
 
+    @OneToOne
     private TemaParaProponerPinosARoot temaParaProponerPinosComoRoot;
 
     public LocalDate getFecha() {

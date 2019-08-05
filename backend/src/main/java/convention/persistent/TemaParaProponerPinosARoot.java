@@ -1,13 +1,18 @@
 package convention.persistent;
 
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.Collection;
 
+@Entity
 public class TemaParaProponerPinosARoot extends TemaDeReunion {
 
     public static final String PINO_YA_PROPUESTO_ERROR_MSG = "el pino ya fue propuesto";
     public static final String TITULO = "Proponer pinos a root";
 
+    @OneToMany
     private Collection<PropuestaDePinoARoot> propuestas = new ArrayList<>();
 
     public TemaParaProponerPinosARoot() {
