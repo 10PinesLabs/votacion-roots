@@ -25,10 +25,14 @@
       {{#unless estaCerrada}}
         <div class="flex-center pl-10" {{action 'mostrarFormulario'}}>
           <i class="material-icons primary-color clickable">add_circle</i>
-          <h6 class="primary-color no-margin add-tema clickable">AGREGAR TEMA</h6>
+          <h6 class="primary-color no-margin add-tema clickable">Agregar tema</h6>
+        </div>
+        <div class="flex-center pl-10" {{action 'mostrarFormulario'}}>
+          <i class="material-icons primary-color clickable">person_add</i>
+          <h6 class="primary-color no-margin add-tema clickable">Proponer pino</h6>
         </div>
       {{/unless}}
-      
+
     </div>
 
     <div class="divider"></div>
@@ -40,15 +44,15 @@
     {{#each reunion.temasPropuestos as |tema|}}
       {{#if (eq mostrarObligatorios tema.esObligatorio)}}
         {{each-card-tema
-          tema=tema
-          mostrarObligatorios=mostrarObligatorios
-          estaCerrada=estaCerrada
-          sumarVoto=(action 'sumarVoto')
-          restarVoto=(action 'restarVoto')
-          votarDisabled=votarDisabled
-          votosOpacity=votosOpacity
-          mostrarFormularioDeEdicion=(action 'mostrarFormularioDeEdicion')
-          borrarTemaElegido=(action 'borrarTemaElegido')
+            tema=tema
+            mostrarObligatorios=mostrarObligatorios
+            estaCerrada=estaCerrada
+            sumarVoto=(action 'sumarVoto')
+            restarVoto=(action 'restarVoto')
+            votarDisabled=votarDisabled
+            votosOpacity=votosOpacity
+            mostrarFormularioDeEdicion=(action 'mostrarFormularioDeEdicion')
+            borrarTemaElegido=(action 'borrarTemaElegido')
         }}
       {{/if}}
     {{/each}}
@@ -79,16 +83,16 @@
 </div>
 
 {{tenpines/modal-de-confirmacion
-  open=modalDeBorradoAbierto
-  titulo='Confirmar eliminacion de tema'
-  descripcion=mensajeDeConfirmacionDeBorrado
-  accionAceptar=(action 'borrarTemaElegido')
+    open=modalDeBorradoAbierto
+    titulo='Confirmar eliminacion de tema'
+    descripcion=mensajeDeConfirmacionDeBorrado
+    accionAceptar=(action 'borrarTemaElegido')
 }}
 {{tenpines/modal-de-confirmacion
-  open=modalDeCambioDeObligatoriedadAbierto
-  titulo='Cambiando a tema no obligatorio'
-  descripcion="Se perderán todos los votos del tema"
-  accionAceptar=(action 'updatearTemaConfirmado')
+    open=modalDeCambioDeObligatoriedadAbierto
+    titulo='Cambiando a tema no obligatorio'
+    descripcion="Se perderán todos los votos del tema"
+    accionAceptar=(action 'updatearTemaConfirmado')
 }}
 
 
@@ -122,10 +126,10 @@
     </div>
 
     {{tenpines/modal-de-confirmacion
-      open=modalDeCierreAbierto
-      titulo='Confirmar cierre de votación'
-      descripcion='¿Estás seguro que querés cerrar la votación, que comience la reunión y que nadie más pueda seguir votando?'
-      accionAceptar=(action 'cerrarVotacion')
+        open=modalDeCierreAbierto
+        titulo='Confirmar cierre de votación'
+        descripcion='¿Estás seguro que querés cerrar la votación, que comience la reunión y que nadie más pueda seguir votando?'
+        accionAceptar=(action 'cerrarVotacion')
     }}
   </div>
 {{/if}}
