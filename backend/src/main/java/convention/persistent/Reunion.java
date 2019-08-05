@@ -16,7 +16,7 @@ import java.util.*;
 @Entity
 public class Reunion extends PersistableSupport {
 
-    public static final String EXISTE_TEMA_PARA_PROPONER_PINOS_COMO_ROOT_ERROR_MSG = "ya existe un tema para proponer pinos como root";
+    public static final String AGREGAR_TEMA_PARA_PROPONER_PINOS_COMO_ROOT_ERROR_MSG = "no se puede agregar un tema para proponer pinos como root";
     @NotNull
     private LocalDate fecha;
     public static final String fecha_FIELD = "fecha";
@@ -103,6 +103,9 @@ public class Reunion extends PersistableSupport {
     }
 
     public void agregarTema(TemaDeReunion temaNuevo) {
+        if (temaNuevo.getTitulo() == TemaParaProponerPinosARoot.TITULO) {
+            throw new RuntimeException(AGREGAR_TEMA_PARA_PROPONER_PINOS_COMO_ROOT_ERROR_MSG);
+        }
         temasPropuestos.add(temaNuevo);
     }
 
@@ -119,7 +122,7 @@ public class Reunion extends PersistableSupport {
     public void proponerPinoComoRoot(String unPino, Usuario unSponsor) {
         if (temaParaProponerPinosComoRoot == null) {
             temaParaProponerPinosComoRoot = new TemaParaProponerPinosARoot();
-            agregarTema(temaParaProponerPinosComoRoot);
+            temasPropuestos.add(temaParaProponerPinosComoRoot);
         }
         PropuestaDePinoARoot propuesta = new PropuestaDePinoARoot(unPino, unSponsor);
         temaParaProponerPinosComoRoot.agregarPropuesta(propuesta);

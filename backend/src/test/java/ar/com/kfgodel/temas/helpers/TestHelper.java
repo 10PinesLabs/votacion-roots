@@ -63,4 +63,10 @@ public class TestHelper {
     public TemaDeReunion unTemaDeReunion() {
         return unTemaNoObligatorio();
     }
+
+    public TemaDeReunion unTemaDeReunionConTitulo(String unTitulo) {
+        TemaDeReunion unTema = TemaDeReunion.create();
+        unTema.setTitulo(unTitulo);
+        return unTema;
+    }
 }
