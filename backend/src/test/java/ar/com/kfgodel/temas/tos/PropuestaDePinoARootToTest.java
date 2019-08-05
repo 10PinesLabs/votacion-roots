@@ -16,7 +16,6 @@ import org.junit.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class PropuestaDePinoARootToTest {
-
     private TestHelper helper = new TestHelper();
     private Application application;
     private TypeTransformer baseConverter;
@@ -42,7 +41,9 @@ public class PropuestaDePinoARootToTest {
 
     @Test
     public void testSePuedeConvertirDeToAPropuesta() {
-        PropuestaDePinoARootTo unPropuestaTo = new PropuestaDePinoARootTo(helper.unPino(), helper.unUserTo());
+        PropuestaDePinoARootTo unPropuestaTo = new PropuestaDePinoARootTo();
+        unPropuestaTo.setPino(helper.unPino());
+        unPropuestaTo.setSponsor(helper.unUserTo());
 
         PropuestaDePinoARoot propuesta = baseConverter.transformTo(PropuestaDePinoARoot.class, unPropuestaTo);
         Usuario sponsor = baseConverter.transformTo(Usuario.class, unPropuestaTo.getSponsor());

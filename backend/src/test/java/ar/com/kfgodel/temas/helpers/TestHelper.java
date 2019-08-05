@@ -2,6 +2,7 @@ package ar.com.kfgodel.temas.helpers;
 
 import ar.com.kfgodel.temas.domain.TemaParaProponerPinosARootTest;
 import convention.persistent.*;
+import convention.rest.api.tos.UserTo;
 
 import java.time.LocalDate;
 
@@ -84,5 +85,32 @@ public class TestHelper {
 
     public ObligatoriedadDeTema unaObligatoriedad() {
         return ObligatoriedadDeTema.OBLIGATORIO;
+    }
+
+    public TemaDeReunionConDescripcion unTemaDeReunionConDescripcion() {
+        Usuario autor = unUsuario();
+        String titulo = unTitulo();
+        String descripcion = unaDescripcion();
+        DuracionDeTema duracion = unaDuracion();
+        ObligatoriedadDeTema obligatoriedad = unaObligatoriedad();
+
+        return TemaDeReunionConDescripcion.create(autor, duracion, obligatoriedad, titulo, descripcion);
+    }
+
+    public TemaParaProponerPinosARoot unTemaParaProponerPinosARoot() {
+        TemaParaProponerPinosARoot tema = new TemaParaProponerPinosARoot();
+        tema.agregarPropuesta(unaPropuestaDeUnPinoARoot());
+        tema.agregarPropuesta(unaPropuestaDeOtroPinoARoot());
+        return tema;
+    }
+
+    public UserTo unUserTo() {
+        UserTo userTo = new UserTo();
+        userTo.setName("un nombre");
+        userTo.setLogin("un login");
+        userTo.setBackofficeId("un backoffice id");
+        userTo.setMail("un mail");
+        userTo.setCreation("2019-01-01");
+        return userTo;
     }
 }

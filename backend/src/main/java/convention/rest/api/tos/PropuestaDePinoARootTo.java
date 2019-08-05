@@ -11,19 +11,19 @@ public class PropuestaDePinoARootTo {
     @CopyFromAndTo(PropuestaDePinoARoot.sponsor_FIELD)
     private UserTo sponsor;
 
-    public PropuestaDePinoARootTo() {
-    }
-
-    public PropuestaDePinoARootTo(String pino, UserTo sponsor) {
-        this.pino = pino;
-        this.sponsor = sponsor;
-    }
-
     public String getPino() {
         return pino;
     }
 
     public UserTo getSponsor() {
         return sponsor;
+    }
+
+    public void setPino(String pino) {
+        this.pino = pino;
+    }
+
+    public void setSponsor(UserTo sponsor) {
+        this.sponsor = sponsor;
     }
 }
