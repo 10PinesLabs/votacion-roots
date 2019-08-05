@@ -23,24 +23,24 @@ public class ReunionTest {
     private TestHelper helper;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         helper = new TestHelper();
     }
 
     @Test
-    public void testAlCrearUnaReunionSuEstadoEsPendiente(){
+    public void testAlCrearUnaReunionSuEstadoEsPendiente() {
         Reunion unaReunion = helper.unaReunion();
         Assert.assertEquals(StatusDeReunion.PENDIENTE, unaReunion.getStatus());
     }
 
     @Test
-    public void testAlCrearUnaReunionNoTieneTemas(){
+    public void testAlCrearUnaReunionNoTieneTemas() {
         Reunion unaReunion = helper.unaReunion();
         Assert.assertEquals(0, unaReunion.getTemasPropuestos().size());
     }
 
     @Test
-    public void testAlCerrarUnaReunionSuEstadoEsCerrada(){
+    public void testAlCerrarUnaReunionSuEstadoEsCerrada() {
         Reunion unaReunion = helper.unaReunion();
         unaReunion.cerrarVotacion();
         Assert.assertEquals(StatusDeReunion.CERRADA, unaReunion.getStatus());
@@ -76,7 +76,7 @@ public class ReunionTest {
     }
 
     @Test
-    public void testAlReabrirUnaReunionCerradaSuEstadoEsPendiente(){
+    public void testAlReabrirUnaReunionCerradaSuEstadoEsPendiente() {
         Reunion unaReunion = helper.unaReunion();
         unaReunion.cerrarVotacion();
         unaReunion.reabrirVotacion();
@@ -135,7 +135,7 @@ public class ReunionTest {
     }
 
     @Test
-    public void testAlObtenerLosUsuariosQueVotaronEstosNoAparecenDuplicados(){
+    public void testAlObtenerLosUsuariosQueVotaronEstosNoAparecenDuplicados() {
         Reunion unaReunion = helper.unaReunion();
         Usuario unUsuario = helper.unUsuario();
         TemaDeReunion tema1 = helper.unTemaNoObligatorio();
