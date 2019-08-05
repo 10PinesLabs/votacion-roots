@@ -12,7 +12,7 @@
 }
 
 .minuta-subtitle {
-  color: #ef5467;
+  color: $no-tratado-color;
   font-weight: bold;
 }
 
@@ -31,7 +31,7 @@
   width: 25px;
   border-radius: 50%;
   display: flex;
-  background: #ef5467;
+  background: $no-tratado-color;
   color: white;
   font-weight: bold;
   margin-left: 10px;

@@ -3,6 +3,8 @@
 @import "tenpines-material-components";
 @import "ember-power-select/themes/material";
 @import "ember-power-select";
+@import "colores";
+@import "utils";
 @import "toast";
 @import "navigation-bar";
 @import "reuniones";
@@ -10,10 +12,7 @@
 @import "minuta";
 @import "creacion-edicion-tema";
 @import "resaltador";
-@import "colores";
-@import "utils";
 
-$yellow-star: #ffce54;
 $ember-power-select-placeholder-color: black !important;
 
 .ultimo-tema-style {
@@ -56,10 +55,6 @@ $ember-power-select-placeholder-color: black !important;
 
 .text-viewer {
   white-space: pre-wrap;
-}
-
-.yellow-star {
-  color: $yellow-star;
 }
 
 [type="checkbox"].filled-in:checked + label:after {
