@@ -2,6 +2,10 @@
   padding-left: 10px;
 }
 
+.pb-15{
+  padding-bottom: 15px;
+}
+
 .no-margin {
   margin: 0px;
 }
@@ -116,6 +120,10 @@
   width: 100%;
 }
 
+.w-30 {
+  width: 30%;
+}
+
 .hide-text-overflow {
   overflow: hidden;
   white-space: nowrap;
@@ -128,10 +136,6 @@
 
 .bold {
   font-weight: bold;
-}
-
-.primary-color {
-  color: $primary-color;
 }
 
 .gray-subtitle {
