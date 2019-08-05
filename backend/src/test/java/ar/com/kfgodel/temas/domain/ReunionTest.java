@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * Created by sandro on 19/06/17.
@@ -212,6 +213,20 @@ public class ReunionTest {
         unaReunion.proponerPinoComoRoot(unPino, unSponsor);
 
         assertThat(unaReunion.getTemasPropuestos()).hasSize(2);
+    }
+
+    @Test
+    public void testNoSePuedeAgregarUnTemaConTituloDeTemaParaProponerPinosComoRoots() {
+        Reunion unaReunion = helper.unaReunion();
+        String unPino = helper.unPino();
+        Usuario unSponsor = helper.unUsuario();
+        unaReunion.proponerPinoComoRoot(unPino, unSponsor);
+
+        TemaDeReunion unTemaConTituloDeTemaParaProponerPinos = helper.unTemaDeReunionConTitulo(TemaParaProponerPinosARoot.TITULO);
+
+        assertThatThrownBy(() -> {
+            unaReunion.agregarTema(unTemaConTituloDeTemaParaProponerPinos);
+        }).hasMessage(Reunion.AGREGAR_TEMA_PARA_PROPONER_PINOS_COMO_ROOT_ERROR_MSG);
     }
 
     private void assertThatExistePropuestaPara(Collection<PropuestaDePinoARoot> propuestas, String unPino, Usuario unSponsor) {

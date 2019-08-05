@@ -62,16 +62,6 @@ public class TemaParaProponerPinosARootTest {
     }
 
     @Test
-    public void sePuedeAgregarUnTemaParaProponerPinosARootAUnaReunion() {
-        Reunion reunion = Reunion.create(LocalDate.of(2019, 1, 1));
-        TemaParaProponerPinosARoot unTemaParaProponerPinos = new TemaParaProponerPinosARoot();
-
-        reunion.agregarTema(unTemaParaProponerPinos);
-
-        assertThat(reunion.getTemasPropuestos()).containsExactly(unTemaParaProponerPinos);
-    }
-
-    @Test
     public void losTemasParaProponerPinosARootTienenUnTituloFijo() {
         TemaParaProponerPinosARoot unTemaParaProponerPinos = new TemaParaProponerPinosARoot();
 
