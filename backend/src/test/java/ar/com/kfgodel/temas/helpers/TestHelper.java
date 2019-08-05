@@ -69,4 +69,20 @@ public class TestHelper {
         unTema.setTitulo(unTitulo);
         return unTema;
     }
+
+    public String unTitulo() {
+        return "Un título";
+    }
+
+    public String unaDescripcion() {
+        return "Una descripción";
+    }
+
+    public DuracionDeTema unaDuracion() {
+        return DuracionDeTema.CORTO;
+    }
+
+    public ObligatoriedadDeTema unaObligatoriedad() {
+        return ObligatoriedadDeTema.OBLIGATORIO;
+    }
 }
