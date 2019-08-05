@@ -1,0 +1,149 @@
+.pl {
+  padding-left: 10px;
+}
+
+.no-margin {
+  margin: 0px;
+}
+
+.m-5 {
+  margin: 5px;
+}
+
+.mt-0 {
+  margin-top: 0px;
+}
+
+.mr-5 {
+  margin-right: 5px;
+}
+
+.ml-5 {
+  margin-left: 5px;
+}
+
+.m-10 {
+  margin: 10px;
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+
+.mr-10 {
+  margin-right: 10px;
+}
+
+.ml-10 {
+  margin-left: 10px;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.mr-20 {
+  margin-right: 20px;
+}
+
+.ml-20 {
+  margin-left: 20px;
+}
+
+.mb-20 {
+  margin-bottom: 20px;
+}
+
+.opacity-20 {
+  opacity: 0.2;
+}
+
+.opacity-70 {
+  opacity: 0.7;
+}
+
+.opacity-35 {
+  opacity: 0.35;
+}
+
+.hidden {
+  display: none;
+}
+
+.inline-flex {
+  display: inline-flex;
+}
+
+.space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+}
+
+.center {
+  margin: auto;
+}
+
+.align-left {
+  text-align: initial;
+}
+
+.height-inherit {
+  height: inherit;
+}
+
+.w-700 {
+  width: 700px;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.h-100 {
+  height: 100%;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.hide-text-overflow {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.indivisible {
+  white-space: nowrap;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.primary-color {
+  color: $primary-color;
+}
+
+.gray-subtitle {
+  font-weight: bold;
+  opacity: 0.7;
+}
+
+.white-text {
+  text-decoration: white;
+}
+
+.plus-size {
+  line-height: 130% !important;
+  font-size: 24px !important;
+}
