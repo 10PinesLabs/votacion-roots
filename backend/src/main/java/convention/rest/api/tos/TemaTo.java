@@ -93,8 +93,7 @@ public class TemaTo extends PersistableToSupport {
     return duracion;
   }
 
-  // TODO wtf?
-  public void String (String duracion) {
+  public void setDuracion(String duracion) {
     this.duracion = duracion;
   }
 

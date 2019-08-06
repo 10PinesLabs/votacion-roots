@@ -3,7 +3,7 @@ package convention.persistent;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class TemaParaProponerPinosARoot extends TemaDeReunion {
@@ -16,7 +16,7 @@ public class TemaParaProponerPinosARoot extends TemaDeReunion {
     public static final ObligatoriedadDeTema OBLIGATORIEDAD = ObligatoriedadDeTema.NO_OBLIGATORIO;
 
     @OneToMany
-    private Collection<PropuestaDePinoARoot> propuestas = new ArrayList<>();
+    private List<PropuestaDePinoARoot> propuestas = new ArrayList<>();
 
     public static TemaParaProponerPinosARoot create(Usuario unAutor) {
         TemaParaProponerPinosARoot tema = new TemaParaProponerPinosARoot();
@@ -24,7 +24,7 @@ public class TemaParaProponerPinosARoot extends TemaDeReunion {
         return tema;
     }
 
-    public Collection<PropuestaDePinoARoot> propuestas() {
+    public List<PropuestaDePinoARoot> propuestas() {
         return propuestas;
     }
 
