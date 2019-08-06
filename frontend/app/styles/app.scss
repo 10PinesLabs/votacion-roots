@@ -30,13 +30,13 @@ $ember-power-select-placeholder-color: black;
 
 .parcheDeEditorBottom {
   position: absolute;
-  bottom: 0px;
+  bottom: 0;
 }
 
 .crop {
   overflow-y: hidden;
   overflow-wrap: break-word;
-  margin: 0px;
+  margin: 0;
   max-width: 100vh;
   max-height: 30vh;
 }
@@ -44,7 +44,7 @@ $ember-power-select-placeholder-color: black;
 .titulo-de-tema {
   font-size: 30px;
   font-weight: bold;
-  margin: 0px;
+  margin: 0;
 }
 
 .con-padding {
@@ -95,7 +95,6 @@ input[type="number"]:focus:not([readonly]),
 input[type="search"]:focus:not([readonly]),
 textarea.materialize-textarea:focus:not([readonly]) {
   border-bottom: $primary-color;
-  box-shadow: $primary-color;
   box-shadow: 0 1px 0 0 $primary-color;
 }
 
