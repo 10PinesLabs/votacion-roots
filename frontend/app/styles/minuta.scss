@@ -91,7 +91,7 @@
 }
 
 .descripcion-minuta {
-  word-wrap: break-word;
+  word-break: break-word;
   overflow: hidden;
   margin: 0;
   transition: max-height 0.5s ease-in-out;
