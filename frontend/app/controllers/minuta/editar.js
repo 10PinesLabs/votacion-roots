@@ -9,11 +9,11 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
   mostrandoToastUsuariosSinMail: false,
 
   temasPendientes: Ember.computed('model.minuta', function () {
-    return  this.get('model.minuta').temas.filter(tema => !tema.fueTratado);
+    return this.get('model.minuta').temas.filter(tema => !tema.fueTratado);
   }),
 
   temasTratados: Ember.computed('model.minuta', function () {
-    return  this.get('model.minuta').temas.filter(tema => tema.fueTratado);
+    return this.get('model.minuta').temas.filter(tema => tema.fueTratado);
   }),
 
   router: Ember.computed('target.router', function () {
@@ -86,9 +86,7 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
       });
 
       if (
-        this.get("temasPendientes").includes(tema) &&
-        tema.conclusion !== "" &&
-        tema.actionItems.length > 0
+        this.get("temasPendientes").includes(tema) && (tema.conclusion !== "" || tema.actionItems.length > 0)
       ) {
         tema.set("fueTratado", true);
       }
@@ -99,8 +97,8 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
           this._ocultarEditor();
           this._recargarLista();
         }, (error) => {
-        this._recargarLista();
-      });
+          this._recargarLista();
+        });
     },
 
     quitarAsistente(usuario) {
@@ -116,20 +114,20 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
     },
   },
 
-    guardarUsuariosSeleccionados() {
-      this.set('model.minuta.asistentes', this.get('usuariosSeleccionados'));
-      this.minutaService().updateMinuta(this.get('model.minuta'));
-    },
+  guardarUsuariosSeleccionados() {
+    this.set('model.minuta.asistentes', this.get('usuariosSeleccionados'));
+    this.minutaService().updateMinuta(this.get('model.minuta'));
+  },
 
-    agregarUsuarioAYSacarUsuarioDe(usuario, nombreListaDestino, nombreListaOrigen) {
-      let listaDestino = this.get(nombreListaDestino);
-      listaDestino.pushObject(usuario);
-      this.set(nombreListaDestino, listaDestino);
+  agregarUsuarioAYSacarUsuarioDe(usuario, nombreListaDestino, nombreListaOrigen) {
+    let listaDestino = this.get(nombreListaDestino);
+    listaDestino.pushObject(usuario);
+    this.set(nombreListaDestino, listaDestino);
 
-      let listaOrigen = this.get(nombreListaOrigen);
-      listaOrigen.removeObject(usuario);
-      this.set(nombreListaOrigen, listaOrigen);
-    },
+    let listaOrigen = this.get(nombreListaOrigen);
+    listaOrigen.removeObject(usuario);
+    this.set(nombreListaOrigen, listaOrigen);
+  },
 
   anchoDeTabla: 's12',
 
