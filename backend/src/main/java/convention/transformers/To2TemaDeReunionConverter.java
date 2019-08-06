@@ -18,27 +18,27 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TemaDeReunion2ToConverter implements SpecializedTypeConverter<TemaDeReunion, TemaDeReunionTo> {
+public class To2TemaDeReunionConverter implements SpecializedTypeConverter<TemaDeReunionTo, TemaDeReunion> {
     @Inject
     private TypeConverter baseConverter;
 
     @Override
-    public TemaDeReunionTo convertTo(Type expectedType, TemaDeReunion sourceObject, Annotation[] contextAnnotations)
+    public TemaDeReunion convertTo(Type expectedType, TemaDeReunionTo sourceObject, Annotation[] contextAnnotations)
             throws CannotConvertException {
-        return (TemaDeReunionTo) annotatedClassConverter()
-                .convertFrom(sourceObject, toClass(sourceObject.getClass()), null);
-    }
-
-    private Type toClass(Class<? extends TemaDeReunion> aClass) {
-        return toClass.get(aClass);
+        return (TemaDeReunion) annotatedClassConverter()
+                .convertTo(domainClass(sourceObject.getClass()), sourceObject, null);
     }
 
     private GeneralTypeConverter<Object, Object> annotatedClassConverter() {
         return baseConverter.getGeneralConverterByName(AnnotatedClassConverter.class.getName());
     }
 
-    private Map<Type, Type> toClass = new HashMap<Type, Type>() {{
-        put(TemaDeReunionConDescripcion.class, TemaDeReunionConDescripcionTo.class);
-        put(TemaParaProponerPinosARoot.class, TemaParaProponerPinosARootTo.class);
+    private Type domainClass(Class<? extends TemaDeReunionTo> toType) {
+        return domainClass.get(toType);
+    }
+
+    private Map<Type, Type> domainClass = new HashMap<Type, Type>() {{
+        put(TemaDeReunionConDescripcionTo.class, TemaDeReunionConDescripcion.class);
+        put(TemaParaProponerPinosARootTo.class, TemaParaProponerPinosARoot.class);
     }};
 }
