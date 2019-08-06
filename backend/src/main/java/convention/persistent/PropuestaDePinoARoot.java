@@ -8,6 +8,7 @@ public class PropuestaDePinoARoot extends PersistableSupport {
 
     public static final String pino_FIELD = "pino";
     public static final String sponsor_FIELD = "sponsor";
+
     @ManyToOne
     private Usuario sponsor;
 
