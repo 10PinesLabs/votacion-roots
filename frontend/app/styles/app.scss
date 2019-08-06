@@ -1,8 +1,11 @@
 @import "ember-power-select/themes/material";
-@import "ember-power-select";
 @import "tenpines-material-components";
-@import "ember-power-select/themes/material";
+
+$ember-power-select-placeholder-color: black;
 @import "ember-power-select";
+
+@import "colores";
+@import "utils";
 @import "toast";
 @import "navigation-bar";
 @import "reuniones";
@@ -10,42 +13,10 @@
 @import "minuta";
 @import "creacion-edicion-tema";
 @import "resaltador";
-@import "colores";
-
-$yellow-star: #ffce54;
-$ember-power-select-placeholder-color: black !important;
 
 .ultimo-tema-style {
   border-bottom: dashed;
   border-bottom-color: $primary-color;
-}
-
-.pointer {
-  cursor: pointer;
-}
-
-.space-between {
-  display: flex;
-  justify-content: space-between;
-}
-
-.justify-center {
-  justify-content: center;
-}
-
-.flex-center {
-  display: flex;
-  align-items: center;
-}
-
-.center {
-  margin: auto;
-}
-
-.hide-text-overflow {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
 }
 
 .ultimo-tema-stile {
@@ -60,13 +31,13 @@ $ember-power-select-placeholder-color: black !important;
 
 .parcheDeEditorBottom {
   position: absolute;
-  bottom: 0px;
+  bottom: 0;
 }
 
 .crop {
   overflow-y: hidden;
   overflow-wrap: break-word;
-  margin: 0px;
+  margin: 0;
   max-width: 100vh;
   max-height: 30vh;
 }
@@ -74,15 +45,7 @@ $ember-power-select-placeholder-color: black !important;
 .titulo-de-tema {
   font-size: 30px;
   font-weight: bold;
-  margin: 0px;
-}
-
-.clickable {
-  cursor: pointer;
-}
-
-.indivisible {
-  white-space: nowrap;
+  margin: 0;
 }
 
 .con-padding {
@@ -91,26 +54,6 @@ $ember-power-select-placeholder-color: black !important;
 
 .text-viewer {
   white-space: pre-wrap;
-}
-
-.h-100 {
-  height: 100%;
-}
-
-.bold {
-  font-weight: bold;
-}
-
-.hidden {
-  display: none;
-}
-
-.primary-color {
-  color: $primary-color;
-}
-
-.yellow-star {
-  color: $yellow-star;
 }
 
 [type="checkbox"].filled-in:checked + label:after {
@@ -153,7 +96,6 @@ input[type="number"]:focus:not([readonly]),
 input[type="search"]:focus:not([readonly]),
 textarea.materialize-textarea:focus:not([readonly]) {
   border-bottom: $primary-color;
-  box-shadow: $primary-color;
   box-shadow: 0 1px 0 0 $primary-color;
 }
 
@@ -169,37 +111,10 @@ h6 {
   font-size: 16px;
 }
 
-.no-margin {
-  margin: 0px;
-}
 
 .action-item-list li {
   background: $primary-color;
   color: white;
-}
-
-.mt-10 {
-  margin-top: 10px;
-}
-
-.mt-20 {
-  margin-top: 20px;
-}
-
-.mr-10 {
-  margin-right: 10px;
-}
-
-.mr-20 {
-  margin-right: 20px;
-}
-
-.ml-20 {
-  margin-left: 20px;
-}
-
-.mb-20 {
-  margin-bottom: 20px;
 }
 
 .btn-flat:focus {
@@ -222,5 +137,3 @@ div .ember-power-select-trigger {
 img {
   max-width: 100%;
 }
-
-@import "ember-power-select";

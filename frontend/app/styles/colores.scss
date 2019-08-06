@@ -1,1 +1,20 @@
 $primary-color: purple;
+$tratado-color: #68bd44;
+$no-tratado-color: #ef5467;
+$star-color: #ffce54;
+
+.tratado-color {
+  color: $tratado-color;
+}
+
+.primary-color {
+  color: $primary-color;
+}
+
+.star-color {
+  color: $star-color;
+}
+
+.no-tratado-color {
+  color: $no-tratado-color;
+}

@@ -12,7 +12,7 @@
 }
 
 .minuta-subtitle {
-  color: #ef5467;
+  color: $no-tratado-color;
   font-weight: bold;
 }
 
@@ -31,23 +31,12 @@
   width: 25px;
   border-radius: 50%;
   display: flex;
-  background: #ef5467;
+  background: $no-tratado-color;
   color: white;
   font-weight: bold;
   margin-left: 10px;
   align-items: center;
   justify-content: center;
-}
-
-.minuta-paragraph {
-  height: 200px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  line-height: 1.2;
-  max-height: 70px;
 }
 
 .relative-position-button {
@@ -82,10 +71,6 @@
   height: 100%;
 }
 
-.full-width {
-  width: 100%;
-}
-
 .responsable-item {
   background: purple;
   color: white;
@@ -96,32 +81,17 @@
   margin-bottom: 5px;
 }
 
-.gray-subtitle {
-  font-weight: bold;
-  opacity: 0.7;
-}
-
-.white-text {
-  text-decoration: white;
-}
-
 .minuta-botom-tema {
   padding: 15px 30px 20px 20px;
   text-align: right;
 }
 
-.plus-size {
-  line-height: 130% !important;
-  font-size: 24px !important;
-}
-
 .text-extensible {
-  max-width: 80vh !important;
   position: relative;
 }
 
 .descripcion-minuta {
-  word-wrap: break-word;
+  word-break: break-word;
   overflow: hidden;
   margin: 0;
   transition: max-height 0.5s ease-in-out;
