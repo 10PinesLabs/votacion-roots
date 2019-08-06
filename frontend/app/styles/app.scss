@@ -1,8 +1,8 @@
 @import "ember-power-select/themes/material";
-@import "ember-power-select";
 @import "tenpines-material-components";
-@import "ember-power-select/themes/material";
+$ember-power-select-placeholder-color: black;
 @import "ember-power-select";
+
 @import "colores";
 @import "utils";
 @import "toast";
@@ -12,8 +12,6 @@
 @import "minuta";
 @import "creacion-edicion-tema";
 @import "resaltador";
-
-$ember-power-select-placeholder-color: black !important;
 
 .ultimo-tema-style {
   border-bottom: dashed;
@@ -139,5 +137,3 @@ div .ember-power-select-trigger {
 img {
   max-width: 100%;
 }
-
-@import "ember-power-select";
