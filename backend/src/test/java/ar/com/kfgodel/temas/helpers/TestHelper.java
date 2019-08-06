@@ -98,7 +98,7 @@ public class TestHelper {
     }
 
     public TemaParaProponerPinosARoot unTemaParaProponerPinosARoot() {
-        TemaParaProponerPinosARoot tema = new TemaParaProponerPinosARoot();
+        TemaParaProponerPinosARoot tema = TemaParaProponerPinosARoot.create(unUsuario());
         tema.agregarPropuesta(unaPropuestaDeUnPinoARoot());
         tema.agregarPropuesta(unaPropuestaDeOtroPinoARoot());
         return tema;

@@ -8,7 +8,6 @@ public class TemaDeReunionConDescripcion extends TemaDeReunion {
             String unTitulo,
             String unaDescripcion) {
 
-
         TemaDeReunionConDescripcion tema = new TemaDeReunionConDescripcion();
         tema.setAutor(unAutor);
         tema.setDuracion(unaDuracion);
