@@ -12,6 +12,8 @@ public class TemaParaProponerPinosARoot extends TemaDeReunion {
     public static final String TITULO = "Proponer pinos a root";
 
     public static final String propuestas_FIELD = "propuestas";
+    public static final DuracionDeTema DURACION = DuracionDeTema.CORTO;
+    public static final ObligatoriedadDeTema OBLIGATORIEDAD = ObligatoriedadDeTema.NO_OBLIGATORIO;
 
     @OneToMany
     private Collection<PropuestaDePinoARoot> propuestas = new ArrayList<>();
@@ -46,11 +48,11 @@ public class TemaParaProponerPinosARoot extends TemaDeReunion {
     }
 
     public ObligatoriedadDeTema getObligatoriedad() {
-        return ObligatoriedadDeTema.OBLIGATORIO;
+        return OBLIGATORIEDAD;
     }
 
     public DuracionDeTema getDuracion() {
-        return DuracionDeTema.CORTO;
+        return DURACION;
     }
 
     public Boolean esParaProponerPinosARoot() {
