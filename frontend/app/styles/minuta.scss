@@ -39,17 +39,6 @@
   justify-content: center;
 }
 
-.minuta-paragraph {
-  height: 200px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  line-height: 1.2;
-  max-height: 70px;
-}
-
 .relative-position-button {
   display: flex;
   justify-content: flex-end;
