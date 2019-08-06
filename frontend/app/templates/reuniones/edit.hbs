@@ -27,7 +27,7 @@
           <i class="material-icons primary-color clickable">add_circle</i>
           <h6 class="primary-color no-margin add-tema clickable">Agregar tema</h6>
         </div>
-        <div class="flex-center pl-10" {{action 'mostrarFormulario'}}>
+        <div class="flex-center pl-10" {{action 'mostrarFormularioDeProponerPino'}}>
           <i class="material-icons primary-color clickable">person_add</i>
           <h6 class="primary-color no-margin add-tema clickable">Proponer pino</h6>
         </div>
@@ -61,22 +61,25 @@
 
   {{#unless estaCerrada}}
     {{#if visibilidadCardDeTema}}
-      <div class="modal-background" {{action 'cerrarEditorDeTemaNuevo'}}>
-      </div>
-      <div id="myModal" class="modal-tema">
-        {{#if mostrandoFormularioDeEdicion}}
-          {{editor-de-tema titulo='Modificar Propuesta' tema=temaAEditar nombreDeDuraciones=nombreDeDuraciones
-                           duraciones=duraciones cerrarEditor=(action 'cerrarEditorDeTema')
-                           alGuardar=(action 'updatearTema')  esObligatorio=esObligatorio
-                           seleccionarDuracion=(action 'seleccionarDuracion') classNames='col s11'}}
-        {{/if}}
-        {{#if mostrandoFormularioXTemaNuevo}}
-          {{editor-de-tema titulo='Nueva Propuesta' tema=nuevoTema nombreDeDuraciones=nombreDeDuraciones
-                           duraciones=duraciones cerrarEditor=(action 'cerrarEditorDeTemaNuevo')
-                           alGuardar=(action 'agregarTema')  esObligatorio=esObligatorio
-                           seleccionarDuracion=(action 'seleccionarDuracion') classNames='col s11'}}
-        {{/if}}
-      </div>
+      {{#if mostrandoFormularioDeEdicion}}
+        {{editor-de-tema titulo='Modificar Propuesta' tema=temaAEditar nombreDeDuraciones=nombreDeDuraciones
+                         duraciones=duraciones cerrarEditor=(action 'cerrarEditorDeTema')
+                         alGuardar=(action 'updatearTema')  esObligatorio=esObligatorio
+                         seleccionarDuracion=(action 'seleccionarDuracion') classNames='col s11'}}
+      {{/if}}
+      {{#if mostrandoFormularioXTemaNuevo}}
+        {{editor-de-tema titulo='Nueva Propuesta' tema=nuevoTema nombreDeDuraciones=nombreDeDuraciones
+                         duraciones=duraciones cerrarEditor=(action 'cerrarEditorDeTemaNuevo')
+                         alGuardar=(action 'agregarTema')  esObligatorio=esObligatorio
+                         seleccionarDuracion=(action 'seleccionarDuracion') classNames='col s11'}}
+      {{/if}}
+      {{#if mostrandoFormularioDeProponerPino}}
+        {{formulario-proponer-pino
+            titulo='Proponer un pino a root'
+            cerrarEditor=(action 'cerrarEditorDeProponerPino')
+            alGuardar=(action 'proponerPino')
+        }}
+      {{/if}}
     {{/if}}
   {{/unless}}
 
@@ -120,11 +123,8 @@
         <button type="button" {{action 'reabrirVotacion'}} class="btn-flat bold btn">
           <h6>Reabrir votacion</h6>
         </button>
-
       {{/if}}
-
     </div>
-
     {{tenpines/modal-de-confirmacion
         open=modalDeCierreAbierto
         titulo='Confirmar cierre de votación'

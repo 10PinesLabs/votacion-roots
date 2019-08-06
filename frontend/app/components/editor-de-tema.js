@@ -13,21 +13,18 @@ export default Ember.Component.extend({
     this.$('#titulo').focus();
   },
 
-  guardarHabilitado: Ember.computed('tema.duracion', 'tema.titulo', 'guardando', function () {
-    let propiedad = "";
-
-    if (!this.get('tema.duracion') || !this.get('tema.titulo') || this.get('guardando')) {
-      propiedad = "disabled";
+  guardarHabilitado: Ember.computed('tema.duracion', 'tema.titulo', 'guardando',
+    function () {
+      return !this.get('tema.duracion') || !this.get('tema.titulo') || this.get('guardando')
     }
-
-    return new Ember.Handlebars.SafeString(propiedad);
-  }),
+  ),
 
   actions:
     {
-      guardar(funcionGuardadora){
+      guardar(funcionGuardadora) {
         this.set('guardando', true);
-        funcionGuardadora.call();
+        funcionGuardadora();
       }
+
     }
 });
