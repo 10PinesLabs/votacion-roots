@@ -23,9 +23,10 @@ public class TemaDeReunion2ToConverter implements SpecializedTypeConverter<TemaD
     private TypeConverter baseConverter;
 
     @Override
-    public TemaDeReunionTo convertTo(Type expectedType, TemaDeReunion sourceObject, Annotation[] contextAnnotations) throws CannotConvertException {
-        GeneralTypeConverter<Object, Object> annotatedClassConverter = annotatedClassConverter();
-        return (TemaDeReunionTo) annotatedClassConverter.convertFrom(sourceObject, toClass(sourceObject.getClass()), null);
+    public TemaDeReunionTo convertTo(Type expectedType, TemaDeReunion sourceObject, Annotation[] contextAnnotations)
+            throws CannotConvertException {
+        return (TemaDeReunionTo) annotatedClassConverter()
+                .convertFrom(sourceObject, toClass(sourceObject.getClass()), null);
     }
 
     private Type toClass(Class<? extends TemaDeReunion> aClass) {
