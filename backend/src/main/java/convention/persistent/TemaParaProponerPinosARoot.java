@@ -1,6 +1,5 @@
 package convention.persistent;
 
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
@@ -12,11 +11,15 @@ public class TemaParaProponerPinosARoot extends TemaDeReunion {
     public static final String PINO_YA_PROPUESTO_ERROR_MSG = "el pino ya fue propuesto";
     public static final String TITULO = "Proponer pinos a root";
 
+    public static final String propuestas_FIELD = "propuestas";
+
     @OneToMany
     private Collection<PropuestaDePinoARoot> propuestas = new ArrayList<>();
 
-    public TemaParaProponerPinosARoot() {
-
+    public static TemaParaProponerPinosARoot create(Usuario unAutor) {
+        TemaParaProponerPinosARoot tema = new TemaParaProponerPinosARoot();
+        tema.setAutor(unAutor);
+        return tema;
     }
 
     public Collection<PropuestaDePinoARoot> propuestas() {
