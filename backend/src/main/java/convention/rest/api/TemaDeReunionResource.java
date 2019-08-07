@@ -2,6 +2,7 @@ package convention.rest.api;
 
 import ar.com.kfgodel.dependencies.api.DependencyInjector;
 import convention.persistent.TemaDeReunion;
+import convention.persistent.TemaDeReunionConDescripcion;
 import convention.persistent.Usuario;
 import convention.rest.api.tos.TemaDeReunionTo;
 import convention.rest.api.tos.TemaEnCreacionTo;
@@ -25,9 +26,10 @@ public class TemaDeReunionResource {
     TemaService temaService;
 
     private ResourceHelper resourceHelper;
+
     @POST
-    public TemaTo create(TemaEnCreacionTo newState,@Context SecurityContext securityContext) {
-        TemaDeReunion temaCreado = getResourceHelper().convertir(newState, TemaDeReunion.class);
+    public TemaTo create(TemaEnCreacionTo newState, @Context SecurityContext securityContext) {
+        TemaDeReunionConDescripcion temaCreado = getResourceHelper().convertir(newState, TemaDeReunionConDescripcion.class);
         Usuario modificador = getResourceHelper().usuarioActual(securityContext);
         temaCreado.setUltimoModificador(modificador);
         temaService.save(temaCreado);
@@ -36,13 +38,14 @@ public class TemaDeReunionResource {
 
     @Path("/{resourceId}")
     @PUT
-    public TemaTo update(TemaTo newState,@PathParam("resourceId") Long id,@Context SecurityContext securityContext) {
-        TemaDeReunion estadoNuevo=getResourceHelper().convertir(newState, TemaDeReunion.class);
-        Usuario modificador=getResourceHelper().usuarioActual(securityContext);
-                    estadoNuevo.setUltimoModificador(modificador);
+    public TemaTo update(TemaTo newState, @PathParam("resourceId") Long id, @Context SecurityContext securityContext) {
+        TemaDeReunionConDescripcion estadoNuevo = getResourceHelper().convertir(newState, TemaDeReunionConDescripcion.class);
+        Usuario modificador = getResourceHelper().usuarioActual(securityContext);
+        estadoNuevo.setUltimoModificador(modificador);
         TemaDeReunion temaUpdateado = temaService.update(estadoNuevo);
         return getResourceHelper().convertir(temaUpdateado, TemaTo.class);
     }
+
     @GET
     @Path("/{resourceId}")
     public TemaDeReunionTo getSingle(@PathParam("resourceId") Long id) {
@@ -109,10 +112,10 @@ public class TemaDeReunionResource {
 
     public static TemaDeReunionResource create(DependencyInjector appInjector) {
         TemaDeReunionResource temaDeReunionResource = new TemaDeReunionResource();
-        temaDeReunionResource.resourceHelper= ResourceHelper.create(appInjector);
-        temaDeReunionResource.getResourceHelper().bindAppInjectorTo(TemaDeReunionResource.class,temaDeReunionResource);
+        temaDeReunionResource.resourceHelper = ResourceHelper.create(appInjector);
+        temaDeReunionResource.getResourceHelper().bindAppInjectorTo(TemaDeReunionResource.class, temaDeReunionResource);
         temaDeReunionResource.temaService = appInjector.createInjected(TemaService.class);
-         return temaDeReunionResource;
+        return temaDeReunionResource;
     }
 
     public ResourceHelper getResourceHelper() {
