@@ -57,6 +57,13 @@ public class TemaParaProponerPinosARoot extends TemaDeReunion {
     }
 
     @Override
+    public TemaDeReunion copy() {
+        TemaParaProponerPinosARoot copia = (TemaParaProponerPinosARoot) super.copy();
+        propuestas().forEach(copia::agregarPropuesta);
+        return copia;
+    }
+
+    @Override
     protected TemaDeReunion createCopy() {
         return new TemaParaProponerPinosARoot();
     }
