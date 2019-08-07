@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class TemaDeReunionResourceTest extends ResourceTest {
 
-    public static final String PROPIEDAD_TIPO = "tipo";
+    public static final String CAMPO_DE_TIPO = "tipo";
 
     private TestHelper helper = new TestHelper();
     private TemaService temaService;
@@ -39,7 +39,7 @@ public class TemaDeReunionResourceTest extends ResourceTest {
         HttpResponse response = makeGetRequest("temas/" + idTema);
 
         JSONObject responseJson = new JSONObject(getResponseBody(response));
-        assertThat(responseJson.getString(PROPIEDAD_TIPO)).isEqualTo("proponerPinos");
+        assertThat(responseJson.getString(CAMPO_DE_TIPO)).isEqualTo("proponerPinos");
     }
 
     @Test
@@ -49,7 +49,7 @@ public class TemaDeReunionResourceTest extends ResourceTest {
         HttpResponse response = makeGetRequest("temas/" + idTema);
 
         JSONObject responseJson = new JSONObject(getResponseBody(response));
-        assertThat(responseJson.getString(PROPIEDAD_TIPO)).isEqualTo("conDescripcion");
+        assertThat(responseJson.getString(CAMPO_DE_TIPO)).isEqualTo("conDescripcion");
     }
 
     private TemaDeReunionConDescripcion crearUnTemaDeReunionConDescripcion() {

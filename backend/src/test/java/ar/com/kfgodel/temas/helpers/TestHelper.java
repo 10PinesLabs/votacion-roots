@@ -11,19 +11,19 @@ import java.time.LocalDate;
  */
 public class TestHelper {
 
-    public TemaDeReunion unTemaObligatorio() {
-        TemaDeReunion tema = TemaDeReunion.create();
+    public TemaDeReunionConDescripcion unTemaObligatorio() {
+        TemaDeReunionConDescripcion tema = TemaDeReunionConDescripcion.create();
         tema.setObligatoriedad(ObligatoriedadDeTema.OBLIGATORIO);
         return tema;
     }
 
-    public TemaDeReunion unTemaNoObligatorio() {
-        TemaDeReunion tema = TemaDeReunion.create();
+    public TemaDeReunionConDescripcion unTemaNoObligatorio() {
+        TemaDeReunionConDescripcion tema = TemaDeReunionConDescripcion.create();
         tema.setObligatoriedad(ObligatoriedadDeTema.NO_OBLIGATORIO);
         return tema;
     }
 
-    public TemaDeReunion unTemaAPartirDeUnTemaGeneral() {
+    public TemaDeReunionConDescripcion unTemaAPartirDeUnTemaGeneral() {
         Reunion reunion = Reunion.create(LocalDate.of(2017, 06, 26));
         TemaGeneral temaGeneral = new TemaGeneral();
         return temaGeneral.generarTemaPara(reunion);
@@ -66,7 +66,7 @@ public class TestHelper {
     }
 
     public TemaDeReunion unTemaDeReunionConTitulo(String unTitulo) {
-        TemaDeReunion unTema = TemaDeReunion.create();
+        TemaDeReunion unTema = TemaDeReunionConDescripcion.create();
         unTema.setTitulo(unTitulo);
         return unTema;
     }

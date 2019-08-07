@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  * Created by kfgodel on 21/08/16.
  */
 @Entity
-public class TemaDeReunion extends Tema {
+public abstract class TemaDeReunion extends Tema {
 
     public static final String reunion_FIELD = "reunion";
     public static final String prioridad_FIELD = "prioridad";
@@ -33,12 +33,6 @@ public class TemaDeReunion extends Tema {
     private ObligatoriedadDeTema obligatoriedad;
     @ManyToOne
     private TemaGeneral temaGenerador;
-
-    static public TemaDeReunion create() {
-        TemaDeReunion unTema = new TemaDeReunion();
-        unTema.setObligatoriedad(ObligatoriedadDeTema.NO_OBLIGATORIO);
-        return unTema;
-    }
 
     public static String mensajeDeErrorAlAgregarInteresado() {
         return "No se puede agregar un interesado a un tema obligatorio";
@@ -99,7 +93,7 @@ public class TemaDeReunion extends Tema {
 
 
     public TemaDeReunion copy() {
-        TemaDeReunion copia = TemaDeReunion.create();
+        TemaDeReunion copia = createCopy();
         copia.setInteresados(this.getInteresados());
         copia.setPersistenceVersion(this.getPersistenceVersion());
         copia.setMomentoDeUltimaModificacion(this.getMomentoDeUltimaModificacion());
@@ -115,6 +109,8 @@ public class TemaDeReunion extends Tema {
         copia.setUltimoModificador(this.getUltimoModificador());
         return copia;
     }
+
+    protected abstract TemaDeReunion createCopy();
 
 
     public Boolean tieneMayorPrioridadQue(TemaDeReunion otroTema) {

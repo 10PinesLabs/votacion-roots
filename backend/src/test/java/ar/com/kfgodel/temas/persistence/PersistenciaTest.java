@@ -74,7 +74,7 @@ public class PersistenciaTest {
 
     @Test
     public void test02SePuedePersistirCorrectamenteUnTema(){
-        TemaDeReunion nuevoTema = TemaDeReunion.create();
+        TemaDeReunion nuevoTema = TemaDeReunionConDescripcion.create();
 
         int cantidadDeTemasAnteriores = temaService.getAll().size();
 
@@ -88,8 +88,8 @@ public class PersistenciaTest {
     @Test
     public void test03AlObtenerUnaReunionSeTraenSoloSusTemas(){
        Reunion reunion = new Reunion();
-       TemaDeReunion temaDeLaReunion = TemaDeReunion.create();
-       TemaDeReunion temaDeOtraReunion =TemaDeReunion.create();
+       TemaDeReunion temaDeLaReunion = TemaDeReunionConDescripcion.create();
+       TemaDeReunion temaDeOtraReunion =TemaDeReunionConDescripcion.create();
             temaService.save(temaDeOtraReunion);
        reunion = reunionService.save(reunion);
 
@@ -109,7 +109,7 @@ public class PersistenciaTest {
 
     @Test
     public void test04LaObligatoriedadDeUnTemaSePersisteCorrectamente(){
-        TemaDeReunion tema =TemaDeReunion.create();
+        TemaDeReunion tema =TemaDeReunionConDescripcion.create();
         tema.setObligatoriedad(ObligatoriedadDeTema.OBLIGATORIO);
 
         tema = temaService.save(tema);
@@ -120,7 +120,7 @@ public class PersistenciaTest {
 
     @Test
     public void test05ElMomentoDeCreacionDeUnTemaSeCreaAlPersistirElTema(){
-        TemaDeReunion tema = new TemaDeReunion();
+        TemaDeReunion tema = new TemaDeReunionConDescripcion();
         tema = temaService.save(tema);
         TemaDeReunion temaPersistido = temaService.get(tema.getId());
         Assert.assertFalse(temaPersistido.getMomentoDeCreacion() == null);
@@ -184,7 +184,7 @@ public class PersistenciaTest {
     @Test
     public void test11SePuedePersistirUnaMinuta(){
         Reunion reunion = Reunion.create(LocalDate.of(2017, 06, 26));
-        TemaDeReunion unTema = TemaDeReunion.create();
+        TemaDeReunion unTema = TemaDeReunionConDescripcion.create();
         reunion = reunionService.save(reunion);
         unTema.setReunion(reunion);
         temaService.save(unTema);
@@ -236,7 +236,7 @@ public class PersistenciaTest {
     @Test
     public void test14AlBorrarUnTemaGeneralNoSeBorranlosTemasDeReunionQueNoFueronGeneradosPorEl(){
         Reunion reunion = Reunion.create(LocalDate.of(2017, 06, 26));
-        TemaDeReunion unTemaNoGenerado = TemaDeReunion.create();
+        TemaDeReunion unTemaNoGenerado = TemaDeReunionConDescripcion.create();
         unTemaNoGenerado.setReunion(reunion);
         reunion.setTemasPropuestos(Arrays.asList(unTemaNoGenerado));
 
@@ -288,7 +288,7 @@ public class PersistenciaTest {
     @Test
     public void test17AlEditarUnTemaGeneralNoSeModificanlosTemasDeReunionQueNoFueronGeneradosPorEl(){
         Reunion reunion = Reunion.create(LocalDate.of(2017, 06, 26));
-        TemaDeReunion unTemaNoGenerado = TemaDeReunion.create();
+        TemaDeReunion unTemaNoGenerado = TemaDeReunionConDescripcion.create();
         unTemaNoGenerado.setReunion(reunion);
         unTemaNoGenerado.setTitulo("Título");
         reunion.setTemasPropuestos(Arrays.asList(unTemaNoGenerado));

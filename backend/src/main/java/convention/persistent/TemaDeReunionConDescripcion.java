@@ -19,4 +19,15 @@ public class TemaDeReunionConDescripcion extends TemaDeReunion {
         tema.setDescripcion(unaDescripcion);
         return tema;
     }
+
+    public static TemaDeReunionConDescripcion create() {
+        TemaDeReunionConDescripcion unTema = new TemaDeReunionConDescripcion();
+        unTema.setObligatoriedad(ObligatoriedadDeTema.NO_OBLIGATORIO);
+        return unTema;
+    }
+
+    @Override
+    protected TemaDeReunion createCopy() {
+        return new TemaDeReunionConDescripcion();
+    }
 }

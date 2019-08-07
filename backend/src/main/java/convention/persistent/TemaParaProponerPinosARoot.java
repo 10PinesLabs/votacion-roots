@@ -56,6 +56,11 @@ public class TemaParaProponerPinosARoot extends TemaDeReunion {
         return OBLIGATORIEDAD;
     }
 
+    @Override
+    protected TemaDeReunion createCopy() {
+        return new TemaParaProponerPinosARoot();
+    }
+
     public DuracionDeTema getDuracion() {
         return DURACION;
     }
