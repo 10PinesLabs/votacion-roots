@@ -1,5 +1,8 @@
 package convention.persistent;
 
+import javax.persistence.Entity;
+
+@Entity
 public class TemaDeReunionConDescripcion extends TemaDeReunion {
     public static TemaDeReunionConDescripcion create(
             Usuario unAutor,

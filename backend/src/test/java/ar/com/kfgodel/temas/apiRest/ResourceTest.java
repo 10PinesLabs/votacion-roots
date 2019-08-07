@@ -102,6 +102,11 @@ public abstract class ResourceTest {
         return getClient().execute(request);
     }
 
+    HttpResponse makeGetRequest(String aPathRelativeToApi) throws IOException {
+        HttpGet request = new HttpGet(pathRelativeToApi(aPathRelativeToApi));
+        return getClient().execute(request);
+    }
+
     void assertThatResponseStatusCodeIs(int aResponse, int expectedStatusCode) {
         assertThat(aResponse).isEqualTo(expectedStatusCode);
     }
