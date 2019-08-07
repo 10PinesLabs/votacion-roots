@@ -1,5 +1,9 @@
 package convention.persistent;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
@@ -15,7 +19,8 @@ public class TemaParaProponerPinosARoot extends TemaDeReunion {
     public static final DuracionDeTema DURACION = DuracionDeTema.CORTO;
     public static final ObligatoriedadDeTema OBLIGATORIEDAD = ObligatoriedadDeTema.NO_OBLIGATORIO;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<PropuestaDePinoARoot> propuestas = new ArrayList<>();
 
     public static TemaParaProponerPinosARoot create(Usuario unAutor) {

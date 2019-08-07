@@ -123,6 +123,7 @@ public class Reunion extends PersistableSupport {
     public void proponerPinoComoRoot(String unPino, Usuario unSponsor) {
         if (temaParaProponerPinosComoRoot == null) {
             temaParaProponerPinosComoRoot = new TemaParaProponerPinosARoot();
+            temaParaProponerPinosComoRoot.setReunion(this);
             temasPropuestos.add(temaParaProponerPinosComoRoot);
         }
         PropuestaDePinoARoot propuesta = new PropuestaDePinoARoot(unPino, unSponsor);
