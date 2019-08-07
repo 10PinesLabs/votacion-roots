@@ -1,9 +1,11 @@
-package ar.com.kfgodel.temas.apiRest;
+package ar.com.kfgodel.temas.services;
 
 import ar.com.kfgodel.appbyconvention.operation.api.ApplicationOperation;
 import ar.com.kfgodel.dependencies.api.DependencyInjector;
 import ar.com.kfgodel.orm.api.operations.basic.Save;
 import ar.com.kfgodel.temas.acciones.CalculadorDeProximaFecha;
+import ar.com.kfgodel.temas.apiRest.JettyIdentityAdapterTest;
+import ar.com.kfgodel.temas.apiRest.SecurityContextTest;
 import ar.com.kfgodel.temas.application.Application;
 import ar.com.kfgodel.temas.helpers.TestConfig;
 import ar.com.kfgodel.temas.persistence.TestApplication;
@@ -32,7 +34,7 @@ import java.util.List;
 /**
  * Created by fede on 22/06/17.
  */
-public class ResourcesTemasTest {
+public class TemasServiceTest {
 
     Application app;
 

@@ -1,22 +1,20 @@
-package ar.com.kfgodel.temas.apiRest;
+package ar.com.kfgodel.temas.services;
 
 import convention.persistent.Reunion;
 import convention.persistent.TemaDeReunion;
-import convention.persistent.Usuario;
 import convention.rest.api.UserResource;
 import convention.rest.api.tos.UserTo;
 import org.junit.Assert;
 import org.junit.Test;
 import static org.assertj.core.api.Assertions.*;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by fede on 05/07/17.
  */
-public class UserResourceTest extends ResourcesTemasTest {
+public class UserServiceTest extends TemasServiceTest {
 
     UserResource userResource;
     Reunion unaReunion;

@@ -1,4 +1,4 @@
-package ar.com.kfgodel.temas.apiRest;
+package ar.com.kfgodel.temas.services;
 
 import convention.persistent.Reunion;
 import org.junit.Test;
@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ReunionResourceTest extends ResourcesTemasTest {
+public class ReunionServiceTest extends TemasServiceTest {
 
   private Reunion reunionConMinutaDel24;
   private Reunion reunionConMinutaDel22;
