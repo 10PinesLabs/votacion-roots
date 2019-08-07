@@ -8,7 +8,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Esta clase representa una reunion de roots con el temario a realizar
@@ -17,6 +16,7 @@ import java.util.stream.Collectors;
 @Entity
 public class Reunion extends PersistableSupport {
 
+    public static final String AGREGAR_TEMA_PARA_PROPONER_PINOS_COMO_ROOT_ERROR_MSG = "no se puede agregar un tema para proponer pinos como root";
     @NotNull
     private LocalDate fecha;
     public static final String fecha_FIELD = "fecha";
@@ -26,10 +26,14 @@ public class Reunion extends PersistableSupport {
     public static final String status_FIELD = "status";
 
     @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany( cascade = CascadeType.ALL, mappedBy = TemaDeReunion.reunion_FIELD, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = TemaDeReunion.reunion_FIELD, orphanRemoval = true)
     @OrderBy(TemaDeReunion.prioridad_FIELD)
-    private List<TemaDeReunion> temasPropuestos;
+    private List<TemaDeReunion> temasPropuestos = new ArrayList<>();
+
     public static final String temasPropuestos_FIELD = "temasPropuestos";
+
+    @OneToOne
+    private TemaParaProponerPinosARoot temaParaProponerPinosComoRoot;
 
     public LocalDate getFecha() {
         return fecha;
@@ -40,9 +44,6 @@ public class Reunion extends PersistableSupport {
     }
 
     public List<TemaDeReunion> getTemasPropuestos() {
-        if (temasPropuestos == null) {
-            temasPropuestos = new ArrayList<>();
-        }
         return temasPropuestos;
     }
 
@@ -65,13 +66,11 @@ public class Reunion extends PersistableSupport {
         Reunion reunion = new Reunion();
         reunion.fecha = fecha;
         reunion.status = StatusDeReunion.PENDIENTE;
-        if(reunion.getTemasPropuestos() == null)
-            reunion.setTemasPropuestos(new ArrayList<>());
         return reunion;
     }
 
     public void cerrarVotacion() {
-    this.getTemasPropuestos().sort(Collections.reverseOrder(OrdenarPorVotos.create()));
+        this.getTemasPropuestos().sort(Collections.reverseOrder(OrdenarPorVotos.create()));
         for (int i = 0; i < getTemasPropuestos().size(); i++) {
             TemaDeReunion tema = getTemasPropuestos().get(i);
             tema.setPrioridad(i + 1); // Queremos que empiece de 1 la prioridad
@@ -96,7 +95,7 @@ public class Reunion extends PersistableSupport {
     }
 
     public void agregarTemasGenerales(List<TemaGeneral> temasGenerales) {
-        temasGenerales.forEach(temaGeneral -> this.agregarTemaGeneral(temaGeneral));
+        temasGenerales.forEach(this::agregarTemaGeneral);
     }
 
     public void agregarTemaGeneral(TemaGeneral temaGeneral) {
@@ -104,11 +103,14 @@ public class Reunion extends PersistableSupport {
         this.agregarTema(temaNuevo);
     }
 
-    private void agregarTema(TemaDeReunion temaNuevo) {
+    public void agregarTema(TemaDeReunion temaNuevo) {
+        if (temaNuevo.getTitulo() == TemaParaProponerPinosARoot.TITULO) {
+            throw new RuntimeException(AGREGAR_TEMA_PARA_PROPONER_PINOS_COMO_ROOT_ERROR_MSG);
+        }
         temasPropuestos.add(temaNuevo);
     }
 
-    public void marcarComoMinuteada(){
+    public void marcarComoMinuteada() {
         this.setStatus(StatusDeReunion.CON_MINUTA);
     }
 
@@ -118,4 +120,13 @@ public class Reunion extends PersistableSupport {
         return votantes;
     }
 
+    public void proponerPinoComoRoot(String unPino, Usuario unSponsor) {
+        if (temaParaProponerPinosComoRoot == null) {
+            temaParaProponerPinosComoRoot = new TemaParaProponerPinosARoot();
+            temaParaProponerPinosComoRoot.setReunion(this);
+            temasPropuestos.add(temaParaProponerPinosComoRoot);
+        }
+        PropuestaDePinoARoot propuesta = new PropuestaDePinoARoot(unPino, unSponsor);
+        temaParaProponerPinosComoRoot.agregarPropuesta(propuesta);
+    }
 }

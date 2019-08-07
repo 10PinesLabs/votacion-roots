@@ -3,6 +3,7 @@ package convention.rest.api;
 import ar.com.kfgodel.dependencies.api.DependencyInjector;
 import convention.persistent.TemaDeReunion;
 import convention.persistent.Usuario;
+import convention.rest.api.tos.TemaDeReunionTo;
 import convention.rest.api.tos.TemaEnCreacionTo;
 import convention.rest.api.tos.TemaTo;
 import convention.services.TemaService;
@@ -44,8 +45,8 @@ public class TemaDeReunionResource {
     }
     @GET
     @Path("/{resourceId}")
-    public TemaTo getSingle(@PathParam("resourceId") Long id) {
-        return getResourceHelper().convertir(temaService.get(id), TemaTo.class);
+    public TemaDeReunionTo getSingle(@PathParam("resourceId") Long id) {
+        return getResourceHelper().convertir(temaService.get(id), TemaDeReunionTo.class);
     }
 
     @GET

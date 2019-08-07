@@ -5,12 +5,16 @@ import ar.com.kfgodel.diamond.api.types.reference.ReferenceOf;
 import convention.persistent.Reunion;
 import convention.persistent.StatusDeReunion;
 import convention.persistent.TemaDeReunion;
+import convention.rest.api.tos.PropuestaDePinoARootTo;
 import convention.rest.api.tos.ReunionTo;
 import convention.services.ReunionService;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import java.lang.reflect.Type;
 import java.util.Collections;
@@ -126,6 +130,22 @@ public class ReunionResource {
         reunionResource.getResourceHelper().bindAppInjectorTo(ReunionResource.class,reunionResource);
         reunionResource.reunionService = appInjector.createInjected(ReunionService.class);
         return reunionResource;
+    }
+
+    @POST
+    @Path("/{resourceId}/propuestas")
+    public Response proponerPinoComoRoot(
+            @PathParam("resourceId") Long id,
+            PropuestaDePinoARootTo propuesta,
+            @Context SecurityContext securityContext) {
+
+        Reunion reunion = reunionService.get(id);
+        reunion.proponerPinoComoRoot(propuesta.getPino(), getResourceHelper().usuarioActual(securityContext));
+        reunionService.save(reunion);
+
+        ReunionTo reunionTo = getResourceHelper().convertir(reunion, ReunionTo.class);
+
+        return Response.status(HttpServletResponse.SC_CREATED).entity(reunionTo).build();
     }
 
     public ResourceHelper getResourceHelper() {
