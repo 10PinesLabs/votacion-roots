@@ -102,19 +102,6 @@ public class ReunionResourceTest extends ResourceTest {
         assertThat(jsonDeLaPropuesta.getString("pino")).isEqualTo(unPino);
     }
 
-    private TemaDeReunionConDescripcion crearUnTemaDeReunionConDescripcion() {
-        TemaDeReunionConDescripcion unTemaConDescripcion = new TemaDeReunionConDescripcion();
-        temaService.save(unTemaConDescripcion);
-        return unTemaConDescripcion;
-    }
-
-    private TemaParaProponerPinosARoot crearUnTemaParaProponerPinosARoot() {
-        Usuario unUsuario = unUsuarioPersistido();
-        TemaParaProponerPinosARoot unTemaParaProponerPinos = TemaParaProponerPinosARoot.create(unUsuario);
-        temaService.save(unTemaParaProponerPinos);
-        return unTemaParaProponerPinos;
-    }
-
     private Usuario unUsuarioPersistido() {
         return usuarioService.getAll().get(0);
     }
