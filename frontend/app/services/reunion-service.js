@@ -36,6 +36,9 @@ export default Ember.Service.extend(EmberizedResourceCreatorInjected, {
   getMinuta(reunion){
     return this._minutaReunionResource().getSingle(reunion);
   },
+  proponerPino(reunion, pino){
+    return this._proponerPinoEnReunionResource(reunion.id).create({nombreDePino: pino})
+  },
 
   // PRIVATE
   _reunionResource: function () {
@@ -63,5 +66,9 @@ export default Ember.Service.extend(EmberizedResourceCreatorInjected, {
     var resource = resourceCreator.createResource('reuniones/reabrir');
     return resource;
   },
-
+  _proponerPinoEnReunionResource: function (reunionId) {
+    var resourceCreator = this.resourceCreator();
+    var resource = resourceCreator.createResource('reuniones/' + reunionId + '/propuestas');
+    return resource;
+  },
 });

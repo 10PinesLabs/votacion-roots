@@ -249,8 +249,8 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
         }
       },
 
-      proponerPino(pino){
-        console.log("hello, " + pino)
+      proponerPino(pino) {
+        this.reunionService().proponerPino(this.get('reunion'), pino);
       },
 
       pedirConfirmacionDeBorrado(temaABorrar) {
