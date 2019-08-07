@@ -15,7 +15,7 @@ export default Ember.Component.extend({
 
   guardarHabilitado: Ember.computed('tema.duracion', 'tema.titulo', 'guardando',
     function () {
-      return !this.get('tema.duracion') || !this.get('tema.titulo') || this.get('guardando')
+      return this.get('tema.duracion') && this.get('tema.titulo') && !this.get('guardando')
     }
   ),
 

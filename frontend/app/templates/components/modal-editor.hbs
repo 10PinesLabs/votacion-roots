@@ -12,7 +12,7 @@
 
       <div class="card-action right-align">
         <button type="button" onclick={{action manejarGuardar}}
-                class="btn-flat btn bold btn-guardar--focus {{if guardarHabilitado "disabled"}}">
+                class="btn-flat btn bold btn-guardar--focus {{unless guardarHabilitado "disabled"}}">
           <h6 class="bold">Guardar</h6>
         </button>
       </div>

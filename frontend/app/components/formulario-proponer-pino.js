@@ -1,8 +1,8 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  guardarHabilitado: Ember.computed('pino', function () {
-    return !this.get('pino') || this.get('guardando')
+ guardarHabilitado: Ember.computed('pino', 'guardando', function () {
+    return this.get('pino') && !this.get('guardando')
   }),
   actions:
     {
