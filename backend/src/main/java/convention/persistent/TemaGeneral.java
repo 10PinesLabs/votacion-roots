@@ -8,8 +8,8 @@ import javax.persistence.Entity;
 @Entity
 public class TemaGeneral extends Tema {
 
-    public TemaDeReunion generarTemaPara(Reunion reunion) {
-        TemaDeReunion temaDeReunion = TemaDeReunion.create();
+    public TemaDeReunionConDescripcion generarTemaPara(Reunion reunion) {
+        TemaDeReunionConDescripcion temaDeReunion = TemaDeReunionConDescripcion.create();
         temaDeReunion.setReunion(reunion);
         temaDeReunion.setObligatoriedad(ObligatoriedadDeTema.OBLIGATORIO);
         temaDeReunion.setTitulo(this.getTitulo());

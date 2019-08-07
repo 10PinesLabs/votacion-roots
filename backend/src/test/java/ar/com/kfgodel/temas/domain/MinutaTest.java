@@ -1,9 +1,6 @@
 package ar.com.kfgodel.temas.domain;
 
-import convention.persistent.Minuta;
-import convention.persistent.Reunion;
-import convention.persistent.TemaDeReunion;
-import convention.persistent.Usuario;
+import convention.persistent.*;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -74,7 +71,7 @@ public class MinutaTest {
     }
 
     private TemaDeReunion crearTema() {
-        return TemaDeReunion.create();
+        return TemaDeReunionConDescripcion.create();
     }
 
     private Reunion crearReunion() {

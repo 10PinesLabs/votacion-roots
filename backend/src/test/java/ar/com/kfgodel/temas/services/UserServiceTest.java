@@ -2,6 +2,7 @@ package ar.com.kfgodel.temas.services;
 
 import convention.persistent.Reunion;
 import convention.persistent.TemaDeReunion;
+import convention.persistent.TemaDeReunionConDescripcion;
 import convention.rest.api.UserResource;
 import convention.rest.api.tos.UserTo;
 import org.junit.Assert;
@@ -25,7 +26,7 @@ public class UserServiceTest extends TemasServiceTest {
         super.setUp();
         userResource =  UserResource.create(app.injector());
         unaReunion = reunionService.save(new Reunion());
-        unTema = TemaDeReunion.create();
+        unTema = TemaDeReunionConDescripcion.create();
         unTema.agregarInteresado(user);
         unTema.setReunion(unaReunion);
         unaReunion.setTemasPropuestos(Arrays.asList(unTema));

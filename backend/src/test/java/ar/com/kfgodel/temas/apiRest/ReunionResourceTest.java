@@ -1,13 +1,12 @@
 package ar.com.kfgodel.temas.apiRest;
 
 import ar.com.kfgodel.temas.helpers.TestHelper;
-import convention.persistent.PropuestaDePinoARoot;
-import convention.persistent.Reunion;
-import convention.persistent.TemaParaProponerPinosARoot;
+import convention.persistent.*;
 import convention.rest.api.ReunionResource;
 import convention.services.ReunionService;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
@@ -67,6 +66,26 @@ public class ReunionResourceTest extends ResourceTest {
 
         assertThat(responseJson.get("id")).isEqualTo(idReunion.intValue());
         assertThat(responseJson.getJSONArray("temasPropuestos").length()).isEqualTo(1);
+    }
+
+    @Test
+    public void testGetDeReunionDistingueLosTiposDeTema() throws IOException {
+        Reunion unaReunion = crearUnaReunionConTemas();
+
+        HttpResponse response = makeGetRequest("reuniones/" + unaReunion.getId());
+
+        JSONObject responseJson = new JSONObject(getResponseBody(response));
+        JSONObject jsonDelTema = responseJson.getJSONArray("temasPropuestos").getJSONObject(0);
+        assertThat(jsonDelTema.has("tipo")).isTrue();
+    }
+
+    private Reunion crearUnaReunionConTemas() {
+        Reunion unaReunion = helper.unaReunion();
+        TemaDeReunion unTema = TemaDeReunionConDescripcion.create();
+        unTema.setReunion(unaReunion);
+        unaReunion.agregarTema(unTema);
+        reunionService.save(unaReunion);
+        return unaReunion;
     }
 
     private Reunion crearUnaReunion() {

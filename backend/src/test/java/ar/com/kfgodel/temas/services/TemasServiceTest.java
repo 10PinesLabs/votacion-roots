@@ -84,7 +84,7 @@ public class TemasServiceTest {
     public void alTraerUnaReunionConLaSeccionDeUnUsuarioNoTraeLosVotosDeOtrosSiLaReunionEstaPendiente() {
 
         Reunion reunion = new Reunion();
-        TemaDeReunion temaDeLaReunion = TemaDeReunion.create();
+        TemaDeReunion temaDeLaReunion = TemaDeReunionConDescripcion.create();
 
         reunion = reunionService.save(reunion);
 
@@ -108,7 +108,7 @@ public class TemasServiceTest {
     @Test
     public void alTraerUnaReunionConLaSeccionDeUnUsuarioNoTraeTodosLosVotosSiLaReunionEstaCerrada() {
         Reunion reunion = new Reunion();
-        TemaDeReunion temaDeLaReunion = new TemaDeReunion();
+        TemaDeReunion temaDeLaReunion = new TemaDeReunionConDescripcion();
         reunion.setStatus(StatusDeReunion.CERRADA);
         reunion = reunionService.save(reunion);
 
@@ -131,7 +131,7 @@ public class TemasServiceTest {
 
     @Test
     public void sePersistenCorrectamenteLasDuracionesDeLosTemas() {
-        TemaDeReunion temaDeLaReunion = TemaDeReunion.create();
+        TemaDeReunion temaDeLaReunion = TemaDeReunionConDescripcion.create();
         temaDeLaReunion.setDuracion(DuracionDeTema.CORTO);
         temaDeLaReunion = ApplicationOperation.createFor(app.injector())
                 .insideATransaction()
@@ -169,7 +169,7 @@ public class TemasServiceTest {
 
     @Test
     public void votarUnTemaNoLoVuelveACrearPeroSiGuardaLosVotos() {
-        TemaDeReunion unTema = TemaDeReunion.create();
+        TemaDeReunion unTema = TemaDeReunionConDescripcion.create();
         unTema.setDuracion(DuracionDeTema.MEDIO);
         unTema = temaService.save(unTema);
         Assert.assertEquals(temaService.getAll().size(), 1);
@@ -190,14 +190,14 @@ public class TemasServiceTest {
 
     @Test
     public void sePuedeAgregarUnVotoEnUnTemaConMenosDe3VotosDelUsuario() {
-        TemaDeReunion unTema = temaService.save(TemaDeReunion.create());
+        TemaDeReunion unTema = temaService.save(TemaDeReunionConDescripcion.create());
         temaService.updateAndMapping(unTema.getId(), temaDeReunion -> new TemaDeReunionResource().votarTema(otherUser, temaDeReunion));
         Assert.assertEquals(temaService.get(unTema.getId()).getInteresados().size(), 1);
     }
 
     @Test(expected = WebApplicationException.class)
     public void NosePuedeAgregarUnVotoEnUnTemaConMasDe3VotosDelUsuario() {
-        TemaDeReunion unTema = temaService.save(TemaDeReunion.create());
+        TemaDeReunion unTema = temaService.save(TemaDeReunionConDescripcion.create());
         temaService.updateAndMapping(unTema.getId(), temaDeReunion -> new TemaDeReunionResource().votarTema(otherUser, temaDeReunion));
         temaService.updateAndMapping(unTema.getId(), temaDeReunion -> new TemaDeReunionResource().votarTema(otherUser, temaDeReunion));
         temaService.updateAndMapping(unTema.getId(), temaDeReunion -> new TemaDeReunionResource().votarTema(otherUser, temaDeReunion));
@@ -206,7 +206,7 @@ public class TemasServiceTest {
 
     @Test
     public void sePuedeQuitarUnVotoEnUnTemaConVotosDelUsuario() {
-        TemaDeReunion unTema = temaService.save(TemaDeReunion.create());
+        TemaDeReunion unTema = temaService.save(TemaDeReunionConDescripcion.create());
         temaService.updateAndMapping(unTema.getId(), temaDeReunion -> new TemaDeReunionResource().votarTema(otherUser, temaDeReunion));
         temaService.updateAndMapping(unTema.getId(), temaDeReunion -> new TemaDeReunionResource().desvotarTema(otherUser, temaDeReunion));
 
@@ -215,7 +215,7 @@ public class TemasServiceTest {
 
     @Test(expected = WebApplicationException.class)
     public void NoSePuedeQuitarUnVotoEnUnTemaSinVotosDelUsuario() {
-        TemaDeReunion unTema = temaService.save(TemaDeReunion.create());
+        TemaDeReunion unTema = temaService.save(TemaDeReunionConDescripcion.create());
         temaService.updateAndMapping(unTema.getId(), temaDeReunion -> new TemaDeReunionResource().desvotarTema(otherUser, temaDeReunion));
 
 
@@ -223,11 +223,11 @@ public class TemasServiceTest {
 
     @Test
     public void siUnaReunionEstaCerradaSeRecuperaConOrdenDePrioridad() {
-        TemaDeReunion temaDeMayorPrioridad = TemaDeReunion.create();
+        TemaDeReunion temaDeMayorPrioridad = TemaDeReunionConDescripcion.create();
         temaDeMayorPrioridad.setPrioridad(1);
-        TemaDeReunion temaDeMenorPrioridad = TemaDeReunion.create();
+        TemaDeReunion temaDeMenorPrioridad = TemaDeReunionConDescripcion.create();
         temaDeMenorPrioridad.setPrioridad(4);
-        TemaDeReunion temaDePrioridadMedia = TemaDeReunion.create();
+        TemaDeReunion temaDePrioridadMedia = TemaDeReunionConDescripcion.create();
         temaDePrioridadMedia.setPrioridad(2);
         Reunion unaReunion = Reunion.create(LocalDate.now());
         unaReunion.setTemasPropuestos(Arrays.asList(temaDeMenorPrioridad, temaDeMayorPrioridad, temaDePrioridadMedia));
@@ -251,7 +251,7 @@ public class TemasServiceTest {
 
     @Test
     public void seObtieneCorrectamenteLaObligatoriedadDeUnTema(){
-        TemaDeReunion temaDeLaReunion = TemaDeReunion.create();
+        TemaDeReunion temaDeLaReunion = TemaDeReunionConDescripcion.create();
         temaDeLaReunion.setObligatoriedad(ObligatoriedadDeTema.OBLIGATORIO);
 
         temaDeLaReunion = temaService.save(temaDeLaReunion);
@@ -265,7 +265,7 @@ public class TemasServiceTest {
         Reunion reunion = new Reunion();
         reunion = reunionService.save(reunion);
 
-        TemaDeReunion tema =TemaDeReunion.create();
+        TemaDeReunion tema =TemaDeReunionConDescripcion.create();
         tema.setReunion(reunion);
         tema.setObligatoriedad(ObligatoriedadDeTema.OBLIGATORIO);
         tema.setDescripcion("una descripción");
@@ -277,7 +277,7 @@ public class TemasServiceTest {
 
     @Test
     public void alRecibirUnTemaDelFrontendSeRecibeSuMomentoDeCreacion(){
-        TemaDeReunion tema = new TemaDeReunion();
+        TemaDeReunion tema = new TemaDeReunionConDescripcion();
         tema = temaService.save(tema);
 
         TemaTo temaEnviado = temaDeReunionResource.getSingle(tema.getId());
@@ -294,7 +294,7 @@ public class TemasServiceTest {
     @Test
     public void alRecibirUnaReunionDelFrontendSusTemasTienenMomentoDeCreacion(){
         Reunion reunion = new Reunion();
-        TemaDeReunion tema = TemaDeReunion.create();
+        TemaDeReunion tema = TemaDeReunionConDescripcion.create();
         tema.setReunion(reunion);
         reunion = reunionService.save(reunion);
         temaService.save(tema);

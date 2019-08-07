@@ -26,7 +26,7 @@ public class TemaDeReunionTest {
 
     @Test
     public void test01AlAgregarUnInteresadoAlTemaLaCantidadDeVotosAumentaEn1() throws Exception {
-        TemaDeReunion unTema = TemaDeReunion.create();
+        TemaDeReunion unTema = TemaDeReunionConDescripcion.create();
         Usuario unUsuario = new Usuario();
         unTema.agregarInteresado(unUsuario);
         Assert.assertEquals(1, unTema.getCantidadDeVotos());
@@ -34,7 +34,7 @@ public class TemaDeReunionTest {
 
     @Test
     public void test02AlBorrarUnInteresadoDelTemaLaCantidadDeVotosDisminuyeEn1() throws Exception {
-        TemaDeReunion unTema = TemaDeReunion.create();
+        TemaDeReunion unTema = TemaDeReunionConDescripcion.create();
         Usuario unUsuario = new Usuario();
         unTema.agregarInteresado(unUsuario);
         unTema.quitarInteresado(unUsuario);
@@ -123,7 +123,7 @@ public class TemaDeReunionTest {
 
     @Test
     public void test11UnTemaDeReunionSabeCuandoNoFueGeneradoPorUnTemaGeneral(){
-        TemaDeReunion temaDeReunion = TemaDeReunion.create();
+        TemaDeReunion temaDeReunion = TemaDeReunionConDescripcion.create();
         Assert.assertFalse(temaDeReunion.fueGeneradoPorUnTemaGeneral());
     }
 
