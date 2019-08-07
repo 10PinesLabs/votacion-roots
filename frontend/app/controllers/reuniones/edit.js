@@ -250,8 +250,9 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
       },
 
       proponerPino(pino) {
-        this.reunionService().proponerPino(this.get('reunion'), pino).then(() => {
+        this.reunionService().proponerPino(this.get('reunion'), pino).then((reunion) => {
           this._ocultarEditorDeProponerPino();
+          this._actualizarreunionCon(reunion);
         });
       },
 
