@@ -48,18 +48,8 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
       this._colapsarTexto();
       this._ocultarDetalle();
     },
-    agregarActionItem() {
-      this._agregarNuevoActionItem();
-    },
     ocultarAgregadoActionItem() {
       this.set('agregarItem', false);
-    },
-    soloGuardar(actionItem) {
-      this._guardar(actionItem).then(() => this._recargarLista());
-    },
-    guardarYCrearOtro(actionItem) {
-      this._guardar(actionItem);
-      this._agregarNuevoActionItem();
     },
   },
 
