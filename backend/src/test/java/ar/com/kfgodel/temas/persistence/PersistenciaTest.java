@@ -54,6 +54,11 @@ public class PersistenciaTest {
         application.injector().bindTo(MinutaService.class, minutaService);
         application.injector().bindTo(UsuarioService.class, usuarioService);
         application.injector().bindTo(TemaDeMinutaService.class, temaDeMinutaService);
+
+        minutaService.deleteAll();
+        reunionService.deleteAll();
+        temaService.deleteAll();
+        temaGeneralService.deleteAll();
     }
     @After
     public void drop(){

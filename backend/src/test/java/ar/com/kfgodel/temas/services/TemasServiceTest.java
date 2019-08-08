@@ -72,6 +72,8 @@ public class TemasServiceTest {
         otherUser = usuarioService.getAll().stream().filter(userTo -> !userTo.getId().equals(userId)).findFirst().get();
         otherUserId = otherUser.getId();
 
+        temaService.deleteAll();
+        reunionService.deleteAll();
     }
 
     @After
