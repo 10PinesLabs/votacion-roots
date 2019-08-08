@@ -23,21 +23,6 @@ public class TemaDeReunionResourceTest extends ResourceTest {
     public static final String CAMPO_DE_TIPO = "tipo";
 
     private TestHelper helper = new TestHelper();
-    private TemaService temaService;
-    private UsuarioService usuarioService;
-
-    @Before
-    public void setUp() throws IOException {
-        super.setUp();
-        TemaDeReunionResource.create(getInjector());
-        temaService = getInjector().getImplementationFor(TemaService.class).get();
-        usuarioService = getInjector().createInjected(UsuarioService.class);
-    }
-
-    @After
-    public void tearDown() {
-        temaService.deleteAll();
-    }
 
     @Test
     public void testGetDeTemaDeReunionDistingueTemasParaProponerPinosARoot() throws IOException {

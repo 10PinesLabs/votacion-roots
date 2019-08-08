@@ -13,7 +13,9 @@ import convention.persistent.PersistableSupport;
 import javax.inject.Inject;
 import javax.ws.rs.WebApplicationException;
 import java.lang.reflect.Type;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 /**
@@ -138,4 +140,10 @@ public abstract class Service<T extends PersistableSupport> {
                 .insideATransaction()
                 .apply(Delete.create(anObject));
     }
+
+    public void deleteAll() {
+        getAll().forEach(anObject -> delete(anObject));
+    }
+
+    protected abstract Collection<T> getAll();
 }

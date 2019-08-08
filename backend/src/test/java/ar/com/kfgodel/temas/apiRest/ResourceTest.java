@@ -5,6 +5,9 @@ import ar.com.kfgodel.temas.application.Application;
 import ar.com.kfgodel.temas.application.TemasApplication;
 import ar.com.kfgodel.temas.config.AuthenticatedTestConfig;
 import ar.com.kfgodel.temas.config.TemasConfiguration;
+import convention.rest.api.ReunionResource;
+import convention.rest.api.TemaDeReunionResource;
+import convention.services.*;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
@@ -14,6 +17,7 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -70,11 +74,29 @@ public abstract class ResourceTest {
 
 
     private HttpClient client;
+    TemaService temaService;
+    UsuarioService usuarioService;
+    ReunionService reunionService;
+    MinutaService minutaService;
+    TemaGeneralService temaGeneralService;
 
     @Before
     public void setUp() throws IOException {
         client = HttpClientBuilder.create().build();
         getClient().execute(new HttpGet(pathRelativeToHost("j_security_check")));
+
+        ReunionResource.create(getInjector());
+        TemaDeReunionResource.create(getInjector());
+        reunionService = getInjector().getImplementationFor(ReunionService.class).get();
+        temaService = getInjector().getImplementationFor(TemaService.class).get();
+        temaGeneralService = getInjector().createInjected(TemaGeneralService.class);
+        usuarioService = getInjector().createInjected(UsuarioService.class);
+        minutaService = getInjector().createInjected(MinutaService.class);
+
+        minutaService.deleteAll();
+        reunionService.deleteAll();
+        temaService.deleteAll();
+        temaGeneralService.deleteAll();
     }
 
     private String pathRelativeToHost(String aRelativePath) {
