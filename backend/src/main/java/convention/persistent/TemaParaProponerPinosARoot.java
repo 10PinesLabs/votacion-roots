@@ -75,8 +75,4 @@ public class TemaParaProponerPinosARoot extends TemaDeReunion {
     public Boolean esParaProponerPinosARoot() {
         return true;
     }
-
-    public void sacarPropuesta(PropuestaDePinoARoot unaPropuesta) {
-        propuestas.clear();
-    }
 }
