@@ -146,7 +146,7 @@ public abstract class TemaDeReunion extends Tema {
     }
 
     public Boolean puedeSerVotado() {
-        return obligatoriedad.permiteRecibirVotos();
+        return getObligatoriedad().permiteRecibirVotos();
     }
 
     public Boolean fueGeneradoPorUnTemaGeneral() {

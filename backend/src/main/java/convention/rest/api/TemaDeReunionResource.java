@@ -54,13 +54,13 @@ public class TemaDeReunionResource {
 
     @GET
     @Path("votar/{resourceId}")
-    public TemaTo votar(@PathParam("resourceId") Long id, @Context SecurityContext securityContext) {
+    public TemaDeReunionTo votar(@PathParam("resourceId") Long id, @Context SecurityContext securityContext) {
 
         Usuario usuarioActual = getResourceHelper().usuarioActual(securityContext);
 
         TemaDeReunion temaVotado = temaService.updateAndMapping(id,
                 temaDeReunion -> votarTema(usuarioActual, temaDeReunion));
-        return getResourceHelper().convertir(temaVotado, TemaTo.class);
+        return getResourceHelper().convertir(temaVotado, TemaDeReunionTo.class);
     }
 
     public TemaDeReunion votarTema(Usuario usuarioActual, TemaDeReunion temaDeReunion) {

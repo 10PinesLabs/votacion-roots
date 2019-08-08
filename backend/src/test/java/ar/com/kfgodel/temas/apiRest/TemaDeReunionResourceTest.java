@@ -1,10 +1,7 @@
 package ar.com.kfgodel.temas.apiRest;
 
 import ar.com.kfgodel.temas.helpers.TestHelper;
-import convention.persistent.PropuestaDePinoARoot;
-import convention.persistent.TemaDeReunionConDescripcion;
-import convention.persistent.TemaParaProponerPinosARoot;
-import convention.persistent.Usuario;
+import convention.persistent.*;
 import convention.rest.api.TemaDeReunionResource;
 import convention.services.TemaService;
 import convention.services.UsuarioService;
@@ -56,6 +53,17 @@ public class TemaDeReunionResourceTest extends ResourceTest {
         makeDeleteRequest("temas/" + idTema);
 
         assertThat(temaService.getAll()).hasSize(0);
+    }
+
+    @Test
+    public void testSePuedeVotarUnTemaParaProponerPinosARoot() throws IOException {
+        TemaParaProponerPinosARoot unTemaParaProponerPinos = crearUnTemaParaProponerPinosARoot();
+        Long idTema = unTemaParaProponerPinos.getId();
+
+        makeGetRequest("temas/votar/" + idTema);
+
+        TemaDeReunion temaActualizado = temaService.get(idTema);
+        assertThat(temaActualizado.getCantidadDeVotos()).isEqualTo(1);
     }
 
     private TemaDeReunionConDescripcion crearUnTemaDeReunionConDescripcion() {
