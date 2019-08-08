@@ -2,15 +2,9 @@ package ar.com.kfgodel.temas.apiRest;
 
 import ar.com.kfgodel.temas.helpers.TestHelper;
 import convention.persistent.*;
-import convention.rest.api.ReunionResource;
-import convention.services.ReunionService;
-import convention.services.TemaService;
-import convention.services.UsuarioService;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
-import org.json.JSONArray;
 import org.json.JSONObject;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -22,18 +16,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ReunionResourceTest extends ResourceTest {
 
     private TestHelper helper = new TestHelper();
-    private ReunionService reunionService;
-    private TemaService temaService;
-    private UsuarioService usuarioService;
-
-    @Before
-    public void setUp() throws IOException {
-        super.setUp();
-        ReunionResource.create(getInjector());
-        reunionService = getInjector().getImplementationFor(ReunionService.class).get();
-        temaService = getInjector().getImplementationFor(TemaService.class).get();
-        usuarioService = getInjector().createInjected(UsuarioService.class);
-    }
 
     @Test
     public void testProponerPinoComoRootAgregaUnTemaALaReunion() throws IOException {
