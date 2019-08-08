@@ -7,7 +7,7 @@ import UserServiceInjected from "../mixins/user-service-injected";
 export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaServiceInjected, NavigatorInjected, UserServiceInjected, {
   classNames: ['card'],
 
-  mostrarDetalle: false,
+  mostrandoDetalle: false,
   textoExtendido: false,
   agregarItem: false,
 
@@ -19,11 +19,26 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
     return this.get('temaDeMinuta').fueTratado;
   }),
 
+  mostrarFlagActionItems: Ember.computed(function () {
+    return (this.get('temaDeMinuta').fueTratado || !this.get('editable')) &&
+      this.get('temaDeMinuta').actionItems.length;
+  }),
+
+  mostrarDescripcion: Ember.computed('mostrandoDetalle', function () {
+    return (this.get('editable') && !this.get('temaTratado')) ||
+      this.get('mostrandoDetalle');
+  }),
+
+  mostrarSwitchTratado: Ember.computed('mostrandoDetalle', function () {
+    return this.get('editable') &&
+      (!this.get('temaTratado') || this.get('mostrandoDetalle'));
+  }),
+
   actions: {
-    expandirDescripcion(){
+    expandirDescripcion() {
       this._extenderTexto();
     },
-    colapsarDescripcion(){
+    colapsarDescripcion() {
       this._colapsarTexto();
     },
     verDetalleDeTema() {
@@ -48,10 +63,10 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
     },
   },
 
-  _extenderTexto(){
+  _extenderTexto() {
     this.set('textoExtendido', true);
   },
-  _colapsarTexto(){
+  _colapsarTexto() {
     this.set('textoExtendido', false);
   },
   _mostrarDetalle() {
