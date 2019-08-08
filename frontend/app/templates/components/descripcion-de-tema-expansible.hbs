@@ -3,7 +3,7 @@
   {{#if esTemaDeProponerPino}}
       <p>
         {{#each tema.propuestas as |propuesta|}}
-          Pino: {{propuesta.pino}}, Sponsor: {{propuesta.sponsor.name}} <br>
+          <b>Pino</b> {{propuesta.pino}} ⇨ <b>Sponsor</b> {{propuesta.sponsor.name}} <br>
         {{/each}}
       </p>
   {{else}}
