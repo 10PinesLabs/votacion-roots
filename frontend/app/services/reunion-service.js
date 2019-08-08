@@ -37,7 +37,7 @@ export default Ember.Service.extend(EmberizedResourceCreatorInjected, {
     return this._minutaReunionResource().getSingle(reunion);
   },
   proponerPino(reunion, pino){
-    return this._proponerPinoEnReunionResource(reunion.id).create({pino: pino})
+    return promiseHandling(this._proponerPinoEnReunionResource(reunion.id).create({pino: pino}))
   },
 
   // PRIVATE
