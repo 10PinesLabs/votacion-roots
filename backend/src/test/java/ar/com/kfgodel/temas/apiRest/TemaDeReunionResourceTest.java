@@ -1,6 +1,7 @@
 package ar.com.kfgodel.temas.apiRest;
 
 import ar.com.kfgodel.temas.helpers.TestHelper;
+import convention.persistent.PropuestaDePinoARoot;
 import convention.persistent.TemaDeReunionConDescripcion;
 import convention.persistent.TemaParaProponerPinosARoot;
 import convention.persistent.Usuario;
@@ -9,6 +10,7 @@ import convention.services.TemaService;
 import convention.services.UsuarioService;
 import org.apache.http.HttpResponse;
 import org.json.JSONObject;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,6 +34,11 @@ public class TemaDeReunionResourceTest extends ResourceTest {
         usuarioService = getInjector().createInjected(UsuarioService.class);
     }
 
+    @After
+    public void tearDown() {
+        temaService.deleteAll();
+    }
+
     @Test
     public void testGetDeTemaDeReunionDistingueTemasParaProponerPinosARoot() throws IOException {
         Long idTema = crearUnTemaParaProponerPinosARoot().getId();
@@ -50,6 +57,20 @@ public class TemaDeReunionResourceTest extends ResourceTest {
 
         JSONObject responseJson = new JSONObject(getResponseBody(response));
         assertThat(responseJson.getString(CAMPO_DE_TIPO)).isEqualTo("conDescripcion");
+    }
+
+    @Test
+    public void testSePuedeEliminarUnTemaParaProponerPinosARoot() throws IOException {
+        Usuario unUsuario = unUsuarioPersistido();
+        TemaParaProponerPinosARoot unTemaParaProponerPinos = TemaParaProponerPinosARoot.create(unUsuario);
+        PropuestaDePinoARoot unaPropuesta = new PropuestaDePinoARoot(helper.unPino(), unUsuarioPersistido());
+        unTemaParaProponerPinos.agregarPropuesta(unaPropuesta);
+        temaService.save(unTemaParaProponerPinos);
+        Long idTema = unTemaParaProponerPinos.getId();
+
+        makeDeleteRequest("temas/" + idTema);
+
+        assertThat(temaService.getAll()).hasSize(0);
     }
 
     private TemaDeReunionConDescripcion crearUnTemaDeReunionConDescripcion() {

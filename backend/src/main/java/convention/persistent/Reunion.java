@@ -32,9 +32,6 @@ public class Reunion extends PersistableSupport {
 
     public static final String temasPropuestos_FIELD = "temasPropuestos";
 
-    @OneToOne
-    private TemaParaProponerPinosARoot temaParaProponerPinosComoRoot;
-
     public LocalDate getFecha() {
         return fecha;
     }
@@ -121,12 +118,18 @@ public class Reunion extends PersistableSupport {
     }
 
     public void proponerPinoComoRoot(String unPino, Usuario unSponsor) {
-        if (temaParaProponerPinosComoRoot == null) {
-            temaParaProponerPinosComoRoot = new TemaParaProponerPinosARoot();
-            temaParaProponerPinosComoRoot.setReunion(this);
-            temasPropuestos.add(temaParaProponerPinosComoRoot);
+        TemaParaProponerPinosARoot temaParaProponerPinos = temaParaProponerPinosARoot();
+        if (temaParaProponerPinos == null) {
+            temaParaProponerPinos = new TemaParaProponerPinosARoot();
+            temaParaProponerPinos.setReunion(this);
+            temasPropuestos.add(temaParaProponerPinos);
         }
         PropuestaDePinoARoot propuesta = new PropuestaDePinoARoot(unPino, unSponsor);
-        temaParaProponerPinosComoRoot.agregarPropuesta(propuesta);
+        temaParaProponerPinos.agregarPropuesta(propuesta);
+    }
+
+    TemaParaProponerPinosARoot temaParaProponerPinosARoot() {
+        return (TemaParaProponerPinosARoot) getTemasPropuestos().stream()
+                .filter(TemaDeReunion::esParaProponerPinosARoot).findFirst().orElse(null);
     }
 }

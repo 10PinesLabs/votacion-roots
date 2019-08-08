@@ -7,6 +7,7 @@ import ar.com.kfgodel.temas.config.AuthenticatedTestConfig;
 import ar.com.kfgodel.temas.config.TemasConfiguration;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
@@ -104,6 +105,11 @@ public abstract class ResourceTest {
 
     HttpResponse makeGetRequest(String aPathRelativeToApi) throws IOException {
         HttpGet request = new HttpGet(pathRelativeToApi(aPathRelativeToApi));
+        return getClient().execute(request);
+    }
+
+    HttpResponse makeDeleteRequest(String aPathRelativeToApi) throws IOException {
+        HttpDelete request = new HttpDelete(pathRelativeToApi(aPathRelativeToApi));
         return getClient().execute(request);
     }
 

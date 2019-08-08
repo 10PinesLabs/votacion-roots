@@ -106,8 +106,8 @@ public class TemaDeReunionResource {
     @DELETE
     @Path("/{resourceId}")
     public void delete(@PathParam("resourceId") Long id) {
-
-        temaService.delete(id);
+        TemaDeReunion tema = temaService.get(id);
+        temaService.delete(tema);
     }
 
     public static TemaDeReunionResource create(DependencyInjector appInjector) {

@@ -132,4 +132,10 @@ public abstract class Service<T extends PersistableSupport> {
     public void updateAll(List<T> newObjects) {
         newObjects.forEach(newObject -> this.update(newObject));
     }
+
+    public void delete(T anObject) {
+        createOperation()
+                .insideATransaction()
+                .apply(Delete.create(anObject));
+    }
 }
