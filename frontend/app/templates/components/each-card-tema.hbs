@@ -39,7 +39,8 @@
         {{#unless estaCerrada}}
           {{#unless tema.esObligatorio}}
 
-            <button type="button" id="agregar-button" {{action sumarVoto tema}} class="btn-flat bold btn fit-content-height"
+            <button type="button" id="agregar-button" {{action sumarVoto tema}}
+                    class="btn-flat bold btn fit-content-height"
                     disabled={{votarDisabled}}>
 
               <div class="flex-center">
@@ -69,8 +70,11 @@
 
           <div id="edit-menu">
             {{#tenpines/drop-down icon='more_vert' removeBtn=true }}
-              <li class="light-grey" {{action mostrarFormularioDeEdicion tema}}>
-                <a class="black-text">Editar</a></li>
+              {{#unless esTemaDeProponerPino}}
+                <li class="light-grey" {{action mostrarFormularioDeEdicion tema}}>
+                  <a class="black-text">Editar</a>
+                </li>
+              {{/unless}}
               <li class="divider"></li>
               <li class="light-grey"><a class="black-text" {{action borrarTemaElegido tema}}>Eliminar</a></li>
             {{/tenpines/drop-down }}
