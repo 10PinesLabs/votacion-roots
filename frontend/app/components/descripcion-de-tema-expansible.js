@@ -1,6 +1,10 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+  esTemaDeProponerPino: Ember.computed('tema', function(){
+    debugger
+    return this.get('tema.tipo') === "proponerPinos";
+  }),
   didInsertElement() {
     Ember.run.scheduleOnce('afterRender', this, this.measureDescriptionAndSet);
   },
