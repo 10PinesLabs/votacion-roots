@@ -6,7 +6,6 @@ import convention.persistent.TemaDeReunionConDescripcion;
 import convention.persistent.Usuario;
 import convention.rest.api.tos.TemaDeReunionTo;
 import convention.rest.api.tos.TemaEnCreacionTo;
-import convention.rest.api.tos.TemaTo;
 import convention.services.TemaService;
 
 import javax.inject.Inject;
@@ -28,22 +27,22 @@ public class TemaDeReunionResource {
     private ResourceHelper resourceHelper;
 
     @POST
-    public TemaTo create(TemaEnCreacionTo newState, @Context SecurityContext securityContext) {
+    public TemaDeReunionTo create(TemaEnCreacionTo newState, @Context SecurityContext securityContext) {
         TemaDeReunionConDescripcion temaCreado = getResourceHelper().convertir(newState, TemaDeReunionConDescripcion.class);
         Usuario modificador = getResourceHelper().usuarioActual(securityContext);
         temaCreado.setUltimoModificador(modificador);
         temaService.save(temaCreado);
-        return getResourceHelper().convertir(temaCreado, TemaTo.class);
+        return getResourceHelper().convertir(temaCreado, TemaDeReunionTo.class);
     }
 
     @Path("/{resourceId}")
     @PUT
-    public TemaTo update(TemaTo newState, @PathParam("resourceId") Long id, @Context SecurityContext securityContext) {
+    public TemaDeReunionTo update(TemaDeReunionTo newState, @PathParam("resourceId") Long id, @Context SecurityContext securityContext) {
         TemaDeReunionConDescripcion estadoNuevo = getResourceHelper().convertir(newState, TemaDeReunionConDescripcion.class);
         Usuario modificador = getResourceHelper().usuarioActual(securityContext);
         estadoNuevo.setUltimoModificador(modificador);
         TemaDeReunion temaUpdateado = temaService.update(estadoNuevo);
-        return getResourceHelper().convertir(temaUpdateado, TemaTo.class);
+        return getResourceHelper().convertir(temaUpdateado, TemaDeReunionTo.class);
     }
 
     @GET
@@ -81,14 +80,14 @@ public class TemaDeReunionResource {
 
     @GET
     @Path("desvotar/{resourceId}")
-    public TemaTo desvotar(@PathParam("resourceId") Long id, @Context SecurityContext securityContext) {
+    public TemaDeReunionTo desvotar(@PathParam("resourceId") Long id, @Context SecurityContext securityContext) {
 
         Usuario usuarioActual = getResourceHelper().usuarioActual(securityContext);
 
         TemaDeReunion temaVotado = temaService.updateAndMapping(id,
                 temaDeReunion -> desvotarTema(usuarioActual, temaDeReunion)
         );
-        return getResourceHelper().convertir(temaVotado, TemaTo.class);
+        return getResourceHelper().convertir(temaVotado, TemaDeReunionTo.class);
 
     }
 

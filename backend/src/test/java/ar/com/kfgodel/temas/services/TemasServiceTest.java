@@ -15,7 +15,7 @@ import convention.rest.api.ReunionResource;
 import convention.rest.api.TemaDeReunionResource;
 import convention.rest.api.TemaGeneralResource;
 import convention.rest.api.tos.ReunionTo;
-import convention.rest.api.tos.TemaTo;
+import convention.rest.api.tos.TemaDeReunionTo;
 import convention.services.ReunionService;
 import convention.services.TemaService;
 import convention.services.UsuarioService;
@@ -103,7 +103,7 @@ public class TemasServiceTest {
 
         ReunionTo reunionSolicitada = reunionResource.getSingle(reunion.getId(), testContextUserFeche);
 
-        TemaTo tema = reunionSolicitada.getTemasPropuestos().get(0);
+        TemaDeReunionTo tema = reunionSolicitada.getTemasPropuestos().get(0);
         Assert.assertEquals(tema.getIdsDeInteresados().size(), 1);
     }
 
@@ -127,7 +127,7 @@ public class TemasServiceTest {
 
         ReunionTo reunionSolicitada = reunionResource.getSingle(reunion.getId(), testContextUserFeche);
 
-        TemaTo tema = reunionSolicitada.getTemasPropuestos().get(0);
+        TemaDeReunionTo tema = reunionSolicitada.getTemasPropuestos().get(0);
         Assert.assertEquals(tema.getIdsDeInteresados().size(), 3);
     }
 
@@ -258,7 +258,7 @@ public class TemasServiceTest {
 
         temaDeLaReunion = temaService.save(temaDeLaReunion);
 
-        TemaTo temaPersistido = temaDeReunionResource.getSingle(temaDeLaReunion.getId());
+        TemaDeReunionTo temaPersistido = temaDeReunionResource.getSingle(temaDeLaReunion.getId());
         Assert.assertEquals("OBLIGATORIO", temaPersistido.getObligatoriedad());
     }
 
