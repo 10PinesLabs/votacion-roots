@@ -65,8 +65,4 @@ public class TemaService extends Service<TemaDeReunion> {
             this.update(tema);
         }
     }
-
-    public void deleteAll() {
-        getAll().forEach(this::delete);
-    }
 }
