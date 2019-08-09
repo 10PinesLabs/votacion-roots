@@ -27,7 +27,11 @@
   {{#if mostrandoDetalle }}
     <div class="tema-horizontal-margin">
       <h4 class="gray-subtitle">Conclusiones</h4>
+      {{#if editable}}
       {{text-area value=temaDeMinuta.conclusion}}
+      {{else}}
+        <p>{{temaDeMinuta.conclusion}}</p>
+      {{/if}}
     </div>
     <li class="divider"></li>
     {{#if editable}}
