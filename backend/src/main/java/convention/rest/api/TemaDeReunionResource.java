@@ -3,6 +3,7 @@ package convention.rest.api;
 import ar.com.kfgodel.dependencies.api.DependencyInjector;
 import convention.persistent.TemaDeReunion;
 import convention.persistent.TemaDeReunionConDescripcion;
+import convention.persistent.TemaParaProponerPinosARoot;
 import convention.persistent.Usuario;
 import convention.rest.api.tos.TemaDeReunionTo;
 import convention.rest.api.tos.TemaEnCreacionTo;
@@ -30,6 +31,10 @@ public class TemaDeReunionResource {
     @POST
     public TemaDeReunionTo create(TemaEnCreacionTo newState, @Context SecurityContext securityContext) {
         TemaDeReunionConDescripcion temaCreado = getResourceHelper().convertir(newState, TemaDeReunionConDescripcion.class);
+        if(temaCreado.getTitulo().equals(TemaParaProponerPinosARoot.TITULO)) {
+            throw new WebApplicationException("No puede haber 2 temas de proponer pino a roots", 409);
+        }
+
         Usuario modificador = getResourceHelper().usuarioActual(securityContext);
         temaCreado.setUltimoModificador(modificador);
         temaService.save(temaCreado);
@@ -40,6 +45,9 @@ public class TemaDeReunionResource {
     @PUT
     public TemaDeReunionTo update(TemaDeReunionTo newState, @PathParam("resourceId") Long id, @Context SecurityContext securityContext) {
         TemaDeReunionConDescripcion estadoNuevo = getResourceHelper().convertir(newState, TemaDeReunionConDescripcion.class);
+        if(estadoNuevo.getTitulo().equals(TemaParaProponerPinosARoot.TITULO)) {
+            throw new WebApplicationException("No puede haber 2 temas de proponer pino a roots", 409);
+        }
         Usuario modificador = getResourceHelper().usuarioActual(securityContext);
         estadoNuevo.setUltimoModificador(modificador);
         TemaDeReunion temaUpdateado = temaService.update(estadoNuevo);
