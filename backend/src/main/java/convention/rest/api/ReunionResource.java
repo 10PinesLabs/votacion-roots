@@ -141,9 +141,9 @@ public class ReunionResource {
 
         Reunion reunion = reunionService.get(id);
         reunion.proponerPinoComoRoot(propuesta.getPino(), getResourceHelper().usuarioActual(securityContext));
-        reunionService.save(reunion);
+        Reunion nuevaReunion = reunionService.save(reunion);
 
-        ReunionTo reunionTo = getResourceHelper().convertir(reunion, ReunionTo.class);
+        ReunionTo reunionTo = getResourceHelper().convertir(nuevaReunion, ReunionTo.class);
 
         return Response.status(HttpServletResponse.SC_CREATED).entity(reunionTo).build();
     }
