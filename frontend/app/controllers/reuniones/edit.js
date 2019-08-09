@@ -186,6 +186,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
           this._traerDuraciones().then(() => {
             this.set('temaAEditar', Tema.create({}));
             this.set('temaAEditar.id', tema.id);
+            this.set('temaAEditar.tipo', tema.tipo);
             this.set('temaAEditar.duracion', tema.duracion);
             this.set('temaAEditar.idDeAutor', tema.idDeAutor);
             this.set('temaAEditar.ultimoModificador', tema.ultimoModificador);
