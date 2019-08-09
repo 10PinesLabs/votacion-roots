@@ -141,17 +141,6 @@ public class PersistenciaTest {
     }
 
     @Test
-    public void test07AlGuardarUnaReunionSeAgreganLosTemasGeneralesCorrespondientes(){
-        TemaGeneral temaGeneral = new TemaGeneral();
-        temaGeneralService.save(temaGeneral);
-        Reunion reunion = Reunion.create(LocalDate.of(2017, 06, 26));
-
-        reunion = reunionService.save(reunion);
-
-        Assert.assertEquals(1, reunionService.get(reunion.getId()).getTemasPropuestos().size());
-    }
-
-    @Test
     public void test08AlGuardarUnTemaGeneralElMismoSeAgregaATodasLasReunionesAbiertas(){
         Reunion reunionAbierta = Reunion.create(LocalDate.of(2017, 06, 26));
         reunionAbierta = reunionService.save(reunionAbierta);
