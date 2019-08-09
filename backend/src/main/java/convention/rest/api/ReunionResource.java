@@ -8,6 +8,7 @@ import convention.persistent.TemaDeReunion;
 import convention.rest.api.tos.PropuestaDePinoARootTo;
 import convention.rest.api.tos.ReunionTo;
 import convention.services.ReunionService;
+import convention.services.TemaGeneralService;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
@@ -33,6 +34,9 @@ public class ReunionResource {
 
     @Inject
     private ReunionService reunionService;
+
+    @Inject
+    private TemaGeneralService temaGeneralService;
 
     private ResourceHelper resourceHelper;
 
@@ -96,9 +100,11 @@ public class ReunionResource {
     }
 
     @POST
-    public ReunionTo create(ReunionTo reunionNueva) {
+    public ReunionTo create(ReunionTo reunionNuevaTo) {
 
-        Reunion reunionCreada = reunionService.save(getResourceHelper().convertir(reunionNueva, Reunion.class));
+        Reunion nuevaReunion = getResourceHelper().convertir(reunionNuevaTo, Reunion.class);
+        nuevaReunion.agregarTemasGenerales(temaGeneralService.getAll());
+        Reunion reunionCreada = reunionService.save(nuevaReunion);
         return getResourceHelper().convertir(reunionCreada, ReunionTo.class);
     }
 

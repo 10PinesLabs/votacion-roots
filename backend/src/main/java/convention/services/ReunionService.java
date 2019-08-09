@@ -47,13 +47,6 @@ public class ReunionService extends Service<Reunion> {
     super.delete(id);
   }
 
-  @Override
-  public Reunion save(Reunion nuevaReunion) {
-    List<TemaGeneral> temasGenerales = temaGeneralService.getAll();
-    nuevaReunion.agregarTemasGenerales(temasGenerales);
-    return super.save(nuevaReunion);
-  }
-
   public Reunion getUltimaReunion() {
     return getAll(UltimaReunion.create()).stream().findFirst().get();
   }
