@@ -101,7 +101,7 @@ public class Reunion extends PersistableSupport {
     }
 
     public void agregarTema(TemaDeReunion temaNuevo) {
-        if (temaNuevo.getTitulo() == TemaParaProponerPinosARoot.TITULO) {
+        if (temaNuevo.getTitulo().equals(TemaParaProponerPinosARoot.TITULO)) {
             throw new RuntimeException(AGREGAR_TEMA_PARA_PROPONER_PINOS_COMO_ROOT_ERROR_MSG);
         }
         temasPropuestos.add(temaNuevo);
@@ -118,18 +118,20 @@ public class Reunion extends PersistableSupport {
     }
 
     public void proponerPinoComoRoot(String unPino, Usuario unSponsor) {
-        TemaParaProponerPinosARoot temaParaProponerPinos = temaParaProponerPinosARoot();
-        if (temaParaProponerPinos == null) {
-            temaParaProponerPinos = new TemaParaProponerPinosARoot();
-            temaParaProponerPinos.setReunion(this);
-            temasPropuestos.add(temaParaProponerPinos);
-        }
         PropuestaDePinoARoot propuesta = new PropuestaDePinoARoot(unPino, unSponsor);
-        temaParaProponerPinos.agregarPropuesta(propuesta);
+        getTemaParaProponerPinosARoot().agregarPropuesta(propuesta);
     }
 
-    TemaParaProponerPinosARoot temaParaProponerPinosARoot() {
+    private TemaParaProponerPinosARoot getTemaParaProponerPinosARoot() {
         return (TemaParaProponerPinosARoot) getTemasPropuestos().stream()
-                .filter(TemaDeReunion::esParaProponerPinosARoot).findFirst().orElse(null);
+                .filter(TemaDeReunion::esParaProponerPinosARoot).findFirst()
+                .orElseGet(this::crearTemaParaProponerPinosARoot);
+    }
+
+    private TemaParaProponerPinosARoot crearTemaParaProponerPinosARoot(){
+        TemaParaProponerPinosARoot temaParaProponerPinos = new TemaParaProponerPinosARoot();
+        temaParaProponerPinos.setReunion(this);
+        temasPropuestos.add(temaParaProponerPinos);
+        return temaParaProponerPinos;
     }
 }
