@@ -278,6 +278,22 @@ public class TemasServiceTest {
     }
 
     @Test
+    public void alRecibirUnTemaDelFrontendSeRecibeSuMomentoDeCreacion(){
+        TemaDeReunion tema = new TemaDeReunionConDescripcion();
+        tema = temaService.save(tema);
+
+        TemaTo temaEnviado = temaDeReunionResource.getSingle(tema.getId());
+
+        TemaDeReunion temaRecibido = ApplicationOperation.createFor(app.injector())
+                .insideATransaction()
+                .taking(temaEnviado)
+                .convertingTo(TemaDeReunion.class)
+                .convertTo(TemaDeReunion.class);
+
+        Assert.assertFalse(temaRecibido.getMomentoDeCreacion() == null);
+    }
+
+    @Test
     public void alRecibirUnaReunionDelFrontendSusTemasTienenMomentoDeCreacion(){
         Reunion reunion = new Reunion();
         TemaDeReunion tema = TemaDeReunionConDescripcion.create();
