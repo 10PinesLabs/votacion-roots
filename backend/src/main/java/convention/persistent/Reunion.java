@@ -101,7 +101,7 @@ public class Reunion extends PersistableSupport {
     }
 
     public void agregarTema(TemaDeReunion temaNuevo) {
-        if (temaNuevo.getTitulo().equals(TemaParaProponerPinosARoot.TITULO)) {
+        if (Objects.equals(temaNuevo.getTitulo(), TemaParaProponerPinosARoot.TITULO)) {
             throw new RuntimeException(AGREGAR_TEMA_PARA_PROPONER_PINOS_COMO_ROOT_ERROR_MSG);
         }
         temasPropuestos.add(temaNuevo);
