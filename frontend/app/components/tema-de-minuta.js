@@ -21,7 +21,7 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
 
   mostrarFlagActionItems: Ember.computed(function () {
     return (this.get('temaDeMinuta').fueTratado || !this.get('editable')) &&
-      this.get('temaDeMinuta').actionItems.length;
+      this.get('temaDeMinuta').actionItems && this.get('temaDeMinuta').actionItems.length;
   }),
 
   mostrarDescripcion: Ember.computed('mostrandoDetalle', function () {
