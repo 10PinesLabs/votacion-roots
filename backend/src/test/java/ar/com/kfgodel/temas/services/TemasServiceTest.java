@@ -282,7 +282,7 @@ public class TemasServiceTest {
         TemaDeReunion tema = new TemaDeReunionConDescripcion();
         tema = temaService.save(tema);
 
-        TemaTo temaEnviado = temaDeReunionResource.getSingle(tema.getId());
+        TemaDeReunionTo temaEnviado = temaDeReunionResource.getSingle(tema.getId());
 
         TemaDeReunion temaRecibido = ApplicationOperation.createFor(app.injector())
                 .insideATransaction()

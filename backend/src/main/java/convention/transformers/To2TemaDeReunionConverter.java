@@ -7,10 +7,9 @@ import convention.persistent.TemaParaProponerPinosARoot;
 import convention.rest.api.tos.TemaDeReunionConDescripcionTo;
 import convention.rest.api.tos.TemaDeReunionTo;
 import convention.rest.api.tos.TemaParaProponerPinosARootTo;
-import net.sf.kfgodel.bean2bean.conversion.GeneralTypeConverter;
+import convention.transformers.persistibles.PersistableTo2PersistableConverter;
 import net.sf.kfgodel.bean2bean.conversion.SpecializedTypeConverter;
 import net.sf.kfgodel.bean2bean.conversion.TypeConverter;
-import net.sf.kfgodel.bean2bean.conversion.converters.AnnotatedClassConverter;
 import net.sf.kfgodel.bean2bean.exceptions.CannotConvertException;
 
 import java.lang.annotation.Annotation;
@@ -25,12 +24,12 @@ public class To2TemaDeReunionConverter implements SpecializedTypeConverter<TemaD
     @Override
     public TemaDeReunion convertTo(Type expectedType, TemaDeReunionTo sourceObject, Annotation[] contextAnnotations)
             throws CannotConvertException {
-        return (TemaDeReunion) annotatedClassConverter()
+        return (TemaDeReunion) persistableTo2PersistableConverter()
                 .convertTo(domainClass(sourceObject.getClass()), sourceObject, null);
     }
 
-    private GeneralTypeConverter<Object, Object> annotatedClassConverter() {
-        return baseConverter.getGeneralConverterByName(AnnotatedClassConverter.class.getName());
+    private SpecializedTypeConverter<Object, Object> persistableTo2PersistableConverter() {
+        return baseConverter.getSpecializedConverterByName(PersistableTo2PersistableConverter.class.getName());
     }
 
     private Type domainClass(Class<? extends TemaDeReunionTo> toType) {
