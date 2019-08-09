@@ -24,7 +24,7 @@ public class ReunionResourceTest extends ResourceTest {
         HttpResponse response = makeJsonPostRequest("reuniones/" + idReunion + "/propuestas", jsonDeUnaPropuesta());
 
         Reunion reunionActualizada = reunionService.get(idReunion);
-        assertThatResponseStatusCodeIs(getStatusCode(response), HttpStatus.SC_OK);
+        assertThatResponseStatusCodeIs(response, HttpStatus.SC_OK);
         assertThat(reunionActualizada.getTemasPropuestos()).hasSize(1);
     }
 

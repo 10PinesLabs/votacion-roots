@@ -5,19 +5,26 @@ import ar.com.kfgodel.temas.application.Application;
 import ar.com.kfgodel.temas.application.TemasApplication;
 import ar.com.kfgodel.temas.config.AuthenticatedTestConfig;
 import ar.com.kfgodel.temas.config.TemasConfiguration;
+import ar.com.kfgodel.temas.exceptions.TypeTransformerException;
+import ar.com.kfgodel.transformbyconvention.api.TypeTransformer;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import convention.persistent.TemaDeReunion;
 import convention.rest.api.ReunionResource;
 import convention.rest.api.TemaDeReunionResource;
+import convention.rest.api.tos.TemaDeReunionTo;
+import convention.rest.api.tos.TemaEnCreacionTo;
 import convention.services.*;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -125,6 +132,12 @@ public abstract class ResourceTest {
         return getClient().execute(request);
     }
 
+    HttpResponse makeJsonPutRequest(String aRequestPathRelativeToApi, String aJsonString) throws IOException {
+        HttpPut request = new HttpPut(pathRelativeToApi(aRequestPathRelativeToApi));
+        request.setEntity(new StringEntity(aJsonString, ContentType.APPLICATION_JSON));
+        return getClient().execute(request);
+    }
+
     HttpResponse makeGetRequest(String aPathRelativeToApi) throws IOException {
         HttpGet request = new HttpGet(pathRelativeToApi(aPathRelativeToApi));
         return getClient().execute(request);
@@ -135,7 +148,20 @@ public abstract class ResourceTest {
         return getClient().execute(request);
     }
 
-    void assertThatResponseStatusCodeIs(int aResponse, int expectedStatusCode) {
-        assertThat(aResponse).isEqualTo(expectedStatusCode);
+    void assertThatResponseStatusCodeIs(HttpResponse aResponse, int expectedStatusCode) {
+        assertThat(getStatusCode(aResponse)).isEqualTo(expectedStatusCode);
+    }
+
+    TemaDeReunionTo convertirATo(TemaDeReunion unTemaDeReunion) {
+        return getTypeTransformer().transformTo(TemaDeReunionTo.class, unTemaDeReunion);
+    }
+
+    String convertirAJsonString(Object unObjeto) throws JsonProcessingException {
+        return new ObjectMapper().writeValueAsString(unObjeto);
+    }
+
+    private TypeTransformer getTypeTransformer() {
+        return getInjector().getImplementationFor(TypeTransformer.class)
+                .orElseThrow(() -> new TypeTransformerException("no se ha injectado ningún TypeTransformer"));
     }
 }

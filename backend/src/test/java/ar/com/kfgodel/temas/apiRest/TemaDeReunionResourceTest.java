@@ -1,14 +1,14 @@
 package ar.com.kfgodel.temas.apiRest;
 
 import ar.com.kfgodel.temas.helpers.TestHelper;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import convention.persistent.*;
-import convention.rest.api.TemaDeReunionResource;
-import convention.services.TemaService;
-import convention.services.UsuarioService;
+import convention.rest.api.tos.TemaDeReunionTo;
+import convention.rest.api.tos.TemaEnCreacionTo;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.json.JSONObject;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -63,6 +63,35 @@ public class TemaDeReunionResourceTest extends ResourceTest {
 
         TemaDeReunion temaActualizado = temaService.get(idTema);
         assertThat(temaActualizado.getCantidadDeVotos()).isEqualTo(1);
+    }
+
+    @Test
+    public void testNoSePuedeAgregarUnTemaConElTituloDeUnoParaProponerPinosARoot() throws IOException {
+        TemaEnCreacionTo unTemaEnCreacionTo = new TemaEnCreacionTo();
+        unTemaEnCreacionTo.setTitulo(TemaParaProponerPinosARoot.TITULO);
+
+        String jsonDelTema = convertirAJsonString(unTemaEnCreacionTo);
+        HttpResponse response = makeJsonPostRequest("temas", jsonDelTema);
+
+        assertThatResponseStatusCodeIs(response, HttpStatus.SC_CONFLICT);
+        assertThat(temaService.getAll()).hasSize(0);
+    }
+
+    @Test
+    public void testNoSePuedeCambiarElTituloDeUnTemaAlDeUnoParaProponerPinosARoot() throws IOException {
+        String tituloDelTema = helper.unTitulo();
+        TemaDeReunion unTemaDeReunion = helper.unTemaDeReunionConTitulo(tituloDelTema);
+        temaService.save(unTemaDeReunion);
+        String unNuevoTitulo = TemaParaProponerPinosARoot.TITULO;
+        unTemaDeReunion.setTitulo(unNuevoTitulo);
+        Long idDelTema = unTemaDeReunion.getId();
+
+        String jsonDelTemaConNuevoTitulo = convertirAJsonString(convertirATo(unTemaDeReunion));
+        HttpResponse response = makeJsonPutRequest("temas/" + idDelTema, jsonDelTemaConNuevoTitulo);
+
+        TemaDeReunion temaActualizado = temaService.get(idDelTema);
+        assertThatResponseStatusCodeIs(response, HttpStatus.SC_CONFLICT);
+        assertThat(temaActualizado.getTitulo()).isEqualTo(tituloDelTema);
     }
 
     private TemaDeReunionConDescripcion crearUnTemaDeReunionConDescripcion() {
