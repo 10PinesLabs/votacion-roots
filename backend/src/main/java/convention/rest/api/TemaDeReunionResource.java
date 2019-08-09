@@ -11,6 +11,7 @@ import convention.services.TemaService;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 /**
@@ -68,12 +69,12 @@ public class TemaDeReunionResource {
                 .filter(usuario ->
                         usuario.getId().equals(usuarioActual.getId())).count();
         if (cantidadDeVotos >= 3) {
-            throw new WebApplicationException("excede la cantidad de votos permitidos", 409);
+            throw new WebApplicationException("excede la cantidad de votos permitidos", Response.Status.CONFLICT);
         }
         try {
             temaDeReunion.agregarInteresado(usuarioActual);
         } catch (Exception exception) {
-            throw new WebApplicationException(TemaDeReunion.mensajeDeErrorAlAgregarInteresado(), 409);
+            throw new WebApplicationException(TemaDeReunion.mensajeDeErrorAlAgregarInteresado(), Response.Status.CONFLICT);
         }
         return temaDeReunion;
     }
@@ -96,7 +97,7 @@ public class TemaDeReunionResource {
                 .filter(usuario ->
                         usuario.getId().equals(usuarioActual.getId())).count();
         if (cantidadDeVotos <= 0) {
-            throw new WebApplicationException("el usuario no tiene votos en el tema", 409);
+            throw new WebApplicationException("el usuario no tiene votos en el tema", Response.Status.CONFLICT);
         }
         temaDeReunion.quitarInteresado(usuarioActual);
         return temaDeReunion;

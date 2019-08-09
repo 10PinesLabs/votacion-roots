@@ -12,6 +12,7 @@ import convention.persistent.PersistableSupport;
 
 import javax.inject.Inject;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
 import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.List;
@@ -115,12 +116,12 @@ public abstract class Service<T extends PersistableSupport> {
 
     private void controlDeTarget(T encontrado) {
         if (encontrado == null) {
-            throw new WebApplicationException("target not found", 404);
+            throw new WebApplicationException("target not found", Response.Status.NOT_FOUND);
         }
     }
 
     private T controlDeTargetAndReturn(Nary<T> encontrado) {
-        return encontrado.orElseThrow(() -> new WebApplicationException("target not found", 404));
+        return encontrado.orElseThrow(() -> new WebApplicationException("target not found", Response.Status.NOT_FOUND));
     }
 
     protected void setClasePrincipal(Class<T> clasePrincipal) {

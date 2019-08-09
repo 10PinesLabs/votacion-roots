@@ -146,7 +146,11 @@ public class ReunionResource {
             @Context SecurityContext securityContext) {
 
         Reunion reunion = reunionService.get(id);
-        reunion.proponerPinoComoRoot(propuesta.getPino(), getResourceHelper().usuarioActual(securityContext));
+        try{
+            reunion.proponerPinoComoRoot(propuesta.getPino(), getResourceHelper().usuarioActual(securityContext));
+        } catch (Exception exception){
+            throw new WebApplicationException(exception.getMessage(), Response.Status.BAD_REQUEST);
+        }
         Reunion nuevaReunion = reunionService.save(reunion);
 
         ReunionTo reunionTo = getResourceHelper().convertir(nuevaReunion, ReunionTo.class);
