@@ -17,7 +17,7 @@ public class TemaParaRepasarActionItemsTest {
         Minuta unaMinuta = helper.unaMinuta();
         TemaDeReunion unTemaDeReunion = helper.unTemaDeReunion();
 
-        TemaParaRepasarActionItems unTemaParaRepasarActionItems = new TemaParaRepasarActionItems(unaMinuta, unTemaDeReunion);
+        TemaParaRepasarActionItems unTemaParaRepasarActionItems = TemaParaRepasarActionItems.create(unaMinuta, unTemaDeReunion);
 
         assertThat(unTemaParaRepasarActionItems.getTitulo()).isEqualTo(unTemaDeReunion.getTitulo());
         assertThat(unTemaParaRepasarActionItems.getDescripcion()).isEqualTo(unTemaDeReunion.getDescripcion());
@@ -33,7 +33,7 @@ public class TemaParaRepasarActionItemsTest {
         Minuta unaMinuta = helper.unaMinuta();
         TemaDeReunion unTemaDeReunion = helper.unTemaDeReunion();
 
-        TemaParaRepasarActionItems unTemaParaRepasarActionItems = new TemaParaRepasarActionItems(unaMinuta, unTemaDeReunion);
+        TemaParaRepasarActionItems unTemaParaRepasarActionItems = TemaParaRepasarActionItems.create(unaMinuta, unTemaDeReunion);
 
         assertThat(unTemaParaRepasarActionItems.getTemasParaRepasar()).containsExactlyElementsOf(unaMinuta.getTemas());
     }

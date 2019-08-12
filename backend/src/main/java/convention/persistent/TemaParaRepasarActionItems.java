@@ -5,15 +5,17 @@ import java.util.List;
 public class TemaParaRepasarActionItems extends TemaDeReunion {
     private List<TemaDeMinuta> temasParaRepasar;
 
-    public TemaParaRepasarActionItems(Minuta unaMinuta, TemaDeReunion unTemaDeReunion) {
-        setTitulo(unTemaDeReunion.getTitulo());
-        setDescripcion(unTemaDeReunion.getDescripcion());
-        setObligatoriedad(unTemaDeReunion.getObligatoriedad());
-        setReunion(unTemaDeReunion.getReunion());
-        setDuracion(unTemaDeReunion.getDuracion());
-        setAutor(unTemaDeReunion.getAutor());
-        setInteresados(unTemaDeReunion.getInteresados());
-        temasParaRepasar = unaMinuta.getTemas();
+    public static TemaParaRepasarActionItems create(Minuta unaMinuta, TemaDeReunion unTemaDeReunion) {
+        TemaParaRepasarActionItems tema = new TemaParaRepasarActionItems();
+        tema.setTitulo(unTemaDeReunion.getTitulo());
+        tema.setDescripcion(unTemaDeReunion.getDescripcion());
+        tema.setObligatoriedad(unTemaDeReunion.getObligatoriedad());
+        tema.setReunion(unTemaDeReunion.getReunion());
+        tema.setDuracion(unTemaDeReunion.getDuracion());
+        tema.setAutor(unTemaDeReunion.getAutor());
+        tema.setInteresados(unTemaDeReunion.getInteresados());
+        tema.temasParaRepasar = unaMinuta.getTemas();
+        return tema;
     }
 
     public List<TemaDeMinuta> getTemasParaRepasar() {
