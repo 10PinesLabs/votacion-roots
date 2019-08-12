@@ -36,7 +36,7 @@ import java.util.List;
  */
 public class TemasServiceTest {
 
-    Application app;
+    TestApplication app;
 
     ReunionService reunionService;
     UsuarioService usuarioService;
@@ -53,32 +53,29 @@ public class TemasServiceTest {
 
     @Before
     public void setUp() {
-        app = TestApplication.create(TestConfig.create());
+        app = (TestApplication) TestApplication.create(TestConfig.create());
         app.start();
-        DependencyInjector injector=app.injector();
+        DependencyInjector injector = app.injector();
         temaDeReunionResource = TemaDeReunionResource.create(injector);
         duracionResource = DuracionesResource.create(injector);
         temaGeneralResource = TemaGeneralResource.create(injector);
 
         reunionResource = ReunionResource.create(injector);
-        temaService =injector.getImplementationFor(TemaService.class).get();
-         usuarioService =injector.createInjected(UsuarioService.class);
-       reunionService =injector.getImplementationFor(ReunionService.class).get();
+        temaService = injector.getImplementationFor(TemaService.class).get();
+        usuarioService = injector.createInjected(UsuarioService.class);
+        reunionService = injector.getImplementationFor(ReunionService.class).get();
 
         testContextUserFeche = new SecurityContextTest(usuarioService.getAll().get(0).getId());
 
         userId = ((JettyIdentityAdapterTest) testContextUserFeche.getUserPrincipal()).getApplicationIdentification();
-        user=usuarioService.get(userId);
+        user = usuarioService.get(userId);
         otherUser = usuarioService.getAll().stream().filter(userTo -> !userTo.getId().equals(userId)).findFirst().get();
         otherUserId = otherUser.getId();
-
-        temaService.deleteAll();
-        reunionService.deleteAll();
     }
 
     @After
     public void drop() {
-        app.stop();
+        app.clearServices();
     }
 
 
@@ -176,14 +173,14 @@ public class TemasServiceTest {
         unTema = temaService.save(unTema);
         Assert.assertEquals(temaService.getAll().size(), 1);
         temaService.updateAndMapping(unTema.getId(), temaDeReunion -> {
-                    temaDeReunion.agregarInteresado(otherUser);
+            temaDeReunion.agregarInteresado(otherUser);
 
-                    return temaDeReunion;
-                });
+            return temaDeReunion;
+        });
         Assert.assertEquals(temaService.getAll().size(), 1);
         temaService.updateAndMapping(unTema.getId(), temaDeReunion -> {
 
-                temaDeReunion.agregarInteresado(otherUser);
+            temaDeReunion.agregarInteresado(otherUser);
             return temaDeReunion;
         });
         Assert.assertEquals(temaService.getAll().size(), 1);
@@ -239,7 +236,7 @@ public class TemasServiceTest {
         temaDeMenorPrioridad.setReunion(unaReunion);
         temaDePrioridadMedia.setReunion(unaReunion);
         unaReunion = reunionService.update(unaReunion);
-        unaReunion = reunionService.getAndMapping(unaReunion.getId(), reunion -> reunionResource.muestreoDeReunion(reunion, userId,testContextUserFeche));
+        unaReunion = reunionService.getAndMapping(unaReunion.getId(), reunion -> reunionResource.muestreoDeReunion(reunion, userId, testContextUserFeche));
 
         Assert.assertArrayEquals(unaReunion.getTemasPropuestos().toArray(), Arrays.asList(temaDeMayorPrioridad, temaDePrioridadMedia, temaDeMenorPrioridad).toArray());
     }
@@ -252,7 +249,7 @@ public class TemasServiceTest {
     }
 
     @Test
-    public void seObtieneCorrectamenteLaObligatoriedadDeUnTema(){
+    public void seObtieneCorrectamenteLaObligatoriedadDeUnTema() {
         TemaDeReunion temaDeLaReunion = TemaDeReunionConDescripcion.create();
         temaDeLaReunion.setObligatoriedad(ObligatoriedadDeTema.OBLIGATORIO);
 
@@ -263,11 +260,11 @@ public class TemasServiceTest {
     }
 
     @Test
-    public void alObtenerUnaReunionSusTemasTienenObligatoriedad(){
+    public void alObtenerUnaReunionSusTemasTienenObligatoriedad() {
         Reunion reunion = new Reunion();
         reunion = reunionService.save(reunion);
 
-        TemaDeReunion tema =TemaDeReunionConDescripcion.create();
+        TemaDeReunion tema = TemaDeReunionConDescripcion.create();
         tema.setReunion(reunion);
         tema.setObligatoriedad(ObligatoriedadDeTema.OBLIGATORIO);
         tema.setDescripcion("una descripción");
@@ -278,7 +275,7 @@ public class TemasServiceTest {
     }
 
     @Test
-    public void alRecibirUnTemaDelFrontendSeRecibeSuMomentoDeCreacion(){
+    public void alRecibirUnTemaDelFrontendSeRecibeSuMomentoDeCreacion() {
         TemaDeReunion tema = new TemaDeReunionConDescripcion();
         tema = temaService.save(tema);
 
@@ -294,7 +291,7 @@ public class TemasServiceTest {
     }
 
     @Test
-    public void alRecibirUnaReunionDelFrontendSusTemasTienenMomentoDeCreacion(){
+    public void alRecibirUnaReunionDelFrontendSusTemasTienenMomentoDeCreacion() {
         Reunion reunion = new Reunion();
         TemaDeReunion tema = TemaDeReunionConDescripcion.create();
         tema.setReunion(reunion);

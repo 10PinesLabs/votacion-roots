@@ -47,4 +47,13 @@ public interface Application {
    * Stops this application and its modules (freeing resources)
    */
   void stop();
+
+
+  /**
+   * @return The implementation for the given type. Creates it if not present.
+   */
+  default <T> T getImplementationFor(Class<T> expectedType) {
+    return injector().getImplementationFor(expectedType)
+            .orElseGet(() -> injector().createInjected(expectedType));
+  }
 }

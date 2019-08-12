@@ -31,13 +31,13 @@ public abstract class ResourceTest {
     private static final String HOST = "http://localhost:9090/";
 
     private static Thread serverThread;
-    private static Application application;
+    private static TemasApplication application;
 
     @BeforeClass
     public static void applicationSetUp() {
         serverThread = new Thread(() -> {
             TemasConfiguration applicationConfig = new AuthenticatedTestConfig();
-            application = TemasApplication.create(applicationConfig);
+            application = (TemasApplication) TemasApplication.create(applicationConfig);
             application.start();
         });
         serverThread.start();
@@ -87,16 +87,16 @@ public abstract class ResourceTest {
 
         ReunionResource.create(getInjector());
         TemaDeReunionResource.create(getInjector());
-        reunionService = getInjector().getImplementationFor(ReunionService.class).get();
-        temaService = getInjector().getImplementationFor(TemaService.class).get();
-        temaGeneralService = getInjector().createInjected(TemaGeneralService.class);
-        usuarioService = getInjector().createInjected(UsuarioService.class);
-        minutaService = getInjector().createInjected(MinutaService.class);
+        reunionService = getApplication().getImplementationFor(ReunionService.class);
+        temaService = getApplication().getImplementationFor(TemaService.class);
+        temaGeneralService = getApplication().getImplementationFor(TemaGeneralService.class);
+        usuarioService = getApplication().getImplementationFor(UsuarioService.class);
+        minutaService = getApplication().getImplementationFor(MinutaService.class);
+    }
 
-        minutaService.deleteAll();
-        reunionService.deleteAll();
-        temaService.deleteAll();
-        temaGeneralService.deleteAll();
+    @After
+    public void tearDown() {
+        application.clearServices();
     }
 
     private String pathRelativeToHost(String aRelativePath) {
