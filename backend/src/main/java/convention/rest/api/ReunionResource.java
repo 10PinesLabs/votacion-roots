@@ -11,10 +11,8 @@ import convention.services.ReunionService;
 import convention.services.TemaGeneralService;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import java.lang.reflect.Type;
@@ -140,7 +138,7 @@ public class ReunionResource {
 
     @POST
     @Path("/{resourceId}/propuestas")
-    public Response proponerPinoComoRoot(
+    public ReunionTo proponerPinoComoRoot(
             @PathParam("resourceId") Long id,
             PropuestaDePinoARootTo propuesta,
             @Context SecurityContext securityContext) {
@@ -155,7 +153,7 @@ public class ReunionResource {
 
         ReunionTo reunionTo = getResourceHelper().convertir(nuevaReunion, ReunionTo.class);
 
-        return Response.status(HttpServletResponse.SC_CREATED).entity(reunionTo).build();
+        return reunionTo;
     }
 
     public ResourceHelper getResourceHelper() {
