@@ -47,9 +47,8 @@ public class TemaDeReunionResourceTest extends ResourceTest {
         TemaParaProponerPinosARoot unTemaParaProponerPinos = TemaParaProponerPinosARoot.create(unUsuario);
         PropuestaDePinoARoot unaPropuesta = new PropuestaDePinoARoot(helper.unPino(), unUsuarioPersistido());
         unTemaParaProponerPinos.agregarPropuesta(unaPropuesta);
-        temaService.save(unTemaParaProponerPinos);
-        Long idTema = unTemaParaProponerPinos.getId();
 
+        Long idTema = temaService.save(unTemaParaProponerPinos).getId();
         makeDeleteRequest("temas/" + idTema);
 
         assertThat(temaService.getAll()).hasSize(0);
