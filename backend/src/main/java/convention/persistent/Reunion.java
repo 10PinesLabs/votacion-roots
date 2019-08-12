@@ -17,6 +17,8 @@ import java.util.*;
 public class Reunion extends PersistableSupport {
 
     public static final String AGREGAR_TEMA_PARA_PROPONER_PINOS_COMO_ROOT_ERROR_MSG = "no se puede agregar un tema para proponer pinos como root";
+    public static final String NO_HAY_TEMA_PARA_REPASAR_ACTION_ITEMS_ERROR_MSG = "no hay tema para repasar action items";
+    public static final String TITULO_DE_TEMA_PARA_REPASAR_ACTION_ITEMS = "Repasar action items de la root anterior";
     @NotNull
     private LocalDate fecha;
     public static final String fecha_FIELD = "fecha";
@@ -133,5 +135,18 @@ public class Reunion extends PersistableSupport {
         temaParaProponerPinos.setReunion(this);
         temasPropuestos.add(temaParaProponerPinos);
         return temaParaProponerPinos;
+    }
+
+    public void cargarElTemaParaRepasarActionItemsDe(Minuta unaMinuta) {
+        Optional<TemaDeReunion> temaParaRepasarActionItems = temasPropuestos.stream()
+                .filter(unTema -> Objects.equals(unTema.getTitulo(), TITULO_DE_TEMA_PARA_REPASAR_ACTION_ITEMS))
+                .findFirst();
+
+        if (!temaParaRepasarActionItems.isPresent()) {
+            throw new RuntimeException(NO_HAY_TEMA_PARA_REPASAR_ACTION_ITEMS_ERROR_MSG);
+        }
+
+        TemaParaRepasarActionItems nuevoTemaParaRepasarActionItems = new TemaParaRepasarActionItems(unaMinuta, temaParaRepasarActionItems.get());
+        temasPropuestos.set(temasPropuestos.indexOf(temaParaRepasarActionItems.get()), nuevoTemaParaRepasarActionItems);
     }
 }

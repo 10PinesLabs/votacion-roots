@@ -176,4 +176,8 @@ public abstract class TemaDeReunion extends Tema {
     public Boolean esParaProponerPinosARoot() {
         return false;
     }
+
+    public Boolean esParaRepasarActionItems() {
+        return false;
+    }
 }
