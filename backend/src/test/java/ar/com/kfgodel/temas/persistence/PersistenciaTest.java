@@ -26,7 +26,7 @@ import static org.junit.Assert.fail;
  */
 public class PersistenciaTest {
 
-    private Application application;
+    private TestApplication application;
     private ReunionService reunionService;
     private TemaService temaService;
     private TemaGeneralService temaGeneralService;
@@ -37,7 +37,7 @@ public class PersistenciaTest {
     @Before
     public void setUp(){
         startApplication();
-       temaService = application.injector().createInjected(TemaService.class);
+        temaService = application.injector().createInjected(TemaService.class);
         temaGeneralService = application.injector().createInjected(TemaGeneralService.class);
         application.injector().createInjected(ReunionResource.class);
         reunionService = application.injector().getImplementationFor(ReunionService.class).get();
@@ -55,10 +55,7 @@ public class PersistenciaTest {
         application.injector().bindTo(UsuarioService.class, usuarioService);
         application.injector().bindTo(TemaDeMinutaService.class, temaDeMinutaService);
 
-        minutaService.deleteAll();
-        reunionService.deleteAll();
-        temaService.deleteAll();
-        temaGeneralService.deleteAll();
+        application.clearServices();
     }
     @After
     public void drop(){
@@ -386,7 +383,7 @@ public class PersistenciaTest {
     }
 
     private void startApplication(){
-        application = TestApplication.create(TestConfig.create());
+        application = (TestApplication) TestApplication.create(TestConfig.create());
         application.start();
     }
 }
