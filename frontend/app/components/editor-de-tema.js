@@ -10,7 +10,7 @@ export default Ember.Component.extend({
   },
 
   didInsertElement() {
-    this.$('#titulo').focus();
+    document.getElementById("titulo").focus();
   },
 
   guardarHabilitado: Ember.computed('tema.duracion', 'tema.titulo', 'guardando',

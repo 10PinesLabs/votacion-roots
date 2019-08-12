@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  didInsertElement(){
+  didInsertElement() {
     document.getElementById("pinoPropuesto").focus();
   },
   guardarHabilitado: Ember.computed('pino', 'guardando', function () {
