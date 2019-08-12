@@ -2,6 +2,7 @@ package convention.persistent;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import java.util.Objects;
 
 @Entity
 public class PropuestaDePinoARoot extends PersistableSupport {
@@ -18,8 +19,8 @@ public class PropuestaDePinoARoot extends PersistableSupport {
     }
 
     public PropuestaDePinoARoot(String unPinoAProponer, Usuario unSponsor) {
-        pino = unPinoAProponer;
-        sponsor = unSponsor;
+        pino = Objects.requireNonNull(unPinoAProponer);
+        sponsor = Objects.requireNonNull(unSponsor);
     }
 
     public String pino() {
