@@ -45,7 +45,7 @@ public class TemaParaProponerPinosARoot extends TemaDeReunion {
     }
 
     private Boolean fuePropuesto(String unPino) {
-        return propuestas().stream().anyMatch(propuesta -> propuesta.pino().equals(unPino));
+        return propuestas().stream().anyMatch(propuesta -> propuesta.correspondeA(unPino));
     }
 
     public String getTitulo() {

@@ -29,4 +29,8 @@ public class PropuestaDePinoARoot extends PersistableSupport {
     public Usuario sponsor() {
         return sponsor;
     }
+
+    public Boolean correspondeA(String unPino) {
+        return pino.equals(unPino);
+    }
 }
