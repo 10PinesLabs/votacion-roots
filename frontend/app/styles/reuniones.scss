@@ -1,3 +1,5 @@
+@import "colores";
+
 #check-box label {
   padding-left: 25px;
   color: #444444;
@@ -171,7 +173,7 @@
 }
 
 .btn-guardar--focus:focus {
-  background-color: #6b016b;
+  background-color: $primary-color-darker;
 }
 
 .tema-colapse-button {

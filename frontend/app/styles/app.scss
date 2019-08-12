@@ -79,7 +79,7 @@ $ember-power-select-placeholder-color: black;
 }
 
 .btn:hover {
-  background: #6b016b;
+  background: $primary-color-darker;
 }
 
 input:not([type]):focus:not([readonly]),
@@ -118,7 +118,7 @@ h6 {
 }
 
 .btn-flat:focus {
-  background-color: #6b016b;
+  background-color: $primary-color-darker;
 }
 
 .fit-correct-width .ember-view {
