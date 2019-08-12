@@ -113,4 +113,11 @@ public class TestHelper {
         userTo.setCreation("2019-01-01");
         return userTo;
     }
+
+    public Minuta unaMinuta() {
+        Reunion unaReunion = unaReunion();
+        unaReunion.agregarTema(unTemaDeReunion());
+        unaReunion.cerrarVotacion();
+        return Minuta.create(unaReunion);
+    }
 }
