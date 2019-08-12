@@ -19,20 +19,24 @@ public class Reunion extends PersistableSupport {
     public static final String AGREGAR_TEMA_PARA_PROPONER_PINOS_COMO_ROOT_ERROR_MSG = "no se puede agregar un tema para proponer pinos como root";
     public static final String NO_HAY_TEMA_PARA_REPASAR_ACTION_ITEMS_ERROR_MSG = "no hay tema para repasar action items";
     public static final String TITULO_DE_TEMA_PARA_REPASAR_ACTION_ITEMS = "Repasar action items de la root anterior";
+    public static final String fecha_FIELD = "fecha";
+    public static final String status_FIELD = "status";
+    public static final String temasPropuestos_FIELD = "temasPropuestos";
     @NotNull
     private LocalDate fecha;
-    public static final String fecha_FIELD = "fecha";
-
     @Enumerated(EnumType.STRING)
     private StatusDeReunion status = StatusDeReunion.PENDIENTE;
-    public static final String status_FIELD = "status";
-
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(cascade = CascadeType.ALL, mappedBy = TemaDeReunion.reunion_FIELD, orphanRemoval = true)
     @OrderBy(TemaDeReunion.prioridad_FIELD)
     private List<TemaDeReunion> temasPropuestos = new ArrayList<>();
 
-    public static final String temasPropuestos_FIELD = "temasPropuestos";
+    public static Reunion create(LocalDate fecha) {
+        Reunion reunion = new Reunion();
+        reunion.fecha = fecha;
+        reunion.status = StatusDeReunion.PENDIENTE;
+        return reunion;
+    }
 
     public LocalDate getFecha() {
         return fecha;
@@ -46,14 +50,6 @@ public class Reunion extends PersistableSupport {
         return temasPropuestos;
     }
 
-    public StatusDeReunion getStatus() {
-        return status;
-    }
-
-    public void setStatus(StatusDeReunion status) {
-        this.status = status;
-    }
-
     public void setTemasPropuestos(List<TemaDeReunion> temasPropuestos) {
         getTemasPropuestos().clear();
         if (temasPropuestos != null) {
@@ -61,11 +57,12 @@ public class Reunion extends PersistableSupport {
         }
     }
 
-    public static Reunion create(LocalDate fecha) {
-        Reunion reunion = new Reunion();
-        reunion.fecha = fecha;
-        reunion.status = StatusDeReunion.PENDIENTE;
-        return reunion;
+    public StatusDeReunion getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusDeReunion status) {
+        this.status = status;
     }
 
     public void cerrarVotacion() {
@@ -130,7 +127,7 @@ public class Reunion extends PersistableSupport {
                 .orElseGet(this::crearTemaParaProponerPinosARoot);
     }
 
-    private TemaParaProponerPinosARoot crearTemaParaProponerPinosARoot(){
+    private TemaParaProponerPinosARoot crearTemaParaProponerPinosARoot() {
         TemaParaProponerPinosARoot temaParaProponerPinos = new TemaParaProponerPinosARoot();
         temaParaProponerPinos.setReunion(this);
         temasPropuestos.add(temaParaProponerPinos);
@@ -138,15 +135,12 @@ public class Reunion extends PersistableSupport {
     }
 
     public void cargarElTemaParaRepasarActionItemsDe(Minuta unaMinuta) {
-        Optional<TemaDeReunion> temaParaRepasarActionItems = temasPropuestos.stream()
+        TemaDeReunion temaParaRepasarActionItems = temasPropuestos.stream()
                 .filter(unTema -> Objects.equals(unTema.getTitulo(), TITULO_DE_TEMA_PARA_REPASAR_ACTION_ITEMS))
-                .findFirst();
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException(NO_HAY_TEMA_PARA_REPASAR_ACTION_ITEMS_ERROR_MSG));
 
-        if (!temaParaRepasarActionItems.isPresent()) {
-            throw new RuntimeException(NO_HAY_TEMA_PARA_REPASAR_ACTION_ITEMS_ERROR_MSG);
-        }
-
-        TemaParaRepasarActionItems nuevoTemaParaRepasarActionItems = new TemaParaRepasarActionItems(unaMinuta, temaParaRepasarActionItems.get());
-        temasPropuestos.set(temasPropuestos.indexOf(temaParaRepasarActionItems.get()), nuevoTemaParaRepasarActionItems);
+        TemaParaRepasarActionItems nuevoTemaParaRepasarActionItems = TemaParaRepasarActionItems.create(unaMinuta, temaParaRepasarActionItems);
+        temasPropuestos.set(temasPropuestos.indexOf(temaParaRepasarActionItems), nuevoTemaParaRepasarActionItems);
     }
 }
