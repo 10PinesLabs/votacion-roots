@@ -16,6 +16,7 @@ import convention.rest.api.TemaDeReunionResource;
 import convention.rest.api.TemaGeneralResource;
 import convention.rest.api.tos.ReunionTo;
 import convention.rest.api.tos.TemaDeReunionTo;
+import convention.services.MinutaService;
 import convention.services.ReunionService;
 import convention.services.TemaService;
 import convention.services.UsuarioService;
@@ -39,6 +40,7 @@ public class TemasServiceTest {
     TestApplication app;
 
     ReunionService reunionService;
+    MinutaService minutaService;
     UsuarioService usuarioService;
     TemaService temaService;
     ReunionResource reunionResource;
@@ -63,6 +65,7 @@ public class TemasServiceTest {
         reunionResource = ReunionResource.create(injector);
         temaService = injector.getImplementationFor(TemaService.class).get();
         usuarioService = injector.createInjected(UsuarioService.class);
+        minutaService = injector.getImplementationFor(MinutaService.class).get();
         reunionService = injector.getImplementationFor(ReunionService.class).get();
 
         testContextUserFeche = new SecurityContextTest(usuarioService.getAll().get(0).getId());
