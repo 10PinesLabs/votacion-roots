@@ -1,9 +1,16 @@
 package convention.persistent;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class TemaParaRepasarActionItems extends TemaDeReunion {
-    private List<TemaDeMinuta> temasParaRepasar;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<TemaDeMinuta> temasParaRepasar = new ArrayList<>();
 
     public static TemaParaRepasarActionItems create(Minuta unaMinuta, TemaDeReunion unTemaDeReunion) {
         TemaParaRepasarActionItems tema = new TemaParaRepasarActionItems();
@@ -14,7 +21,7 @@ public class TemaParaRepasarActionItems extends TemaDeReunion {
         tema.setDuracion(unTemaDeReunion.getDuracion());
         tema.setAutor(unTemaDeReunion.getAutor());
         tema.setInteresados(unTemaDeReunion.getInteresados());
-        tema.temasParaRepasar = unaMinuta.getTemas();
+        tema.temasParaRepasar.addAll(unaMinuta.getTemas());
         return tema;
     }
 
