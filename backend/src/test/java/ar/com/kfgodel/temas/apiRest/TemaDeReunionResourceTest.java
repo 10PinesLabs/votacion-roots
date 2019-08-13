@@ -22,7 +22,7 @@ public class TemaDeReunionResourceTest extends ResourceTest {
     private TestHelper helper = new TestHelper();
 
     @Test
-    public void testGetDeTemaDeReunionDistingueTemasParaProponerPinosARoot() throws IOException {
+    public void testGetDeTemaDeReunionContieneElTipoDeTemaParaTemasParaProponerPinosARoot() throws IOException {
         Long idTema = crearUnTemaParaProponerPinosARoot().getId();
 
         HttpResponse response = makeGetRequest("temas/" + idTema);
@@ -32,7 +32,7 @@ public class TemaDeReunionResourceTest extends ResourceTest {
     }
 
     @Test
-    public void testGetDeTemaDeReunionDistingueTemasDeReunionConDescripcion() throws IOException {
+    public void testGetDeTemaDeReunionContieneElTipoDeTemaParaTemasDeReunionConDescripcion() throws IOException {
         Long idTema = crearUnTemaDeReunionConDescripcion().getId();
 
         HttpResponse response = makeGetRequest("temas/" + idTema);
