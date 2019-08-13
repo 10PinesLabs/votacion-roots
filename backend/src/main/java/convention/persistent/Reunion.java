@@ -134,13 +134,13 @@ public class Reunion extends PersistableSupport {
         return temaParaProponerPinos;
     }
 
-    public void cargarElTemaParaRepasarActionItemsDe(Minuta unaMinuta) {
-        TemaDeReunion temaParaRepasarActionItems = temasPropuestos.stream()
+    public void cargarSiExisteElTemaParaRepasarActionItemsDe(Minuta unaMinuta) {
+        temasPropuestos.stream()
                 .filter(unTema -> Objects.equals(unTema.getTitulo(), TITULO_DE_TEMA_PARA_REPASAR_ACTION_ITEMS))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException(NO_HAY_TEMA_PARA_REPASAR_ACTION_ITEMS_ERROR_MSG));
-
-        TemaParaRepasarActionItems nuevoTemaParaRepasarActionItems = TemaParaRepasarActionItems.create(unaMinuta, temaParaRepasarActionItems);
-        temasPropuestos.set(temasPropuestos.indexOf(temaParaRepasarActionItems), nuevoTemaParaRepasarActionItems);
+                .ifPresent((temaParaRepasarActionItems) -> {
+                    TemaParaRepasarActionItems nuevoTemaParaRepasarActionItems = TemaParaRepasarActionItems.create(unaMinuta, temaParaRepasarActionItems);
+                    temasPropuestos.set(temasPropuestos.indexOf(temaParaRepasarActionItems), nuevoTemaParaRepasarActionItems);
+                });
     }
 }
