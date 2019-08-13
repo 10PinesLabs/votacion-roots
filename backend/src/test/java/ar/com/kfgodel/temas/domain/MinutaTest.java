@@ -5,9 +5,7 @@ import convention.persistent.*;
 import org.junit.Assert;
 import org.junit.Test;
 
-import javax.validation.constraints.Min;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -80,10 +78,8 @@ public class MinutaTest {
     public void testNoSePuedenCargarActionItemsCuandoNoHayUnTemaParaEso() {
         Minuta unaMinuta = helper.unaMinuta();
         Reunion unaReunion = helper.unaReunion();
-
-        assertThatThrownBy(() -> {
-            unaReunion.cargarElTemaParaRepasarActionItemsDe(unaMinuta);
-        }).hasMessage(Reunion.NO_HAY_TEMA_PARA_REPASAR_ACTION_ITEMS_ERROR_MSG);
+        unaReunion.cargarSiExisteElTemaParaRepasarActionItemsDe(unaMinuta);
+        assertThat(unaReunion.getTemasPropuestos().size()).isEqualTo(0);
     }
 
     @Test
@@ -93,7 +89,7 @@ public class MinutaTest {
         TemaDeReunion unTemaConTituloRepasarActionItems = helper.unTemaDeReunionConTitulo(Reunion.TITULO_DE_TEMA_PARA_REPASAR_ACTION_ITEMS);
         unaReunion.agregarTema(unTemaConTituloRepasarActionItems);
 
-        unaReunion.cargarElTemaParaRepasarActionItemsDe(unaMinuta);
+        unaReunion.cargarSiExisteElTemaParaRepasarActionItemsDe(unaMinuta);
 
         List<TemaDeReunion> temasPropuestos = unaReunion.getTemasPropuestos();
         assertThat(temasPropuestos).hasSize(1);
