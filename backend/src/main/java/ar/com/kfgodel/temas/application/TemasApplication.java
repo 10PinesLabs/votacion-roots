@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * This type represents the whole application as a single object.<br>
@@ -139,14 +140,14 @@ public class TemasApplication implements Application {
         });
     }
 
-    private Collection<Class<? extends Service>> getServiceClasses() {
+    private List<Class<? extends Service>> getServiceClasses() {
         return Arrays.asList(
-                ReunionService.class,
+                TemaDeMinutaService.class,
+                MinutaService.class,
                 TemaService.class,
                 TemaGeneralService.class,
-                UsuarioService.class,
-                MinutaService.class,
-                TemaDeMinutaService.class
+                ReunionService.class,
+                UsuarioService.class
         );
     }
 }
