@@ -383,7 +383,7 @@ public class PersistenciaTest {
     }
 
     private void startApplication(){
-        application = (TestApplication) TestApplication.create(TestConfig.create());
+        application = TestApplication.create(TestConfig.create());
         application.start();
     }
 }

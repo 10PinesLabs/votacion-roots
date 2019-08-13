@@ -53,7 +53,7 @@ public class TemasServiceTest {
 
     @Before
     public void setUp() {
-        app = (TestApplication) TestApplication.create(TestConfig.create());
+        app = TestApplication.create(TestConfig.create());
         app.start();
         DependencyInjector injector = app.injector();
         temaDeReunionResource = TemaDeReunionResource.create(injector);
