@@ -10,6 +10,7 @@ import ar.com.kfgodel.transformbyconvention.api.TypeTransformer;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import convention.persistent.TemaDeReunion;
+import ar.com.kfgodel.temas.helpers.PersistentTestHelper;
 import ar.com.kfgodel.temas.helpers.TestHelper;
 import convention.rest.api.ReunionResource;
 import convention.rest.api.TemaDeReunionResource;
@@ -40,7 +41,14 @@ public abstract class ResourceTest {
 
     private static Thread serverThread;
     private static TemasApplication application;
-    private TestHelper helper = new TestHelper();
+    TemaService temaService;
+    UsuarioService usuarioService;
+    ReunionService reunionService;
+    MinutaService minutaService;
+    TemaGeneralService temaGeneralService;
+    TestHelper helper = new TestHelper();
+    PersistentTestHelper persistentHelper;
+    private HttpClient client;
 
     @BeforeClass
     public static void applicationSetUp() {
@@ -73,21 +81,13 @@ public abstract class ResourceTest {
         }
     }
 
-    private static Application getApplication() {
+    static Application getApplication() {
         return application;
     }
 
     static DependencyInjector getInjector() {
         return getApplication().injector();
     }
-
-
-    private HttpClient client;
-    TemaService temaService;
-    UsuarioService usuarioService;
-    ReunionService reunionService;
-    MinutaService minutaService;
-    TemaGeneralService temaGeneralService;
 
     @Before
     public void setUp() throws IOException {
@@ -103,6 +103,7 @@ public abstract class ResourceTest {
 
         client = HttpClientBuilder.create().build();
         getClient().execute(new HttpGet(pathRelativeToHost("j_security_check")));
+        persistentHelper = new PersistentTestHelper(getApplication());
     }
 
     @After

@@ -3,6 +3,7 @@ package ar.com.kfgodel.temas.services;
 import ar.com.kfgodel.dependencies.api.DependencyInjector;
 import ar.com.kfgodel.temas.apiRest.JettyIdentityAdapterTest;
 import ar.com.kfgodel.temas.apiRest.SecurityContextTest;
+import ar.com.kfgodel.temas.helpers.PersistentTestHelper;
 import ar.com.kfgodel.temas.helpers.TestConfig;
 import ar.com.kfgodel.temas.helpers.TestHelper;
 import ar.com.kfgodel.temas.persistence.TestApplication;
@@ -20,7 +21,8 @@ import org.junit.Before;
 import javax.ws.rs.core.SecurityContext;
 
 public abstract class ServiceTest {
-    private TestHelper helper = new TestHelper();
+    TestHelper helper = new TestHelper();
+    PersistentTestHelper persistentHelper;
 
     TestApplication app;
 
@@ -59,6 +61,8 @@ public abstract class ServiceTest {
         testContextUserFeche = new SecurityContextTest(usuarioService.getAll().get(0).getId());
         userId = ((JettyIdentityAdapterTest) testContextUserFeche.getUserPrincipal()).getApplicationIdentification();
         otherUserId = otherUser.getId();
+
+        persistentHelper = new PersistentTestHelper(app);
     }
 
     @After

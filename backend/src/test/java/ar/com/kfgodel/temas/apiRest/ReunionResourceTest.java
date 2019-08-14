@@ -1,6 +1,5 @@
 package ar.com.kfgodel.temas.apiRest;
 
-import ar.com.kfgodel.temas.helpers.TestHelper;
 import convention.persistent.*;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -15,11 +14,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class ReunionResourceTest extends ResourceTest {
 
-    private TestHelper helper = new TestHelper();
-
     @Test
     public void testProponerPinoComoRootAgregaUnTemaALaReunion() throws IOException {
-        Long idReunion = crearUnaReunion().getId();
+        Long idReunion = persistentHelper.crearUnaReunion().getId();
 
         HttpResponse response = makeJsonPostRequest("reuniones/" + idReunion + "/propuestas", jsonDeUnaPropuesta());
 
@@ -30,7 +27,7 @@ public class ReunionResourceTest extends ResourceTest {
 
     @Test
     public void testProponerPinoComoRootAgregaUnaPropuestaParaElPino() throws IOException {
-        Long idReunion = crearUnaReunion().getId();
+        Long idReunion = persistentHelper.crearUnaReunion().getId();
 
         String unNombre = "nombre";
         makeJsonPostRequest("reuniones/" + idReunion + "/propuestas", jsonDeUnaPropuestaPara(unNombre));
@@ -45,7 +42,7 @@ public class ReunionResourceTest extends ResourceTest {
 
     @Test
     public void testProponerPinoComoRootResponseConLaReunionActualizada() throws IOException {
-        Long idReunion = crearUnaReunion().getId();
+        Long idReunion = persistentHelper.crearUnaReunion().getId();
 
         HttpResponse response = makeJsonPostRequest("reuniones/" + idReunion + "/propuestas", jsonDeUnaPropuesta());
 
@@ -58,7 +55,7 @@ public class ReunionResourceTest extends ResourceTest {
 
     @Test
     public void testGetDeReunionDistingueLosTiposDeTema() throws IOException {
-        Reunion unaReunion = crearUnaReunionConTemas();
+        Reunion unaReunion = persistentHelper.crearUnaReunionConTemas();
 
         HttpResponse response = makeGetRequest("reuniones/" + unaReunion.getId());
 
@@ -86,21 +83,6 @@ public class ReunionResourceTest extends ResourceTest {
 
     private Usuario unUsuarioPersistido() {
         return usuarioService.getAll().get(0);
-    }
-
-    private Reunion crearUnaReunionConTemas() {
-        Reunion unaReunion = helper.unaReunion();
-        TemaDeReunion unTema = TemaDeReunionConDescripcion.create();
-        unTema.setReunion(unaReunion);
-        unaReunion.agregarTema(unTema);
-        reunionService.save(unaReunion);
-        return unaReunion;
-    }
-
-    private Reunion crearUnaReunion() {
-        Reunion reunion = helper.unaReunion();
-        reunionService.save(reunion);
-        return reunion;
     }
 
     private String jsonDeUnaPropuesta() {

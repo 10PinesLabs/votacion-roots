@@ -105,15 +105,17 @@ public class TestHelper {
         return tema;
     }
 
-    public TemaParaRepasarActionItems unTemaParaRepasarActionItems() {
+    public TemaDeReunionConDescripcion unTemaParaRellenarConActionItems(){
         Usuario autor = unUsuario();
         String titulo = TemaParaRepasarActionItems.TITULO;
         String descripcion = unaDescripcion();
         DuracionDeTema duracion = unaDuracion();
         ObligatoriedadDeTema obligatoriedad = unaObligatoriedad();
 
-        TemaDeReunionConDescripcion temaPrevio = TemaDeReunionConDescripcion.create(autor, duracion, obligatoriedad, titulo, descripcion);
-        TemaParaRepasarActionItems tema = TemaParaRepasarActionItems.create(unaMinuta(), temaPrevio);
+        return TemaDeReunionConDescripcion.create(autor, duracion, obligatoriedad, titulo, descripcion);
+    }
+    public TemaParaRepasarActionItems unTemaParaRepasarActionItems() {
+        TemaParaRepasarActionItems tema = TemaParaRepasarActionItems.create(unaMinuta(), unTemaParaRellenarConActionItems());
         return tema;
     }
 

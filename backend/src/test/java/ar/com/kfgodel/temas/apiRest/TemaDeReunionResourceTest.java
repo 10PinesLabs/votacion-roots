@@ -19,8 +19,6 @@ public class TemaDeReunionResourceTest extends ResourceTest {
 
     public static final String CAMPO_DE_TIPO = "tipo";
 
-    private TestHelper helper = new TestHelper();
-
     @Test
     public void testGetDeTemaDeReunionContieneElTipoDeTemaParaTemasParaProponerPinosARoot() throws IOException {
         Long idTema = crearUnTemaParaProponerPinosARoot().getId();

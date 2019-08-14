@@ -1,46 +1,26 @@
 package ar.com.kfgodel.temas.services;
 
-import ar.com.kfgodel.temas.helpers.TestHelper;
-import convention.persistent.*;
-import convention.services.Service;
+import convention.persistent.ActionItem;
+import convention.persistent.Reunion;
+import convention.persistent.TemaDeMinuta;
+import convention.persistent.TemaParaRepasarActionItems;
 import org.junit.Test;
-import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 public class ReunionServiceTest extends ServiceTest {
 
-    private TestHelper helper = new TestHelper();
     private Reunion reunionConMinuta;
     private ActionItem actionItem;
 
     @Override
     public void setUp() {
         super.setUp();
-        reunionConMinuta = crearReunionMinuteada();
-        actionItem = crearActionItem();
-        crearMinutaConActionItem(reunionConMinuta, actionItem);
-    }
-
-    private Reunion crearReunionMinuteada() {
-        Reunion reunion = helper.unaReunion();
-        reunion.agregarTema(helper.unTemaDeReunion());
-        reunion.marcarComoMinuteada();
-        return reunionService.save(reunion);
-    }
-
-    private Minuta crearMinutaConActionItem(Reunion unaReunion, ActionItem unActionItem) {
-        Minuta minuta = Minuta.create(unaReunion);
-        minuta.getTemas().get(0).setActionItems(List.of(unActionItem));
-        return minutaService.save(minuta);
-    }
-
-    private ActionItem crearActionItem() {
-        Usuario usuario = usuarioService.save(helper.unUsuario());
-        ActionItem actionItem = new ActionItem();
-        actionItem.setDescripcion("Tarea a realizar");
-        actionItem.setResponsables(List.of(usuario));
-        return actionItem;
+        reunionConMinuta = persistentHelper.crearReunionMinuteada();
+        actionItem = persistentHelper.crearActionItem();
+        persistentHelper.crearMinutaConActionItem(reunionConMinuta, actionItem);
     }
 
     @Test
@@ -64,7 +44,7 @@ public class ReunionServiceTest extends ServiceTest {
     }
 
     @Test
-    public void noSeCarganLosActionItemsDeLaReunionAnteriorCuandoElTemaNoExiste(){
+    public void noSeCarganLosActionItemsDeLaReunionAnteriorCuandoElTemaNoExiste() {
         Reunion proximaReunion = reunionService.getProxima();
         reunionService.cargarActionItemsDeLaUltimaMinutaSiExisteElTema(proximaReunion);
         reunionService.save(proximaReunion);
