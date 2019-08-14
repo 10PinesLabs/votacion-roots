@@ -22,11 +22,12 @@ public class PersistentTestHelper {
         minutaService = application.getImplementationFor(MinutaService.class);
     }
 
-    public Reunion crearUnaReunionConTemas() {
+    public Reunion crearUnaReunionConTemasMinuteada() {
         Reunion unaReunion = helper.unaReunion();
         TemaDeReunion unTema = TemaDeReunionConDescripcion.create();
         unTema.setReunion(unaReunion);
         unaReunion.agregarTema(unTema);
+        unaReunion.setStatus(StatusDeReunion.CON_MINUTA);
         reunionService.save(unaReunion);
         return unaReunion;
     }

@@ -3,6 +3,7 @@ package ar.com.kfgodel.temas.apiRest;
 import convention.persistent.*;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Test;
 
@@ -55,7 +56,7 @@ public class ReunionResourceTest extends ResourceTest {
 
     @Test
     public void testGetDeReunionDistingueLosTiposDeTema() throws IOException {
-        Reunion unaReunion = persistentHelper.crearUnaReunionConTemas();
+        Reunion unaReunion = persistentHelper.crearUnaReunionConTemasMinuteada();
 
         HttpResponse response = makeGetRequest("reuniones/" + unaReunion.getId());
 
@@ -79,6 +80,45 @@ public class ReunionResourceTest extends ResourceTest {
         JSONObject jsonDelTema = responseJson.getJSONArray("temasPropuestos").getJSONObject(0);
         JSONObject jsonDeLaPropuesta = jsonDelTema.getJSONArray("propuestas").getJSONObject(0);
         assertThat(jsonDeLaPropuesta.getString("pino")).isEqualTo(unPino);
+    }
+
+    @Test
+    public void alCerrarReunionSeAgreganLosActionItemsSiElTemaExiste() throws IOException {
+        Reunion reunionAnterior = persistentHelper.crearUnaReunionConTemasMinuteada();
+        ActionItem actionItem = persistentHelper.crearActionItem();
+        persistentHelper.crearMinutaConActionItem(reunionAnterior, actionItem);
+
+        Reunion proximaReunion = persistentHelper.crearUnaReunionConTemaParaRellenarActionItems();
+
+        Long idReunion = proximaReunion.getId();
+        HttpResponse response = makeGetRequest("reuniones/cerrar/" + idReunion);
+
+        JSONObject responseJson = new JSONObject(getResponseBody(response));
+        JSONObject jsonDelTema = responseJson.getJSONArray("temasPropuestos").getJSONObject(0);
+        String tipoDeLaPropuesta = jsonDelTema.getString("tipo");
+        JSONObject temaParaRepasar = jsonDelTema.getJSONArray("temasParaRepasar").getJSONObject(0);
+        JSONObject actionItemParaRepasar = temaParaRepasar.getJSONArray("actionItems").getJSONObject(0);
+
+
+        assertThat(tipoDeLaPropuesta).isEqualTo("repasarActionItems");
+        assertThat(actionItemParaRepasar.getString("descripcion")).isEqualTo(actionItem.getDescripcion());
+    }
+
+    @Test
+    public void alCerrarReunionNoSeAgreganLosActionItemsSiElTemaNoExiste() throws IOException {
+        Reunion reunionAnterior = persistentHelper.crearUnaReunionConTemasMinuteada();
+        ActionItem actionItem = persistentHelper.crearActionItem();
+        persistentHelper.crearMinutaConActionItem(reunionAnterior, actionItem);
+
+        Reunion proximaReunion = persistentHelper.crearUnaReunion();
+
+        Long idReunion = proximaReunion.getId();
+        HttpResponse response = makeGetRequest("reuniones/cerrar/" + idReunion);
+
+        JSONObject responseJson = new JSONObject(getResponseBody(response));
+        JSONArray temasPropuestos = responseJson.getJSONArray("temasPropuestos");
+
+        assertThat(temasPropuestos.length()).isEqualTo(0);
     }
 
     private Usuario unUsuarioPersistido() {
