@@ -6,8 +6,11 @@ before_install:
   - docker run -d -p 127.0.0.1:80:4567  maven:3-jdk-12 /bin/sh -c "git clone --depth=50 https://github.com/10PinesLabs/votacion-roots.git 10PinesLabs/votacion-roots; cd votacion-roots"
 script:
   - mvn -Dmaven.javadoc.skip=true test
-cache:
+cache:ma
   directories:
     - $HOME/.m2
     - frontend/node_modules
     - frontend/bower_components
+env:
+  global:
+    - JAVA_HOME=/usr/lib/jvm/java-9-oracle
