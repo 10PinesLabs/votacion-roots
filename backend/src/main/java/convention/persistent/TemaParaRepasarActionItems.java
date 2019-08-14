@@ -1,7 +1,7 @@
 package convention.persistent;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,8 @@ import java.util.List;
 @Entity
 public class TemaParaRepasarActionItems extends TemaDeReunion {
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany
+    @JoinColumn(name = "repasar_id")
     private List<TemaDeMinuta> temasParaRepasar = new ArrayList<>();
 
     public static TemaParaRepasarActionItems create(Minuta unaMinuta, TemaDeReunion unTemaDeReunion) {

@@ -5,6 +5,8 @@ import ar.com.kfgodel.temas.application.Application;
 import ar.com.kfgodel.temas.application.TemasApplication;
 import ar.com.kfgodel.temas.config.AuthenticatedTestConfig;
 import ar.com.kfgodel.temas.config.TemasConfiguration;
+import ar.com.kfgodel.temas.helpers.TestHelper;
+import convention.persistent.Usuario;
 import convention.rest.api.ReunionResource;
 import convention.rest.api.TemaDeReunionResource;
 import convention.services.*;
@@ -32,6 +34,7 @@ public abstract class ResourceTest {
 
     private static Thread serverThread;
     private static TemasApplication application;
+    private TestHelper helper = new TestHelper();
 
     @BeforeClass
     public static void applicationSetUp() {
@@ -82,9 +85,6 @@ public abstract class ResourceTest {
 
     @Before
     public void setUp() throws IOException {
-        client = HttpClientBuilder.create().build();
-        getClient().execute(new HttpGet(pathRelativeToHost("j_security_check")));
-
         ReunionResource.create(getInjector());
         TemaDeReunionResource.create(getInjector());
         reunionService = getApplication().getImplementationFor(ReunionService.class);
@@ -92,6 +92,11 @@ public abstract class ResourceTest {
         temaGeneralService = getApplication().getImplementationFor(TemaGeneralService.class);
         usuarioService = getApplication().getImplementationFor(UsuarioService.class);
         minutaService = getApplication().getImplementationFor(MinutaService.class);
+        usuarioService.save(helper.unFeche());
+        usuarioService.save(helper.unSandro());
+
+        client = HttpClientBuilder.create().build();
+        getClient().execute(new HttpGet(pathRelativeToHost("j_security_check")));
     }
 
     @After

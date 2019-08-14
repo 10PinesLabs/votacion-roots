@@ -120,4 +120,12 @@ public class TestHelper {
         unaReunion.cerrarVotacion();
         return Minuta.create(unaReunion);
     }
+
+    public Usuario unFeche(){
+        return Usuario.create("feche", "fecheromero", "123", "sarlnga", "mail@10pines.com");
+    }
+
+    public Usuario unSandro(){
+        return Usuario.create("sandro", "unSandro", "123", "sarlonga", "mail2@10pines.com");
+    }
 }
