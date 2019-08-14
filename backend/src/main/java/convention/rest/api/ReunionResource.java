@@ -47,8 +47,7 @@ public class ReunionResource {
 
         if (reunion.getStatus() == StatusDeReunion.PENDIENTE) {
             List<TemaDeReunion> listaDeTemasNuevos = reunion.getTemasPropuestos().stream().
-                    map(temaDeReunion ->
-                            temaDeReunion.copy()).collect(Collectors.toList());
+                    map(TemaDeReunion::copy).collect(Collectors.toList());
             listaDeTemasNuevos.forEach(temaDeReunion -> temaDeReunion.ocultarVotosPara(userId));
             listaDeTemasNuevos.sort(Comparator.comparing(TemaDeReunion::getId));
             Collections.shuffle(listaDeTemasNuevos, new Random(securityContext.getUserPrincipal().hashCode())); //random turbio
@@ -70,6 +69,7 @@ public class ReunionResource {
         Reunion reunionCerrada = reunionService.updateAndMapping(id,
                 reunion -> {
                     reunion.cerrarVotacion();
+                    reunionService.cargarActionItemsDeLaUltimaMinutaSiExisteElTema(reunion);
                     return reunion;
                 });
          return getResourceHelper().convertir(reunionCerrada, ReunionTo.class);
@@ -151,9 +151,7 @@ public class ReunionResource {
         }
         Reunion nuevaReunion = reunionService.save(reunion);
 
-        ReunionTo reunionTo = getResourceHelper().convertir(nuevaReunion, ReunionTo.class);
-
-        return reunionTo;
+        return getResourceHelper().convertir(nuevaReunion, ReunionTo.class);
     }
 
     public ResourceHelper getResourceHelper() {
