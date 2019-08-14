@@ -10,6 +10,7 @@ import ar.com.kfgodel.transformbyconvention.api.TypeTransformer;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import convention.persistent.TemaDeReunion;
+import ar.com.kfgodel.temas.helpers.TestHelper;
 import convention.rest.api.ReunionResource;
 import convention.rest.api.TemaDeReunionResource;
 import convention.rest.api.tos.TemaDeReunionTo;
@@ -39,6 +40,7 @@ public abstract class ResourceTest {
 
     private static Thread serverThread;
     private static TemasApplication application;
+    private TestHelper helper = new TestHelper();
 
     @BeforeClass
     public static void applicationSetUp() {
@@ -89,9 +91,6 @@ public abstract class ResourceTest {
 
     @Before
     public void setUp() throws IOException {
-        client = HttpClientBuilder.create().build();
-        getClient().execute(new HttpGet(pathRelativeToHost("j_security_check")));
-
         ReunionResource.create(getInjector());
         TemaDeReunionResource.create(getInjector());
         reunionService = getApplication().getImplementationFor(ReunionService.class);
@@ -99,6 +98,11 @@ public abstract class ResourceTest {
         temaGeneralService = getApplication().getImplementationFor(TemaGeneralService.class);
         usuarioService = getApplication().getImplementationFor(UsuarioService.class);
         minutaService = getApplication().getImplementationFor(MinutaService.class);
+        usuarioService.save(helper.unFeche());
+        usuarioService.save(helper.unSandro());
+
+        client = HttpClientBuilder.create().build();
+        getClient().execute(new HttpGet(pathRelativeToHost("j_security_check")));
     }
 
     @After

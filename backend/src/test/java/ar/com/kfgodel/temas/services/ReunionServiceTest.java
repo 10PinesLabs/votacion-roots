@@ -2,13 +2,13 @@ package ar.com.kfgodel.temas.services;
 
 import ar.com.kfgodel.temas.helpers.TestHelper;
 import convention.persistent.*;
+import convention.services.Service;
 import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-public class ReunionServiceTest extends TemasServiceTest {
+public class ReunionServiceTest extends ServiceTest {
 
     private TestHelper helper = new TestHelper();
     private Reunion reunionConMinuta;

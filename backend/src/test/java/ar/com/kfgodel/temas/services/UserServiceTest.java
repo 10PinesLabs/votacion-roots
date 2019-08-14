@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by fede on 05/07/17.
  */
-public class UserServiceTest extends TemasServiceTest {
+public class UserServiceTest extends ServiceTest {
 
     UserResource userResource;
     Reunion unaReunion;
@@ -30,7 +30,6 @@ public class UserServiceTest extends TemasServiceTest {
         unTema.agregarInteresado(user);
         unTema.setReunion(unaReunion);
         unaReunion.setTemasPropuestos(Arrays.asList(unTema));
-
     }
 
     @Test
