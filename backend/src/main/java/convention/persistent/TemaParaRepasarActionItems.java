@@ -9,6 +9,9 @@ import java.util.List;
 @Entity
 public class TemaParaRepasarActionItems extends TemaDeReunion {
 
+    public static final String TITULO = "Repasar action items de la root anterior";
+    public static final String temasParaRepasar_FIELD = "temasParaRepasar";
+
     @OneToMany
     @JoinColumn(name = "repasar_id")
     private List<TemaDeMinuta> temasParaRepasar = new ArrayList<>();

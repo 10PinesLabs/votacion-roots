@@ -5,6 +5,7 @@ import convention.persistent.*;
 import convention.rest.api.tos.UserTo;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Created by sandro on 30/06/17.
@@ -24,13 +25,13 @@ public class TestHelper {
     }
 
     public TemaDeReunionConDescripcion unTemaAPartirDeUnTemaGeneral() {
-        Reunion reunion = Reunion.create(LocalDate.of(2017, 06, 26));
+        Reunion reunion = Reunion.create(LocalDate.of(2017, 6, 26));
         TemaGeneral temaGeneral = new TemaGeneral();
         return temaGeneral.generarTemaPara(reunion);
     }
 
     public Reunion unaReunion() {
-        return Reunion.create(LocalDate.of(2017, 06, 16));
+        return Reunion.create(LocalDate.of(2017, 6, 16));
     }
 
     public String unPino() {
@@ -104,6 +105,18 @@ public class TestHelper {
         return tema;
     }
 
+    public TemaParaRepasarActionItems unTemaParaRepasarActionItems() {
+        Usuario autor = unUsuario();
+        String titulo = TemaParaRepasarActionItems.TITULO;
+        String descripcion = unaDescripcion();
+        DuracionDeTema duracion = unaDuracion();
+        ObligatoriedadDeTema obligatoriedad = unaObligatoriedad();
+
+        TemaDeReunionConDescripcion temaPrevio = TemaDeReunionConDescripcion.create(autor, duracion, obligatoriedad, titulo, descripcion);
+        TemaParaRepasarActionItems tema = TemaParaRepasarActionItems.create(unaMinuta(), temaPrevio);
+        return tema;
+    }
+
     public UserTo unUserTo() {
         UserTo userTo = new UserTo();
         userTo.setName("un nombre");
@@ -118,14 +131,23 @@ public class TestHelper {
         Reunion unaReunion = unaReunion();
         unaReunion.agregarTema(unTemaDeReunion());
         unaReunion.cerrarVotacion();
-        return Minuta.create(unaReunion);
+        Minuta minuta = Minuta.create(unaReunion);
+        minuta.getTemas().get(0).setActionItems(List.of(unActionItem()));
+        return minuta;
     }
 
-    public Usuario unFeche(){
+    public Usuario unFeche() {
         return Usuario.create("feche", "fecheromero", "123", "sarlnga", "mail@10pines.com");
     }
 
-    public Usuario unSandro(){
+    public Usuario unSandro() {
         return Usuario.create("sandro", "unSandro", "123", "sarlonga", "mail2@10pines.com");
+    }
+
+    public ActionItem unActionItem() {
+        ActionItem actionItem = new ActionItem();
+        actionItem.setDescripcion("Una cosa para hacer");
+        actionItem.setResponsables(List.of(unUsuario(), otroUsuario()));
+        return actionItem;
     }
 }
