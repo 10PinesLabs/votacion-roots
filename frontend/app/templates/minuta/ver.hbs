@@ -43,11 +43,11 @@
         </div>
 
       </div>
-      <table class="bordered highlight table" style="border-spacing: 0px 0px">
+      <table class="bordered highlight table no-table-border-spacing">
         <tbody>
         {{#each temasTratados as |tema|}}
           <tr>
-            {{tema-no-editable model=model temaDeMinuta=tema router=router}}
+            {{tema-de-minuta editable=false model=model temaDeMinuta=tema router=router}}
           </tr>
         {{/each}}
         </tbody>
@@ -57,11 +57,11 @@
         <h4 class="minuta-subtitle no-margin">Temas no tratados</h4>
       </div>
 
-      <table class="bordered highlight table" style="border-spacing: 0px 0px">
+      <table class="bordered highlight table no-table-border-spacing">
         <tbody>
         {{#each temasNoTratados as |tema|}}
           <tr>
-            {{tema-no-editable model=model temaDeMinuta=tema router=router}}
+            {{tema-de-minuta editable=false model=model temaDeMinuta=tema router=router}}
           </tr>
         {{/each}}
         </tbody>

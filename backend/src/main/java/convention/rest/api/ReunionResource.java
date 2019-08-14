@@ -5,12 +5,15 @@ import ar.com.kfgodel.diamond.api.types.reference.ReferenceOf;
 import convention.persistent.Reunion;
 import convention.persistent.StatusDeReunion;
 import convention.persistent.TemaDeReunion;
+import convention.rest.api.tos.PropuestaDePinoARootTo;
 import convention.rest.api.tos.ReunionTo;
 import convention.services.ReunionService;
+import convention.services.TemaGeneralService;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import java.lang.reflect.Type;
 import java.util.Collections;
@@ -29,6 +32,9 @@ public class ReunionResource {
 
     @Inject
     private ReunionService reunionService;
+
+    @Inject
+    private TemaGeneralService temaGeneralService;
 
     private ResourceHelper resourceHelper;
 
@@ -92,9 +98,11 @@ public class ReunionResource {
     }
 
     @POST
-    public ReunionTo create(ReunionTo reunionNueva) {
+    public ReunionTo create(ReunionTo reunionNuevaTo) {
 
-        Reunion reunionCreada = reunionService.save(getResourceHelper().convertir(reunionNueva, Reunion.class));
+        Reunion nuevaReunion = getResourceHelper().convertir(reunionNuevaTo, Reunion.class);
+        nuevaReunion.agregarTemasGenerales(temaGeneralService.getAll());
+        Reunion reunionCreada = reunionService.save(nuevaReunion);
         return getResourceHelper().convertir(reunionCreada, ReunionTo.class);
     }
 
@@ -126,6 +134,26 @@ public class ReunionResource {
         reunionResource.getResourceHelper().bindAppInjectorTo(ReunionResource.class,reunionResource);
         reunionResource.reunionService = appInjector.createInjected(ReunionService.class);
         return reunionResource;
+    }
+
+    @POST
+    @Path("/{resourceId}/propuestas")
+    public ReunionTo proponerPinoComoRoot(
+            @PathParam("resourceId") Long id,
+            PropuestaDePinoARootTo propuesta,
+            @Context SecurityContext securityContext) {
+
+        Reunion reunion = reunionService.get(id);
+        try{
+            reunion.proponerPinoComoRoot(propuesta.getPino(), getResourceHelper().usuarioActual(securityContext));
+        } catch (Exception exception){
+            throw new WebApplicationException(exception.getMessage(), Response.Status.BAD_REQUEST);
+        }
+        Reunion nuevaReunion = reunionService.save(reunion);
+
+        ReunionTo reunionTo = getResourceHelper().convertir(nuevaReunion, ReunionTo.class);
+
+        return reunionTo;
     }
 
     public ResourceHelper getResourceHelper() {

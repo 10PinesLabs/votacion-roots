@@ -20,7 +20,7 @@ public class ReunionTo extends PersistableToSupport {
   private String status;
 
   @CopyFromAndTo(Reunion.temasPropuestos_FIELD)
-  private List<TemaTo> temasPropuestos;
+  private List<TemaDeReunionTo> temasPropuestos;
 
   public String getFecha() {
     return fecha;
@@ -30,11 +30,11 @@ public class ReunionTo extends PersistableToSupport {
     this.fecha = fecha;
   }
 
-  public List<TemaTo> getTemasPropuestos() {
+  public List<TemaDeReunionTo> getTemasPropuestos() {
     return temasPropuestos;
   }
 
-  public void setTemasPropuestos(List<TemaTo> temasPropuestos) {
+  public void setTemasPropuestos(List<TemaDeReunionTo> temasPropuestos) {
     this.temasPropuestos = temasPropuestos;
   }
 

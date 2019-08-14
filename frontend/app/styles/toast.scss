@@ -1,3 +1,5 @@
+@import "colores";
+
 #toast {
   visibility: visible;
   max-width: 55%;
@@ -21,7 +23,7 @@
   padding-top: 16px;
   padding-bottom: 16px;
   box-sizing: border-box;
-  background-color: purple;
+  background-color: $primary-color;
   color: #fff;
 }
 

@@ -7,33 +7,56 @@ import UserServiceInjected from "../mixins/user-service-injected";
 export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaServiceInjected, NavigatorInjected, UserServiceInjected, {
   classNames: ['card'],
 
-  mostrarDetalle: false,
+  mostrandoDetalle: false,
   textoExtendido: false,
+  agregarItem: false,
 
   usuarios: Ember.computed('model.usuarios', function () {
     return this.get('model.usuarios');
   }),
 
+  temaTratado: Ember.computed('model', function () {
+    return this.get('temaDeMinuta').fueTratado;
+  }),
+
+  mostrarFlagActionItems: Ember.computed(function () {
+    return (this.get('temaDeMinuta').fueTratado || !this.get('editable')) &&
+      this.get('temaDeMinuta').actionItems && this.get('temaDeMinuta').actionItems.length;
+  }),
+
+  mostrarDescripcion: Ember.computed('mostrandoDetalle', function () {
+    return (this.get('editable') && !this.get('temaTratado')) ||
+      this.get('mostrandoDetalle');
+  }),
+
+  mostrarSwitchTratado: Ember.computed('mostrandoDetalle', function () {
+    return this.get('editable') &&
+      (!this.get('temaTratado') || this.get('mostrandoDetalle'));
+  }),
+
   actions: {
-    expandirDescripcion(){
+    expandirDescripcion() {
       this._extenderTexto();
     },
-    colapsarDescripcion(){
+    colapsarDescripcion() {
       this._colapsarTexto();
     },
     verDetalleDeTema() {
       this._mostrarDetalle();
     },
     ocultarDetalleDeTema() {
-      this._ocultarDetalle();
       this._colapsarTexto();
-    }
+      this._ocultarDetalle();
+    },
+    ocultarAgregadoActionItem() {
+      this.set('agregarItem', false);
+    },
   },
 
-  _extenderTexto(){
+  _extenderTexto() {
     this.set('textoExtendido', true);
   },
-  _colapsarTexto(){
+  _colapsarTexto() {
     this.set('textoExtendido', false);
   },
   _mostrarDetalle() {
@@ -41,6 +64,9 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
   },
   _ocultarDetalle() {
     this.set('mostrandoDetalle', false);
+  },
+  _recargarLista() {
+    this.get('router').refresh();
   },
 
 });

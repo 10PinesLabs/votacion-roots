@@ -1,5 +1,10 @@
 import Ember from "ember";
 
+const tiposDeTema = {
+  PROPONER_PINOS: "proponerPinos",
+  CON_DESCRIPCION: "conDescripcion"
+};
+
 export default Ember.Object.extend({
 
   cantidadVotosTotales: Ember.computed('idsDeInteresados.[]', function () {
@@ -59,5 +64,12 @@ export default Ember.Object.extend({
     if (indice >= 0) {
       interesados.removeAt(indice);
     }
-  }
+  },
+
+  esTemaConDescripcion: Ember.computed('tipo', function () {
+    return this.get('tipo') === tiposDeTema.CON_DESCRIPCION;
+  }),
+  esTemaParaProponerPinos: Ember.computed('tipo', function () {
+    return this.get('tipo') === tiposDeTema.PROPONER_PINOS;
+  })
 });

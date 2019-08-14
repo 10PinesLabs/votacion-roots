@@ -1,8 +1,12 @@
+.p-20 {
+  padding: 20px;
+}
+
 .pl {
   padding-left: 10px;
 }
 
-.pb-15{
+.pb-15 {
   padding-bottom: 15px;
 }
 
@@ -92,6 +96,10 @@
   align-items: center;
 }
 
+.flex-1{
+  flex: 1;
+}
+
 .center {
   margin: auto;
 }
@@ -104,8 +112,8 @@
   height: inherit;
 }
 
-.w-700 {
-  width: 700px;
+.w-750 {
+  width: 750px;
 }
 
 .clickable {
@@ -124,7 +132,7 @@
   width: 30%;
 }
 
-.no-table-border-spacing{
+.no-table-border-spacing {
   border-spacing: 0 0;
 }
 

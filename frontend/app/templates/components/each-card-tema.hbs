@@ -1,6 +1,6 @@
 {{#if (or mostrarObligatorios (not tema.esObligatorio))}}
 
-  <tr bgcolor='white'>
+  <tr class="bg-white">
     {{#if tema.esObligatorio}}
       <div class="the-lock lock-margin right clickable">
         <i class="material-icons opacity-20">lock</i>
@@ -10,7 +10,7 @@
     <div class="tema-horizontal-margin">
       <td class="noPadding">
         <h5 class="titulo-de-tema">{{tema.titulo}}</h5>
-        {{texto-extensible texto=tema.descripcion expandido=expandido onClick=(action 'expandirDescripcion')}}
+        {{descripcion-de-tema-expansible tema=tema expandido=expandido onClick=(action 'expandirDescripcion')}}
       </td>
 
       {{#if expandido}}
@@ -39,7 +39,8 @@
         {{#unless estaCerrada}}
           {{#unless tema.esObligatorio}}
 
-            <button type="button" id="agregar-button" {{action sumarVoto tema}} class="btn-flat bold btn fit-content-height"
+            <button type="button" id="agregar-button" {{action sumarVoto tema}}
+                    class="btn-flat bold btn fit-content-height"
                     disabled={{votarDisabled}}>
 
               <div class="flex-center">
@@ -69,8 +70,11 @@
 
           <div id="edit-menu">
             {{#tenpines/drop-down icon='more_vert' removeBtn=true }}
-              <li class="light-grey" {{action mostrarFormularioDeEdicion tema}}>
-                <a class="black-text">Editar</a></li>
+              {{#unless tema.esTemaParaProponerPinos}}
+                <li class="light-grey" {{action mostrarFormularioDeEdicion tema}}>
+                  <a class="black-text">Editar</a>
+                </li>
+              {{/unless}}
               <li class="divider"></li>
               <li class="light-grey"><a class="black-text" {{action borrarTemaElegido tema}}>Eliminar</a></li>
             {{/tenpines/drop-down }}

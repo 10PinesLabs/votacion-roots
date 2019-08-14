@@ -57,6 +57,7 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
     this.get('temaSeleccionado.actionItems').forEach((actionItem) => actionItems.push(actionItem));
     return Ember.Object.extend().create({
       id: tema.id,
+      tipo: tema.tipo,
       idDeMinuta: tema.idDeMinuta,
       tema: tema.tema,
       conclusion: tema.conclusion,

@@ -14,7 +14,7 @@ public class TestApplication extends TemasApplication{
         this.initialize();
     }
 
-    public static Application create(TemasConfiguration config) {
+    public static TestApplication create(TemasConfiguration config) {
         TestApplication application = new TestApplication();
         application.setConfiguration(config);
         return application;

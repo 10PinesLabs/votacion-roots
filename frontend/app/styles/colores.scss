@@ -1,4 +1,5 @@
 $primary-color: purple;
+$primary-color-darker: #6b016b;
 $tratado-color: #68bd44;
 $no-tratado-color: #ef5467;
 $star-color: #ffce54;
@@ -17,4 +18,8 @@ $star-color: #ffce54;
 
 .no-tratado-color {
   color: $no-tratado-color;
+}
+
+.bg-white{
+  background-color: white;
 }
