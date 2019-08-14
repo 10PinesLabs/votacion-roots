@@ -32,7 +32,7 @@ public class TemaDeReunionResource {
     public TemaDeReunionTo create(TemaEnCreacionTo newState, @Context SecurityContext securityContext) {
         TemaDeReunionConDescripcion temaCreado = getResourceHelper().convertir(newState, TemaDeReunionConDescripcion.class);
         if(temaCreado.getTitulo().equals(TemaParaProponerPinosARoot.TITULO)) {
-            throw new WebApplicationException("No puede haber 2 temas de proponer pino a roots", 409);
+            throw new WebApplicationException("No puede haber 2 temas de proponer pino a roots", Response.Status.CONFLICT);
         }
 
         Usuario modificador = getResourceHelper().usuarioActual(securityContext);
@@ -46,7 +46,7 @@ public class TemaDeReunionResource {
     public TemaDeReunionTo update(TemaDeReunionTo newState, @PathParam("resourceId") Long id, @Context SecurityContext securityContext) {
         TemaDeReunionConDescripcion estadoNuevo = getResourceHelper().convertir(newState, TemaDeReunionConDescripcion.class);
         if(estadoNuevo.getTitulo().equals(TemaParaProponerPinosARoot.TITULO)) {
-            throw new WebApplicationException("No puede haber 2 temas de proponer pino a roots", 409);
+            throw new WebApplicationException("No puede haber 2 temas de proponer pino a roots", Response.Status.CONFLICT);
         }
         Usuario modificador = getResourceHelper().usuarioActual(securityContext);
         estadoNuevo.setUltimoModificador(modificador);
