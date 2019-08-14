@@ -18,7 +18,6 @@ public class Reunion extends PersistableSupport {
 
     public static final String AGREGAR_TEMA_PARA_PROPONER_PINOS_COMO_ROOT_ERROR_MSG = "no se puede agregar un tema para proponer pinos como root";
     public static final String NO_HAY_TEMA_PARA_REPASAR_ACTION_ITEMS_ERROR_MSG = "no hay tema para repasar action items";
-    public static final String TITULO_DE_TEMA_PARA_REPASAR_ACTION_ITEMS = "Repasar action items de la root anterior";
     public static final String fecha_FIELD = "fecha";
     public static final String status_FIELD = "status";
     public static final String temasPropuestos_FIELD = "temasPropuestos";
@@ -136,7 +135,7 @@ public class Reunion extends PersistableSupport {
 
     public void cargarSiExisteElTemaParaRepasarActionItemsDe(Minuta unaMinuta) {
         temasPropuestos.stream()
-                .filter(unTema -> Objects.equals(unTema.getTitulo(), TITULO_DE_TEMA_PARA_REPASAR_ACTION_ITEMS))
+                .filter(unTema -> Objects.equals(unTema.getTitulo(), TemaParaRepasarActionItems.TITULO))
                 .findFirst()
                 .ifPresent((temaParaRepasarActionItems) -> {
                     TemaParaRepasarActionItems nuevoTemaParaRepasarActionItems = TemaParaRepasarActionItems.create(unaMinuta, temaParaRepasarActionItems);

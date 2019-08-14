@@ -86,7 +86,7 @@ public class MinutaTest {
     public void testSePuedenCargarActionItemsCuandoHayUnTemaParaEso() {
         Minuta unaMinuta = helper.unaMinuta();
         Reunion unaReunion = helper.unaReunion();
-        TemaDeReunion unTemaConTituloRepasarActionItems = helper.unTemaDeReunionConTitulo(Reunion.TITULO_DE_TEMA_PARA_REPASAR_ACTION_ITEMS);
+        TemaDeReunion unTemaConTituloRepasarActionItems = helper.unTemaDeReunionConTitulo(TemaParaRepasarActionItems.TITULO);
         unaReunion.agregarTema(unTemaConTituloRepasarActionItems);
 
         unaReunion.cargarSiExisteElTemaParaRepasarActionItemsDe(unaMinuta);
@@ -101,7 +101,7 @@ public class MinutaTest {
     }
 
     private Reunion crearReunion() {
-        return Reunion.create(LocalDate.of(2017, 06, 26));
+        return Reunion.create(LocalDate.of(2017, 6, 26));
     }
 
     private Usuario crearUsuario() {
