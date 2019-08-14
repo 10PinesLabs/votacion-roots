@@ -5,8 +5,8 @@ import ar.com.kfgodel.temas.application.Application;
 import ar.com.kfgodel.temas.application.TemasApplication;
 import ar.com.kfgodel.temas.config.AuthenticatedTestConfig;
 import ar.com.kfgodel.temas.config.TemasConfiguration;
+import ar.com.kfgodel.temas.helpers.PersistentTestHelper;
 import ar.com.kfgodel.temas.helpers.TestHelper;
-import convention.persistent.Usuario;
 import convention.rest.api.ReunionResource;
 import convention.rest.api.TemaDeReunionResource;
 import convention.services.*;
@@ -34,7 +34,14 @@ public abstract class ResourceTest {
 
     private static Thread serverThread;
     private static TemasApplication application;
-    private TestHelper helper = new TestHelper();
+    TemaService temaService;
+    UsuarioService usuarioService;
+    ReunionService reunionService;
+    MinutaService minutaService;
+    TemaGeneralService temaGeneralService;
+    TestHelper helper = new TestHelper();
+    PersistentTestHelper persistentHelper;
+    private HttpClient client;
 
     @BeforeClass
     public static void applicationSetUp() {
@@ -67,21 +74,13 @@ public abstract class ResourceTest {
         }
     }
 
-    private static Application getApplication() {
+    static Application getApplication() {
         return application;
     }
 
     static DependencyInjector getInjector() {
         return getApplication().injector();
     }
-
-
-    private HttpClient client;
-    TemaService temaService;
-    UsuarioService usuarioService;
-    ReunionService reunionService;
-    MinutaService minutaService;
-    TemaGeneralService temaGeneralService;
 
     @Before
     public void setUp() throws IOException {
@@ -97,6 +96,7 @@ public abstract class ResourceTest {
 
         client = HttpClientBuilder.create().build();
         getClient().execute(new HttpGet(pathRelativeToHost("j_security_check")));
+        persistentHelper = new PersistentTestHelper(getApplication());
     }
 
     @After
