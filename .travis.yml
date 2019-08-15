@@ -1,4 +1,6 @@
 language: java
+jdk:
+  - oraclejdk9
 services:
   - docker
 before_install:
@@ -11,6 +13,4 @@ cache:ma
     - $HOME/.m2
     - frontend/node_modules
     - frontend/bower_components
-env:
-  global:
-    - JAVA_HOME=/usr/lib/jvm/java-9-oracle
+
