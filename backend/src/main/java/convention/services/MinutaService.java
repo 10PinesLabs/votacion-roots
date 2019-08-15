@@ -8,6 +8,8 @@ import convention.persistent.Minuta;
 import convention.persistent.Reunion;
 
 import javax.inject.Inject;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 /**
@@ -43,6 +45,10 @@ public class MinutaService extends Service<Minuta> {
     }
 
     public Minuta getUltimaMinuta() {
-      return this.getFromReunion(reunionService.getUltimaReunion().getId());
+        try {
+            return this.getFromReunion(reunionService.getUltimaReunion().getId());
+        } catch (Exception e){
+            throw new WebApplicationException(e.getMessage(), Response.Status.NOT_FOUND);
+        }
     }
 }

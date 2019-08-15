@@ -47,7 +47,8 @@ public class ReunionService extends Service<Reunion> {
   }
 
   public Reunion getUltimaReunion() {
-    return getAll(UltimaReunion.create()).stream().findFirst().get();
+    return getAll(UltimaReunion.create()).stream().findFirst()
+            .orElseThrow(() -> new RuntimeException("No hay una ultima reunion"));
   }
 
   public Reunion cargarActionItemsDeLaUltimaMinutaSiExisteElTema(Reunion nuevaReunion){
