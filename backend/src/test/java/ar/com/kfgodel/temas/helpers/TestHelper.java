@@ -5,6 +5,7 @@ import convention.persistent.*;
 import convention.rest.api.tos.UserTo;
 
 import java.time.LocalDate;
+import java.util.Collection;
 
 /**
  * Created by sandro on 30/06/17.
@@ -20,6 +21,7 @@ public class TestHelper {
     public TemaDeReunionConDescripcion unTemaNoObligatorio() {
         TemaDeReunionConDescripcion tema = TemaDeReunionConDescripcion.create();
         tema.setObligatoriedad(ObligatoriedadDeTema.NO_OBLIGATORIO);
+        tema.setTitulo(unTitulo());
         return tema;
     }
 
@@ -42,11 +44,21 @@ public class TestHelper {
     }
 
     public Usuario unUsuario() {
-        return Usuario.create("jorge", "usuario", "contra", "id", "email");
+        return Usuario.create(
+                "jorge",
+                "el_jorge",
+                "password",
+                "123",
+                "jorge@jorge.com");
     }
 
     public Usuario otroUsuario() {
-        return Usuario.create("carlos", "usuario", "contra", "id", "email");
+        return Usuario.create(
+                "carlos",
+                "carlos123",
+                "asd123",
+                "321",
+                "carlos@jorge.com");
     }
 
     public PropuestaDePinoARoot unaPropuestaDeUnPinoARoot() {
@@ -112,5 +124,18 @@ public class TestHelper {
         userTo.setMail("un mail");
         userTo.setCreation("2019-01-01");
         return userTo;
+    }
+
+    public TemaDeReunion unTemaDeReunionDe(Usuario unAutor) {
+        TemaDeReunion otroTema = unTemaDeReunion();
+        otroTema.setAutor(unAutor);
+        return otroTema;
+    }
+
+    public Reunion unaReunionMinuteadaConTemas(Collection<TemaDeReunion> unosTemas) {
+        Reunion unaReunion = unaReunion();
+        unosTemas.forEach(unaReunion::agregarTema);
+        unaReunion.marcarComoMinuteada();
+        return unaReunion;
     }
 }
