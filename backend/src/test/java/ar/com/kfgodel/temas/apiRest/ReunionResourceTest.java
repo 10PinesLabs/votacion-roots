@@ -114,7 +114,7 @@ public class ReunionResourceTest extends ResourceTest {
         reunionService.save(proximaReunion);
 
         HttpResponse reuniones = makeGetRequest("reuniones/");
-        assertThatResponseStatusCodeIs(getStatusCode(reuniones), HttpStatus.SC_OK);
+        assertThatResponseStatusCodeIs(reuniones, HttpStatus.SC_OK);
     }
 
 
