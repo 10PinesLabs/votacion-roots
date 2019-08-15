@@ -10,6 +10,7 @@ import convention.persistent.Reunion;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Optional;
 
 
 /**
@@ -46,14 +47,12 @@ public class ReunionService extends Service<Reunion> {
     super.delete(id);
   }
 
-  public Reunion getUltimaReunion() {
-    return getAll(UltimaReunion.create()).stream().findFirst()
-            .orElseThrow(() -> new RuntimeException("No hay una ultima reunion"));
+  public Optional<Reunion> getUltimaReunion() {
+    return getAll(UltimaReunion.create()).stream().findFirst();
   }
 
-  public Reunion cargarActionItemsDeLaUltimaMinutaSiExisteElTema(Reunion nuevaReunion){
-    Minuta ultimaMinuta = minutaService.getUltimaMinuta();
-    nuevaReunion.cargarSiExisteElTemaParaRepasarActionItemsDe(ultimaMinuta);
+  public Reunion cargarActionItemsDeLaUltimaMinutaSiExisteElTema(Reunion nuevaReunion) {
+    minutaService.getUltimaMinuta().ifPresent(nuevaReunion::cargarSiExisteElTemaParaRepasarActionItemsDe);
     return nuevaReunion;
   }
 }

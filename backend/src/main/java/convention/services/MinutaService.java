@@ -8,9 +8,8 @@ import convention.persistent.Minuta;
 import convention.persistent.Reunion;
 
 import javax.inject.Inject;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by sandro on 07/07/17.
@@ -20,23 +19,24 @@ public class MinutaService extends Service<Minuta> {
     @Inject
     ReunionService reunionService;
 
-    public MinutaService(){
+    public MinutaService() {
         setClasePrincipal(Minuta.class);
     }
 
-    public Minuta getFromReunion(Long id){
+    public Minuta getFromReunion(Long id) {
 
         return createOperation()
                 .insideATransaction()
                 .applying(MinutaDeReunion.create(id))
                 .applyingResultOf((existente) ->
                         existente.mapOptional(UsarMinutaExistente::create)
-                                .orElseGet(() ->{   Reunion reunion = reunionService.get(id);
-                                             reunion.marcarComoMinuteada();
-                                             reunionService.update(reunion);
-                                        return CrearMinuta.create(reunion);
+                                .orElseGet(() -> {
+                                    Reunion reunion = reunionService.get(id);
+                                    reunion.marcarComoMinuteada();
+                                    reunionService.update(reunion);
+                                    return CrearMinuta.create(reunion);
                                 })
-                                ).get();
+                ).get();
 
     }
 
@@ -44,11 +44,8 @@ public class MinutaService extends Service<Minuta> {
         return getAll(FindAll.of(Minuta.class));
     }
 
-    public Minuta getUltimaMinuta() {
-        try {
-            return this.getFromReunion(reunionService.getUltimaReunion().getId());
-        } catch (Exception e){
-            throw new WebApplicationException(e.getMessage(), Response.Status.NOT_FOUND);
-        }
+    public Optional<Minuta> getUltimaMinuta() {
+        return reunionService.getUltimaReunion()
+                .map(reunion -> this.getFromReunion(reunion.getId()));
     }
 }
