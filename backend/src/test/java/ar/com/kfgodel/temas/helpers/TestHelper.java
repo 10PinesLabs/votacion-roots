@@ -5,7 +5,7 @@ import convention.persistent.*;
 import convention.rest.api.tos.UserTo;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Arrays;
 
 /**
  * Created by sandro on 30/06/17.
@@ -134,7 +134,7 @@ public class TestHelper {
         unaReunion.agregarTema(unTemaDeReunion());
         unaReunion.cerrarVotacion();
         Minuta minuta = Minuta.create(unaReunion);
-        minuta.getTemas().get(0).setActionItems(List.of(unActionItem()));
+        minuta.getTemas().get(0).setActionItems(Arrays.asList(unActionItem()));
         return minuta;
     }
 
@@ -149,7 +149,7 @@ public class TestHelper {
     public ActionItem unActionItem() {
         ActionItem actionItem = new ActionItem();
         actionItem.setDescripcion("Una cosa para hacer");
-        actionItem.setResponsables(List.of(unUsuario(), otroUsuario()));
+        actionItem.setResponsables(Arrays.asList(unUsuario(), otroUsuario()));
         return actionItem;
     }
 }

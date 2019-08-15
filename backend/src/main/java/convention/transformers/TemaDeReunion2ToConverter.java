@@ -39,7 +39,7 @@ public class TemaDeReunion2ToConverter implements SpecializedTypeConverter<TemaD
         return baseConverter.getGeneralConverterByName(AnnotatedClassConverter.class.getName());
     }
 
-    private Map<Type, Type> toClass = new HashMap<>() {{
+    private Map<Type, Type> toClass = new HashMap<Type, Type>() {{
         put(TemaDeReunionConDescripcion.class, TemaDeReunionConDescripcionTo.class);
         put(TemaParaProponerPinosARoot.class, TemaParaProponerPinosARootTo.class);
         put(TemaParaRepasarActionItems.class, TemaParaRepasarActionItemsTo.class);

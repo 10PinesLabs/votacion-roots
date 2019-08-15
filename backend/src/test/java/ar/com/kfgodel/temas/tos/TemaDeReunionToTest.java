@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -118,11 +119,11 @@ public class TemaDeReunionToTest {
         unUsuario.setName("Jorge");
         ActionItemTo unActionItem = new ActionItemTo();
         unActionItem.setDescripcion("Una cosa para hacer");
-        unActionItem.setResponsables(List.of(unUsuario));
-        temadeMinutaTo.setActionItems(List.of(unActionItem));
+        unActionItem.setResponsables(Arrays.asList(unUsuario));
+        temadeMinutaTo.setActionItems(Arrays.asList(unActionItem));
 
         TemaParaRepasarActionItemsTo temaTo =
-                TemaParaRepasarActionItemsTo.create(unAutor, unaDuracion, unaObligatoriedad, unTitulo, List.of(temadeMinutaTo));
+                TemaParaRepasarActionItemsTo.create(unAutor, unaDuracion, unaObligatoriedad, unTitulo, Arrays.asList(temadeMinutaTo));
 
         TemaParaRepasarActionItems tema = (TemaParaRepasarActionItems)
                 baseConverter.transformTo(TemaDeReunion.class, temaTo);

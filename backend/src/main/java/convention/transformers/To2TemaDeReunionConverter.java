@@ -38,7 +38,7 @@ public class To2TemaDeReunionConverter implements SpecializedTypeConverter<TemaD
         return domainClass.get(toType);
     }
 
-    private Map<Type, Type> domainClass = new HashMap<>() {{
+    private Map<Type, Type> domainClass = new HashMap<Type, Type>() {{
         put(TemaDeReunionConDescripcionTo.class, TemaDeReunionConDescripcion.class);
         put(TemaParaProponerPinosARootTo.class, TemaParaProponerPinosARoot.class);
         put(TemaParaRepasarActionItemsTo.class, TemaParaRepasarActionItems.class);

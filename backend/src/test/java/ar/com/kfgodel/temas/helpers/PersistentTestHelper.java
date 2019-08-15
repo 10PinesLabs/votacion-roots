@@ -4,7 +4,7 @@ import ar.com.kfgodel.temas.application.Application;
 import convention.persistent.*;
 import convention.services.*;
 
-import java.util.List;
+import java.util.Arrays;
 
 public class PersistentTestHelper {
     private TestHelper helper = new TestHelper();
@@ -51,7 +51,7 @@ public class PersistentTestHelper {
         Usuario usuario = usuarioService.save(helper.unUsuario());
         ActionItem actionItem = new ActionItem();
         actionItem.setDescripcion("Tarea a realizar");
-        actionItem.setResponsables(List.of(usuario));
+        actionItem.setResponsables(Arrays.asList(usuario));
         return actionItem;
     }
 
@@ -64,7 +64,7 @@ public class PersistentTestHelper {
 
     public Minuta crearMinutaConActionItem(Reunion unaReunion, ActionItem unActionItem) {
         Minuta minuta = Minuta.create(unaReunion);
-        minuta.getTemas().get(0).setActionItems(List.of(unActionItem));
+        minuta.getTemas().get(0).setActionItems(Arrays.asList(unActionItem));
         return minutaService.save(minuta);
     }
 
