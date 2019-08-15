@@ -61,7 +61,7 @@ public class TemaDeReunionTest {
             unTemaObligatorio.agregarInteresado(unUsuario);
             fail("No debería permitir agregar un interesado a un tema obligatorio");
         }catch (Exception exception){
-            Assert.assertThat(exception.getMessage(), is(TemaDeReunion.mensajeDeErrorAlAgregarInteresado()));
+            Assert.assertThat(exception.getMessage(), is(TemaDeReunion.ERROR_AGREGAR_INTERESADO));
         }
     }
 

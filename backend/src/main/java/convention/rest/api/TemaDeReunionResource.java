@@ -74,7 +74,7 @@ public class TemaDeReunionResource {
         try {
             temaDeReunion.agregarInteresado(usuarioActual);
         } catch (Exception exception) {
-            throw new WebApplicationException(TemaDeReunion.mensajeDeErrorAlAgregarInteresado(), Response.Status.CONFLICT);
+            throw new WebApplicationException(TemaDeReunion.ERROR_AGREGAR_INTERESADO, Response.Status.CONFLICT);
         }
         return temaDeReunion;
     }
