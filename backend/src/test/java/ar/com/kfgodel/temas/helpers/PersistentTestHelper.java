@@ -23,13 +23,31 @@ public class PersistentTestHelper {
     }
 
     public Reunion crearUnaReunionConTemasMinuteada() {
+        Usuario usuario = crearUnUsuario();
         Reunion unaReunion = helper.unaReunion();
-        TemaDeReunion unTema = TemaDeReunionConDescripcion.create();
+
+        TemaDeReunion unTema = crearUnTemaDeReunionConDescripcion();
         unTema.setReunion(unaReunion);
         unaReunion.agregarTema(unTema);
-        unaReunion.setStatus(StatusDeReunion.CON_MINUTA);
-        reunionService.save(unaReunion);
-        return unaReunion;
+
+        unTema.agregarInteresado(usuario);
+        unTema.agregarInteresado(usuario);
+        unTema.agregarInteresado(usuario);
+
+        unaReunion.cerrarVotacion();
+        unaReunion.marcarComoMinuteada();
+
+        return reunionService.save(unaReunion);
+    }
+
+    private TemaDeReunion crearUnTemaDeReunionConDescripcion() {
+        return temaService.save(TemaDeReunionConDescripcion.create(
+                usuarioService.getAll().stream().findFirst().orElseGet(() -> crearUnUsuario()),
+                helper.unaDuracion(),
+                ObligatoriedadDeTema.NO_OBLIGATORIO,
+                helper.unTitulo(),
+                helper.unaDescripcion())
+        );
     }
 
     public Reunion crearUnaReunion() {
@@ -48,11 +66,15 @@ public class PersistentTestHelper {
     }
 
     public ActionItem crearActionItem() {
-        Usuario usuario = usuarioService.save(helper.unUsuario());
+        Usuario usuario = usuarioService.getAll().stream().findFirst().orElseGet(() -> crearUnUsuario());
         ActionItem actionItem = new ActionItem();
         actionItem.setDescripcion("Tarea a realizar");
-        actionItem.setResponsables(Arrays.asList(usuario));
+        actionItem.setResponsables(Arrays.asList());
         return actionItem;
+    }
+
+    public Usuario crearUnUsuario() {
+        return usuarioService.save(helper.unUsuario());
     }
 
     public Reunion crearReunionMinuteada() {
