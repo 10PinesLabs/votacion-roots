@@ -18,7 +18,7 @@ public class ReunionServiceTest extends ServiceTest {
     @Override
     public void setUp() {
         super.setUp();
-        reunionConMinuta = persistentHelper.crearReunionMinuteada();
+        reunionConMinuta = persistentHelper.crearUnaReunionConTemasMinuteada();
         actionItem = persistentHelper.crearActionItem();
         persistentHelper.crearMinutaConActionItem(reunionConMinuta, actionItem);
     }

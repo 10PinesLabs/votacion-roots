@@ -90,8 +90,7 @@ public class ReunionResourceTest extends ResourceTest {
 
         Reunion proximaReunion = persistentHelper.crearUnaReunionConTemaParaRellenarActionItems();
 
-        Long idReunion = proximaReunion.getId();
-        HttpResponse response = makeGetRequest("reuniones/cerrar/" + idReunion);
+        HttpResponse response = makeGetRequest("reuniones/cerrar/" + proximaReunion.getId());
 
         JSONObject responseJson = new JSONObject(getResponseBody(response));
         JSONObject jsonDelTema = responseJson.getJSONArray("temasPropuestos").getJSONObject(0);
@@ -99,10 +98,25 @@ public class ReunionResourceTest extends ResourceTest {
         JSONObject temaParaRepasar = jsonDelTema.getJSONArray("temasParaRepasar").getJSONObject(0);
         JSONObject actionItemParaRepasar = temaParaRepasar.getJSONArray("actionItems").getJSONObject(0);
 
-
         assertThat(tipoDeLaPropuesta).isEqualTo("repasarActionItems");
         assertThat(actionItemParaRepasar.getString("descripcion")).isEqualTo(actionItem.getDescripcion());
     }
+
+    @Test
+    public void alCerrarReunionSeSiguenPudiendoLeerLasReuniones() throws IOException {
+        Reunion reunionAnterior = persistentHelper.crearUnaReunionConTemasMinuteada();
+        ActionItem actionItem = persistentHelper.crearActionItem();
+        persistentHelper.crearMinutaConActionItem(reunionAnterior, actionItem);
+        Reunion proximaReunion = persistentHelper.crearUnaReunionConTemaParaRellenarActionItems();
+
+        proximaReunion.cerrarVotacion();
+        reunionService.cargarActionItemsDeLaUltimaMinutaSiExisteElTema(proximaReunion);
+        reunionService.save(proximaReunion);
+
+        HttpResponse reuniones = makeGetRequest("reuniones/");
+        assertThatResponseStatusCodeIs(getStatusCode(reuniones), HttpStatus.SC_OK);
+    }
+
 
     @Test
     public void alCerrarReunionNoSeAgreganLosActionItemsSiElTemaNoExiste() throws IOException {

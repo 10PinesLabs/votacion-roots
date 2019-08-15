@@ -1,6 +1,7 @@
 package convention.persistent;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ public class TemaParaRepasarActionItems extends TemaDeReunion {
     public static final String TITULO = "Repasar action items de la root anterior";
     public static final String temasParaRepasar_FIELD = "temasParaRepasar";
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "repasar_id")
     private List<TemaDeMinuta> temasParaRepasar = new ArrayList<>();
 
