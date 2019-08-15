@@ -1,16 +1,16 @@
 language: java
+jdk:
+  - oraclejdk9
 services:
   - docker
 before_install:
   - docker pull maven:3-jdk-12
-  - docker run -d -p 127.0.0.1:80:4567  maven:3-jdk-12 /bin/sh -c "git clone --depth=50 https://github.com/10PinesLabs/votacion-roots.git 10PinesLabs/votacion-roots; cd votacion-roots"
+  - docker run -d -p 127.0.0.1:80:4567  maven:3-jdk-12 /bin/sh -c "git clone --depth=50 https://github.com/10PinesLabs/votacion-roots.git 10PinesLabs/votacion-roots; cd votacion-roots; git checkout ${TRAVIS_COMMIT} ."
 script:
   - mvn -Dmaven.javadoc.skip=true test
-cache:ma
+cache:
   directories:
     - $HOME/.m2
     - frontend/node_modules
     - frontend/bower_components
-env:
-  global:
-    - JAVA_HOME=/usr/lib/jvm/java-9-oracle
+
