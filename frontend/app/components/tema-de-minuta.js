@@ -3,6 +3,7 @@ import MinutaServiceInjected from "../mixins/minuta-service-injected";
 import TemaDeMinutaServiceInjected from "../mixins/tema-de-minuta-service-injected";
 import NavigatorInjected from "../mixins/navigator-injected";
 import UserServiceInjected from "../mixins/user-service-injected";
+import Tema from "../concepts/tema";
 
 export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaServiceInjected, NavigatorInjected, UserServiceInjected, {
   classNames: ['card'],
@@ -32,6 +33,10 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
   mostrarSwitchTratado: Ember.computed('mostrandoDetalle', function () {
     return this.get('editable') &&
       (!this.get('temaTratado') || this.get('mostrandoDetalle'));
+  }),
+
+  temaConComportamiento: Ember.computed('temaDeMinuta', function () {
+    return Tema.create(this.get('temaDeMinuta.tema'));
   }),
 
   actions: {

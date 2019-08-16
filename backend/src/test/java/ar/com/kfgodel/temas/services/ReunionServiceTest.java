@@ -25,7 +25,9 @@ public class ReunionServiceTest extends ServiceTest {
 
     @Test
     public void puedoPedirLaUltimaReunionCerrada() {
-        assertThat(reunionService.getUltimaReunion().getId()).isEqualTo(reunionConMinuta.getId());
+        Reunion ultimaReunion = reunionService.getUltimaReunion()
+                .orElseThrow(() -> new RuntimeException("No hay ultima reunion"));
+        assertThat(ultimaReunion.getId()).isEqualTo(reunionConMinuta.getId());
     }
 
     @Test

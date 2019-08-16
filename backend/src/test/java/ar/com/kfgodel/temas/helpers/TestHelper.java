@@ -2,6 +2,7 @@ package ar.com.kfgodel.temas.helpers;
 
 import ar.com.kfgodel.temas.domain.TemaParaProponerPinosARootTest;
 import convention.persistent.*;
+import convention.rest.api.tos.ActionItemTo;
 import convention.rest.api.tos.UserTo;
 
 import java.time.LocalDate;
@@ -151,5 +152,12 @@ public class TestHelper {
         actionItem.setDescripcion("Una cosa para hacer");
         actionItem.setResponsables(Arrays.asList(unUsuario(), otroUsuario()));
         return actionItem;
+    }
+
+    public ActionItemTo unActionItemTo(UserTo unUsuario) {
+        ActionItemTo unActionItem = new ActionItemTo();
+        unActionItem.setDescripcion("Una cosa para hacer");
+        unActionItem.setResponsables(Arrays.asList(unUsuario));
+        return unActionItem;
     }
 }

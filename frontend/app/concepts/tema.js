@@ -2,7 +2,8 @@ import Ember from "ember";
 
 const tiposDeTema = {
   PROPONER_PINOS: "proponerPinos",
-  CON_DESCRIPCION: "conDescripcion"
+  CON_DESCRIPCION: "conDescripcion",
+  REPASAR_ACTION_ITEMS: "repasarActionItems"
 };
 
 export default Ember.Object.extend({
@@ -71,5 +72,9 @@ export default Ember.Object.extend({
   }),
   esTemaParaProponerPinos: Ember.computed('tipo', function () {
     return this.get('tipo') === tiposDeTema.PROPONER_PINOS;
-  })
+  }),
+  esTemaParaRepasarActionItems: Ember.computed('tipo', function () {
+    return this.get('tipo') === tiposDeTema.REPASAR_ACTION_ITEMS;
+  }),
+
 });

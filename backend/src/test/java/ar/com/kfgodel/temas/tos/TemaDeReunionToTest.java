@@ -83,18 +83,8 @@ public class TemaDeReunionToTest {
 
     @Test
     public void testSePuedeConvertirDeUnTemaParaProponerPinosComoRootTo() {
-        Usuario unAutor = helper.unUsuario();
-        String unaDuracion = convertEnumToString(TemaParaProponerPinosARoot.DURACION);
-        String unaObligatoriedad = convertEnumToString(TemaParaProponerPinosARoot.OBLIGATORIEDAD);
-        String unTitulo = TemaParaProponerPinosARoot.TITULO;
-        List<PropuestaDePinoARootTo> unosPropuestasTo = new ArrayList<>();
-        String unPino = helper.unPino();
-        String otroPino = helper.otroPino();
-        UserTo unSponsorTo = baseConverter.transformTo(UserTo.class, helper.unUsuario());
-        unosPropuestasTo.add(new PropuestaDePinoARootTo(unPino, unSponsorTo));
-        unosPropuestasTo.add(new PropuestaDePinoARootTo(otroPino, unSponsorTo));
-        TemaParaProponerPinosARootTo temaTo =
-                TemaParaProponerPinosARootTo.create(unAutor, unaDuracion, unaObligatoriedad, unTitulo, unosPropuestasTo);
+        List<PropuestaDePinoARootTo> propuestas = unasPropuestasDePino(helper.unPino(), helper.otroPino());
+        TemaParaProponerPinosARootTo temaTo = unTemaParaProponerPinosARootTo(propuestas);
 
         TemaParaProponerPinosARoot tema = (TemaParaProponerPinosARoot)
                 baseConverter.transformTo(TemaDeReunion.class, temaTo);
@@ -103,27 +93,16 @@ public class TemaDeReunionToTest {
         assertThat(tema.getDescripcion()).isEqualTo(temaTo.getDescripcion());
         assertThat(convertEnumToString(tema.getDuracion())).isEqualTo(temaTo.getDuracion());
         assertThat(convertEnumToString(tema.getObligatoriedad())).isEqualTo(temaTo.getObligatoriedad());
-        assertThat(tema.propuestas().stream().map(PropuestaDePinoARoot::pino)).containsExactly(unPino, otroPino);
+        assertThat(tema.propuestas().stream().map(PropuestaDePinoARoot::pino))
+                .containsExactly(helper.unPino(), helper.otroPino());
     }
 
     @Test
     public void testSePuedeConvertirDeUnTemaParaRepasarActionItemsTo() {
-        Usuario unAutor = helper.unUsuario();
-        String unaDuracion = convertEnumToString(TemaParaProponerPinosARoot.DURACION);
-        String unaObligatoriedad = convertEnumToString(TemaParaProponerPinosARoot.OBLIGATORIEDAD);
-        String unTitulo = TemaParaRepasarActionItems.TITULO;
-
-        TemaDeMinutaTo temadeMinutaTo = new TemaDeMinutaTo();
-        temadeMinutaTo.setFueTratado(true);
-        UserTo unUsuario = new UserTo();
-        unUsuario.setName("Jorge");
-        ActionItemTo unActionItem = new ActionItemTo();
-        unActionItem.setDescripcion("Una cosa para hacer");
-        unActionItem.setResponsables(Arrays.asList(unUsuario));
-        temadeMinutaTo.setActionItems(Arrays.asList(unActionItem));
-
-        TemaParaRepasarActionItemsTo temaTo =
-                TemaParaRepasarActionItemsTo.create(unAutor, unaDuracion, unaObligatoriedad, unTitulo, Arrays.asList(temadeMinutaTo));
+        UserTo unUserTo = helper.unUserTo();
+        ActionItemTo unActionItemTo = helper.unActionItemTo(unUserTo);
+        TemaDeMinutaTo temaDeMinutaTo = unTemaDeMinutaConActionItemsTo(unActionItemTo);
+        TemaParaRepasarActionItemsTo temaTo = unTemaParaRepasarActionItemsTo(temaDeMinutaTo);
 
         TemaParaRepasarActionItems tema = (TemaParaRepasarActionItems)
                 baseConverter.transformTo(TemaDeReunion.class, temaTo);
@@ -133,9 +112,40 @@ public class TemaDeReunionToTest {
         assertThat(convertEnumToString(tema.getDuracion())).isEqualTo(temaTo.getDuracion());
         assertThat(convertEnumToString(tema.getObligatoriedad())).isEqualTo(temaTo.getObligatoriedad());
         assertThat(tema.getTemasParaRepasar().get(0).getActionItems().get(0).getDescripcion())
-                .isEqualTo("Una cosa para hacer");
+                .isEqualTo(unActionItemTo.getDescripcion());
         assertThat(tema.getTemasParaRepasar().get(0).getActionItems().get(0).getResponsables().get(0).getName())
-                .isEqualTo("Jorge");
+                .isEqualTo(unUserTo.getName());
+    }
+
+    private TemaDeMinutaTo unTemaDeMinutaConActionItemsTo(ActionItemTo actionItem) {
+        TemaDeMinutaTo temadeMinutaTo = new TemaDeMinutaTo();
+        temadeMinutaTo.setFueTratado(true);
+        temadeMinutaTo.setActionItems(Arrays.asList(actionItem));
+        return temadeMinutaTo;
+    }
+
+    private TemaParaRepasarActionItemsTo unTemaParaRepasarActionItemsTo(TemaDeMinutaTo temadeMinutaTo) {
+        Usuario unAutor = helper.unUsuario();
+        String unaDuracion = convertEnumToString(TemaParaProponerPinosARoot.DURACION);
+        String unaObligatoriedad = convertEnumToString(TemaParaProponerPinosARoot.OBLIGATORIEDAD);
+        String unTitulo = TemaParaRepasarActionItems.TITULO;
+        return TemaParaRepasarActionItemsTo.create(unAutor, unaDuracion, unaObligatoriedad, unTitulo, Arrays.asList(temadeMinutaTo));
+    }
+
+    private List<PropuestaDePinoARootTo> unasPropuestasDePino(String unPino, String otroPino){
+        List<PropuestaDePinoARootTo> unosPropuestasTo = new ArrayList<>();
+        UserTo unSponsorTo = baseConverter.transformTo(UserTo.class, helper.unUsuario());
+        unosPropuestasTo.add(new PropuestaDePinoARootTo(unPino, unSponsorTo));
+        unosPropuestasTo.add(new PropuestaDePinoARootTo(otroPino, unSponsorTo));
+        return unosPropuestasTo;
+    }
+
+    private TemaParaProponerPinosARootTo unTemaParaProponerPinosARootTo(List<PropuestaDePinoARootTo> unosPropuestasTo) {
+        Usuario unAutor = helper.unUsuario();
+        String unaDuracion = convertEnumToString(TemaParaProponerPinosARoot.DURACION);
+        String unaObligatoriedad = convertEnumToString(TemaParaProponerPinosARoot.OBLIGATORIEDAD);
+        String unTitulo = TemaParaProponerPinosARoot.TITULO;
+        return TemaParaProponerPinosARootTo.create(unAutor, unaDuracion, unaObligatoriedad, unTitulo, unosPropuestasTo);
     }
 
     @Test

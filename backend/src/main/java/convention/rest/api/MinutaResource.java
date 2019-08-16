@@ -9,6 +9,7 @@ import convention.services.MinutaService;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 /**
@@ -42,9 +43,10 @@ public class MinutaResource{
 
     @GET
     @Path("/ultimaMinuta")
-    public MinutaTo getUltimaMinuta(){
-        Minuta minuta = minutaService.getUltimaMinuta();
-        return getResourceHelper().convertir(minuta, MinutaTo.class);
+    public MinutaTo getUltimaMinuta() {
+        return minutaService.getUltimaMinuta()
+                .map(minuta -> getResourceHelper().convertir(minuta, MinutaTo.class))
+                .orElseThrow(() -> new WebApplicationException("La minuta no existe", Response.Status.NOT_FOUND));
     }
 
     public static MinutaResource create(DependencyInjector appInjector) {
