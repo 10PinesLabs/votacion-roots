@@ -42,23 +42,24 @@ public class NotificadorDeTemasNoTratados {
     }
 
     public void notificar() {
-        Minuta ultimaMinuta = minutaService.getUltimaMinuta().get();
-        if (hayQueNotificar(ultimaMinuta)) {
-            ultimaMinuta.getTemas().stream().filter(this::hayQueNotificarElTema)
-                    .forEach(temaDeMinuta -> {
-                        TemaDeReunion temaDeReunion = temaDeMinuta.getTema();
-                        Usuario autorDelTemaDeReunion = temaDeReunion.getAutor();
-                        Email email = EmailBuilder.startingBlank()
-                                .from(SENDER_NAME, SENDER_ADDRESS)
-                                .to(autorDelTemaDeReunion.getName(), autorDelTemaDeReunion.getMail())
-                                .withSubject(getSubjectFor(temaDeReunion))
-                                .withPlainText(getMessageFor(temaDeReunion))
-                                .buildEmail();
-                        mailer.sendMail(email, true);
-                        temaDeMinuta.marcarComoNotificado();
-                        temaDeMinutaService.save(temaDeMinuta);
-                    });
-        }
+        minutaService.getUltimaMinuta().ifPresent(ultimaMinuta -> {
+            if (hayQueNotificar(ultimaMinuta)) {
+                ultimaMinuta.getTemas().stream().filter(this::hayQueNotificarElTema)
+                        .forEach(temaDeMinuta -> {
+                            TemaDeReunion temaDeReunion = temaDeMinuta.getTema();
+                            Usuario autorDelTemaDeReunion = temaDeReunion.getAutor();
+                            Email email = EmailBuilder.startingBlank()
+                                    .from(SENDER_NAME, SENDER_ADDRESS)
+                                    .to(autorDelTemaDeReunion.getName(), autorDelTemaDeReunion.getMail())
+                                    .withSubject(getSubjectFor(temaDeReunion))
+                                    .withPlainText(getMessageFor(temaDeReunion))
+                                    .buildEmail();
+                            mailer.sendMail(email, true);
+                            temaDeMinuta.marcarComoNotificado();
+                            temaDeMinutaService.save(temaDeMinuta);
+                        });
+            }
+        });
     }
 
     private Boolean hayQueNotificar(Minuta unaMinuta) {
