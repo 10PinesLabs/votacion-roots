@@ -1,0 +1,8 @@
+<ul>
+  {{#each tema.actionItems as |actionItem|}}
+    <li>
+      <h5>{{actionItem.responsables.0.name}}</h5>
+      <p>{{actionItem.descripcion}}</p>
+    </li>
+  {{/each}}
+</ul>
