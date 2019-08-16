@@ -1,8 +1,8 @@
-<ul>
-  {{#each tema.actionItems as |actionItem|}}
+<h4>{{temaDeMinuta.tema.titulo}}</h4>
+<ul class="browser-default">
+  {{#each temaDeMinuta.actionItems as |actionItem|}}
     <li>
-      <h5>{{actionItem.responsables.0.name}}</h5>
-      <p>{{actionItem.descripcion}}</p>
+      <p><b>{{actionItem.responsables.0.name}}</b>: {{actionItem.descripcion}}</p>
     </li>
   {{/each}}
 </ul>
