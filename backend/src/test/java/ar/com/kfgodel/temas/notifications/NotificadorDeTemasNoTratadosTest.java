@@ -99,11 +99,11 @@ public class NotificadorDeTemasNoTratadosTest {
     }
 
     @Test
-    public void testSeNotificaElDiaDeSemanaSiguienteALaReunionDespuesDeLas9() {
+    public void testSeNotificaElDiaDeSemanaSiguienteALaReunion() {
         LocalDate unViernes = LocalDate.of(2019, 8, 16);
         crearUnaMinutaConUnTemaNoTratadoYFecha(unViernes);
         LocalDate elLunesSiguienteAlViernes = LocalDate.of(2019, 8, 19);
-        clockMock.setTiempo(elLunesSiguienteAlViernes.atTime(9, 0));
+        clockMock.setTiempo(elLunesSiguienteAlViernes.atTime(1, 0));
 
         NotificadorDeTemasNoTratados notificador = crearNotificadorDeTemasNoTratados();
         notificador.notificar();
@@ -112,10 +112,10 @@ public class NotificadorDeTemasNoTratadosTest {
     }
 
     @Test
-    public void testNoSeNotificaSiNoEsElDiaDeSemanaSiguienteALaReunionDespuesDeLas9() {
+    public void testNoSeNotificaSiNoEsElDiaDeSemanaSiguienteALaReunion() {
         LocalDate unViernes = LocalDate.of(2019, 8, 16);
         crearUnaMinutaConUnTemaNoTratadoYFecha(unViernes);
-        LocalDate elLunesSiguienteAlViernes = LocalDate.of(2019, 8, 19);
+        LocalDate elLunesSiguienteAlViernes = LocalDate.of(2019, 8, 18);
         clockMock.setTiempo(elLunesSiguienteAlViernes.atTime(8, 0));
 
         NotificadorDeTemasNoTratados notificador = crearNotificadorDeTemasNoTratados();

@@ -63,15 +63,10 @@ public class NotificadorDeTemasNoTratados {
 
     private Boolean hayQueNotificar(Minuta unaMinuta) {
         LocalDateTime momentoActual = LocalDateTime.ofInstant(clock.instant(), ZoneId.systemDefault());
-        Integer horaActual = momentoActual.getHour();
         LocalDate fechaActual = momentoActual.toLocalDate();
         LocalDate fechaDeNotificacion = CalculadorDeFechaDeNotificacion.calcularParaTemasNoTratados(unaMinuta);
 
-        return horaActual >= horaInicialDeNotificacion() && fechaActual.isEqual(fechaDeNotificacion);
-    }
-
-    private Integer horaInicialDeNotificacion() {
-        return 9;
+        return fechaActual.isEqual(fechaDeNotificacion);
     }
 
     private Boolean hayQueNotificarElTema(TemaDeMinuta temaDeMinuta) {
