@@ -7,11 +7,13 @@ import ar.com.kfgodel.temas.helpers.TestHelper;
 import ar.com.kfgodel.temas.persistence.TestApplication;
 import ar.com.kfgodel.transformbyconvention.api.TypeTransformer;
 import convention.persistent.*;
+import convention.rest.api.tos.TemaParaRepasarActionItemsTo;
 import convention.rest.api.tos.*;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -102,6 +104,55 @@ public class TemaDeReunionToTest {
         assertThat(convertEnumToString(tema.getDuracion())).isEqualTo(temaTo.getDuracion());
         assertThat(convertEnumToString(tema.getObligatoriedad())).isEqualTo(temaTo.getObligatoriedad());
         assertThat(tema.propuestas().stream().map(PropuestaDePinoARoot::pino)).containsExactly(unPino, otroPino);
+    }
+
+    @Test
+    public void testSePuedeConvertirDeUnTemaParaRepasarActionItemsTo() {
+        Usuario unAutor = helper.unUsuario();
+        String unaDuracion = convertEnumToString(TemaParaProponerPinosARoot.DURACION);
+        String unaObligatoriedad = convertEnumToString(TemaParaProponerPinosARoot.OBLIGATORIEDAD);
+        String unTitulo = TemaParaRepasarActionItems.TITULO;
+
+        TemaDeMinutaTo temadeMinutaTo = new TemaDeMinutaTo();
+        temadeMinutaTo.setFueTratado(true);
+        UserTo unUsuario = new UserTo();
+        unUsuario.setName("Jorge");
+        ActionItemTo unActionItem = new ActionItemTo();
+        unActionItem.setDescripcion("Una cosa para hacer");
+        unActionItem.setResponsables(Arrays.asList(unUsuario));
+        temadeMinutaTo.setActionItems(Arrays.asList(unActionItem));
+
+        TemaParaRepasarActionItemsTo temaTo =
+                TemaParaRepasarActionItemsTo.create(unAutor, unaDuracion, unaObligatoriedad, unTitulo, Arrays.asList(temadeMinutaTo));
+
+        TemaParaRepasarActionItems tema = (TemaParaRepasarActionItems)
+                baseConverter.transformTo(TemaDeReunion.class, temaTo);
+
+        assertThat(tema.getTitulo()).isEqualTo(temaTo.getTitulo());
+        assertThat(tema.getDescripcion()).isEqualTo(temaTo.getDescripcion());
+        assertThat(convertEnumToString(tema.getDuracion())).isEqualTo(temaTo.getDuracion());
+        assertThat(convertEnumToString(tema.getObligatoriedad())).isEqualTo(temaTo.getObligatoriedad());
+        assertThat(tema.getTemasParaRepasar().get(0).getActionItems().get(0).getDescripcion())
+                .isEqualTo("Una cosa para hacer");
+        assertThat(tema.getTemasParaRepasar().get(0).getActionItems().get(0).getResponsables().get(0).getName())
+                .isEqualTo("Jorge");
+    }
+
+    @Test
+    public void testSePuedeConvertirAUnTemaParaRepasarActionItemsTo() {
+        TemaParaRepasarActionItems tema = helper.unTemaParaRepasarActionItems();
+
+        TemaParaRepasarActionItemsTo temaTo = (TemaParaRepasarActionItemsTo)
+                baseConverter.transformTo(TemaDeReunionTo.class, tema);
+
+        assertThat(temaTo.getIdDeAutor()).isEqualTo(tema.getAutor().getId());
+        assertThat(temaTo.getTitulo()).isEqualTo(tema.getTitulo());
+        assertThat(temaTo.getDuracion()).isEqualTo(convertEnumToString(tema.getDuracion()));
+        assertThat(temaTo.getObligatoriedad()).isEqualTo(convertEnumToString(tema.getObligatoriedad()));
+        assertThat(temaTo.getTemasParaRepasar().get(0).getActionItems().get(0).getDescripcion())
+                .isEqualTo("Una cosa para hacer");
+        assertThat(temaTo.getTemasParaRepasar().get(0).getActionItems().get(0).getResponsables().get(0).getName())
+                .isEqualTo("jorge");
     }
 
     private String convertEnumToString(Object enumValue) {

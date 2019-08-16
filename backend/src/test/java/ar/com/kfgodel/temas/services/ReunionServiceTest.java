@@ -1,30 +1,54 @@
 package ar.com.kfgodel.temas.services;
 
+import convention.persistent.ActionItem;
 import convention.persistent.Reunion;
+import convention.persistent.TemaDeMinuta;
+import convention.persistent.TemaParaRepasarActionItems;
 import org.junit.Test;
 
-import java.time.LocalDate;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ReunionServiceTest extends TemasServiceTest {
+public class ReunionServiceTest extends ServiceTest {
 
-    private Reunion reunionConMinutaDel24;
+    private Reunion reunionConMinuta;
+    private ActionItem actionItem;
 
     @Override
     public void setUp() {
         super.setUp();
-        reunionConMinutaDel24 = crearReunionMinuteadaDe(LocalDate.of(2018, 12, 24));
-    }
-
-    private Reunion crearReunionMinuteadaDe(LocalDate fecha) {
-        Reunion reunion = Reunion.create(fecha);
-        reunion.marcarComoMinuteada();
-        return reunionService.save(reunion);
+        reunionConMinuta = persistentHelper.crearUnaReunionConTemasMinuteada();
+        actionItem = persistentHelper.crearActionItem();
+        persistentHelper.crearMinutaConActionItem(reunionConMinuta, actionItem);
     }
 
     @Test
     public void puedoPedirLaUltimaReunionCerrada() {
-        assertThat(reunionService.getUltimaReunion().getId()).isEqualTo(reunionConMinutaDel24.getId());
+        assertThat(reunionService.getUltimaReunion().getId()).isEqualTo(reunionConMinuta.getId());
+    }
+
+    @Test
+    public void seCarganLosActionItemsDeLaReunionAnteriorCuandoElTemaExiste() {
+        Reunion proximaReunion = reunionService.getProxima();
+        proximaReunion.agregarTema(helper.unTemaDeReunionConTitulo("Repasar action items de la root anterior"));
+        reunionService.cargarActionItemsDeLaUltimaMinutaSiExisteElTema(proximaReunion);
+        reunionService.save(proximaReunion);
+
+        TemaParaRepasarActionItems temaParaRepasarActionItems = (TemaParaRepasarActionItems) proximaReunion.getTemasPropuestos().get(0);
+        List<TemaDeMinuta> temasParaRepasar = temaParaRepasarActionItems.getTemasParaRepasar();
+        TemaDeMinuta temaConActionItem = temasParaRepasar.get(0);
+
+        assertThat(temasParaRepasar.size()).isEqualTo(1);
+        assertThat(temaConActionItem.getActionItems().get(0)).isEqualTo(actionItem);
+    }
+
+    @Test
+    public void noSeCarganLosActionItemsDeLaReunionAnteriorCuandoElTemaNoExiste() {
+        Reunion proximaReunion = reunionService.getProxima();
+        reunionService.cargarActionItemsDeLaUltimaMinutaSiExisteElTema(proximaReunion);
+        reunionService.save(proximaReunion);
+
+        assertThat(proximaReunion.getTemasPropuestos().size()).isEqualTo(0);
     }
 }

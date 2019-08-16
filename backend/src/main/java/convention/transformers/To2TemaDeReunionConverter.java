@@ -4,9 +4,11 @@ import com.google.inject.Inject;
 import convention.persistent.TemaDeReunion;
 import convention.persistent.TemaDeReunionConDescripcion;
 import convention.persistent.TemaParaProponerPinosARoot;
+import convention.persistent.TemaParaRepasarActionItems;
 import convention.rest.api.tos.TemaDeReunionConDescripcionTo;
 import convention.rest.api.tos.TemaDeReunionTo;
 import convention.rest.api.tos.TemaParaProponerPinosARootTo;
+import convention.rest.api.tos.TemaParaRepasarActionItemsTo;
 import convention.transformers.persistibles.PersistableTo2PersistableConverter;
 import net.sf.kfgodel.bean2bean.conversion.SpecializedTypeConverter;
 import net.sf.kfgodel.bean2bean.conversion.TypeConverter;
@@ -39,5 +41,6 @@ public class To2TemaDeReunionConverter implements SpecializedTypeConverter<TemaD
     private Map<Type, Type> domainClass = new HashMap<Type, Type>() {{
         put(TemaDeReunionConDescripcionTo.class, TemaDeReunionConDescripcion.class);
         put(TemaParaProponerPinosARootTo.class, TemaParaProponerPinosARoot.class);
+        put(TemaParaRepasarActionItemsTo.class, TemaParaRepasarActionItems.class);
     }};
 }

@@ -1,5 +1,6 @@
 package ar.com.kfgodel.temas.domain;
 
+import ar.com.kfgodel.temas.helpers.TestHelper;
 import convention.persistent.*;
 import org.junit.Assert;
 import org.junit.Test;
@@ -10,12 +11,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 
 /**
  * Created by sandro on 06/07/17.
  */
 public class MinutaTest {
+
+    private TestHelper helper = new TestHelper();
 
     @Test
     public void test01UnaMinutaNuevaNoTieneAsistentesSiNingunTemaFueVotado() {
@@ -38,7 +42,7 @@ public class MinutaTest {
     }
 
     @Test
-    public void test03UnaMinutaTieneUnSoloAsistentePorMasQueHayaVotadoMasDeUnaVezLaMismaPersona(){
+    public void test03UnaMinutaTieneUnSoloAsistentePorMasQueHayaVotadoMasDeUnaVezLaMismaPersona() {
         Reunion reunion = crearReunion();
         TemaDeReunion unTema = crearTema();
         Usuario unVotante = crearUsuario();
@@ -50,7 +54,7 @@ public class MinutaTest {
     }
 
     @Test
-    public void test04UnaMinutaTieneLosTemasPropuestosConLaMismaCantidadDeVotantes(){
+    public void test04UnaMinutaTieneLosTemasPropuestosConLaMismaCantidadDeVotantes() {
         Reunion reunion = crearReunion();
 
         TemaDeReunion unTema = crearTema();
@@ -67,7 +71,29 @@ public class MinutaTest {
         assertThat(minuta.getAsistentes()).containsExactly(unVotante);
         List<Integer> cantidadDeVotantesPorTema = minuta.getReunion().getTemasPropuestos().stream().map(tema -> tema.getInteresados().size()).collect(Collectors.toList());
         assertThat(cantidadDeVotantesPorTema)
-                .isEqualTo(Arrays.asList(1,2));
+                .isEqualTo(Arrays.asList(1, 2));
+    }
+
+    @Test
+    public void testNoSePuedenCargarActionItemsCuandoNoHayUnTemaParaEso() {
+        Minuta unaMinuta = helper.unaMinuta();
+        Reunion unaReunion = helper.unaReunion();
+        unaReunion.cargarSiExisteElTemaParaRepasarActionItemsDe(unaMinuta);
+        assertThat(unaReunion.getTemasPropuestos().size()).isEqualTo(0);
+    }
+
+    @Test
+    public void testSePuedenCargarActionItemsCuandoHayUnTemaParaEso() {
+        Minuta unaMinuta = helper.unaMinuta();
+        Reunion unaReunion = helper.unaReunion();
+        TemaDeReunion unTemaConTituloRepasarActionItems = helper.unTemaDeReunionConTitulo(TemaParaRepasarActionItems.TITULO);
+        unaReunion.agregarTema(unTemaConTituloRepasarActionItems);
+
+        unaReunion.cargarSiExisteElTemaParaRepasarActionItemsDe(unaMinuta);
+
+        List<TemaDeReunion> temasPropuestos = unaReunion.getTemasPropuestos();
+        assertThat(temasPropuestos).hasSize(1);
+        assertThat(temasPropuestos).anyMatch(TemaDeReunion::esParaRepasarActionItems);
     }
 
     private TemaDeReunion crearTema() {
@@ -75,7 +101,7 @@ public class MinutaTest {
     }
 
     private Reunion crearReunion() {
-        return Reunion.create(LocalDate.of(2017, 06, 26));
+        return Reunion.create(LocalDate.of(2017, 6, 26));
     }
 
     private Usuario crearUsuario() {
