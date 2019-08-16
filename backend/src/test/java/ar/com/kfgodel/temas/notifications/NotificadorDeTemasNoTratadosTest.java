@@ -135,6 +135,14 @@ public class NotificadorDeTemasNoTratadosTest {
         assertThat(mailerMock.cantidadDeEmailsEnviados()).isEqualTo(1);
     }
 
+    @Test
+    public void testNoSeNotificaSiNoHayMinutas() {
+        NotificadorDeTemasNoTratados notificador = crearNotificadorDeTemasNoTratados();
+        notificador.notificar();
+
+        assertThat(mailerMock.cantidadDeEmailsEnviados()).isEqualTo(0);
+    }
+
     private Minuta crearUnaMinutaConUnTemaNoTratadoYFecha(LocalDate unaFecha) {
         Usuario unUsuario = usuarioService.save(helper.unUsuario());
         return crearUnaMinutaConTemasNoTratadosDeYFecha(Collections.singletonList(unUsuario), unaFecha);
