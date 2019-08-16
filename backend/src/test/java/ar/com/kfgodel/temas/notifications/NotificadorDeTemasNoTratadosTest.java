@@ -44,7 +44,7 @@ public class NotificadorDeTemasNoTratadosTest {
 
     @After
     public void tearDown() {
-        application.clearServices();
+        application.stop();
     }
 
     @Test
