@@ -5,7 +5,7 @@ import convention.persistent.ActionItem;
 public abstract class MailerObserver {
 
     public static MailerObserver create(){
-        return MailerConfiguration.getMailer();
+        return MailerConfiguration.getMailerObserver();
     }
 
     public abstract void onSetResponsables(ActionItem actionItem);

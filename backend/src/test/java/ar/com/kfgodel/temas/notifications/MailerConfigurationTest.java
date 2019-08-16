@@ -25,19 +25,19 @@ public class MailerConfigurationTest {
     @Test
     public void cuandoElAmbienteEsDevelopmentElMailSenderNoEnviaMails() {
         PowerMockito.when(System.getenv(environment)).thenReturn("DEV");
-        assertThat(MailerConfiguration.getMailer()).isInstanceOf(ActionItemStubMailSender.class);
+        assertThat(MailerConfiguration.getMailerObserver()).isInstanceOf(ActionItemStubMailSender.class);
     }
 
     @Test
     public void cuandoElAmbienteEsStagingElMailSenderEnviaMails() {
 
         PowerMockito.when(System.getenv(environment)).thenReturn("STG");
-        assertThat(MailerConfiguration.getMailer()).isInstanceOf(ActionItemMailSender.class);
+        assertThat(MailerConfiguration.getMailerObserver()).isInstanceOf(ActionItemMailSender.class);
     }
 
     @Test
     public void cuandoElAmbienteEsProduccionElMailSenderEnviaMails() {
         PowerMockito.when(System.getenv(environment)).thenReturn("PROD");
-        assertThat(MailerConfiguration.getMailer()).isInstanceOf(ActionItemMailSender.class);
+        assertThat(MailerConfiguration.getMailerObserver()).isInstanceOf(ActionItemMailSender.class);
     }
 }

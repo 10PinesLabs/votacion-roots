@@ -17,12 +17,7 @@ public class ActionItemMailSender extends MailerObserver {
     private String hostName;
 
     public ActionItemMailSender() {
-        mailer = MailerBuilder
-                .withSMTPServer(System.getenv("SMTP_HOST"),
-                        Integer.parseInt(System.getenv("SMTP_PORT")),
-                        System.getenv("SMTP_MAIL"),
-                        System.getenv("SMTP_PASSWORD"))
-                .buildMailer();
+        mailer = MailerConfiguration.getMailer();
         hostName =  Environment.toHandle(System.getenv("ENVIROMENT")).getHostName();
     }
 

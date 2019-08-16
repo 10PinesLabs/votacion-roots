@@ -6,6 +6,7 @@ import ar.com.kfgodel.orm.api.config.DbCoordinates;
 import ar.com.kfgodel.orm.impl.HibernateFacade;
 import ar.com.kfgodel.temas.application.initializers.InicializadorDeDatos;
 import ar.com.kfgodel.temas.config.TemasConfiguration;
+import ar.com.kfgodel.temas.notifications.NotificadorDeTemasNoTratadosJob;
 import ar.com.kfgodel.transformbyconvention.api.TypeTransformer;
 import ar.com.kfgodel.transformbyconvention.impl.B2BTransformer;
 import ar.com.kfgodel.transformbyconvention.impl.config.TransformerConfigurationByConvention;
@@ -14,6 +15,8 @@ import ar.com.kfgodel.webbyconvention.api.config.WebServerConfiguration;
 import ar.com.kfgodel.webbyconvention.impl.JettyWebServer;
 import ar.com.kfgodel.webbyconvention.impl.config.ConfigurationByConvention;
 import convention.services.*;
+import org.quartz.*;
+import org.quartz.impl.StdSchedulerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -93,6 +96,8 @@ public class TemasApplication implements Application {
         registerCleanupHook();
 
         InicializadorDeDatos.create(this).inicializar();
+
+        iniciarNotificadorDeTemasNoTratados();
     }
 
     protected TypeTransformer createTransformer() {
@@ -145,5 +150,30 @@ public class TemasApplication implements Application {
                 ReunionService.class,
                 UsuarioService.class
         );
+    }
+
+    private void iniciarNotificadorDeTemasNoTratados() {
+        JobDataMap jobDataMap = new JobDataMap();
+        jobDataMap.put("injector", injector());
+        JobDetail job = JobBuilder.newJob(NotificadorDeTemasNoTratadosJob.class)
+                .setJobData(jobDataMap)
+                .build();
+
+        Trigger trigger = TriggerBuilder.newTrigger()
+                .withSchedule(DailyTimeIntervalScheduleBuilder
+                        .dailyTimeIntervalSchedule()
+                        .onMondayThroughFriday()
+                        .startingDailyAt(TimeOfDay.hourAndMinuteOfDay(9, 0))
+                        .withRepeatCount(0)
+                        .withMisfireHandlingInstructionFireAndProceed())
+                .build();
+
+        try {
+            Scheduler scheduler = new StdSchedulerFactory().getScheduler();
+            scheduler.scheduleJob(job, trigger);
+            scheduler.start();
+        } catch (SchedulerException e) {
+            System.out.println(e.toString());
+        }
     }
 }
