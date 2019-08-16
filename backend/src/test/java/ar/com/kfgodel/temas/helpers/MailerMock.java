@@ -31,4 +31,8 @@ public class MailerMock {
     public List<Email> getEmailsEnviados() {
         return emailsEnviados;
     }
+
+    public Integer cantidadDeEmailsEnviados() {
+        return getEmailsEnviados().size();
+    }
 }
