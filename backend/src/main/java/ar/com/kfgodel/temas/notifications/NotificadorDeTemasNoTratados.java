@@ -29,7 +29,7 @@ public class NotificadorDeTemasNoTratados {
     }
 
     public void run() {
-        Minuta ultimaMinuta = minutaService.getUltimaMinuta();
+        Minuta ultimaMinuta = minutaService.getUltimaMinuta().get();
 
         ultimaMinuta.getTemas().stream().filter(temaDeMinuta -> !temaDeMinuta.getFueTratado())
                 .forEach(temaDeMinuta -> {
