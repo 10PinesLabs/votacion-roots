@@ -27,6 +27,7 @@ public class TemaDeMinuta extends PersistableSupport {
     private TemaDeReunion tema;
     private String conclusion;
     private boolean fueTratado;
+    private Boolean fueNotificado = false;
 
     public static TemaDeMinuta create(TemaDeReunion temaDeReunion, Minuta minuta) {
         TemaDeMinuta nuevoTema = new TemaDeMinuta();
@@ -83,5 +84,13 @@ public class TemaDeMinuta extends PersistableSupport {
 
     public void setFueTratado(boolean fueTratado) {
         this.fueTratado = fueTratado;
+    }
+
+    public Boolean fueNotificado() {
+        return fueNotificado;
+    }
+
+    public void marcarComoNotificado() {
+        fueNotificado = true;
     }
 }

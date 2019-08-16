@@ -4,9 +4,12 @@ import ar.com.kfgodel.dependencies.api.DependencyInjector;
 import ar.com.kfgodel.temas.acciones.CalculadorDeFechaDeNotificacion;
 import com.google.inject.Inject;
 import convention.persistent.Minuta;
+import convention.persistent.TemaDeMinuta;
 import convention.persistent.TemaDeReunion;
 import convention.persistent.Usuario;
 import convention.services.MinutaService;
+import convention.services.Service;
+import convention.services.TemaDeMinutaService;
 import org.simplejavamail.email.Email;
 import org.simplejavamail.email.EmailBuilder;
 import org.simplejavamail.mailer.Mailer;
@@ -23,6 +26,9 @@ public class NotificadorDeTemasNoTratados {
 
     @Inject
     private MinutaService minutaService;
+    @Inject
+    private TemaDeMinutaService temaDeMinutaService;
+
     private Clock clock;
     private Mailer mailer;
 
@@ -45,7 +51,7 @@ public class NotificadorDeTemasNoTratados {
         LocalDate fechaDeNotificacion = CalculadorDeFechaDeNotificacion.calcularParaTemasNoTratados(ultimaMinuta);
         if (!fechaActual.isEqual(fechaDeNotificacion)) return;
 
-        ultimaMinuta.getTemas().stream().filter(temaDeMinuta -> !temaDeMinuta.getFueTratado())
+        ultimaMinuta.getTemas().stream().filter(this::debeNotificarse)
                 .forEach(temaDeMinuta -> {
                     TemaDeReunion temaDeReunion = temaDeMinuta.getTema();
                     Usuario autorDelTemaDeReunion = temaDeReunion.getAutor();
@@ -56,7 +62,13 @@ public class NotificadorDeTemasNoTratados {
                             .withPlainText(getMessageFor(temaDeReunion))
                             .buildEmail();
                     mailer.sendMail(email, true);
+                    temaDeMinuta.marcarComoNotificado();
+                    temaDeMinutaService.save(temaDeMinuta);
                 });
+    }
+
+    private Boolean debeNotificarse(TemaDeMinuta temaDeMinuta) {
+        return !temaDeMinuta.getFueTratado() && !temaDeMinuta.fueNotificado();
     }
 
     private void setMailer(Mailer unMailer) {
