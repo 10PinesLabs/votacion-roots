@@ -34,6 +34,8 @@ public abstract class TemaDeReunion extends Tema {
     private ObligatoriedadDeTema obligatoriedad;
     @ManyToOne
     private TemaGeneral temaGenerador;
+    @ManyToOne
+    private TemaDeReunion primeraPropuesta;
 
     public ObligatoriedadDeTema getObligatoriedad() {
         return obligatoriedad;
@@ -176,5 +178,13 @@ public abstract class TemaDeReunion extends Tema {
 
     public Boolean esParaRepasarActionItems() {
         return false;
+    }
+
+    public void setPrimeraPropuesta(TemaDeReunion unTemaDeReunion) {
+        primeraPropuesta = unTemaDeReunion;
+    }
+
+    public TemaDeReunion getPrimeraPropuesta() {
+        return primeraPropuesta;
     }
 }

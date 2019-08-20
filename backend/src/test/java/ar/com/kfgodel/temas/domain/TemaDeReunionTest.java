@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static junit.framework.TestCase.fail;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.core.Is.is;
 
 /**
@@ -191,5 +192,15 @@ public class TemaDeReunionTest {
         tema.setTitulo("otro titulo");
 
         Assert.assertTrue(tema.fueModificado());
+    }
+
+    @Test
+    public void test20LosTemasTienenUnaPrimeraPropuesta() {
+        TemaDeReunion unTema = helper.unTemaDeReunion();
+        TemaDeReunion otroTema = helper.unTemaDeReunion();
+
+        unTema.setPrimeraPropuesta(otroTema);
+
+        assertThat(unTema.getPrimeraPropuesta()).isEqualTo(otroTema);
     }
 }
