@@ -19,7 +19,7 @@ public class CrearProximaReunion implements TransactionOperation<Reunion> {
   public Reunion applyWithTransactionOn(TransactionContext transactionContext) {
     LocalDate fechaDeProximaRoots = new CalculadorDeProximaFecha().calcularFechaDeRoots(LocalDate.now());
     Reunion proximaRoots = Reunion.create(fechaDeProximaRoots);
-    proximaRoots = reunionService.save(proximaRoots);
+    proximaRoots = reunionService.create(proximaRoots);
     return proximaRoots;
   }
 

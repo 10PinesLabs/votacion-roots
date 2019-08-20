@@ -10,6 +10,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -133,6 +134,17 @@ public class ReunionResourceTest extends ResourceTest {
         JSONArray temasPropuestos = responseJson.getJSONArray("temasPropuestos");
 
         assertThat(temasPropuestos.length()).isEqualTo(0);
+    }
+
+    @Test
+    public void testCuandoSeCreaLaProximaReunionSeLeAgreganLosTemasGenerales() throws IOException {
+        TemaGeneral unTemaGeneral = temaGeneralService.save(helper.unTemaGeneral());
+
+        makeGetRequest("reuniones/proxima");
+
+        Reunion proximaReunion = reunionService.getAll().get(0);
+        TemaDeReunion unTemaDeReunion = proximaReunion.getTemasPropuestos().get(0);
+        assertThat(unTemaDeReunion.getTemaGenerador().get().getId()).isEqualTo(unTemaGeneral.getId());
     }
 
     private Usuario unUsuarioPersistido() {

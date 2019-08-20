@@ -55,4 +55,9 @@ public class ReunionService extends Service<Reunion> {
     minutaService.getUltimaMinuta().ifPresent(nuevaReunion::cargarSiExisteElTemaParaRepasarActionItemsDe);
     return nuevaReunion;
   }
+
+  public Reunion create(Reunion unaReunion) {
+    unaReunion.agregarTemasGenerales(temaGeneralService.getAll());
+    return save(unaReunion);
+  }
 }

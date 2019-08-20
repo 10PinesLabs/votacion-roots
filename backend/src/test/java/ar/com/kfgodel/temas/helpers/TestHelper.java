@@ -160,4 +160,8 @@ public class TestHelper {
         unActionItem.setResponsables(Arrays.asList(unUsuario));
         return unActionItem;
     }
+
+    public TemaGeneral unTemaGeneral() {
+        return new TemaGeneral();
+    }
 }
