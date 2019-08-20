@@ -9,6 +9,7 @@ import ar.com.kfgodel.transformbyconvention.api.TypeTransformer;
 import convention.persistent.*;
 import convention.rest.api.tos.TemaParaRepasarActionItemsTo;
 import convention.rest.api.tos.*;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -31,6 +32,11 @@ public class TemaDeReunionToTest {
         application.start();
         baseConverter = application.injector().getImplementationFor(TypeTransformer.class)
                 .orElseThrow(() -> new TypeTransformerException("no se ha injectado ningun typeTransformer"));
+    }
+
+    @After
+    public void tearDown() {
+        application.stop();
     }
 
     @Test

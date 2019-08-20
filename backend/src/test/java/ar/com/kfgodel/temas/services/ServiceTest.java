@@ -67,6 +67,6 @@ public abstract class ServiceTest {
 
     @After
     public void drop() {
-        app.clearServices();
+        app.stop();
     }
 }
