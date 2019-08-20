@@ -23,6 +23,7 @@ public abstract class TemaDeReunion extends Tema {
     public static final String interesados_FIELD = "interesados";
     public static final String obligatoriedad_FIELD = "obligatoriedad";
     public static final String temaGenerador_FIELD = "temaGenerador";
+    public static final String ERROR_AGREGAR_INTERESADO = "No se puede agregar un interesado a un tema obligatorio";
     @ManyToOne
     private Reunion reunion;
     private Integer prioridad;
@@ -33,10 +34,6 @@ public abstract class TemaDeReunion extends Tema {
     private ObligatoriedadDeTema obligatoriedad;
     @ManyToOne
     private TemaGeneral temaGenerador;
-
-    public static String mensajeDeErrorAlAgregarInteresado() {
-        return "No se puede agregar un interesado a un tema obligatorio";
-    }
 
     public ObligatoriedadDeTema getObligatoriedad() {
         return obligatoriedad;
@@ -80,7 +77,7 @@ public abstract class TemaDeReunion extends Tema {
         if (this.puedeSerVotado())
             this.getInteresados().add(votante);
         else
-            throw new TemaDeReunionException(mensajeDeErrorAlAgregarInteresado());
+            throw new TemaDeReunionException(TemaDeReunion.ERROR_AGREGAR_INTERESADO);
     }
 
     public void quitarInteresado(Usuario votante) {
@@ -174,6 +171,10 @@ public abstract class TemaDeReunion extends Tema {
     }
 
     public Boolean esParaProponerPinosARoot() {
+        return false;
+    }
+
+    public Boolean esParaRepasarActionItems() {
         return false;
     }
 }

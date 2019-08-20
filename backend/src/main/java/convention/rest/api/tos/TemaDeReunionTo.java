@@ -14,7 +14,8 @@ import java.util.List;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "tipo")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = TemaParaProponerPinosARootTo.class, name = "proponerPinos"),
-        @JsonSubTypes.Type(value = TemaDeReunionConDescripcionTo.class, name = "conDescripcion")
+        @JsonSubTypes.Type(value = TemaDeReunionConDescripcionTo.class, name = "conDescripcion"),
+        @JsonSubTypes.Type(value = TemaParaRepasarActionItemsTo.class, name = "repasarActionItems")
 })
 public class TemaDeReunionTo extends PersistableToSupport {
     @CopyFromAndTo(TemaDeReunion.duracion_FIELD)

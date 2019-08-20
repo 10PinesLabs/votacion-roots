@@ -1,12 +1,17 @@
 <div {{action onClick}} style={{if expandido descriptionMaxHeight}}
                         class="descripcion-minuta {{unless expandido "colapsada"}}">
   {{#if tema.esTemaParaProponerPinos}}
-      <p>
-        {{#each tema.propuestas as |propuesta|}}
-          <b>Pino</b> {{propuesta.pino}} ⇨ <b>Sponsor</b> {{propuesta.sponsor.name}} <br>
-        {{/each}}
-      </p>
-  {{else if tema.esTemaConDescripcion}}
+    <p>
+      {{#each tema.propuestas as |propuesta|}}
+        <b>Pino</b> {{propuesta.pino}} ⇨ <b>Sponsor</b> {{propuesta.sponsor.name}} <br>
+      {{/each}}
+    </p>
+  {{else}}
     {{markdown-view value=tema.descripcion}}
+  {{/if}}
+  {{#if tema.esTemaParaRepasarActionItems}}
+    {{#each tema.temasParaRepasar as |temaDeMinuta|}}
+      {{action-items-de-tema temaDeMinuta=temaDeMinuta}}
+    {{/each}}
   {{/if}}
 </div>

@@ -13,14 +13,12 @@ import ar.com.kfgodel.webbyconvention.api.WebServer;
 import ar.com.kfgodel.webbyconvention.api.config.WebServerConfiguration;
 import ar.com.kfgodel.webbyconvention.impl.JettyWebServer;
 import ar.com.kfgodel.webbyconvention.impl.config.ConfigurationByConvention;
-import convention.persistent.TemaGeneral;
 import convention.services.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.List;
 
 /**
  * This type represents the whole application as a single object.<br>
@@ -31,6 +29,12 @@ public class TemasApplication implements Application {
     public static Logger LOG = LoggerFactory.getLogger(TemasApplication.class);
 
     private TemasConfiguration config;
+
+    public static Application create(TemasConfiguration config) {
+        TemasApplication application = new TemasApplication();
+        application.setConfiguration(config);
+        return application;
+    }
 
     @Override
     public WebServer getWebServerModule() {
@@ -59,13 +63,6 @@ public class TemasApplication implements Application {
     @Override
     public DependencyInjector injector() {
         return config.getInjector();
-    }
-
-
-    public static Application create(TemasConfiguration config) {
-        TemasApplication application = new TemasApplication();
-        application.setConfiguration(config);
-        return application;
     }
 
     /**
@@ -135,18 +132,18 @@ public class TemasApplication implements Application {
 
     public void clearServices() {
         getServiceClasses().forEach(serviceClass -> {
-            injector().getImplementationFor(serviceClass).ifPresent(Service::deleteAll);
+            getImplementationFor(serviceClass).deleteAll();
         });
     }
 
-    private Collection<Class<? extends Service>> getServiceClasses() {
+    private List<Class<? extends Service>> getServiceClasses() {
         return Arrays.asList(
-                ReunionService.class,
+                MinutaService.class,
+                TemaDeMinutaService.class,
                 TemaService.class,
                 TemaGeneralService.class,
-                UsuarioService.class,
-                MinutaService.class,
-                TemaDeMinutaService.class
+                ReunionService.class,
+                UsuarioService.class
         );
     }
 }

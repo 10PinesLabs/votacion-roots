@@ -7,10 +7,10 @@ import ar.com.kfgodel.temas.filters.reuniones.ProximaReunion;
 import ar.com.kfgodel.temas.filters.reuniones.UltimaReunion;
 import convention.persistent.Minuta;
 import convention.persistent.Reunion;
-import convention.persistent.TemaGeneral;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Optional;
 
 
 /**
@@ -47,7 +47,12 @@ public class ReunionService extends Service<Reunion> {
     super.delete(id);
   }
 
-  public Reunion getUltimaReunion() {
-    return getAll(UltimaReunion.create()).stream().findFirst().get();
+  public Optional<Reunion> getUltimaReunion() {
+    return getAll(UltimaReunion.create()).stream().findFirst();
+  }
+
+  public Reunion cargarActionItemsDeLaUltimaMinutaSiExisteElTema(Reunion nuevaReunion) {
+    minutaService.getUltimaMinuta().ifPresent(nuevaReunion::cargarSiExisteElTemaParaRepasarActionItemsDe);
+    return nuevaReunion;
   }
 }

@@ -1,31 +1,16 @@
 package ar.com.kfgodel.temas.services;
 
 import ar.com.kfgodel.appbyconvention.operation.api.ApplicationOperation;
-import ar.com.kfgodel.dependencies.api.DependencyInjector;
 import ar.com.kfgodel.orm.api.operations.basic.Save;
 import ar.com.kfgodel.temas.acciones.CalculadorDeProximaFecha;
-import ar.com.kfgodel.temas.apiRest.JettyIdentityAdapterTest;
-import ar.com.kfgodel.temas.apiRest.SecurityContextTest;
-import ar.com.kfgodel.temas.application.Application;
-import ar.com.kfgodel.temas.helpers.TestConfig;
-import ar.com.kfgodel.temas.persistence.TestApplication;
 import convention.persistent.*;
-import convention.rest.api.DuracionesResource;
-import convention.rest.api.ReunionResource;
 import convention.rest.api.TemaDeReunionResource;
-import convention.rest.api.TemaGeneralResource;
 import convention.rest.api.tos.ReunionTo;
 import convention.rest.api.tos.TemaDeReunionTo;
-import convention.services.ReunionService;
-import convention.services.TemaService;
-import convention.services.UsuarioService;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.SecurityContext;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -34,50 +19,7 @@ import java.util.List;
 /**
  * Created by fede on 22/06/17.
  */
-public class TemasServiceTest {
-
-    TestApplication app;
-
-    ReunionService reunionService;
-    UsuarioService usuarioService;
-    TemaService temaService;
-    ReunionResource reunionResource;
-    DuracionesResource duracionResource;
-    SecurityContext testContextUserFeche;
-    Long userId;
-    Long otherUserId;
-    Usuario otherUser;
-    Usuario user;
-    private TemaDeReunionResource temaDeReunionResource;
-    private TemaGeneralResource temaGeneralResource;
-
-    @Before
-    public void setUp() {
-        app = TestApplication.create(TestConfig.create());
-        app.start();
-        DependencyInjector injector = app.injector();
-        temaDeReunionResource = TemaDeReunionResource.create(injector);
-        duracionResource = DuracionesResource.create(injector);
-        temaGeneralResource = TemaGeneralResource.create(injector);
-
-        reunionResource = ReunionResource.create(injector);
-        temaService = injector.getImplementationFor(TemaService.class).get();
-        usuarioService = injector.createInjected(UsuarioService.class);
-        reunionService = injector.getImplementationFor(ReunionService.class).get();
-
-        testContextUserFeche = new SecurityContextTest(usuarioService.getAll().get(0).getId());
-
-        userId = ((JettyIdentityAdapterTest) testContextUserFeche.getUserPrincipal()).getApplicationIdentification();
-        user = usuarioService.get(userId);
-        otherUser = usuarioService.getAll().stream().filter(userTo -> !userTo.getId().equals(userId)).findFirst().get();
-        otherUserId = otherUser.getId();
-    }
-
-    @After
-    public void drop() {
-        app.clearServices();
-    }
-
+public class TemasServiceTest extends ServiceTest {
 
     @Test
     public void alTraerUnaReunionConLaSeccionDeUnUsuarioNoTraeLosVotosDeOtrosSiLaReunionEstaPendiente() {
