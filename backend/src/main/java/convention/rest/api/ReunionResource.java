@@ -101,8 +101,7 @@ public class ReunionResource {
     public ReunionTo create(ReunionTo reunionNuevaTo) {
 
         Reunion nuevaReunion = getResourceHelper().convertir(reunionNuevaTo, Reunion.class);
-        nuevaReunion.agregarTemasGenerales(temaGeneralService.getAll());
-        Reunion reunionCreada = reunionService.save(nuevaReunion);
+        Reunion reunionCreada = reunionService.create(nuevaReunion);
         return getResourceHelper().convertir(reunionCreada, ReunionTo.class);
     }
 
