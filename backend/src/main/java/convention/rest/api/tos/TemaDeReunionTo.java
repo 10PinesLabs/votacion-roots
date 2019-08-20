@@ -1,6 +1,7 @@
 package convention.rest.api.tos;
 
 import ar.com.kfgodel.appbyconvention.tos.PersistableToSupport;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import convention.persistent.TemaDeReunion;
@@ -17,6 +18,7 @@ import java.util.List;
         @JsonSubTypes.Type(value = TemaDeReunionConDescripcionTo.class, name = "conDescripcion"),
         @JsonSubTypes.Type(value = TemaParaRepasarActionItemsTo.class, name = "repasarActionItems")
 })
+@JsonIgnoreProperties({"usuarioActual"})
 public class TemaDeReunionTo extends PersistableToSupport {
     @CopyFromAndTo(TemaDeReunion.duracion_FIELD)
     private String duracion;
