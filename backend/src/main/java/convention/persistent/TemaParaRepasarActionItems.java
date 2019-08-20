@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 public class TemaParaRepasarActionItems extends TemaDeReunion {
 
-    public static final String TITULO = "Repasar action items de la root anterior";
+    public static final String TITULO = "Ver action items anteriores";
     public static final String temasParaRepasar_FIELD = "temasParaRepasar";
 
     @OneToMany(fetch = FetchType.EAGER)
