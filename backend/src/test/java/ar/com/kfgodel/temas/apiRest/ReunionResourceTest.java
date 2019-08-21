@@ -144,7 +144,7 @@ public class ReunionResourceTest extends ResourceTest {
 
         Reunion proximaReunion = reunionService.getAll().get(0);
         TemaDeReunion unTemaDeReunion = proximaReunion.getTemasPropuestos().get(0);
-        assertThat(unTemaDeReunion.getTemaGenerador().get().getId()).isEqualTo(unTemaGeneral.getId());
+        assertThat(unTemaDeReunion.getTemaGenerador().get()).isEqualTo(unTemaGeneral);
     }
 
     private Usuario unUsuarioPersistido() {
