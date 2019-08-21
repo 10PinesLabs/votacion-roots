@@ -216,8 +216,9 @@ public class TestHelper {
         return otroTema;
     }
 
-    public TemaEnCreacionTo unTemaEnCreacionTo() {
+    public TemaEnCreacionTo unTemaEnCreacionTo(Reunion unaReunion) {
         TemaEnCreacionTo unTemaEnCreacionTo = new TemaEnCreacionTo();
+        unTemaEnCreacionTo.setIdDeReunion(unaReunion.getId());
         unTemaEnCreacionTo.setTitulo(unTitulo());
         unTemaEnCreacionTo.setDescripcion(unaDescripcion());
         unTemaEnCreacionTo.setObligatoriedad(convertirA(unaObligatoriedad(), String.class));
@@ -231,6 +232,12 @@ public class TestHelper {
     public TemaDeReunion unTemaDeReunionConPrimeraPropuesta(TemaDeReunion unaPrimeraPropuesta) {
         TemaDeReunion unTemaDeReunion = unTemaDeReunion();
         unTemaDeReunion.setPrimeraPropuesta(unaPrimeraPropuesta);
+        return unTemaDeReunion;
+    }
+
+    public TemaDeReunion unTemaDeReunionConPrimeraPropuestaParaReunion(TemaDeReunion unaPrimeraPropuesta, Reunion unaReunion) {
+        TemaDeReunion unTemaDeReunion = unTemaDeReunionConPrimeraPropuesta(unaPrimeraPropuesta);
+        unTemaDeReunion.setReunion(unaReunion);
         return unTemaDeReunion;
     }
 }
