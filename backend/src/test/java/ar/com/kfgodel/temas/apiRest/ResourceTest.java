@@ -163,7 +163,11 @@ public abstract class ResourceTest {
     }
 
     TemaDeReunionTo convertirATo(TemaDeReunion unTemaDeReunion) {
-        return getTypeTransformer().transformTo(TemaDeReunionTo.class, unTemaDeReunion);
+        return convertirA(unTemaDeReunion, TemaDeReunionTo.class);
+    }
+
+    <T> T convertirA(Object unObjeto, Class<T> unaClaseDestino) {
+        return getTypeTransformer().transformTo(unaClaseDestino, unObjeto);
     }
 
     TemaDeMinutaTo convertirATo(TemaDeMinuta unTemaDeMinuta) {

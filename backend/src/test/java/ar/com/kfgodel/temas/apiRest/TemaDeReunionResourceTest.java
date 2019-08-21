@@ -112,6 +112,19 @@ public class TemaDeReunionResourceTest extends ResourceTest {
         assertThat(temaCreado.getPrimeraPropuesta()).isEqualTo(temaCreado);
     }
 
+    @Test
+    public void testGetDeTemasDeReunionContieneElIdDeLaPrimeraPropuesta() throws IOException {
+        Reunion unaReunion = reunionService.save(helper.unaReunion());
+        TemaDeReunion unTema = helper.unTemaDeReunion();
+        unTema.setReunion(unaReunion);
+        unTema = temaService.save(unTema);
+
+        HttpResponse response = makeGetRequest("temas/" + unTema.getId());
+
+        JSONObject jsonResponse = new JSONObject(getResponseBody(response));
+        assertThat(jsonResponse.getLong("idDePrimeraPropuesta")).isEqualTo(unTema.getPrimeraPropuesta().getId());
+    }
+
     private TemaDeReunionConDescripcion crearUnTemaDeReunionConDescripcion() {
         TemaDeReunionConDescripcion unTemaConDescripcion = new TemaDeReunionConDescripcion();
         temaService.save(unTemaConDescripcion);
