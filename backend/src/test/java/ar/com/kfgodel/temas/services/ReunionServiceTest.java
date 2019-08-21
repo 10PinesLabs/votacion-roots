@@ -33,7 +33,7 @@ public class ReunionServiceTest extends ServiceTest {
     @Test
     public void seCarganLosActionItemsDeLaReunionAnteriorCuandoElTemaExiste() {
         Reunion proximaReunion = reunionService.getProxima();
-        proximaReunion.agregarTema(helper.unTemaDeReunionConTitulo("Repasar action items de la root anterior"));
+        proximaReunion.agregarTema(helper.unTemaDeReunionConTitulo("Ver action items anteriores"));
         reunionService.cargarActionItemsDeLaUltimaMinutaSiExisteElTema(proximaReunion);
         reunionService.save(proximaReunion);
 
