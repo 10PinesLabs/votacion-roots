@@ -92,10 +92,10 @@ public class NotificadorDeTemasNoTratadosTest {
         assertThat(destinatario.getAddress()).isEqualTo(autorDelTema.getMail());
         assertThat(remitente.getName()).isEqualTo("Aviso Tema No Propuesto");
         assertThat(remitente.getAddress()).isEqualTo(MailerConfiguration.getSenderAdress());
-        assertThat(emailEnviado.getSubject()).isEqualTo("Tu tema \"" + tituloDelTema + "\" no fue tratado");
+        assertThat(emailEnviado.getSubject()).isEqualTo(String.format("Tu tema \"%s\" no fue tratado", tituloDelTema));
         assertThat(emailEnviado.getPlainText()).isEqualTo(
-                "Hola! El tema \"" + tituloDelTema +
-                        "\" que presentaste en la roots pasada no fue tratado. Sentite libre de volver a proponerlo!");
+                String.format("Hola! El tema \"%s\" que presentaste en la roots pasada no fue tratado. Sentite libre de volver a proponerlo!",
+                        tituloDelTema));
     }
 
     private Minuta crearUnaMinutaConUnTemaNoTratado() {
