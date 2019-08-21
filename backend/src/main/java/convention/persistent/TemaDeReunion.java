@@ -192,4 +192,8 @@ public abstract class TemaDeReunion extends Tema {
     public Boolean esRePropuesta() {
         return !Objects.equals(getPrimeraPropuesta(), this);
     }
+
+    public Boolean reProponeElMismoTemaQue(TemaDeReunion otroTema) {
+        return Objects.equals(getPrimeraPropuesta(), otroTema.getPrimeraPropuesta());
+    }
 }
