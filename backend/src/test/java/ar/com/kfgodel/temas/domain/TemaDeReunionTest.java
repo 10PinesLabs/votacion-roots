@@ -203,4 +203,21 @@ public class TemaDeReunionTest {
 
         assertThat(unTema.getPrimeraPropuesta()).isEqualTo(otroTema);
     }
+
+    @Test
+    public void testUnTemaEsUnaRePropuestaSiSuPrimeraPropuestaEsOtroTemaDistinto() {
+        TemaDeReunion unTema = helper.unTemaDeReunion();
+        TemaDeReunion otroTema = helper.unTemaDeReunion();
+        unTema.setPrimeraPropuesta(otroTema);
+
+        assertThat(unTema.esRePropuesta()).isTrue();
+    }
+
+    @Test
+    public void testUnTemaNoEsRePropuestaSiSuPrimeraPropuestaEsElMismo() {
+        TemaDeReunion unTema = helper.unTemaDeReunion();
+        unTema.setPrimeraPropuesta(unTema);
+
+        assertThat(unTema.esRePropuesta()).isFalse();
+    }
 }
