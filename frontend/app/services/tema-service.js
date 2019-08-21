@@ -12,8 +12,8 @@ export default Ember.Service.extend(EmberizedResourceCreatorInjected, {
   createTema: function (tema) {
     return promiseHandling(this._temaResource().create(tema));
   },
-  getTema: function (userId) {
-    return this._temaResource().getSingle(userId);
+  getTema: function (temaId) {
+    return this._temaResource().getSingle(temaId);
   },
   updateTema: function (tema) {
     return promiseHandling(this._temaResource().update(tema));
