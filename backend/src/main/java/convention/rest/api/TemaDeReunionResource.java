@@ -121,6 +121,7 @@ public class TemaDeReunionResource {
         TemaDeReunionConDescripcion nuevoTema = getResourceHelper().convertir(unTo, TemaDeReunionConDescripcion.class);
         verificarQueNoTieneTituloDeTemaParaProponerPinosARoot(nuevoTema);
         verificarQueLaPrimeraPropuestaNoEsUnaRePropuesta(nuevoTema);
+        verificarQueNoSeReProponeElMismoTema(nuevoTema);
         nuevoTema.setUltimoModificador(getResourceHelper().usuarioActual(securityContext));
         return nuevoTema;
     }
@@ -134,6 +135,12 @@ public class TemaDeReunionResource {
     private void verificarQueLaPrimeraPropuestaNoEsUnaRePropuesta(TemaDeReunionConDescripcion unTemaDeReunion) {
         if (unTemaDeReunion.getPrimeraPropuesta().esRePropuesta()) {
             throw new WebApplicationException("No se puede volver a proponer una re-propuesta", Response.Status.BAD_REQUEST);
+        }
+    }
+
+    private void verificarQueNoSeReProponeElMismoTema(TemaDeReunionConDescripcion unTemaDeReunion) {
+        if (unTemaDeReunion.getReunion().reProponeElMismoTemaQue(unTemaDeReunion)) {
+            throw new WebApplicationException("No se puede volver a proponer el mismo tema más de una vez", Response.Status.CONFLICT);
         }
     }
 }
