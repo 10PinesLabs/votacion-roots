@@ -29,6 +29,9 @@ public class TemaEnCreacionTo {
     @CopyTo(TemaDeReunion.obligatoriedad_FIELD)
     private String obligatoriedad;
 
+    @CopyTo(TemaDeReunion.primeraPropuesta_FIELD)
+    private Long idDePrimeraPropuesta;
+
     public String getDuracion() {
         return duracion;
     }
@@ -77,4 +80,11 @@ public class TemaEnCreacionTo {
         this.descripcion = descripcion;
     }
 
+    public void setIdDePrimeraPropuesta(Long idDePrimeraPropuesta) {
+        this.idDePrimeraPropuesta = idDePrimeraPropuesta;
+    }
+
+    public Long getIdDePrimeraPropuesta() {
+        return idDePrimeraPropuesta;
+    }
 }

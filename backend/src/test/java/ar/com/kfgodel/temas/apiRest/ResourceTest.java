@@ -46,7 +46,7 @@ public abstract class ResourceTest {
     ReunionService reunionService;
     MinutaService minutaService;
     TemaGeneralService temaGeneralService;
-    TestHelper helper = new TestHelper();
+    TestHelper helper;
     PersistentTestHelper persistentHelper;
     private HttpClient client;
 
@@ -98,6 +98,8 @@ public abstract class ResourceTest {
         temaGeneralService = getApplication().getImplementationFor(TemaGeneralService.class);
         usuarioService = getApplication().getImplementationFor(UsuarioService.class);
         minutaService = getApplication().getImplementationFor(MinutaService.class);
+
+        helper = getInjector().createInjected(TestHelper.class);
         usuarioService.save(helper.unFeche());
         usuarioService.save(helper.unSandro());
 

@@ -1,10 +1,6 @@
 package ar.com.kfgodel.temas.apiRest;
 
-import ar.com.kfgodel.temas.helpers.TestHelper;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import convention.persistent.*;
-import convention.rest.api.tos.TemaDeReunionTo;
 import convention.rest.api.tos.TemaEnCreacionTo;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -90,6 +86,30 @@ public class TemaDeReunionResourceTest extends ResourceTest {
         TemaDeReunion temaActualizado = temaService.get(idDelTema);
         assertThatResponseStatusCodeIs(response, HttpStatus.SC_CONFLICT);
         assertThat(temaActualizado.getTitulo()).isEqualTo(tituloDelTema);
+    }
+
+    @Test
+    public void testUnTemaSeCreaConUnaPrimeraPropuesta() throws IOException {
+        TemaDeReunionConDescripcion unTemaDeReunion = crearUnTemaDeReunionConDescripcion();
+        TemaEnCreacionTo unTemaEnCreacionTo = helper.unTemaEnCreacionTo();
+        unTemaEnCreacionTo.setIdDePrimeraPropuesta(unTemaDeReunion.getId());
+
+        HttpResponse response = makeJsonPostRequest("temas/", convertirAJsonString(unTemaEnCreacionTo));
+
+        Long idDelTemaCreado = new JSONObject(getResponseBody(response)).getLong("id");
+        TemaDeReunion temaCreado = temaService.get(idDelTemaCreado);
+        assertThat(temaCreado.getPrimeraPropuesta()).isEqualTo(unTemaDeReunion);
+    }
+
+    @Test
+    public void testUnTemaSeCreaConsigoMismoComoPrimeraPropuestaSiNoSeEspecificaUna() throws IOException {
+        TemaEnCreacionTo unTemaEnCreacionTo = helper.unTemaEnCreacionTo();
+        unTemaEnCreacionTo.setIdDePrimeraPropuesta(null);
+
+        makeJsonPostRequest("temas/", convertirAJsonString(unTemaEnCreacionTo));
+
+        TemaDeReunion temaCreado = temaService.getAll().get(0);
+        assertThat(temaCreado.getPrimeraPropuesta()).isEqualTo(temaCreado);
     }
 
     private TemaDeReunionConDescripcion crearUnTemaDeReunionConDescripcion() {

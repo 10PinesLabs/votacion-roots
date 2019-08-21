@@ -23,6 +23,7 @@ public abstract class TemaDeReunion extends Tema {
     public static final String interesados_FIELD = "interesados";
     public static final String obligatoriedad_FIELD = "obligatoriedad";
     public static final String temaGenerador_FIELD = "temaGenerador";
+    public static final String primeraPropuesta_FIELD = "primeraPropuesta";
     public static final String ERROR_AGREGAR_INTERESADO = "No se puede agregar un interesado a un tema obligatorio";
     @ManyToOne
     private Reunion reunion;
@@ -185,6 +186,6 @@ public abstract class TemaDeReunion extends Tema {
     }
 
     public TemaDeReunion getPrimeraPropuesta() {
-        return primeraPropuesta;
+        return Optional.ofNullable(primeraPropuesta).orElse(this);
     }
 }
