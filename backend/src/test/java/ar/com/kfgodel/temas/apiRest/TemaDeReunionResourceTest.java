@@ -125,6 +125,20 @@ public class TemaDeReunionResourceTest extends ResourceTest {
         assertThat(jsonResponse.getLong("idDePrimeraPropuesta")).isEqualTo(unTema.getPrimeraPropuesta().getId());
     }
 
+    @Test
+    public void testUnTemaNoPuedeTenerComoPrimeraPropuestaAUnaRePropuesta() throws IOException {
+        TemaDeReunion unaPrimeraPropuesta = temaService.save(helper.unTemaDeReunion());
+        TemaDeReunion unaRePropuesta = temaService.save(helper.unTemaDeReunionConPrimeraPropuesta(unaPrimeraPropuesta));
+
+        TemaEnCreacionTo unTemaEnCreacionTo = helper.unTemaEnCreacionTo();
+        unTemaEnCreacionTo.setIdDePrimeraPropuesta(unaRePropuesta.getId());
+
+        HttpResponse response = makeJsonPostRequest("temas/", convertirAJsonString(unTemaEnCreacionTo));
+
+        assertThatResponseStatusCodeIs(response, HttpStatus.SC_BAD_REQUEST);
+        assertThat(temaService.getAll()).containsExactly(unaPrimeraPropuesta, unaRePropuesta);
+    }
+
     private TemaDeReunionConDescripcion crearUnTemaDeReunionConDescripcion() {
         TemaDeReunionConDescripcion unTemaConDescripcion = new TemaDeReunionConDescripcion();
         temaService.save(unTemaConDescripcion);

@@ -227,4 +227,10 @@ public class TestHelper {
     private <T> T convertirA(Object unObjeto, Class<T> unaClaseDestino) {
         return typeTransformer.transformTo(unaClaseDestino, unObjeto);
     }
+
+    public TemaDeReunion unTemaDeReunionConPrimeraPropuesta(TemaDeReunion unaPrimeraPropuesta) {
+        TemaDeReunion unTemaDeReunion = unTemaDeReunion();
+        unTemaDeReunion.setPrimeraPropuesta(unaPrimeraPropuesta);
+        return unTemaDeReunion;
+    }
 }
