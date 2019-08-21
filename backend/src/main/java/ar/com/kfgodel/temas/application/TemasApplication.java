@@ -13,12 +13,8 @@ import ar.com.kfgodel.webbyconvention.api.WebServer;
 import ar.com.kfgodel.webbyconvention.api.config.WebServerConfiguration;
 import ar.com.kfgodel.webbyconvention.impl.JettyWebServer;
 import ar.com.kfgodel.webbyconvention.impl.config.ConfigurationByConvention;
-import convention.services.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * This type represents the whole application as a single object.<br>
@@ -79,16 +75,16 @@ public class TemasApplication implements Application {
     public void stop() {
         LOG.info("Stopping APP");
         this.getWebServerModule().stop();
-        this.getOrmModule().close();
+        stopOrmModule();
     }
 
     protected void initialize() {
         this.injector().bindTo(Application.class, this);
 
-        this.injector().bindTo(HibernateOrm.class, createPersistenceLayer());
+        bindOrmModule();
         // Web server depends on hibernate, so it needs to be created after hibernate
         this.injector().bindTo(WebServer.class, createWebServer());
-        this.injector().bindTo(TypeTransformer.class, createTransformer());
+        bindTransformer();
 
         registerCleanupHook();
 
@@ -130,20 +126,21 @@ public class TemasApplication implements Application {
         return JettyWebServer.createFor(serverConfig);
     }
 
-    public void clearServices() {
-        getServiceClasses().forEach(serviceClass -> {
-            getImplementationFor(serviceClass).deleteAll();
-        });
+    public void bindTransformer() {
+        this.injector().bindTo(TypeTransformer.class, createTransformer());
     }
 
-    private List<Class<? extends Service>> getServiceClasses() {
-        return Arrays.asList(
-                MinutaService.class,
-                TemaDeMinutaService.class,
-                TemaService.class,
-                TemaGeneralService.class,
-                ReunionService.class,
-                UsuarioService.class
-        );
+    private void stopOrmModule() {
+        this.getOrmModule().close();
+    }
+
+    private void bindOrmModule() {
+        this.injector().bindTo(HibernateOrm.class, createPersistenceLayer());
+    }
+
+    public void restartOrmModule() {
+        stopOrmModule();
+        bindOrmModule();
+        bindTransformer();
     }
 }

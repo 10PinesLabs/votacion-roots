@@ -108,7 +108,7 @@ public abstract class ResourceTest {
 
     @After
     public void tearDown() {
-        application.clearServices();
+        application.restartOrmModule();
     }
 
     private String pathRelativeToHost(String aRelativePath) {

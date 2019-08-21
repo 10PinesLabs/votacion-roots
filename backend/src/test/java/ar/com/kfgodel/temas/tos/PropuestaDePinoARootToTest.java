@@ -10,6 +10,7 @@ import convention.persistent.PropuestaDePinoARoot;
 import convention.persistent.Usuario;
 import convention.rest.api.tos.PropuestaDePinoARootTo;
 import convention.rest.api.tos.UserTo;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,6 +28,11 @@ public class PropuestaDePinoARootToTest {
         application.start();
         baseConverter = application.injector().getImplementationFor(TypeTransformer.class)
                 .orElseThrow(() -> new TypeTransformerException("no se ha injectado ningun typeTransformer"));
+    }
+
+    @After
+    public void tearDown() {
+        application.stop();
     }
 
     @Test
