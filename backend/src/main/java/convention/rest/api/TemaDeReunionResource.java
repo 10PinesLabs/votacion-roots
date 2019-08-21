@@ -120,6 +120,7 @@ public class TemaDeReunionResource {
     private TemaDeReunionConDescripcion crearTemaDeReunionConDescripcion(Object unTo, @Context SecurityContext securityContext) {
         TemaDeReunionConDescripcion nuevoTema = getResourceHelper().convertir(unTo, TemaDeReunionConDescripcion.class);
         verificarQueNoTieneTituloDeTemaParaProponerPinosARoot(nuevoTema);
+        verificarQueLaPrimeraPropuestaNoEsUnaRePropuesta(nuevoTema);
         nuevoTema.setUltimoModificador(getResourceHelper().usuarioActual(securityContext));
         return nuevoTema;
     }
@@ -127,6 +128,12 @@ public class TemaDeReunionResource {
     private void verificarQueNoTieneTituloDeTemaParaProponerPinosARoot(TemaDeReunionConDescripcion unTemaDeReunion) {
         if (unTemaDeReunion.getTitulo().equals(TemaParaProponerPinosARoot.TITULO)) {
             throw new WebApplicationException("No puede haber 2 temas de proponer pino a roots", Response.Status.CONFLICT);
+        }
+    }
+
+    private void verificarQueLaPrimeraPropuestaNoEsUnaRePropuesta(TemaDeReunionConDescripcion unTemaDeReunion) {
+        if (unTemaDeReunion.getPrimeraPropuesta().esRePropuesta()) {
+            throw new WebApplicationException("No se puede volver a proponer una re-propuesta", Response.Status.BAD_REQUEST);
         }
     }
 }
