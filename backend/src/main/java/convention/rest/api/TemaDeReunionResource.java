@@ -30,25 +30,15 @@ public class TemaDeReunionResource {
 
     @POST
     public TemaDeReunionTo create(TemaEnCreacionTo newState, @Context SecurityContext securityContext) {
-        TemaDeReunionConDescripcion temaCreado = getResourceHelper().convertir(newState, TemaDeReunionConDescripcion.class);
-        verificarQueNoTieneTituloDeTemaParaProponerPinosARoot(temaCreado);
-
-        Usuario modificador = getResourceHelper().usuarioActual(securityContext);
-        temaCreado.setUltimoModificador(modificador);
-        temaService.save(temaCreado);
-        return getResourceHelper().convertir(temaCreado, TemaDeReunionTo.class);
+        TemaDeReunion nuevoTema = temaService.save(crearTemaDeReunionConDescripcion(newState, securityContext));
+        return getResourceHelper().convertir(nuevoTema, TemaDeReunionTo.class);
     }
 
-    @Path("/{resourceId}")
     @PUT
+    @Path("/{resourceId}")
     public TemaDeReunionTo update(TemaDeReunionTo newState, @PathParam("resourceId") Long id, @Context SecurityContext securityContext) {
-        TemaDeReunionConDescripcion estadoNuevo = getResourceHelper().convertir(newState, TemaDeReunionConDescripcion.class);
-        verificarQueNoTieneTituloDeTemaParaProponerPinosARoot(estadoNuevo);
-
-        Usuario modificador = getResourceHelper().usuarioActual(securityContext);
-        estadoNuevo.setUltimoModificador(modificador);
-        TemaDeReunion temaUpdateado = temaService.update(estadoNuevo);
-        return getResourceHelper().convertir(temaUpdateado, TemaDeReunionTo.class);
+        TemaDeReunion nuevoTema = temaService.update(crearTemaDeReunionConDescripcion(newState, securityContext));
+        return getResourceHelper().convertir(nuevoTema, TemaDeReunionTo.class);
     }
 
     @GET
@@ -125,6 +115,13 @@ public class TemaDeReunionResource {
 
     public ResourceHelper getResourceHelper() {
         return resourceHelper;
+    }
+
+    private TemaDeReunionConDescripcion crearTemaDeReunionConDescripcion(Object unTo, @Context SecurityContext securityContext) {
+        TemaDeReunionConDescripcion nuevoTema = getResourceHelper().convertir(unTo, TemaDeReunionConDescripcion.class);
+        verificarQueNoTieneTituloDeTemaParaProponerPinosARoot(nuevoTema);
+        nuevoTema.setUltimoModificador(getResourceHelper().usuarioActual(securityContext));
+        return nuevoTema;
     }
 
     private void verificarQueNoTieneTituloDeTemaParaProponerPinosARoot(TemaDeReunionConDescripcion unTemaDeReunion) {
