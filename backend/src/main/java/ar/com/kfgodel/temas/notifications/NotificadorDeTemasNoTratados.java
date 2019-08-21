@@ -50,14 +50,11 @@ public class NotificadorDeTemasNoTratados {
     }
 
     private String getSubjectFor(TemaDeReunion temaDeReunion) {
-        return "Tu tema \"" + temaDeReunion.getTitulo() + "\" no fue tratado";
+        return String.format("Tu tema \"%s\" no fue tratado", temaDeReunion.getTitulo());
     }
 
     private String getMessageFor(TemaDeReunion temaDeReunion) {
-        return "Hola! El tema " +
-                "\"" +
-                temaDeReunion.getTitulo() +
-                "\"" +
-                " que presentaste en la roots pasada no fue tratado. Sentite libre de volver a proponerlo!";
+        return String.format("Hola! El tema \"%s\" que presentaste en la roots pasada no fue tratado. Sentite libre de volver a proponerlo!",
+                temaDeReunion.getTitulo());
     }
 }
