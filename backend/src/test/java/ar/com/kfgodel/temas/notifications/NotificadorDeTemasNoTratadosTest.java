@@ -1,5 +1,6 @@
 package ar.com.kfgodel.temas.notifications;
 
+import ar.com.kfgodel.temas.helpers.MailerMock;
 import ar.com.kfgodel.temas.helpers.TestConfig;
 import ar.com.kfgodel.temas.helpers.TestHelper;
 import ar.com.kfgodel.temas.persistence.TestApplication;
@@ -32,15 +33,13 @@ public class NotificadorDeTemasNoTratadosTest {
     private TestApplication application;
     private ReunionService reunionService;
     private MinutaService minutaService;
-    private Mailer mailerMock;
-    private List<Email> emailsEnviados;
     private UsuarioService usuarioService;
+    private MailerMock mailerMock = new MailerMock();
 
     @Before
     public void setUp() {
         iniciarAplicacion();
         obtenerServices();
-        mockearMailer();
     }
 
     @After
@@ -60,7 +59,7 @@ public class NotificadorDeTemasNoTratadosTest {
         notificador.run();
 
         List<String> destinatariosEsperados = unosUsuarios.stream().map(Usuario::getMail).collect(Collectors.toList());
-        List<String> destinatarios = emailsEnviados.stream()
+        List<String> destinatarios = mailerMock.getEmailsEnviados().stream()
                 .flatMap(email -> email.getRecipients().stream().map(Recipient::getAddress))
                 .collect(Collectors.toList());
         assertThat(destinatarios).containsExactlyElementsOf(destinatariosEsperados);
@@ -73,7 +72,7 @@ public class NotificadorDeTemasNoTratadosTest {
         NotificadorDeTemasNoTratados notificador = crearNotificadorDeTemasNoTratados();
         notificador.run();
 
-        assertThat(emailsEnviados).isEmpty();
+        assertThat(mailerMock.getEmailsEnviados()).isEmpty();
     }
 
     @Test
@@ -83,7 +82,7 @@ public class NotificadorDeTemasNoTratadosTest {
         NotificadorDeTemasNoTratados notificador = crearNotificadorDeTemasNoTratados();
         notificador.run();
 
-        Email emailEnviado = emailsEnviados.get(0);
+        Email emailEnviado = mailerMock.getEmailsEnviados().get(0);
         Recipient remitente = emailEnviado.getFromRecipient();
         Recipient destinatario = emailEnviado.getRecipients().get(0);
         TemaDeReunion temaNoTratado = unaMinuta.getTemas().get(0).getTema();
@@ -120,7 +119,7 @@ public class NotificadorDeTemasNoTratadosTest {
     }
 
     private NotificadorDeTemasNoTratados crearNotificadorDeTemasNoTratados() {
-        return NotificadorDeTemasNoTratados.create(application.injector(), mailerMock);
+        return NotificadorDeTemasNoTratados.create(application.injector(), mailerMock.getMailer());
     }
 
     private void iniciarAplicacion() {
@@ -133,15 +132,5 @@ public class NotificadorDeTemasNoTratadosTest {
         reunionService = application.getImplementationFor(ReunionService.class);
         minutaService = application.getImplementationFor(MinutaService.class);
         usuarioService = application.getImplementationFor(UsuarioService.class);
-    }
-
-    private void mockearMailer() {
-        mailerMock = mock(Mailer.class);
-        emailsEnviados = new ArrayList<>();
-        doAnswer(invocation -> {
-            Email email = invocation.getArgument(0);
-            emailsEnviados.add(email);
-            return null;
-        }).when(mailerMock).sendMail(Mockito.any(Email.class));
     }
 }
