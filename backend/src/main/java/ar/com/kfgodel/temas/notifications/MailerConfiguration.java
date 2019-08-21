@@ -8,4 +8,8 @@ public class MailerConfiguration {
         }
         return new ActionItemStubMailSender();
     }
+
+    public static String getSenderAdress() {
+        return "votacion-roots@10pines.com";
+    }
 }
