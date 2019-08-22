@@ -28,8 +28,8 @@ export default Ember.Service.extend(TransitionerInjected, {
   navigateToReuniones(){
     this._navigateTo('reuniones.list');
   },
-  navigateToReunionesEdit(reunion){
-    this._navigateTo('reuniones.edit', reunion);
+  navigateToReunionesEdit(reunion, params){
+    this._navigateTo('reuniones.edit', reunion, params);
   },
   navigateToAsistentesMinuta(reunion){
     this._navigateTo('minuta.asistentes', reunion);
