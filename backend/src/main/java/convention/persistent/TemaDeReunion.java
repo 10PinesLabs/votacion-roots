@@ -25,6 +25,7 @@ public abstract class TemaDeReunion extends Tema {
     public static final String obligatoriedad_FIELD = "obligatoriedad";
     public static final String temaGenerador_FIELD = "temaGenerador";
     public static final String primeraPropuesta_FIELD = "primeraPropuesta";
+    public static final String fechaDePrimeraPropuesta_FIELD = "fechaDePrimeraPropuesta";
     public static final String ERROR_AGREGAR_INTERESADO = "No se puede agregar un interesado a un tema obligatorio";
     @ManyToOne
     private Reunion reunion;
@@ -204,6 +205,6 @@ public abstract class TemaDeReunion extends Tema {
     }
 
     private LocalDate getFechaDeReunion() {
-        return getReunion().getFecha();
+        return Optional.ofNullable(getReunion()).map(Reunion::getFecha).orElse(null);
     }
 }
