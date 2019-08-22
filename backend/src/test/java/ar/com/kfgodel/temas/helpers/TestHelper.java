@@ -246,4 +246,16 @@ public class TestHelper {
         unTemaDeReunion.setReunion(unaReunion);
         return unTemaDeReunion;
     }
+
+    public TemaDeReunion unTemaDeReunion(Reunion unaReunion) {
+        TemaDeReunion unTemaDeReunion = unTemaDeReunion();
+        unTemaDeReunion.setReunion(unaReunion);
+        return unTemaDeReunion;
+    }
+
+    public TemaDeReunion unaRePropuestaDe(TemaDeReunion unaPrimeraPropuesta) {
+        TemaDeReunion unTemaDeReunion = unTemaDeReunion();
+        unTemaDeReunion.setPrimeraPropuesta(unaPrimeraPropuesta);
+        return unTemaDeReunion;
+    }
 }

@@ -4,6 +4,7 @@ import ar.com.kfgodel.temas.exceptions.TemaDeReunionException;
 import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -196,5 +197,13 @@ public abstract class TemaDeReunion extends Tema {
 
     public Boolean reProponeElMismoTemaQue(TemaDeReunion otroTema) {
         return Objects.equals(getPrimeraPropuesta(), otroTema.getPrimeraPropuesta());
+    }
+
+    public LocalDate getFechaDePrimeraPropuesta() {
+        return getPrimeraPropuesta().getFechaDeReunion();
+    }
+
+    private LocalDate getFechaDeReunion() {
+        return getReunion().getFecha();
     }
 }
