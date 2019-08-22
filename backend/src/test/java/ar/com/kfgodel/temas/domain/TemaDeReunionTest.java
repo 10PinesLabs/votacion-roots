@@ -245,4 +245,13 @@ public class TemaDeReunionTest {
 
         assertThat(unTema.reProponeElMismoTemaQue(otroTema)).isFalse();
     }
+
+    @Test
+    public void testLaFechaDeLaPrimeraPropuestaEsLaFechaDeLaReunionDeLaPrimeraPropuesta() {
+        Reunion unaReunion = helper.unaReunion();
+        TemaDeReunion unaPrimeraPropuesta = helper.unTemaDeReunion(unaReunion);
+        TemaDeReunion unTema = helper.unaRePropuestaDe(unaPrimeraPropuesta);
+
+        assertThat(unTema.getFechaDePrimeraPropuesta()).isEqualTo(unaReunion.getFecha());
+    }
 }
