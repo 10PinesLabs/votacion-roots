@@ -186,6 +186,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
           this._traerDuraciones().then(() => {
             this.set('temaAEditar', Tema.create({}));
             this.set('temaAEditar.id', tema.id);
+            this.set('temaAEditar.idDePrimeraPropuesta', tema.idDePrimeraPropuesta);
             this.set('temaAEditar.tipo', tema.tipo);
             this.set('temaAEditar.duracion', tema.duracion);
             this.set('temaAEditar.idDeAutor', tema.idDeAutor);
@@ -215,6 +216,25 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
             }));
             this._mostrarModalTema();
           });
+        });
+      },
+      mostrarFormularioDeReproponer(tema) {
+        this._siNoEstaCerrada(function () {
+          this._traerDuraciones().then(() => {
+            this.set('mostrandoFormularioDeEdicion', false);
+            this.set('mostrandoFormularioXTemaNuevo', true);
+            this.set('nuevoTema', Tema.create({
+              idDeReunion: this._idDeReunion(),
+              idDeAutor: this._idDeUsuarioActual(),
+              idDePrimeraPropuesta: tema.idDePrimeraPropuesta,
+              duracion: tema.duracion,
+              titulo: tema.titulo,
+              descripcion: tema.descripcion,
+              obligatoriedad: tema.obligatoriedad,
+              esObligatorio: tema.esObligatorio
+            }));
+          });
+          this._mostrarModalTema();
         });
       },
       mostrarFormularioDeProponerPino(){
