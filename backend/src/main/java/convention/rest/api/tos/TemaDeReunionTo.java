@@ -42,6 +42,8 @@ public class TemaDeReunionTo extends PersistableToSupport {
     private String obligatoriedad;
     @CopyFrom(TemaDeReunion.primeraPropuesta_FIELD)
     private Long idDePrimeraPropuesta;
+    @CopyFrom(TemaDeReunion.fechaDePrimeraPropuesta_FIELD)
+    private String fechaDePrimeraPropuesta;
 
     public String getAutor() {
       return autor;
@@ -129,5 +131,13 @@ public class TemaDeReunionTo extends PersistableToSupport {
 
     public void setIdDePrimeraPropuesta(Long idDePrimeraPropuesta) {
         this.idDePrimeraPropuesta = idDePrimeraPropuesta;
+    }
+
+    public String getFechaDePrimeraPropuesta() {
+        return fechaDePrimeraPropuesta;
+    }
+
+    public void setFechaDePrimeraPropuesta(String fechaDePrimeraPropuesta) {
+        this.fechaDePrimeraPropuesta = fechaDePrimeraPropuesta;
     }
 }
