@@ -1,10 +1,6 @@
 package ar.com.kfgodel.temas.apiRest;
 
-import ar.com.kfgodel.temas.helpers.TestHelper;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import convention.persistent.*;
-import convention.rest.api.tos.TemaDeReunionTo;
 import convention.rest.api.tos.TemaEnCreacionTo;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -90,6 +86,43 @@ public class TemaDeReunionResourceTest extends ResourceTest {
         TemaDeReunion temaActualizado = temaService.get(idDelTema);
         assertThatResponseStatusCodeIs(response, HttpStatus.SC_CONFLICT);
         assertThat(temaActualizado.getTitulo()).isEqualTo(tituloDelTema);
+    }
+
+    @Test
+    public void testUnTemaSeCreaConUnaPrimeraPropuesta() throws IOException {
+        TemaDeReunionConDescripcion unTemaDeReunion = crearUnTemaDeReunionConDescripcion();
+        TemaEnCreacionTo unTemaEnCreacionTo = helper.unTemaEnCreacionTo();
+        unTemaEnCreacionTo.setIdDePrimeraPropuesta(unTemaDeReunion.getId());
+
+        HttpResponse response = makeJsonPostRequest("temas/", convertirAJsonString(unTemaEnCreacionTo));
+
+        Long idDelTemaCreado = new JSONObject(getResponseBody(response)).getLong("id");
+        TemaDeReunion temaCreado = temaService.get(idDelTemaCreado);
+        assertThat(temaCreado.getPrimeraPropuesta()).isEqualTo(unTemaDeReunion);
+    }
+
+    @Test
+    public void testUnTemaSeCreaConsigoMismoComoPrimeraPropuestaSiNoSeEspecificaUna() throws IOException {
+        TemaEnCreacionTo unTemaEnCreacionTo = helper.unTemaEnCreacionTo();
+        unTemaEnCreacionTo.setIdDePrimeraPropuesta(null);
+
+        makeJsonPostRequest("temas/", convertirAJsonString(unTemaEnCreacionTo));
+
+        TemaDeReunion temaCreado = temaService.getAll().get(0);
+        assertThat(temaCreado.getPrimeraPropuesta()).isEqualTo(temaCreado);
+    }
+
+    @Test
+    public void testGetDeTemasDeReunionContieneElIdDeLaPrimeraPropuesta() throws IOException {
+        Reunion unaReunion = reunionService.save(helper.unaReunion());
+        TemaDeReunion unTema = helper.unTemaDeReunion();
+        unTema.setReunion(unaReunion);
+        unTema = temaService.save(unTema);
+
+        HttpResponse response = makeGetRequest("temas/" + unTema.getId());
+
+        JSONObject jsonResponse = new JSONObject(getResponseBody(response));
+        assertThat(jsonResponse.getLong("idDePrimeraPropuesta")).isEqualTo(unTema.getPrimeraPropuesta().getId());
     }
 
     private TemaDeReunionConDescripcion crearUnTemaDeReunionConDescripcion() {

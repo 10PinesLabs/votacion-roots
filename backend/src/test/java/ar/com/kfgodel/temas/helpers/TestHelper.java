@@ -1,10 +1,13 @@
 package ar.com.kfgodel.temas.helpers;
 
 import ar.com.kfgodel.temas.domain.TemaParaProponerPinosARootTest;
+import ar.com.kfgodel.transformbyconvention.api.TypeTransformer;
 import convention.persistent.*;
 import convention.rest.api.tos.ActionItemTo;
+import convention.rest.api.tos.TemaEnCreacionTo;
 import convention.rest.api.tos.UserTo;
 
+import javax.inject.Inject;
 import java.time.LocalDate;
 import java.util.Arrays;
 
@@ -12,6 +15,9 @@ import java.util.Arrays;
  * Created by sandro on 30/06/17.
  */
 public class TestHelper {
+
+    @Inject
+    TypeTransformer typeTransformer;
 
     public TemaDeReunionConDescripcion unTemaObligatorio() {
         TemaDeReunionConDescripcion tema = TemaDeReunionConDescripcion.create();
@@ -163,5 +169,17 @@ public class TestHelper {
 
     public TemaGeneral unTemaGeneral() {
         return new TemaGeneral();
+    }
+
+    public TemaEnCreacionTo unTemaEnCreacionTo() {
+        TemaEnCreacionTo unTemaEnCreacionTo = new TemaEnCreacionTo();
+        unTemaEnCreacionTo.setTitulo(unTitulo());
+        unTemaEnCreacionTo.setDescripcion(unaDescripcion());
+        unTemaEnCreacionTo.setObligatoriedad(convertirA(unaObligatoriedad(), String.class));
+        return unTemaEnCreacionTo;
+    }
+
+    private <T> T convertirA(Object unObjeto, Class<T> unaClaseDestino) {
+        return typeTransformer.transformTo(unaClaseDestino, unObjeto);
     }
 }
