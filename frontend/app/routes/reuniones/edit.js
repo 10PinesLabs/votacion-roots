@@ -49,7 +49,7 @@ export default Ember.Route.extend(AuthenticatedRoute, ReunionServiceInjected, Us
 
   setupController: function(controller, model) {
     this._super(controller, model);
-    if (model.temaAReproponer !== undefined) {
+    if (model.temaAReproponer) {
       controller.send('mostrarFormularioDeReproponer', model.temaAReproponer)
     }
   }
