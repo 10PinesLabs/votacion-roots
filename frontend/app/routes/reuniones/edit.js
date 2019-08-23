@@ -24,7 +24,7 @@ export default Ember.Route.extend(AuthenticatedRoute, ReunionServiceInjected, Us
         })
     };
 
-    if (params.temaAReproponer !== undefined) {
+    if (params.temaAReproponer) {
       requests.temaAReproponer = this.promiseWaitingFor(this.temaService().getTema(params.temaAReproponer))
         .whenInterruptedAndReauthenticated(() => {
           this.navigator().navigateToReunionesEdit(params.reunion_id, params);
