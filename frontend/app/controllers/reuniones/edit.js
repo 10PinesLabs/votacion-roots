@@ -2,7 +2,7 @@ import Ember from "ember";
 import ReunionServiceInjected from "../../mixins/reunion-service-injected";
 import TemaServiceInjected from "../../mixins/tema-service-injected";
 import DuracionesServiceInjected from "../../mixins/duraciones-service-injected";
-import Tema from "../../concepts/tema";
+import Tema, {temasConComportamiento} from "../../concepts/tema";
 import NavigatorInjected from "../../mixins/navigator-injected";
 
 export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInjected, DuracionesServiceInjected, NavigatorInjected, {
@@ -410,15 +410,6 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
     );
   },
 
-  _usarInstanciasDeTemas(reunion, usuarioActual) {
-    var temasPropuestos = reunion.get('temasPropuestos');
-    for (var i = 0; i < temasPropuestos.length; i++) {
-      var objetoEmber = temasPropuestos[i];
-      objetoEmber.set('usuarioActual', usuarioActual);
-      temasPropuestos[i] = Tema.create(objetoEmber);
-    }
-  },
-
   _filtrarTemasGeneradosPorTemasGenerales(reunion) {
     var temasFiltrados = reunion.get('temasPropuestos').filter(function (tema) {
       return !tema.get('esDeUnTemaGeneral');
@@ -443,7 +434,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
   },
 
   _actualizarreunionCon(reunion) {
-    this._usarInstanciasDeTemas(reunion, this.get('usuarioActual'));
+    reunion.set('temasPropuestos', temasConComportamiento(reunion.get('temasPropuestos'), this.get('usuarioActual')));
     this._filtrarTemasGeneradosPorTemasGenerales(reunion);
     this.set('model.reunion', reunion);
   },

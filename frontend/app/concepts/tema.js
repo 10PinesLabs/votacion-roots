@@ -6,7 +6,7 @@ const tiposDeTema = {
   REPASAR_ACTION_ITEMS: "repasarActionItems"
 };
 
-export default Ember.Object.extend({
+const Tema = Ember.Object.extend({
 
   cantidadVotosTotales: Ember.computed('idsDeInteresados.[]', function () {
     return this.get('idsDeInteresados.length');
@@ -78,3 +78,11 @@ export default Ember.Object.extend({
   }),
 
 });
+
+export const temasConComportamiento = (temas, usuarioActual) =>
+  temas.map(temaEmber => {
+    temaEmber.set('usuarioActual', usuarioActual);
+    return Tema.create(temaEmber)
+  });
+
+export default Tema;

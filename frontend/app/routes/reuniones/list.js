@@ -3,7 +3,7 @@ import AuthenticatedRoute from "ateam-ember-authenticator/mixins/authenticated-r
 import NavigatorInjected from "../../mixins/navigator-injected";
 import ReunionServiceInjected from "../../mixins/reunion-service-injected";
 import UserServiceInjected from "../../mixins/user-service-injected";
-import Tema from "../../concepts/tema";
+import {temasConComportamiento} from "../../concepts/tema";
 
 export default Ember.Route.extend(AuthenticatedRoute,UserServiceInjected, ReunionServiceInjected, NavigatorInjected, {
   model() {
@@ -13,20 +13,10 @@ export default Ember.Route.extend(AuthenticatedRoute,UserServiceInjected, Reunio
       })
       .then((reuniones)=> {
         reuniones.forEach((reunion)=> {
-          this._usarInstanciasDeTemas(reunion, null);
+          reunion.set('temasPropuestos', temasConComportamiento(reunion.get('temasPropuestos'), null))
         });
         return reuniones;
       });
   },
-
-  _usarInstanciasDeTemas(reunion, usuarioActual){
-    var temasPropuestos = reunion.get('temasPropuestos');
-    for (var i = 0; i < temasPropuestos.length; i++) {
-      var objetoEmber = temasPropuestos[i];
-      objetoEmber.set('usuarioActual', usuarioActual);
-      var tema = Tema.create(objetoEmber);
-      temasPropuestos[i] = tema;
-    }
-  }
 
 });
