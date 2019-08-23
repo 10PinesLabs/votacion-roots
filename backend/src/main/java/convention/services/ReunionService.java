@@ -42,8 +42,7 @@ public class ReunionService extends Service<Reunion> {
 
   @Override
   public void delete(Long id) {
-    Minuta minuta = minutaService.getFromReunion(id);
-    minutaService.delete(minuta.getId());
+    minutaService.getForReunion(id).ifPresent(minutaService::delete);
     super.delete(id);
   }
 

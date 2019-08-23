@@ -25,8 +25,9 @@ public class MinutaResource{
     private ResourceHelper resourceHelper;
     @GET
     @Path("reunion/{reunionId}")
-    public MinutaTo getParaReunion(@PathParam("reunionId") Long id ){
-        Minuta minuta = minutaService.getFromReunion(id);
+    public MinutaTo getParaReunion(@PathParam("reunionId") Long id, @Context SecurityContext securityContext){
+        Usuario usuarioActual = getResourceHelper().usuarioActual(securityContext);
+        Minuta minuta = minutaService.getOrCreateForReunion(id, usuarioActual);
         minutaService.update(minuta);
         return getResourceHelper().convertir(minuta, MinutaTo.class);
     }
