@@ -16,18 +16,18 @@ export default Ember.Route.extend(AuthenticatedRoute, ReunionServiceInjected, Us
     const requests = {
       reunion: this.promiseWaitingFor(this.reunionService().getReunion(params.reunion_id))
         .whenInterruptedAndReauthenticated(() => {
-          this.navigator().navigateToReunionesEdit(reunionId);
+          this.navigator().navigateToReunionesEdit(params.reunion_id);
         }),
       usuarioActual: this.promiseWaitingFor(this.userService().getCurrentUser())
         .whenInterruptedAndReauthenticated(() => {
-          this.navigator().navigateToReunionesEdit(reunionId);
+          this.navigator().navigateToReunionesEdit(params.reunion_id);
         })
     };
 
     if (params.temaAReproponer !== undefined) {
       requests.temaAReproponer = this.promiseWaitingFor(this.temaService().getTema(params.temaAReproponer))
         .whenInterruptedAndReauthenticated(() => {
-          this.navigator().navigateToReunionesEdit(reunionId, params);
+          this.navigator().navigateToReunionesEdit(params.reunion_id, params);
         });
     }
 
