@@ -13,36 +13,28 @@ export default Ember.Route.extend(AuthenticatedRoute, ReunionServiceInjected, Us
     }
   },
   model: function (params) {
-    const reunionId = params.reunion_id;
-
-    return Ember.RSVP.hashSettled({
-      reunion: this.promiseWaitingFor(this.reunionService().getReunion(reunionId))
-        .whenInterruptedAndReauthenticated(()=> {
+    const requests = {
+      reunion: this.promiseWaitingFor(this.reunionService().getReunion(params.reunion_id))
+        .whenInterruptedAndReauthenticated(() => {
           this.navigator().navigateToReunionesEdit(reunionId);
         }),
       usuarioActual: this.promiseWaitingFor(this.userService().getCurrentUser())
-        .whenInterruptedAndReauthenticated(()=> {
+        .whenInterruptedAndReauthenticated(() => {
           this.navigator().navigateToReunionesEdit(reunionId);
-        }),
-      temaParaReproponer: this.promiseWaitingFor(this.temaService().getTema(params.temaAReproponer))
+        })
+    };
+
+    if (params.temaAReproponer !== undefined) {
+      requests.temaAReproponer = this.promiseWaitingFor(this.temaService().getTema(params.temaAReproponer))
         .whenInterruptedAndReauthenticated(() => {
           this.navigator().navigateToReunionesEdit(reunionId, params);
-        }),
-  }).then((responses)=> {
-      this._alertIfTemaNoEncontrado(params.reproponer, responses.temaParaReproponer);
+        });
+    }
 
-      let model = {};
-      Object.keys(responses).forEach((key) => model[key] = responses[key].value);
-
+    return Ember.RSVP.hash(requests).then((model) => {
       this._usarInstanciasDeTemas(model.reunion, model.usuarioActual);
       return model;
     });
-  },
-
-  _alertIfTemaNoEncontrado(param, result) {
-    if (param !== undefined && result.state === "rejected") {
-      alert("El tema no fue encontrado")
-    }
   },
 
   _usarInstanciasDeTemas(reunion, usuarioActual){
@@ -57,7 +49,9 @@ export default Ember.Route.extend(AuthenticatedRoute, ReunionServiceInjected, Us
 
   setupController: function(controller, model) {
     this._super(controller, model);
-    controller.send('mostrarFormularioDeReproponer', model.temaParaReproponer)
+    if (model.temaAReproponer !== undefined) {
+      controller.send('mostrarFormularioDeReproponer', model.temaAReproponer)
+    }
   }
 
 });
