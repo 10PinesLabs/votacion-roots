@@ -4,6 +4,7 @@ import convention.persistent.Minuta;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 
 public class CalculadorDeFechaDeNotificacion {
 
@@ -12,15 +13,8 @@ public class CalculadorDeFechaDeNotificacion {
     }
 
     private static LocalDate proximoDiaDeSemana(LocalDate unaFecha) {
-        LocalDate proximoDiaDeSemana = unaFecha;
-        do {
-            proximoDiaDeSemana = proximoDiaDeSemana.plusDays(1);
-        } while (esFinDeSemana(proximoDiaDeSemana));
-        return proximoDiaDeSemana;
-    }
-
-    private static Boolean esFinDeSemana(LocalDate fechaDeReunion) {
-        return fechaDeReunion.getDayOfWeek().equals(DayOfWeek.SATURDAY) ||
-                fechaDeReunion.getDayOfWeek().equals(DayOfWeek.SUNDAY);
+        return unaFecha.getDayOfWeek() == DayOfWeek.FRIDAY
+                ? unaFecha.with(TemporalAdjusters.next(DayOfWeek.MONDAY))
+                : unaFecha.plusDays(1);
     }
 }
