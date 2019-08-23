@@ -126,7 +126,7 @@ public class TemaDeReunionResourceTest extends ResourceTest {
     }
 
     @Test
-    public void testUnTemaNoPuedeTenerComoPrimeraPropuestaAUnaRePropuesta() throws IOException {
+    public void testCrearUnTemaConUnaRePropuestaComoPrimeraPropuestaRetornaUnBadRequest() throws IOException {
         TemaDeReunion unaPrimeraPropuesta = temaService.save(helper.unTemaDeReunion());
         TemaDeReunion unaRePropuesta = temaService.save(helper.unTemaDeReunionConPrimeraPropuesta(unaPrimeraPropuesta));
 
