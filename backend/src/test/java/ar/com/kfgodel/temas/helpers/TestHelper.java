@@ -176,4 +176,12 @@ public class TestHelper {
         unaReunion.marcarComoMinuteada();
         return unaReunion;
     }
+
+    public Reunion unaReunionMinuteadaConTemas() {
+        Reunion unaReunion = unaReunion();
+        unaReunion.agregarTema(unTemaDeReunion());
+        unaReunion.cerrarVotacion();
+        unaReunion.marcarComoMinuteada();
+        return unaReunion;
+    }
 }

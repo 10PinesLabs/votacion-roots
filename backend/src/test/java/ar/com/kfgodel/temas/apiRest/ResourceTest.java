@@ -8,12 +8,14 @@ import ar.com.kfgodel.temas.exceptions.TypeTransformerException;
 import ar.com.kfgodel.transformbyconvention.api.TypeTransformer;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import convention.persistent.TemaDeMinuta;
 import convention.persistent.TemaDeReunion;
 import ar.com.kfgodel.temas.helpers.PersistentTestHelper;
 import ar.com.kfgodel.temas.helpers.TestHelper;
 import convention.persistent.Usuario;
 import convention.rest.api.ReunionResource;
 import convention.rest.api.TemaDeReunionResource;
+import convention.rest.api.tos.TemaDeMinutaTo;
 import convention.rest.api.tos.TemaDeReunionTo;
 import convention.services.*;
 import org.apache.http.HttpResponse;
@@ -160,6 +162,10 @@ public abstract class ResourceTest {
 
     TemaDeReunionTo convertirATo(TemaDeReunion unTemaDeReunion) {
         return getTypeTransformer().transformTo(TemaDeReunionTo.class, unTemaDeReunion);
+    }
+
+    TemaDeMinutaTo convertirATo(TemaDeMinuta unTemaDeMinuta) {
+        return getTypeTransformer().transformTo(TemaDeMinutaTo.class, unTemaDeMinuta);
     }
 
     String convertirAJsonString(Object unObjeto) throws JsonProcessingException {
