@@ -14,21 +14,12 @@ export default Ember.Route.extend(AuthenticatedRoute, ReunionServiceInjected, Us
   },
   model: function (params) {
     const requests = {
-      reunion: this.promiseWaitingFor(this.reunionService().getReunion(params.reunion_id))
-        .whenInterruptedAndReauthenticated(() => {
-          this.navigator().navigateToReunionesEdit(params.reunion_id);
-        }),
+      reunion: this.promiseWaitingFor(this.reunionService().getReunion(params.reunion_id)),
       usuarioActual: this.promiseWaitingFor(this.userService().getCurrentUser())
-        .whenInterruptedAndReauthenticated(() => {
-          this.navigator().navigateToReunionesEdit(params.reunion_id);
-        })
     };
 
-    if (params.temaAReproponer) {
-      requests.temaAReproponer = this.promiseWaitingFor(this.temaService().getTema(params.temaAReproponer))
-        .whenInterruptedAndReauthenticated(() => {
-          this.navigator().navigateToReunionesEdit(params.reunion_id, params);
-        });
+    if(params.temaAReproponer) {
+      requests.temaAReproponer = this.promiseWaitingFor(this.temaService().getTema(params.temaAReproponer));
     }
 
     return Ember.RSVP.hash(requests).then((model) => {
