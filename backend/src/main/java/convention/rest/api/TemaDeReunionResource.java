@@ -108,6 +108,7 @@ public class TemaDeReunionResource {
     @Path("/{resourceId}")
     public void delete(@PathParam("resourceId") Long id) {
         TemaDeReunion tema = temaService.get(id);
+        temaService.convertirRePropuestasAPrimerasPropuestas(id);
         temaService.delete(tema);
     }
 
