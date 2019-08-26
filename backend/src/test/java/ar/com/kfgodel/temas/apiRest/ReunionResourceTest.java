@@ -160,6 +160,21 @@ public class ReunionResourceTest extends ResourceTest {
         assertThat(jsonDeLaRePropuesta.getLong("idDePrimeraPropuesta")).isEqualTo(unaPrimeraPropuesta.getId());
     }
 
+    @Test
+    public void testCuandoSeEliminaUnaReunionConUnaPrimeraPropuestaSusRePropuestasDejanDeSerRePropuestas() throws IOException {
+        Reunion unaReunion = reunionService.save(helper.unaReunion());
+        TemaDeReunion unaPrimeraPropuesta = temaService.save(
+                helper.unTemaDeReunion(unaReunion));
+        TemaDeReunion unTema = temaService.save(helper.unTemaDeReunionConPrimeraPropuestaParaReunion(
+                unaPrimeraPropuesta, reunionService.save(helper.unaReunion())));
+
+        HttpResponse response = makeDeleteRequest("reuniones/" + unaReunion.getId());
+
+        assertThatResponseStatusCodeIs(response, HttpStatus.SC_NO_CONTENT);
+        assertThat(temaService.getAll()).doesNotContain(unaPrimeraPropuesta);
+        assertThat(temaService.get(unTema.getId()).esRePropuesta()).isFalse();
+    }
+
     private Usuario unUsuarioPersistido() {
         return usuarioService.getAll().get(0);
     }

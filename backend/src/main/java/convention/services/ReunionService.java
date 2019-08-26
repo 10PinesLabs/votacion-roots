@@ -23,6 +23,9 @@ public class ReunionService extends Service<Reunion> {
   @Inject
   TemaGeneralService temaGeneralService;
 
+  @Inject
+  private TemaService temaService;
+
   public ReunionService() {
     setClasePrincipal(Reunion.class);
   }
@@ -44,6 +47,10 @@ public class ReunionService extends Service<Reunion> {
   public void delete(Long id) {
     Minuta minuta = minutaService.getFromReunion(id);
     minutaService.delete(minuta.getId());
+    Reunion reunion = get(id);
+    reunion.getTemasPropuestos().stream()
+            .filter(temaDeReunion -> !temaDeReunion.esRePropuesta())
+            .forEach(temaDeReunion -> temaService.convertirRePropuestasAPrimerasPropuestas(temaDeReunion.getId()));
     super.delete(id);
   }
 
