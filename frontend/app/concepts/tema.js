@@ -55,6 +55,14 @@ export default Ember.Object.extend({
     return obligatoriedad === "OBLIGATORIO" || obligatoriedad === "OBLIGATORIO_GENERAL";
   }),
 
+  esRepropuesta: Ember.computed('id', 'idDePrimeraPropuesta', function(){
+    return this.get('id') !== this.get('idDePrimeraPropuesta');
+  }),
+
+  antiguedadDePropuesta: Ember.computed('fechaDePrimeraPropuesta', function () {
+    return moment(this.get('fechaDePrimeraPropuesta')).locale('es').fromNow();
+  }),
+
   agregarInteresado(idDeInteresado) {
     this.get('idsDeInteresados').pushObject(idDeInteresado);
   },
@@ -75,6 +83,5 @@ export default Ember.Object.extend({
   }),
   esTemaParaRepasarActionItems: Ember.computed('tipo', function () {
     return this.get('tipo') === tiposDeTema.REPASAR_ACTION_ITEMS;
-  }),
-
+  })
 });

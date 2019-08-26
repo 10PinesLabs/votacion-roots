@@ -1,11 +1,10 @@
 <div class="flex space-between p-20" {{action 'verDetalleDeTema'}}>
   <div class="flex-1">
-    <div class="noPadding flex space-between">
-      <h5 class="titulo-de-tema">{{temaDeMinuta.tema.titulo}} </h5>
-      {{#if mostrarFlagActionItems}}
-        <i class="material-icons primary-color">flag</i>
-      {{/if}}
-    </div>
+    {{header-tema
+        tema=temaConComportamiento
+        mostrarFlagActionItems=mostrarFlagActionItems
+        antiguedadRelativa=false
+    }}
     {{#if mostrarDescripcion}}
       {{descripcion-de-tema-expansible tema=temaConComportamiento expandido=textoExtendido
                          onClick=(action 'expandirDescripcion')}}
