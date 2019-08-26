@@ -1,6 +1,5 @@
 package ar.com.kfgodel.temas.apiRest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import convention.persistent.*;
 import convention.rest.api.tos.TemaDeReunionTo;
 import convention.rest.api.tos.TemaEnCreacionTo;
