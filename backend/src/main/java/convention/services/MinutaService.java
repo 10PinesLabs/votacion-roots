@@ -6,6 +6,7 @@ import ar.com.kfgodel.temas.acciones.UsarMinutaExistente;
 import ar.com.kfgodel.temas.filters.MinutaDeReunion;
 import convention.persistent.Minuta;
 import convention.persistent.Reunion;
+import convention.persistent.Usuario;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -23,7 +24,7 @@ public class MinutaService extends Service<Minuta> {
         setClasePrincipal(Minuta.class);
     }
 
-    public Minuta getFromReunion(Long id) {
+    public Minuta getOrCreateForReunion(Long id, Usuario unMinuteador) {
 
         return createOperation()
                 .insideATransaction()
@@ -34,10 +35,18 @@ public class MinutaService extends Service<Minuta> {
                                     Reunion reunion = reunionService.get(id);
                                     reunion.marcarComoMinuteada();
                                     reunionService.update(reunion);
-                                    return CrearMinuta.create(reunion);
+                                    return CrearMinuta.create(reunion, unMinuteador);
                                 })
                 ).get();
 
+    }
+
+    public Optional<Minuta> getForReunion(Long id) {
+        return createOperation()
+                .insideATransaction()
+                .apply(MinutaDeReunion.create(id))
+                .asOptional()
+                .asNativeOptional();
     }
 
     public List<Minuta> getAll() {
@@ -46,6 +55,6 @@ public class MinutaService extends Service<Minuta> {
 
     public Optional<Minuta> getUltimaMinuta() {
         return reunionService.getUltimaReunion()
-                .map(reunion -> this.getFromReunion(reunion.getId()));
+                .flatMap(reunion -> this.getForReunion(reunion.getId()));
     }
 }

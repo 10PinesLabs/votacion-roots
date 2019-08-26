@@ -4,16 +4,18 @@ import ar.com.kfgodel.dependencies.api.DependencyInjector;
 import ar.com.kfgodel.temas.application.Application;
 import ar.com.kfgodel.temas.application.TemasApplication;
 import ar.com.kfgodel.temas.config.AuthenticatedTestConfig;
-import ar.com.kfgodel.temas.config.TemasConfiguration;
 import ar.com.kfgodel.temas.exceptions.TypeTransformerException;
 import ar.com.kfgodel.transformbyconvention.api.TypeTransformer;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import convention.persistent.TemaDeMinuta;
 import convention.persistent.TemaDeReunion;
 import ar.com.kfgodel.temas.helpers.PersistentTestHelper;
 import ar.com.kfgodel.temas.helpers.TestHelper;
+import convention.persistent.Usuario;
 import convention.rest.api.ReunionResource;
 import convention.rest.api.TemaDeReunionResource;
+import convention.rest.api.tos.TemaDeMinutaTo;
 import convention.rest.api.tos.TemaDeReunionTo;
 import convention.services.*;
 import org.apache.http.HttpResponse;
@@ -41,6 +43,7 @@ public abstract class ResourceTest {
 
     private static Thread serverThread;
     private static TemasApplication application;
+    private static AuthenticatedTestConfig applicationConfig;
     TemaService temaService;
     UsuarioService usuarioService;
     ReunionService reunionService;
@@ -53,7 +56,7 @@ public abstract class ResourceTest {
     @BeforeClass
     public static void applicationSetUp() {
         serverThread = new Thread(() -> {
-            TemasConfiguration applicationConfig = new AuthenticatedTestConfig();
+            applicationConfig = new AuthenticatedTestConfig();
             application = (TemasApplication) TemasApplication.create(applicationConfig);
             application.start();
         });
@@ -161,6 +164,10 @@ public abstract class ResourceTest {
         return getTypeTransformer().transformTo(TemaDeReunionTo.class, unTemaDeReunion);
     }
 
+    TemaDeMinutaTo convertirATo(TemaDeMinuta unTemaDeMinuta) {
+        return getTypeTransformer().transformTo(TemaDeMinutaTo.class, unTemaDeMinuta);
+    }
+
     String convertirAJsonString(Object unObjeto) throws JsonProcessingException {
         return new ObjectMapper().writeValueAsString(unObjeto);
     }
@@ -168,5 +175,9 @@ public abstract class ResourceTest {
     private TypeTransformer getTypeTransformer() {
         return getInjector().getImplementationFor(TypeTransformer.class)
                 .orElseThrow(() -> new TypeTransformerException("no se ha injectado ningún TypeTransformer"));
+    }
+
+    Usuario getAuthenticatedUser() {
+        return usuarioService.get(applicationConfig.getAuthenticatedUserId());
     }
 }

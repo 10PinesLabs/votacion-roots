@@ -164,4 +164,24 @@ public class TestHelper {
     public TemaGeneral unTemaGeneral() {
         return new TemaGeneral();
     }
+
+    public Reunion unaReunionCerrada() {
+        Reunion unaReunion = unaReunion();
+        unaReunion.cerrarVotacion();
+        return unaReunion;
+    }
+
+    public Reunion unaReunionMinuteada() {
+        Reunion unaReunion = unaReunionCerrada();
+        unaReunion.marcarComoMinuteada();
+        return unaReunion;
+    }
+
+    public Reunion unaReunionMinuteadaConTemas() {
+        Reunion unaReunion = unaReunion();
+        unaReunion.agregarTema(unTemaDeReunion());
+        unaReunion.cerrarVotacion();
+        unaReunion.marcarComoMinuteada();
+        return unaReunion;
+    }
 }

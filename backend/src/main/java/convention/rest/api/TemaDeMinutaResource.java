@@ -1,12 +1,18 @@
 package convention.rest.api;
 
 import ar.com.kfgodel.dependencies.api.DependencyInjector;
+import convention.persistent.Minuta;
 import convention.persistent.TemaDeMinuta;
+import convention.persistent.Usuario;
 import convention.rest.api.tos.TemaDeMinutaTo;
+import convention.services.MinutaService;
+import convention.services.Service;
 import convention.services.TemaDeMinutaService;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.SecurityContext;
 
 /**
  * Created by fede on 07/07/17.
@@ -16,10 +22,13 @@ import javax.ws.rs.*;
 @Consumes("application/json")
 public class TemaDeMinutaResource{
 
-        @Inject
-    TemaDeMinutaService temaDeMinutaService;
+    @Inject
+    private TemaDeMinutaService temaDeMinutaService;
+    @Inject
+    private MinutaService minutaService;
 
-        private ResourceHelper resourceHelper;
+    private ResourceHelper resourceHelper;
+
     @GET
     @Path("/{resourceId}")
     public TemaDeMinutaTo getSingle(@PathParam("resourceId") Long id) {
@@ -28,9 +37,12 @@ public class TemaDeMinutaResource{
     }
     @PUT
     @Path("/{resourceId}")
-    public TemaDeMinutaTo update(TemaDeMinutaTo newState, @PathParam("resourceId") Long id) {
-        TemaDeMinuta temaDeMinutaActualizada = temaDeMinutaService.update( getResourceHelper().convertir(newState, TemaDeMinuta.class));
-        return  getResourceHelper().convertir(temaDeMinutaActualizada, TemaDeMinutaTo.class);
+    public TemaDeMinutaTo update(TemaDeMinutaTo newState, @PathParam("resourceId") Long id, @Context SecurityContext securityContext) {
+        TemaDeMinuta temaDeMinuta = temaDeMinutaService.update(getResourceHelper().convertir(newState, TemaDeMinuta.class));
+        Minuta minutaDelTema = minutaService.get(temaDeMinuta.getMinuta().getId());
+        minutaDelTema.setMinuteador(getResourceHelper().usuarioActual(securityContext));
+        minutaService.update(minutaDelTema);
+        return  getResourceHelper().convertir(temaDeMinuta, TemaDeMinutaTo.class);
     }
     public static TemaDeMinutaResource create(DependencyInjector appInjector) {
         TemaDeMinutaResource temaDeMinutaResource = new TemaDeMinutaResource();
