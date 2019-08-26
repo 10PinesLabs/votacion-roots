@@ -30,14 +30,20 @@ public class TemaDeReunionResource {
 
     @POST
     public TemaDeReunionTo create(TemaEnCreacionTo newState, @Context SecurityContext securityContext) {
-        TemaDeReunion nuevoTema = temaService.save(crearTemaDeReunionConDescripcion(newState, securityContext));
+        TemaDeReunionConDescripcion temaCreado = getResourceHelper().convertir(newState, TemaDeReunionConDescripcion.class);
+        validarTemaDeReunionConDescripcion(temaCreado);
+        temaCreado.setUltimoModificador(getResourceHelper().usuarioActual(securityContext));
+        TemaDeReunion nuevoTema = temaService.save(temaCreado);
         return getResourceHelper().convertir(nuevoTema, TemaDeReunionTo.class);
     }
 
     @PUT
     @Path("/{resourceId}")
     public TemaDeReunionTo update(TemaDeReunionTo newState, @PathParam("resourceId") Long id, @Context SecurityContext securityContext) {
-        TemaDeReunion nuevoTema = temaService.update(crearTemaDeReunionConDescripcion(newState, securityContext));
+        TemaDeReunionConDescripcion temaCreado = getResourceHelper().convertir(newState, TemaDeReunionConDescripcion.class);
+        validarTemaDeReunionConDescripcion(temaCreado);
+        temaCreado.setUltimoModificador(getResourceHelper().usuarioActual(securityContext));
+        TemaDeReunion nuevoTema = temaService.update(temaCreado);
         return getResourceHelper().convertir(nuevoTema, TemaDeReunionTo.class);
     }
 
@@ -117,13 +123,10 @@ public class TemaDeReunionResource {
         return resourceHelper;
     }
 
-    private TemaDeReunionConDescripcion crearTemaDeReunionConDescripcion(Object unTo, @Context SecurityContext securityContext) {
-        TemaDeReunionConDescripcion nuevoTema = getResourceHelper().convertir(unTo, TemaDeReunionConDescripcion.class);
+    private void validarTemaDeReunionConDescripcion(TemaDeReunionConDescripcion nuevoTema) {
         verificarQueNoTieneTituloDeTemaParaProponerPinosARoot(nuevoTema);
         verificarQueLaPrimeraPropuestaNoEsUnaRePropuesta(nuevoTema);
         verificarQueNoSeReProponeElMismoTema(nuevoTema);
-        nuevoTema.setUltimoModificador(getResourceHelper().usuarioActual(securityContext));
-        return nuevoTema;
     }
 
     private void verificarQueNoTieneTituloDeTemaParaProponerPinosARoot(TemaDeReunionConDescripcion unTemaDeReunion) {
