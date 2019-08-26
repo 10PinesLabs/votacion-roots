@@ -1,6 +1,8 @@
 package ar.com.kfgodel.temas.apiRest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import convention.persistent.*;
+import convention.rest.api.tos.TemaDeReunionTo;
 import convention.rest.api.tos.TemaEnCreacionTo;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -152,6 +154,23 @@ public class TemaDeReunionResourceTest extends ResourceTest {
 
         assertThatResponseStatusCodeIs(response, HttpStatus.SC_CONFLICT);
         assertThat(temaService.getAll()).containsExactly(unaPrimeraPropuesta, unTema);
+    }
+
+    @Test
+    public void testSePuedeModificarUnaRePropuesta() throws IOException {
+        TemaDeReunion unaPrimeraPropuesta = temaService.save(helper.unTemaDeReunion());
+        Reunion unaReunion = reunionService.save(helper.unaReunion());
+        TemaDeReunion unTema = temaService.save(
+                helper.unTemaDeReunionConPrimeraPropuestaParaReunion(unaPrimeraPropuesta, unaReunion));
+
+        TemaDeReunionTo toDelTema = convertirATo(unTema);
+        String unNuevoTitulo = "Un nuevo título";
+        toDelTema.setTitulo(unNuevoTitulo);
+        HttpResponse response = makeJsonPutRequest("temas/" + unTema.getId(), convertirAJsonString(toDelTema));
+
+        TemaDeReunion temaActualizado = temaService.get(unTema.getId());
+        assertThatResponseStatusCodeIs(response, HttpStatus.SC_OK);
+        assertThat(temaActualizado.getTitulo()).isEqualTo(unNuevoTitulo);
     }
 
     private TemaDeReunionConDescripcion crearUnTemaDeReunionConDescripcion() {

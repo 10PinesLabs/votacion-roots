@@ -142,7 +142,7 @@ public class TemaDeReunionResource {
     }
 
     private void verificarQueNoSeReProponeElMismoTema(TemaDeReunionConDescripcion unTemaDeReunion) {
-        if (unTemaDeReunion.getReunion().reProponeElMismoTemaQue(unTemaDeReunion)) {
+        if (unTemaDeReunion.getReunion().tieneOtraRePropuestaDelMismoTema(unTemaDeReunion)) {
             throw new WebApplicationException("No se puede volver a proponer el mismo tema más de una vez", Response.Status.CONFLICT);
         }
     }
