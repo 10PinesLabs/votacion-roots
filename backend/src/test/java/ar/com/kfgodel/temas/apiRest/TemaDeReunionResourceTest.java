@@ -172,6 +172,20 @@ public class TemaDeReunionResourceTest extends ResourceTest {
         assertThat(temaActualizado.getTitulo()).isEqualTo(unNuevoTitulo);
     }
 
+    @Test
+    public void testCuandoSeEliminaUnaPrimeraPropuestaSusRePropuestasDejanDeSerRePropuestas() throws IOException {
+        TemaDeReunion unaPrimeraPropuesta = temaService.save(helper.unTemaDeReunion());
+        Reunion unaReunion = reunionService.save(helper.unaReunion());
+        TemaDeReunion unTema = temaService.save(
+                helper.unTemaDeReunionConPrimeraPropuestaParaReunion(unaPrimeraPropuesta, unaReunion));
+
+        HttpResponse response = makeDeleteRequest("temas/" + unaPrimeraPropuesta.getId());
+
+        assertThatResponseStatusCodeIs(response, HttpStatus.SC_NO_CONTENT);
+        assertThat(temaService.getAll()).doesNotContain(unaPrimeraPropuesta);
+        assertThat(temaService.get(unTema.getId()).esRePropuesta()).isFalse();
+    }
+
     private TemaDeReunionConDescripcion crearUnTemaDeReunionConDescripcion() {
         TemaDeReunionConDescripcion unTemaConDescripcion = new TemaDeReunionConDescripcion();
         temaService.save(unTemaConDescripcion);
