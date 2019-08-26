@@ -147,6 +147,19 @@ public class ReunionResourceTest extends ResourceTest {
         assertThat(unTemaDeReunion.getTemaGenerador().get()).isEqualTo(unTemaGeneral);
     }
 
+    @Test
+    public void testElGetDeReunionTieneLosIdsDePrimeraPropuestaCorrectos() throws IOException {
+        TemaDeReunion unaPrimeraPropuesta = temaService.save(helper.unTemaDeReunion());
+        Reunion unaReunion = reunionService.save(helper.unaReunion());
+        temaService.save(helper.unTemaDeReunionConPrimeraPropuestaParaReunion(unaPrimeraPropuesta, unaReunion));
+
+        HttpResponse response = makeGetRequest("reuniones/" + unaReunion.getId());
+
+        JSONObject jsonResponse = new JSONObject(getResponseBody(response));
+        JSONObject jsonDeLaRePropuesta = jsonResponse.getJSONArray("temasPropuestos").getJSONObject(0);
+        assertThat(jsonDeLaRePropuesta.getLong("idDePrimeraPropuesta")).isEqualTo(unaPrimeraPropuesta.getId());
+    }
+
     private Usuario unUsuarioPersistido() {
         return usuarioService.getAll().get(0);
     }
