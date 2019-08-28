@@ -125,7 +125,7 @@ public class TemaDeReunionResource {
 
     private void validarTemaDeReunionConDescripcion(TemaDeReunionConDescripcion nuevoTema) {
         verificarQueNoTieneTituloDeTemaParaProponerPinosARoot(nuevoTema);
-        verificarQueLaPrimeraPropuestaNoEsUnaRePropuesta(nuevoTema);
+        verificarQueNoSeReProponeUnaRePropuesta(nuevoTema);
         verificarQueNoSeReProponeElMismoTema(nuevoTema);
     }
 
@@ -135,7 +135,7 @@ public class TemaDeReunionResource {
         }
     }
 
-    private void verificarQueLaPrimeraPropuestaNoEsUnaRePropuesta(TemaDeReunionConDescripcion unTemaDeReunion) {
+    private void verificarQueNoSeReProponeUnaRePropuesta(TemaDeReunionConDescripcion unTemaDeReunion) {
         if (unTemaDeReunion.getPrimeraPropuesta().esRePropuesta()) {
             throw new WebApplicationException("No se puede volver a proponer una re-propuesta", Response.Status.BAD_REQUEST);
         }
