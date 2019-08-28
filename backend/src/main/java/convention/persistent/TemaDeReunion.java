@@ -188,4 +188,12 @@ public abstract class TemaDeReunion extends Tema {
     public TemaDeReunion getPrimeraPropuesta() {
         return Optional.ofNullable(primeraPropuesta).orElse(this);
     }
+
+    public Boolean esRePropuesta() {
+        return !Objects.equals(getPrimeraPropuesta(), this);
+    }
+
+    public Boolean reProponeElMismoTemaQue(TemaDeReunion otroTema) {
+        return Objects.equals(getPrimeraPropuesta(), otroTema.getPrimeraPropuesta());
+    }
 }

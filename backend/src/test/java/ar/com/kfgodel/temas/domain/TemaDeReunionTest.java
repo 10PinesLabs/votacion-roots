@@ -203,4 +203,46 @@ public class TemaDeReunionTest {
 
         assertThat(unTema.getPrimeraPropuesta()).isEqualTo(otroTema);
     }
+
+    @Test
+    public void testUnTemaEsUnaRePropuestaSiSuPrimeraPropuestaEsOtroTemaDistinto() {
+        TemaDeReunion unTema = helper.unTemaDeReunion();
+        TemaDeReunion otroTema = helper.unTemaDeReunion();
+        unTema.setPrimeraPropuesta(otroTema);
+
+        assertThat(unTema.esRePropuesta()).isTrue();
+    }
+
+    @Test
+    public void testUnTemaNoEsRePropuestaSiSuPrimeraPropuestaEsElMismo() {
+        TemaDeReunion unTema = helper.unTemaDeReunion();
+        unTema.setPrimeraPropuesta(unTema);
+
+        assertThat(unTema.esRePropuesta()).isFalse();
+    }
+
+    @Test
+    public void testDosTemasReProponenElMismoTemaSiSuPrimeraPropuestaSonLaMisma() {
+        TemaDeReunion unaPrimeraPropuesta = helper.unTemaDeReunion();
+        TemaDeReunion unTema = helper.unTemaDeReunion();
+        TemaDeReunion otroTema = helper.unTemaDeReunion();
+
+        unTema.setPrimeraPropuesta(unaPrimeraPropuesta);
+        otroTema.setPrimeraPropuesta(unaPrimeraPropuesta);
+
+        assertThat(unTema.reProponeElMismoTemaQue(otroTema)).isTrue();
+    }
+
+    @Test
+    public void testDosTemasNoReProponenElMismoTemaSiSuPrimeraPropuestaEsDistinta() {
+        TemaDeReunion unaPrimeraPropuesta = helper.unTemaDeReunion();
+        TemaDeReunion otraPrimeraPropuesta = helper.unTemaDeReunion();
+        TemaDeReunion unTema = helper.unTemaDeReunion();
+        TemaDeReunion otroTema = helper.unTemaDeReunion();
+
+        unTema.setPrimeraPropuesta(unaPrimeraPropuesta);
+        otroTema.setPrimeraPropuesta(otraPrimeraPropuesta);
+
+        assertThat(unTema.reProponeElMismoTemaQue(otroTema)).isFalse();
+    }
 }
