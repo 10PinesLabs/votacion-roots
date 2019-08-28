@@ -56,7 +56,7 @@ public class NotificadorDeTemasNoTratadosTest {
         crearUnaMinutaConTemasNoTratadosDe(unosUsuarios);
 
         NotificadorDeTemasNoTratados notificador = crearNotificadorDeTemasNoTratados();
-        notificador.run();
+        notificador.notificar();
 
         List<String> destinatariosEsperados = unosUsuarios.stream().map(Usuario::getMail).collect(Collectors.toList());
         List<String> destinatarios = mailerMock.getEmailsEnviados().stream()
@@ -70,7 +70,7 @@ public class NotificadorDeTemasNoTratadosTest {
         crearUnaMinutaConTemasTratados();
 
         NotificadorDeTemasNoTratados notificador = crearNotificadorDeTemasNoTratados();
-        notificador.run();
+        notificador.notificar();
 
         assertThat(mailerMock.getEmailsEnviados()).isEmpty();
     }
@@ -80,7 +80,7 @@ public class NotificadorDeTemasNoTratadosTest {
         Minuta unaMinuta = crearUnaMinutaConUnTemaNoTratado();
 
         NotificadorDeTemasNoTratados notificador = crearNotificadorDeTemasNoTratados();
-        notificador.run();
+        notificador.notificar();
 
         Email emailEnviado = mailerMock.getEmailsEnviados().get(0);
         Recipient remitente = emailEnviado.getFromRecipient();
@@ -106,7 +106,7 @@ public class NotificadorDeTemasNoTratadosTest {
         clockMock.setTiempo(elLunesSiguienteAlViernes.atTime(9, 0));
 
         NotificadorDeTemasNoTratados notificador = crearNotificadorDeTemasNoTratados();
-        notificador.run();
+        notificador.notificar();
 
         assertThat(mailerMock.cantidadDeEmailsEnviados()).isEqualTo(1);
     }
@@ -119,9 +119,20 @@ public class NotificadorDeTemasNoTratadosTest {
         clockMock.setTiempo(elLunesSiguienteAlViernes.atTime(8, 0));
 
         NotificadorDeTemasNoTratados notificador = crearNotificadorDeTemasNoTratados();
-        notificador.run();
+        notificador.notificar();
 
         assertThat(mailerMock.cantidadDeEmailsEnviados()).isEqualTo(0);
+    }
+
+    @Test
+    public void testNoSeVuelvenANotificarLosTemasQueYaFueronNotificados() {
+        crearUnaMinutaConUnTemaNoTratado();
+
+        NotificadorDeTemasNoTratados notificador = crearNotificadorDeTemasNoTratados();
+        notificador.notificar();
+        notificador.notificar();
+
+        assertThat(mailerMock.cantidadDeEmailsEnviados()).isEqualTo(1);
     }
 
     private Minuta crearUnaMinutaConUnTemaNoTratadoYFecha(LocalDate unaFecha) {

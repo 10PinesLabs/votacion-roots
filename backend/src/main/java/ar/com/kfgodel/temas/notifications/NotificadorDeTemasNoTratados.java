@@ -4,9 +4,11 @@ import ar.com.kfgodel.dependencies.api.DependencyInjector;
 import ar.com.kfgodel.temas.acciones.CalculadorDeFechaDeNotificacion;
 import com.google.inject.Inject;
 import convention.persistent.Minuta;
+import convention.persistent.TemaDeMinuta;
 import convention.persistent.TemaDeReunion;
 import convention.persistent.Usuario;
 import convention.services.MinutaService;
+import convention.services.TemaDeMinutaService;
 import org.simplejavamail.email.Email;
 import org.simplejavamail.email.EmailBuilder;
 import org.simplejavamail.mailer.Mailer;
@@ -23,6 +25,9 @@ public class NotificadorDeTemasNoTratados {
 
     @Inject
     private MinutaService minutaService;
+    @Inject
+    private TemaDeMinutaService temaDeMinutaService;
+
     private Clock clock;
     private Mailer mailer;
 
@@ -36,27 +41,41 @@ public class NotificadorDeTemasNoTratados {
         return notificador;
     }
 
-    public void run() {
-        LocalDateTime momentoActual = LocalDateTime.ofInstant(clock.instant(), ZoneId.systemDefault());
-        if (momentoActual.getHour() < 9) return;
-
+    public void notificar() {
         Minuta ultimaMinuta = minutaService.getUltimaMinuta().get();
-        LocalDate fechaActual = momentoActual.toLocalDate();
-        LocalDate fechaDeNotificacion = CalculadorDeFechaDeNotificacion.calcularParaTemasNoTratados(ultimaMinuta);
-        if (!fechaActual.isEqual(fechaDeNotificacion)) return;
+        if (hayQueNotificar(ultimaMinuta)) {
+            ultimaMinuta.getTemas().stream().filter(this::hayQueNotificarElTema)
+                    .forEach(temaDeMinuta -> {
+                        TemaDeReunion temaDeReunion = temaDeMinuta.getTema();
+                        Usuario autorDelTemaDeReunion = temaDeReunion.getAutor();
+                        Email email = EmailBuilder.startingBlank()
+                                .from(SENDER_NAME, SENDER_ADDRESS)
+                                .to(autorDelTemaDeReunion.getName(), autorDelTemaDeReunion.getMail())
+                                .withSubject(getSubjectFor(temaDeReunion))
+                                .withPlainText(getMessageFor(temaDeReunion))
+                                .buildEmail();
+                        mailer.sendMail(email, true);
+                        temaDeMinuta.marcarComoNotificado();
+                        temaDeMinutaService.save(temaDeMinuta);
+                    });
+        }
+    }
 
-        ultimaMinuta.getTemas().stream().filter(temaDeMinuta -> !temaDeMinuta.getFueTratado())
-                .forEach(temaDeMinuta -> {
-                    TemaDeReunion temaDeReunion = temaDeMinuta.getTema();
-                    Usuario autorDelTemaDeReunion = temaDeReunion.getAutor();
-                    Email email = EmailBuilder.startingBlank()
-                            .from(SENDER_NAME, SENDER_ADDRESS)
-                            .to(autorDelTemaDeReunion.getName(), autorDelTemaDeReunion.getMail())
-                            .withSubject(getSubjectFor(temaDeReunion))
-                            .withPlainText(getMessageFor(temaDeReunion))
-                            .buildEmail();
-                    mailer.sendMail(email, true);
-                });
+    private Boolean hayQueNotificar(Minuta unaMinuta) {
+        LocalDateTime momentoActual = LocalDateTime.ofInstant(clock.instant(), ZoneId.systemDefault());
+        Integer horaActual = momentoActual.getHour();
+        LocalDate fechaActual = momentoActual.toLocalDate();
+        LocalDate fechaDeNotificacion = CalculadorDeFechaDeNotificacion.calcularParaTemasNoTratados(unaMinuta);
+
+        return horaActual >= horaInicialDeNotificacion() && fechaActual.isEqual(fechaDeNotificacion);
+    }
+
+    private Integer horaInicialDeNotificacion() {
+        return 9;
+    }
+
+    private Boolean hayQueNotificarElTema(TemaDeMinuta temaDeMinuta) {
+        return !temaDeMinuta.getFueTratado() && !temaDeMinuta.fueNotificado();
     }
 
     private void setMailer(Mailer unMailer) {
