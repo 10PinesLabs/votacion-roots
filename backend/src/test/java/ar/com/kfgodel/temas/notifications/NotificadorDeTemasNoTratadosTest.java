@@ -1,5 +1,6 @@
 package ar.com.kfgodel.temas.notifications;
 
+import ar.com.kfgodel.temas.helpers.ClockMock;
 import ar.com.kfgodel.temas.helpers.MailerMock;
 import ar.com.kfgodel.temas.helpers.TestConfig;
 import ar.com.kfgodel.temas.helpers.TestHelper;
@@ -12,22 +13,20 @@ import convention.services.UsuarioService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 import org.simplejavamail.email.Email;
 import org.simplejavamail.email.Recipient;
-import org.simplejavamail.mailer.Mailer;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.powermock.api.mockito.PowerMockito.doAnswer;
-import static org.powermock.api.mockito.PowerMockito.mock;
 
 public class NotificadorDeTemasNoTratadosTest {
+
+    private static final LocalDateTime TIEMPO_DEL_CLOCK = LocalDate.of(2019, 8, 19).atTime(9, 0);
+    private static final LocalDate FECHA_DE_REUNION_VALIDA = LocalDate.of(2019, 8, 16);
 
     private TestHelper helper = new TestHelper();
     private TestApplication application;
@@ -35,6 +34,7 @@ public class NotificadorDeTemasNoTratadosTest {
     private MinutaService minutaService;
     private UsuarioService usuarioService;
     private MailerMock mailerMock = new MailerMock();
+    private ClockMock clockMock = new ClockMock(TIEMPO_DEL_CLOCK);
 
     @Before
     public void setUp() {
@@ -98,28 +98,63 @@ public class NotificadorDeTemasNoTratadosTest {
                         tituloDelTema));
     }
 
-    private Minuta crearUnaMinutaConUnTemaNoTratado() {
-        Usuario unUsuario = usuarioService.save(helper.unUsuario());
-        return crearUnaMinutaConTemasNoTratadosDe(Collections.singletonList(unUsuario));
+    @Test
+    public void testSeNotificaElDiaDeSemanaSiguienteALaReunionDespuesDeLas9() {
+        LocalDate unViernes = LocalDate.of(2019, 8, 16);
+        crearUnaMinutaConUnTemaNoTratadoYFecha(unViernes);
+        LocalDate elLunesSiguienteAlViernes = LocalDate.of(2019, 8, 19);
+        clockMock.setTiempo(elLunesSiguienteAlViernes.atTime(9, 0));
+
+        NotificadorDeTemasNoTratados notificador = crearNotificadorDeTemasNoTratados();
+        notificador.run();
+
+        assertThat(mailerMock.cantidadDeEmailsEnviados()).isEqualTo(1);
     }
 
-    private Minuta crearUnaMinutaConTemasNoTratadosDe(List<Usuario> unosUsuarios) {
-        List<TemaDeReunion> unosTemas = unosUsuarios.stream()
-                .map(helper::unTemaDeReunionDe).collect(Collectors.toList());
+    @Test
+    public void testNoSeNotificaSiNoEsElDiaDeSemanaSiguienteALaReunionDespuesDeLas9() {
+        LocalDate unViernes = LocalDate.of(2019, 8, 16);
+        crearUnaMinutaConUnTemaNoTratadoYFecha(unViernes);
+        LocalDate elLunesSiguienteAlViernes = LocalDate.of(2019, 8, 19);
+        clockMock.setTiempo(elLunesSiguienteAlViernes.atTime(8, 0));
+
+        NotificadorDeTemasNoTratados notificador = crearNotificadorDeTemasNoTratados();
+        notificador.run();
+
+        assertThat(mailerMock.cantidadDeEmailsEnviados()).isEqualTo(0);
+    }
+
+    private Minuta crearUnaMinutaConUnTemaNoTratadoYFecha(LocalDate unaFecha) {
+        Usuario unUsuario = usuarioService.save(helper.unUsuario());
+        return crearUnaMinutaConTemasNoTratadosDeYFecha(Collections.singletonList(unUsuario), unaFecha);
+    }
+
+    private Minuta crearUnaMinutaConTemasNoTratadosDeYFecha(Collection<Usuario> unosAutores, LocalDate unaFecha) {
+        List<TemaDeReunion> unosTemas = unosAutores.stream().map(helper::unTemaDeReunionDe).collect(Collectors.toList());
         Reunion unaReunion = helper.unaReunionMinuteadaConTemas(unosTemas);
+        unaReunion.setFecha(unaFecha);
         Minuta unaMinuta = Minuta.create(reunionService.save(unaReunion));
         return minutaService.save(unaMinuta);
     }
 
+    private Minuta crearUnaMinutaConUnTemaNoTratado() {
+        return crearUnaMinutaConUnTemaNoTratadoYFecha(FECHA_DE_REUNION_VALIDA);
+    }
+
+    private void crearUnaMinutaConTemasNoTratadosDe(Collection<Usuario> unosAutores) {
+        crearUnaMinutaConTemasNoTratadosDeYFecha(unosAutores, FECHA_DE_REUNION_VALIDA);
+    }
+
     private void crearUnaMinutaConTemasTratados() {
         Reunion unaReunion = helper.unaReunionMinuteadaConTemas(Collections.singletonList(helper.unTemaDeReunion()));
+        unaReunion.setFecha(FECHA_DE_REUNION_VALIDA);
         Minuta unaMinuta = Minuta.create(reunionService.save(unaReunion));
         unaMinuta.getTemas().forEach(temaDeMinuta -> temaDeMinuta.setFueTratado(true));
         minutaService.save(unaMinuta);
     }
 
     private NotificadorDeTemasNoTratados crearNotificadorDeTemasNoTratados() {
-        return NotificadorDeTemasNoTratados.create(application.injector(), mailerMock.getMailer());
+        return NotificadorDeTemasNoTratados.create(application.injector(), clockMock.getClock(), mailerMock.getMailer());
     }
 
     private void iniciarAplicacion() {
