@@ -1,5 +1,6 @@
 package ar.com.kfgodel.temas.notifications;
 
+import ar.com.kfgodel.temas.config.environments.Environment;
 import ar.com.kfgodel.temas.helpers.ClockMock;
 import ar.com.kfgodel.temas.helpers.MailerMock;
 import ar.com.kfgodel.temas.helpers.TestConfig;
@@ -93,9 +94,12 @@ public class NotificadorDeTemasNoTratadosTest {
         assertThat(remitente.getName()).isEqualTo("Aviso Tema No Propuesto");
         assertThat(remitente.getAddress()).isEqualTo(MailerConfiguration.getSenderAdress());
         assertThat(emailEnviado.getSubject()).isEqualTo(String.format("Tu tema \"%s\" no fue tratado", tituloDelTema));
+        String linkParaReproponerTema = String.format("%s/reproponer-tema/%d", getHostName(), temaNoTratado.getPrimeraPropuesta().getId());
         assertThat(emailEnviado.getPlainText()).isEqualTo(
-                String.format("Hola! El tema \"%s\" que presentaste en la roots pasada no fue tratado. Sentite libre de volver a proponerlo!",
-                        tituloDelTema));
+                String.format("Hola! El tema \"%s\" que presentaste en la roots pasada no fue tratado. " +
+                                "Sentite libre de volver a proponerlo con este link %s",
+                        tituloDelTema,
+                        linkParaReproponerTema));
     }
 
     @Test
@@ -186,5 +190,9 @@ public class NotificadorDeTemasNoTratadosTest {
         reunionService = application.getImplementationFor(ReunionService.class);
         minutaService = application.getImplementationFor(MinutaService.class);
         usuarioService = application.getImplementationFor(UsuarioService.class);
+    }
+
+    private String getHostName() {
+        return Environment.toHandle(System.getenv("ENVIROMENT")).getHostName();
     }
 }
