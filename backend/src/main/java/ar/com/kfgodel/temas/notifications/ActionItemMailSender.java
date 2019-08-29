@@ -7,11 +7,8 @@ import org.junit.platform.commons.util.StringUtils;
 import org.simplejavamail.email.Email;
 import org.simplejavamail.email.EmailBuilder;
 import org.simplejavamail.mailer.Mailer;
-import org.simplejavamail.mailer.MailerBuilder;
 
-import java.util.Optional;
-
-public class ActionItemMailSender extends MailerObserver {
+public class ActionItemMailSender {
     public static final String EMPTY_ITEM_ACTION_EXCEPTION = "El item debe tener descripción y responsables";
     private Mailer mailer;
     private String hostName;
@@ -39,7 +36,6 @@ public class ActionItemMailSender extends MailerObserver {
         }
     }
 
-    @Override
     public void onSetResponsables(ActionItem actionItem) {
         validarActionItem(actionItem);
         if (!actionItem.getFueNotificado()) {
