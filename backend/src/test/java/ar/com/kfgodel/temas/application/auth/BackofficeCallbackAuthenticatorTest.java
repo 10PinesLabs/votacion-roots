@@ -6,6 +6,7 @@ import ar.com.kfgodel.temas.persistence.TestApplication;
 import convention.persistent.Usuario;
 import convention.rest.api.tos.BackofficeUserTo;
 import convention.services.UsuarioService;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,6 +21,11 @@ public class BackofficeCallbackAuthenticatorTest {
     public void setUp() {
         startApplication();
         usuarioService = application.injector().createInjected(UsuarioService.class);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        application.stop();
     }
 
     @Test
