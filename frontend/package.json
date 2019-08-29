@@ -45,6 +45,7 @@
     "ember-power-select": "^2.3.5",
     "ember-resolver": "^5.2.1",
     "ember-source": "~2.15.0",
+    "eslint-plugin-ember": "^7.0.0",
     "file-saver": "2.0.2",
     "glob": "^7.1.4",
     "http-proxy": "^1.17.0",
