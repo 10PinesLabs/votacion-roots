@@ -72,6 +72,7 @@ public class TemasApplication implements Application {
     public void start() {
         LOG.info("Starting APP");
         this.initialize();
+        this.iniciarNotificadorDeTemasNoTratados();
         this.getWebServerModule().startAndJoin();
     }
 
@@ -93,13 +94,6 @@ public class TemasApplication implements Application {
         registerCleanupHook();
 
         InicializadorDeDatos.create(this).inicializar();
-
-        iniciarNotificadorDeTemasNoTratados();
-    }
-
-    protected TypeTransformer createTransformer() {
-        TransformerConfigurationByConvention configuration = TransformerConfigurationByConvention.create(this.injector());
-        return B2BTransformer.create(configuration);
     }
 
     private void registerCleanupHook() {
@@ -109,13 +103,18 @@ public class TemasApplication implements Application {
         }, "cleanup-thread"));
     }
 
-    protected HibernateOrm createPersistenceLayer() {
+    private TypeTransformer createTransformer() {
+        TransformerConfigurationByConvention configuration = TransformerConfigurationByConvention.create(this.injector());
+        return B2BTransformer.create(configuration);
+    }
+
+    private HibernateOrm createPersistenceLayer() {
         DbCoordinates dbCoordinates = config.getDatabaseCoordinates();
         HibernateOrm hibernateOrm = HibernateFacade.createWithConventionsFor(dbCoordinates);
         return hibernateOrm;
     }
 
-    protected WebServer createWebServer() {
+    private WebServer createWebServer() {
         int MAX_TIME_IN_SECONDS = 14400;
 
         WebServerConfiguration serverConfig = ConfigurationByConvention.create()
@@ -132,7 +131,7 @@ public class TemasApplication implements Application {
         return JettyWebServer.createFor(serverConfig);
     }
 
-    public void bindTransformer() {
+    private void bindTransformer() {
         this.injector().bindTo(TypeTransformer.class, createTransformer());
     }
 
@@ -168,6 +167,7 @@ public class TemasApplication implements Application {
 
         try {
             Scheduler scheduler = new StdSchedulerFactory().getScheduler();
+            scheduler.shutdown();
             scheduler.scheduleJob(job, trigger);
             scheduler.start();
         } catch (SchedulerException exception) {
