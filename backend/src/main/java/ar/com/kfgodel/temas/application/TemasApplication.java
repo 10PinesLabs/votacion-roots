@@ -173,8 +173,8 @@ public class TemasApplication implements Application {
             Scheduler scheduler = new StdSchedulerFactory().getScheduler();
             scheduler.scheduleJob(job, trigger);
             scheduler.start();
-        } catch (SchedulerException e) {
-            System.out.println(e.toString());
+        } catch (SchedulerException exception) {
+            LOG.error("Error al iniciar el notificador de temas no tratados.", exception);
         }
     }
 }
