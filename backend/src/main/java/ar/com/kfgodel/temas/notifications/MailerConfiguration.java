@@ -19,15 +19,21 @@ public class MailerConfiguration {
     }
 
     public static Mailer getMailer() {
-        if("PROD".equals(System.getenv("ENVIROMENT")) || "STG".equals(System.getenv("ENVIROMENT"))) {
-            return MailerBuilder
-                    .withSMTPServer(System.getenv("SMTP_HOST"),
-                            Integer.parseInt(System.getenv("SMTP_PORT")),
-                            System.getenv("SMTP_MAIL"),
-                            System.getenv("SMTP_PASSWORD"))
-                    .buildMailer();
-        }
-        return mailerMock();
+        return inDevelopment() ? mailerMock() : buildMailer();
+    }
+
+    private static Boolean inDevelopment() {
+        String environment = System.getenv("ENVIROMENT");
+        return !("PROD".equals(environment) || "STG".equals(environment));
+    }
+
+    private static Mailer buildMailer() {
+        return MailerBuilder
+                .withSMTPServer(System.getenv("SMTP_HOST"),
+                        Integer.parseInt(System.getenv("SMTP_PORT")),
+                        System.getenv("SMTP_MAIL"),
+                        System.getenv("SMTP_PASSWORD"))
+                .buildMailer();
     }
 
     private static Mailer mailerMock() {
