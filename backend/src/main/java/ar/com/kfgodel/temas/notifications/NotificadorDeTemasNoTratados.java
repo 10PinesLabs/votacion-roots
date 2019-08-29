@@ -17,6 +17,7 @@ import java.time.Clock;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.stream.Stream;
 
 public class NotificadorDeTemasNoTratados {
 
@@ -44,22 +45,33 @@ public class NotificadorDeTemasNoTratados {
     public void notificar() {
         minutaService.getUltimaMinuta().ifPresent(ultimaMinuta -> {
             if (hayQueNotificar(ultimaMinuta)) {
-                ultimaMinuta.getTemas().stream().filter(this::hayQueNotificarElTema)
-                        .forEach(temaDeMinuta -> {
-                            TemaDeReunion temaDeReunion = temaDeMinuta.getTema();
-                            Usuario autorDelTemaDeReunion = temaDeReunion.getAutor();
-                            Email email = EmailBuilder.startingBlank()
-                                    .from(SENDER_NAME, SENDER_ADDRESS)
-                                    .to(autorDelTemaDeReunion.getName(), autorDelTemaDeReunion.getMail())
-                                    .withSubject(getSubjectFor(temaDeReunion))
-                                    .withPlainText(getMessageFor(temaDeReunion))
-                                    .buildEmail();
-                            mailer.sendMail(email, true);
-                            temaDeMinuta.marcarComoNotificado();
-                            temaDeMinutaService.save(temaDeMinuta);
-                        });
+                temasQueSeDebenNotificar(ultimaMinuta).forEach(temaDeMinuta -> {
+                    enviarEmailDeNotificacion(temaDeMinuta);
+                    marcarComoNotificado(temaDeMinuta);
+                });
             }
         });
+    }
+
+    private Stream<TemaDeMinuta> temasQueSeDebenNotificar(Minuta unaMinuta) {
+        return unaMinuta.getTemas().stream().filter(this::hayQueNotificarElTema);
+    }
+
+    private void marcarComoNotificado(TemaDeMinuta temaDeMinuta) {
+        temaDeMinuta.marcarComoNotificado();
+        temaDeMinutaService.save(temaDeMinuta);
+    }
+
+    private void enviarEmailDeNotificacion(TemaDeMinuta unTemaDeMinuta) {
+        TemaDeReunion temaDeReunion = unTemaDeMinuta.getTema();
+        Usuario autorDelTemaDeReunion = temaDeReunion.getAutor();
+        Email email = EmailBuilder.startingBlank()
+                .from(SENDER_NAME, SENDER_ADDRESS)
+                .to(autorDelTemaDeReunion.getName(), autorDelTemaDeReunion.getMail())
+                .withSubject(getSubjectFor(temaDeReunion))
+                .withPlainText(getMessageFor(temaDeReunion))
+                .buildEmail();
+        mailer.sendMail(email, true);
     }
 
     private Boolean hayQueNotificar(Minuta unaMinuta) {
