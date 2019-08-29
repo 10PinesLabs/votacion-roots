@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
  * Created by kfgodel on 22/03/15.
  */
 public class TemasApplication implements Application {
+    private static final TimeOfDay NOTIFICATION_TIME_OF_DAY = TimeOfDay.hourAndMinuteOfDay(9, 0);
     public static Logger LOG = LoggerFactory.getLogger(TemasApplication.class);
 
     private TemasConfiguration config;
@@ -160,7 +161,7 @@ public class TemasApplication implements Application {
                 .withSchedule(DailyTimeIntervalScheduleBuilder
                         .dailyTimeIntervalSchedule()
                         .onMondayThroughFriday()
-                        .startingDailyAt(TimeOfDay.hourAndMinuteOfDay(9, 0))
+                        .startingDailyAt(NOTIFICATION_TIME_OF_DAY)
                         .withRepeatCount(0)
                         .withMisfireHandlingInstructionFireAndProceed())
                 .build();
