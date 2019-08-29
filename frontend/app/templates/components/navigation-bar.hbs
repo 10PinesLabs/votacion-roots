@@ -16,9 +16,9 @@
       {{opcion-header link-to='minuta.ultima-minuta' route='/minuta/ultima' title='Última minuta'}}
     </ul>
   </div>
-  <div>
-    {{#tenpines/drop-down class="menu-user" label='Opciones' icon='arrow_drop_down' iconToTheRight=true
-                          removeBtn=true }}
+  <div class="menu-user">
+    {{#tenpines/drop-down label='Opciones' icon='arrow_drop_down' iconToTheRight=true
+                          sinEstiloDeBoton=true desplegarDebajoDelBoton=true}}
       <li class="light-grey">{{#link-to 'users'}}Usuarios{{/link-to}}</li>
       <li class="divider"></li>
       <li class="light-grey"><a href="#" {{action "logout"}}>Salir</a></li>

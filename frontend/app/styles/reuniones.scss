@@ -110,7 +110,11 @@
   background: transparent;
 }
 
-#edit-menu i {
+.edit-menu {
+  position: relative;
+}
+
+.edit-menu i {
   color: black;
   line-height: inherit;
 }

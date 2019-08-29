@@ -67,9 +67,8 @@
               </button>
             {{/if}}
           {{/unless}}
-
-          <div id="edit-menu">
-            {{#tenpines/drop-down icon='more_vert' removeBtn=true }}
+          <div class="edit-menu">
+            {{#tenpines/drop-down icon='more_vert' sinEstiloDeBoton=true desplegarDebajoDelBoton=true}}
               {{#unless tema.esTemaParaProponerPinos}}
                 <li class="light-grey" {{action mostrarFormularioDeEdicion tema}}>
                   <a class="black-text">Editar</a>
