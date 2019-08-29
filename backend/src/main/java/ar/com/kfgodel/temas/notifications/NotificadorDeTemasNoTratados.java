@@ -21,7 +21,6 @@ import java.util.stream.Stream;
 
 public class NotificadorDeTemasNoTratados {
 
-    private static final String SENDER_ADDRESS = MailerConfiguration.getSenderAdress();
     private static final String SENDER_NAME = "Aviso Tema No Propuesto";
 
     @Inject
@@ -66,7 +65,7 @@ public class NotificadorDeTemasNoTratados {
         TemaDeReunion temaDeReunion = unTemaDeMinuta.getTema();
         Usuario autorDelTemaDeReunion = temaDeReunion.getAutor();
         Email email = EmailBuilder.startingBlank()
-                .from(SENDER_NAME, SENDER_ADDRESS)
+                .from(SENDER_NAME, MailerConfiguration.getSenderAdress())
                 .to(autorDelTemaDeReunion.getName(), autorDelTemaDeReunion.getMail())
                 .withSubject(getSubjectFor(temaDeReunion))
                 .withPlainText(getMessageFor(temaDeReunion))
