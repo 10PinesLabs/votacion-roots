@@ -54,5 +54,8 @@
     "loader.js": "^4.0.1",
     "morgan": "^1.9.0",
     "tenpines-material-components": "0.0.59"
+  },
+  "dependencies": {
+    "ember-cli-update": "^0.42.0"
   }
 }
