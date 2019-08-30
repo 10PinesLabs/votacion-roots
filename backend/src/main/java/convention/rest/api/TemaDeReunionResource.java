@@ -126,8 +126,8 @@ public class TemaDeReunionResource {
 
     private void validarTemaDeReunionConDescripcion(TemaDeReunionConDescripcion nuevoTema) {
         verificarQueNoTieneTituloDeTemaParaProponerPinosARoot(nuevoTema);
-        verificarQueNoSeReProponeUnaRePropuesta(nuevoTema);
-        verificarQueNoSeReProponeElMismoTema(nuevoTema);
+        verificarQueNoReProponeUnaRePropuesta(nuevoTema);
+        verificarQueNoHayOtroTemaEnLaReunionQueReProponeAlMismoTema(nuevoTema);
     }
 
     private void verificarQueNoTieneTituloDeTemaParaProponerPinosARoot(TemaDeReunionConDescripcion unTemaDeReunion) {
@@ -136,14 +136,14 @@ public class TemaDeReunionResource {
         }
     }
 
-    private void verificarQueNoSeReProponeUnaRePropuesta(TemaDeReunionConDescripcion unTemaDeReunion) {
+    private void verificarQueNoReProponeUnaRePropuesta(TemaDeReunionConDescripcion unTemaDeReunion) {
         if (unTemaDeReunion.getPrimeraPropuesta().esRePropuesta()) {
             throw new WebApplicationException("No se puede volver a proponer una re-propuesta", Response.Status.BAD_REQUEST);
         }
     }
 
-    private void verificarQueNoSeReProponeElMismoTema(TemaDeReunionConDescripcion unTemaDeReunion) {
-        if (unTemaDeReunion.getReunion().tieneOtraRePropuestaDelMismoTema(unTemaDeReunion)) {
+    private void verificarQueNoHayOtroTemaEnLaReunionQueReProponeAlMismoTema(TemaDeReunionConDescripcion unTemaDeReunion) {
+        if (unTemaDeReunion.getReunion().tieneOtroTemaQueReProponeAlMismoQue(unTemaDeReunion)) {
             throw new WebApplicationException("No se puede volver a proponer el mismo tema más de una vez", Response.Status.CONFLICT);
         }
     }

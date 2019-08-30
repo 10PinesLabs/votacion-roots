@@ -146,6 +146,7 @@ public class TemaDeReunionResourceTest extends ResourceTest {
         Reunion unaReunion = reunionService.save(helper.unaReunion());
         TemaDeReunion unTema = temaService.save(
                 helper.unTemaDeReunionConPrimeraPropuestaParaReunion(unaPrimeraPropuesta, unaReunion));
+        reunionService.save(unaReunion);
 
         TemaEnCreacionTo unTemaEnCreacionTo = helper.unTemaEnCreacionTo(unaReunion);
         unTemaEnCreacionTo.setIdDePrimeraPropuesta(unaPrimeraPropuesta.getId());
