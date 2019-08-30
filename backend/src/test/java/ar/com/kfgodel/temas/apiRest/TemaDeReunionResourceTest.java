@@ -116,9 +116,7 @@ public class TemaDeReunionResourceTest extends ResourceTest {
     @Test
     public void testGetDeTemasDeReunionContieneElIdDeLaPrimeraPropuesta() throws IOException {
         Reunion unaReunion = reunionService.save(helper.unaReunion());
-        TemaDeReunion unTema = helper.unTemaDeReunion();
-        unTema.setReunion(unaReunion);
-        unTema = temaService.save(unTema);
+        TemaDeReunion unTema = temaService.save(helper.unTemaDeReunion(unaReunion));
 
         HttpResponse response = makeGetRequest("temas/" + unTema.getId());
 
