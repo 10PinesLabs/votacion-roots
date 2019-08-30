@@ -2,7 +2,7 @@ package convention.services;
 
 import ar.com.kfgodel.orm.api.operations.basic.DeleteById;
 import ar.com.kfgodel.orm.api.operations.basic.FindAll;
-import ar.com.kfgodel.temas.acciones.ConvertirRePropuestasAPrimerasPropuestas;
+import ar.com.kfgodel.temas.acciones.ConvertirRePropuestasAPropuestasOriginales;
 import convention.persistent.StatusDeReunion;
 import convention.persistent.TemaDeReunion;
 import convention.persistent.TemaGeneral;
@@ -67,9 +67,9 @@ public class TemaService extends Service<TemaDeReunion> {
         }
     }
 
-    public void convertirRePropuestasAPrimerasPropuestas(Long id) {
+    public void convertirRePropuestasAPropuestasOriginales(Long id) {
         createOperation()
                 .insideATransaction()
-                .apply(ConvertirRePropuestasAPrimerasPropuestas.create(id));
+                .apply(ConvertirRePropuestasAPropuestasOriginales.create(id));
     }
 }

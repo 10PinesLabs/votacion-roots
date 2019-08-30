@@ -5,12 +5,12 @@ import ar.com.kfgodel.orm.api.operations.TransactionOperation;
 import com.querydsl.jpa.hibernate.HibernateQueryFactory;
 import convention.persistent.QTemaDeReunion;
 
-public class ConvertirRePropuestasAPrimerasPropuestas implements TransactionOperation {
-    private Long idDePrimeraPropuesta;
+public class ConvertirRePropuestasAPropuestasOriginales implements TransactionOperation {
+    private Long idDePropuestaOriginal;
 
-    public static ConvertirRePropuestasAPrimerasPropuestas create(Long id) {
-        ConvertirRePropuestasAPrimerasPropuestas accion = new ConvertirRePropuestasAPrimerasPropuestas();
-        accion.idDePrimeraPropuesta = id;
+    public static ConvertirRePropuestasAPropuestasOriginales create(Long id) {
+        ConvertirRePropuestasAPropuestasOriginales accion = new ConvertirRePropuestasAPropuestasOriginales();
+        accion.idDePropuestaOriginal = id;
         return accion;
     }
 
@@ -19,8 +19,8 @@ public class ConvertirRePropuestasAPrimerasPropuestas implements TransactionOper
         QTemaDeReunion temaDeReunion = QTemaDeReunion.temaDeReunion;
         new HibernateQueryFactory(transactionContext.getSession())
                 .update(temaDeReunion)
-                .where(temaDeReunion.primeraPropuesta.id.eq(idDePrimeraPropuesta))
-                .setNull(temaDeReunion.primeraPropuesta)
+                .where(temaDeReunion.propuestaOriginal.id.eq(idDePropuestaOriginal))
+                .setNull(temaDeReunion.propuestaOriginal)
                 .execute();
         return null;
     }

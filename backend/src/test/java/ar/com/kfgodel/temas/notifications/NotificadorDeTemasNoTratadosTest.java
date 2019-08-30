@@ -94,7 +94,7 @@ public class NotificadorDeTemasNoTratadosTest {
         assertThat(remitente.getName()).isEqualTo("Aviso Tema No Propuesto");
         assertThat(remitente.getAddress()).isEqualTo(MailerConfiguration.getSenderAdress());
         assertThat(emailEnviado.getSubject()).isEqualTo(String.format("Tu tema \"%s\" no fue tratado", tituloDelTema));
-        String linkParaReproponerTema = String.format("%s/reproponer-tema/%d", getHostName(), temaNoTratado.getPrimeraPropuesta().getId());
+        String linkParaReproponerTema = String.format("%s/reproponer-tema/%d", getHostName(), temaNoTratado.getPropuestaOriginal().getId());
         assertThat(emailEnviado.getPlainText()).isEqualTo(
                 String.format("Hola! El tema \"%s\" que presentaste en la roots pasada no fue tratado. " +
                                 "Sentite libre de volver a proponerlo con este link %s",

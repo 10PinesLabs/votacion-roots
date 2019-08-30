@@ -10,7 +10,6 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -148,30 +147,30 @@ public class ReunionResourceTest extends ResourceTest {
     }
 
     @Test
-    public void testElGetDeReunionTieneLosIdsDePrimeraPropuestaCorrectos() throws IOException {
-        TemaDeReunion unaPrimeraPropuesta = temaService.save(helper.unTemaDeReunion());
+    public void testElGetDeReunionTieneLosIdsDePropuestaOriginalCorrectos() throws IOException {
+        TemaDeReunion unaPropuestaOriginal = temaService.save(helper.unTemaDeReunion());
         Reunion unaReunion = reunionService.save(helper.unaReunion());
-        temaService.save(helper.unTemaDeReunionConPrimeraPropuestaParaReunion(unaPrimeraPropuesta, unaReunion));
+        temaService.save(helper.unTemaDeReunionConPropuestaOriginalParaReunion(unaPropuestaOriginal, unaReunion));
 
         HttpResponse response = makeGetRequest("reuniones/" + unaReunion.getId());
 
         JSONObject jsonResponse = new JSONObject(getResponseBody(response));
         JSONObject jsonDeLaRePropuesta = jsonResponse.getJSONArray("temasPropuestos").getJSONObject(0);
-        assertThat(jsonDeLaRePropuesta.getLong("idDePrimeraPropuesta")).isEqualTo(unaPrimeraPropuesta.getId());
+        assertThat(jsonDeLaRePropuesta.getLong("idDePropuestaOriginal")).isEqualTo(unaPropuestaOriginal.getId());
     }
 
     @Test
-    public void testCuandoSeEliminaUnaReunionConUnaPrimeraPropuestaSusRePropuestasDejanDeSerRePropuestas() throws IOException {
+    public void testCuandoSeEliminaUnaReunionConUnaPropuestaOriginalSusRePropuestasDejanDeSerRePropuestas() throws IOException {
         Reunion unaReunion = reunionService.save(helper.unaReunion());
-        TemaDeReunion unaPrimeraPropuesta = temaService.save(
+        TemaDeReunion unaPropuestaOriginal = temaService.save(
                 helper.unTemaDeReunion(unaReunion));
-        TemaDeReunion unTema = temaService.save(helper.unTemaDeReunionConPrimeraPropuestaParaReunion(
-                unaPrimeraPropuesta, reunionService.save(helper.unaReunion())));
+        TemaDeReunion unTema = temaService.save(helper.unTemaDeReunionConPropuestaOriginalParaReunion(
+                unaPropuestaOriginal, reunionService.save(helper.unaReunion())));
 
         HttpResponse response = makeDeleteRequest("reuniones/" + unaReunion.getId());
 
         assertThatResponseStatusCodeIs(response, HttpStatus.SC_NO_CONTENT);
-        assertThat(temaService.getAll()).doesNotContain(unaPrimeraPropuesta);
+        assertThat(temaService.getAll()).doesNotContain(unaPropuestaOriginal);
         assertThat(temaService.get(unTema.getId()).esRePropuesta()).isFalse();
     }
 

@@ -24,7 +24,7 @@ public abstract class TemaDeReunion extends Tema {
     public static final String interesados_FIELD = "interesados";
     public static final String obligatoriedad_FIELD = "obligatoriedad";
     public static final String temaGenerador_FIELD = "temaGenerador";
-    public static final String primeraPropuesta_FIELD = "primeraPropuesta";
+    public static final String propuestaOriginal_FIELD = "propuestaOriginal";
     public static final String fechaDePrimeraPropuesta_FIELD = "fechaDePrimeraPropuesta";
     public static final String ERROR_AGREGAR_INTERESADO = "No se puede agregar un interesado a un tema obligatorio";
     @ManyToOne
@@ -38,7 +38,7 @@ public abstract class TemaDeReunion extends Tema {
     @ManyToOne
     private TemaGeneral temaGenerador;
     @ManyToOne
-    private TemaDeReunion primeraPropuesta;
+    private TemaDeReunion propuestaOriginal;
 
     public ObligatoriedadDeTema getObligatoriedad() {
         return obligatoriedad;
@@ -109,7 +109,7 @@ public abstract class TemaDeReunion extends Tema {
         copia.setDuracion(this.getDuracion());
         copia.setObligatoriedad(this.getObligatoriedad());
         copia.setUltimoModificador(this.getUltimoModificador());
-        copia.setPrimeraPropuesta(this.getPrimeraPropuesta());
+        copia.setPropuestaOriginal(this.getPropuestaOriginal());
         return copia;
     }
 
@@ -184,24 +184,24 @@ public abstract class TemaDeReunion extends Tema {
         return false;
     }
 
-    public void setPrimeraPropuesta(TemaDeReunion unTemaDeReunion) {
-        primeraPropuesta = unTemaDeReunion;
+    public void setPropuestaOriginal(TemaDeReunion unTemaDeReunion) {
+        propuestaOriginal = unTemaDeReunion;
     }
 
-    public TemaDeReunion getPrimeraPropuesta() {
-        return Optional.ofNullable(primeraPropuesta).orElse(this);
+    public TemaDeReunion getPropuestaOriginal() {
+        return Optional.ofNullable(propuestaOriginal).orElse(this);
     }
 
     public Boolean esRePropuesta() {
-        return !Objects.equals(getPrimeraPropuesta(), this);
+        return !Objects.equals(getPropuestaOriginal(), this);
     }
 
     public Boolean reProponeElMismoTemaQue(TemaDeReunion otroTema) {
-        return Objects.equals(getPrimeraPropuesta(), otroTema.getPrimeraPropuesta());
+        return Objects.equals(getPropuestaOriginal(), otroTema.getPropuestaOriginal());
     }
 
     public LocalDate getFechaDePrimeraPropuesta() {
-        return getPrimeraPropuesta().getFechaDeReunion();
+        return getPropuestaOriginal().getFechaDeReunion();
     }
 
     private LocalDate getFechaDeReunion() {

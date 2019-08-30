@@ -186,7 +186,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
           this._traerDuraciones().then(() => {
             this.set('temaAEditar', Tema.create({}));
             this.set('temaAEditar.id', tema.id);
-            this.set('temaAEditar.idDePrimeraPropuesta', tema.idDePrimeraPropuesta);
+            this.set('temaAEditar.idDePropuestaOriginal', tema.idDePropuestaOriginal);
             this.set('temaAEditar.tipo', tema.tipo);
             this.set('temaAEditar.duracion', tema.duracion);
             this.set('temaAEditar.idDeAutor', tema.idDeAutor);
@@ -226,7 +226,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
             this.set('nuevoTema', Tema.create({
               idDeReunion: this._idDeReunion(),
               idDeAutor: this._idDeUsuarioActual(),
-              idDePrimeraPropuesta: tema.idDePrimeraPropuesta,
+              idDePropuestaOriginal: tema.idDePropuestaOriginal,
               duracion: tema.duracion,
               titulo: tema.titulo,
               descripcion: tema.descripcion,
