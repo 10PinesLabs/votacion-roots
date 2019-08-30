@@ -6,7 +6,10 @@ import convention.rest.api.tos.ActionItemTo;
 import convention.rest.api.tos.UserTo;
 
 import java.time.LocalDate;
-import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+
+import static java.util.Arrays.asList;
 
 /**
  * Created by sandro on 30/06/17.
@@ -22,6 +25,7 @@ public class TestHelper {
     public TemaDeReunionConDescripcion unTemaNoObligatorio() {
         TemaDeReunionConDescripcion tema = TemaDeReunionConDescripcion.create();
         tema.setObligatoriedad(ObligatoriedadDeTema.NO_OBLIGATORIO);
+        tema.setTitulo(unTitulo());
         return tema;
     }
 
@@ -44,11 +48,21 @@ public class TestHelper {
     }
 
     public Usuario unUsuario() {
-        return Usuario.create("jorge", "usuario", "contra", "id", "email");
+        return Usuario.create(
+                "jorge",
+                "el_jorge",
+                "password",
+                "123",
+                "jorge@jorge.com");
     }
 
     public Usuario otroUsuario() {
-        return Usuario.create("carlos", "usuario", "contra", "id", "email");
+        return Usuario.create(
+                "carlos",
+                "carlos123",
+                "asd123",
+                "321",
+                "carlos@jorge.com");
     }
 
     public PropuestaDePinoARoot unaPropuestaDeUnPinoARoot() {
@@ -116,8 +130,7 @@ public class TestHelper {
         return TemaDeReunionConDescripcion.create(autor, duracion, obligatoriedad, titulo, descripcion);
     }
     public TemaParaRepasarActionItems unTemaParaRepasarActionItems() {
-        TemaParaRepasarActionItems tema = TemaParaRepasarActionItems.create(unaMinuta(), unTemaParaRellenarConActionItems());
-        return tema;
+        return TemaParaRepasarActionItems.create(unaMinuta(), unTemaParaRellenarConActionItems());
     }
 
     public UserTo unUserTo() {
@@ -135,7 +148,7 @@ public class TestHelper {
         unaReunion.agregarTema(unTemaDeReunion());
         unaReunion.cerrarVotacion();
         Minuta minuta = Minuta.create(unaReunion);
-        minuta.getTemas().get(0).setActionItems(Arrays.asList(unActionItem()));
+        minuta.getTemas().get(0).setActionItems(asList(unActionItem()));
         return minuta;
     }
 
@@ -150,14 +163,14 @@ public class TestHelper {
     public ActionItem unActionItem() {
         ActionItem actionItem = new ActionItem();
         actionItem.setDescripcion("Una cosa para hacer");
-        actionItem.setResponsables(Arrays.asList(unUsuario(), otroUsuario()));
+        actionItem.setResponsables(asList(unUsuario(), otroUsuario()));
         return actionItem;
     }
 
     public ActionItemTo unActionItemTo(UserTo unUsuario) {
         ActionItemTo unActionItem = new ActionItemTo();
         unActionItem.setDescripcion("Una cosa para hacer");
-        unActionItem.setResponsables(Arrays.asList(unUsuario));
+        unActionItem.setResponsables(Collections.singletonList(unUsuario));
         return unActionItem;
     }
 
@@ -181,7 +194,19 @@ public class TestHelper {
         Reunion unaReunion = unaReunion();
         unaReunion.agregarTema(unTemaDeReunion());
         unaReunion.cerrarVotacion();
+        return unaReunion;
+    }
+
+    public Reunion unaReunionMinuteadaConTemas(Collection<TemaDeReunion> unosTemas) {
+        Reunion unaReunion = unaReunion();
+        unosTemas.forEach(unaReunion::agregarTema);
         unaReunion.marcarComoMinuteada();
         return unaReunion;
+    }
+
+    public TemaDeReunion unTemaDeReunionDe(Usuario unAutor) {
+        TemaDeReunion otroTema = unTemaDeReunion();
+        otroTema.setAutor(unAutor);
+        return otroTema;
     }
 }

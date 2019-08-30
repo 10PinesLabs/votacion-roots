@@ -2,16 +2,16 @@ package ar.com.kfgodel.temas.apiRest;
 
 import ar.com.kfgodel.dependencies.api.DependencyInjector;
 import ar.com.kfgodel.temas.application.Application;
-import ar.com.kfgodel.temas.application.TemasApplication;
 import ar.com.kfgodel.temas.config.AuthenticatedTestConfig;
 import ar.com.kfgodel.temas.exceptions.TypeTransformerException;
+import ar.com.kfgodel.temas.helpers.PersistentTestHelper;
+import ar.com.kfgodel.temas.helpers.ResourceTestApplication;
+import ar.com.kfgodel.temas.helpers.TestHelper;
 import ar.com.kfgodel.transformbyconvention.api.TypeTransformer;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import convention.persistent.TemaDeMinuta;
 import convention.persistent.TemaDeReunion;
-import ar.com.kfgodel.temas.helpers.PersistentTestHelper;
-import ar.com.kfgodel.temas.helpers.TestHelper;
 import convention.persistent.Usuario;
 import convention.rest.api.ReunionResource;
 import convention.rest.api.TemaDeReunionResource;
@@ -42,7 +42,7 @@ public abstract class ResourceTest {
     private static final String HOST = "http://localhost:9090/";
 
     private static Thread serverThread;
-    private static TemasApplication application;
+    private static ResourceTestApplication application;
     private static AuthenticatedTestConfig applicationConfig;
     TemaService temaService;
     UsuarioService usuarioService;
@@ -57,7 +57,7 @@ public abstract class ResourceTest {
     public static void applicationSetUp() {
         serverThread = new Thread(() -> {
             applicationConfig = new AuthenticatedTestConfig();
-            application = (TemasApplication) TemasApplication.create(applicationConfig);
+            application = new ResourceTestApplication(applicationConfig);
             application.start();
         });
         serverThread.start();

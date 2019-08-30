@@ -6,6 +6,7 @@ import ar.com.kfgodel.orm.api.config.DbCoordinates;
 import ar.com.kfgodel.orm.impl.HibernateFacade;
 import ar.com.kfgodel.temas.application.initializers.InicializadorDeDatos;
 import ar.com.kfgodel.temas.config.TemasConfiguration;
+import ar.com.kfgodel.temas.notifications.NotificadorDeTemasNoTratadosJob;
 import ar.com.kfgodel.transformbyconvention.api.TypeTransformer;
 import ar.com.kfgodel.transformbyconvention.impl.B2BTransformer;
 import ar.com.kfgodel.transformbyconvention.impl.config.TransformerConfigurationByConvention;
@@ -13,6 +14,8 @@ import ar.com.kfgodel.webbyconvention.api.WebServer;
 import ar.com.kfgodel.webbyconvention.api.config.WebServerConfiguration;
 import ar.com.kfgodel.webbyconvention.impl.JettyWebServer;
 import ar.com.kfgodel.webbyconvention.impl.config.ConfigurationByConvention;
+import org.quartz.*;
+import org.quartz.impl.StdSchedulerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,6 +25,7 @@ import org.slf4j.LoggerFactory;
  * Created by kfgodel on 22/03/15.
  */
 public class TemasApplication implements Application {
+    private static final TimeOfDay NOTIFICATION_TIME_OF_DAY = TimeOfDay.hourAndMinuteOfDay(9, 0);
     public static Logger LOG = LoggerFactory.getLogger(TemasApplication.class);
 
     private TemasConfiguration config;
@@ -68,6 +72,7 @@ public class TemasApplication implements Application {
     public void start() {
         LOG.info("Starting APP");
         this.initialize();
+        this.iniciarNotificadorDeTemasNoTratados();
         this.getWebServerModule().startAndJoin();
     }
 
@@ -91,11 +96,6 @@ public class TemasApplication implements Application {
         InicializadorDeDatos.create(this).inicializar();
     }
 
-    protected TypeTransformer createTransformer() {
-        TransformerConfigurationByConvention configuration = TransformerConfigurationByConvention.create(this.injector());
-        return B2BTransformer.create(configuration);
-    }
-
     private void registerCleanupHook() {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             LOG.info("Cleaning-up before shutdown");
@@ -103,13 +103,18 @@ public class TemasApplication implements Application {
         }, "cleanup-thread"));
     }
 
-    protected HibernateOrm createPersistenceLayer() {
+    private TypeTransformer createTransformer() {
+        TransformerConfigurationByConvention configuration = TransformerConfigurationByConvention.create(this.injector());
+        return B2BTransformer.create(configuration);
+    }
+
+    private HibernateOrm createPersistenceLayer() {
         DbCoordinates dbCoordinates = config.getDatabaseCoordinates();
         HibernateOrm hibernateOrm = HibernateFacade.createWithConventionsFor(dbCoordinates);
         return hibernateOrm;
     }
 
-    protected WebServer createWebServer() {
+    private WebServer createWebServer() {
         int MAX_TIME_IN_SECONDS = 14400;
 
         WebServerConfiguration serverConfig = ConfigurationByConvention.create()
@@ -126,7 +131,7 @@ public class TemasApplication implements Application {
         return JettyWebServer.createFor(serverConfig);
     }
 
-    public void bindTransformer() {
+    private void bindTransformer() {
         this.injector().bindTo(TypeTransformer.class, createTransformer());
     }
 
@@ -142,5 +147,31 @@ public class TemasApplication implements Application {
         stopOrmModule();
         bindOrmModule();
         bindTransformer();
+    }
+
+    private void iniciarNotificadorDeTemasNoTratados() {
+        JobDataMap jobDataMap = new JobDataMap();
+        jobDataMap.put("injector", injector());
+        JobDetail job = JobBuilder.newJob(NotificadorDeTemasNoTratadosJob.class)
+                .setJobData(jobDataMap)
+                .build();
+
+        Trigger trigger = TriggerBuilder.newTrigger()
+                .withSchedule(DailyTimeIntervalScheduleBuilder
+                        .dailyTimeIntervalSchedule()
+                        .onMondayThroughFriday()
+                        .startingDailyAt(NOTIFICATION_TIME_OF_DAY)
+                        .withRepeatCount(0)
+                        .withMisfireHandlingInstructionFireAndProceed())
+                .build();
+
+        try {
+            Scheduler scheduler = new StdSchedulerFactory().getScheduler();
+            scheduler.shutdown();
+            scheduler.scheduleJob(job, trigger);
+            scheduler.start();
+        } catch (SchedulerException exception) {
+            LOG.error("Error al iniciar el notificador de temas no tratados.", exception);
+        }
     }
 }
