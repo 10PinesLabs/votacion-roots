@@ -106,7 +106,7 @@ public class NotificadorDeTemasNoTratados {
     }
 
     private String getLinkParaReProponer(TemaDeReunion unTemaDeReunion) {
-        return String.format("%s/reproponer-tema/%d", getHostName(), unTemaDeReunion.getPrimeraPropuesta().getId());
+        return String.format("%s/reproponer-tema/%d", getHostName(), unTemaDeReunion.getPropuestaOriginal().getId());
     }
 
     private String getHostName() {

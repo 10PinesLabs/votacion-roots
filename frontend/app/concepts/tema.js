@@ -59,8 +59,8 @@ export default Ember.Object.extend({
     return this.get('id') !== this.get('idDePrimeraPropuesta');
   }),
 
-  antiguedadDePropuesta: Ember.computed('fechaDePrimeraPropuesta', function () {
-    return moment(this.get('fechaDePrimeraPropuesta')).locale('es').fromNow();
+  antiguedadDePropuesta: Ember.computed('fechaDePropuestaOriginal', function () {
+    return moment(this.get('fechaDePropuestaOriginal')).locale('es').fromNow();
   }),
 
   agregarInteresado(idDeInteresado) {

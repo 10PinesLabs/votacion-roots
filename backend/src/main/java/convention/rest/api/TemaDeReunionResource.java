@@ -108,7 +108,7 @@ public class TemaDeReunionResource {
     @Path("/{resourceId}")
     public void delete(@PathParam("resourceId") Long id) {
         TemaDeReunion tema = temaService.get(id);
-        temaService.convertirRePropuestasAPrimerasPropuestas(id);
+        temaService.convertirRePropuestasAPropuestasOriginales(id);
         temaService.delete(tema);
     }
 
@@ -137,7 +137,7 @@ public class TemaDeReunionResource {
     }
 
     private void verificarQueNoReProponeUnaRePropuesta(TemaDeReunionConDescripcion unTemaDeReunion) {
-        if (unTemaDeReunion.getPrimeraPropuesta().esRePropuesta()) {
+        if (unTemaDeReunion.getPropuestaOriginal().esRePropuesta()) {
             throw new WebApplicationException("No se puede volver a proponer una re-propuesta", Response.Status.BAD_REQUEST);
         }
     }

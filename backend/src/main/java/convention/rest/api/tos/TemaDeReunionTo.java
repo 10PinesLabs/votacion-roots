@@ -40,8 +40,8 @@ public class TemaDeReunionTo extends PersistableToSupport {
     private List<Long> idsDeInteresados;
     @CopyFromAndTo(TemaDeReunion.obligatoriedad_FIELD)
     private String obligatoriedad;
-    @CopyFrom(TemaDeReunion.primeraPropuesta_FIELD)
-    private Long idDePrimeraPropuesta;
+    @CopyFrom(TemaDeReunion.propuestaOriginal_FIELD)
+    private Long idDePropuestaOriginal;
     @CopyFrom(TemaDeReunion.fechaDePrimeraPropuesta_FIELD)
     private String fechaDePrimeraPropuesta;
 
@@ -125,12 +125,12 @@ public class TemaDeReunionTo extends PersistableToSupport {
       this.ultimoModificador = idDeUltimoModificador;
     }
 
-    public Long getIdDePrimeraPropuesta() {
-        return idDePrimeraPropuesta;
+    public Long getIdDePropuestaOriginal() {
+        return idDePropuestaOriginal;
     }
 
-    public void setIdDePrimeraPropuesta(Long idDePrimeraPropuesta) {
-        this.idDePrimeraPropuesta = idDePrimeraPropuesta;
+    public void setIdDePropuestaOriginal(Long idDePropuestaOriginal) {
+        this.idDePropuestaOriginal = idDePropuestaOriginal;
     }
 
     public String getFechaDePrimeraPropuesta() {

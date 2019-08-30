@@ -229,14 +229,14 @@ public class TestHelper {
         return typeTransformer.transformTo(unaClaseDestino, unObjeto);
     }
 
-    public TemaDeReunion unTemaDeReunionConPrimeraPropuesta(TemaDeReunion unaPrimeraPropuesta) {
+    public TemaDeReunion unTemaDeReunionConPropuestaOriginal(TemaDeReunion unaPropuestaOriginal) {
         TemaDeReunion unTemaDeReunion = unTemaDeReunion();
-        unTemaDeReunion.setPrimeraPropuesta(unaPrimeraPropuesta);
+        unTemaDeReunion.setPropuestaOriginal(unaPropuestaOriginal);
         return unTemaDeReunion;
     }
 
-    public TemaDeReunion unTemaDeReunionConPrimeraPropuestaParaReunion(TemaDeReunion unaPrimeraPropuesta, Reunion unaReunion) {
-        TemaDeReunion unTemaDeReunion = unTemaDeReunionConPrimeraPropuesta(unaPrimeraPropuesta);
+    public TemaDeReunion unTemaDeReunionConPropuestaOriginalParaReunion(TemaDeReunion unaPropuestaOriginal, Reunion unaReunion) {
+        TemaDeReunion unTemaDeReunion = unTemaDeReunionConPropuestaOriginal(unaPropuestaOriginal);
         unTemaDeReunion.setReunion(unaReunion);
         return unTemaDeReunion;
     }
@@ -249,7 +249,7 @@ public class TestHelper {
 
     public TemaDeReunion unaRePropuestaDe(TemaDeReunion unaPrimeraPropuesta) {
         TemaDeReunion unTemaDeReunion = unTemaDeReunion();
-        unTemaDeReunion.setPrimeraPropuesta(unaPrimeraPropuesta);
+        unTemaDeReunion.setPropuestaOriginal(unaPrimeraPropuesta);
         return unTemaDeReunion;
     }
 }
