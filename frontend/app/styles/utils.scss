@@ -87,6 +87,10 @@
   justify-content: space-between;
 }
 
+.align-center{
+  align-items: center;
+}
+
 .justify-center {
   justify-content: center;
 }
@@ -153,6 +157,14 @@
 .gray-subtitle {
   font-weight: bold;
   opacity: 0.7;
+}
+
+.text-small{
+  font-size: 0.9rem;
+}
+
+.text-gray{
+  color: darkgray;
 }
 
 .white-text {

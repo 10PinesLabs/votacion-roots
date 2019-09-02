@@ -4,6 +4,7 @@ import ar.com.kfgodel.temas.exceptions.TemaDeReunionException;
 import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -24,6 +25,7 @@ public abstract class TemaDeReunion extends Tema {
     public static final String obligatoriedad_FIELD = "obligatoriedad";
     public static final String temaGenerador_FIELD = "temaGenerador";
     public static final String primeraPropuesta_FIELD = "primeraPropuesta";
+    public static final String fechaDePrimeraPropuesta_FIELD = "fechaDePrimeraPropuesta";
     public static final String ERROR_AGREGAR_INTERESADO = "No se puede agregar un interesado a un tema obligatorio";
     @ManyToOne
     private Reunion reunion;
@@ -196,5 +198,13 @@ public abstract class TemaDeReunion extends Tema {
 
     public Boolean reProponeElMismoTemaQue(TemaDeReunion otroTema) {
         return Objects.equals(getPrimeraPropuesta(), otroTema.getPrimeraPropuesta());
+    }
+
+    public LocalDate getFechaDePrimeraPropuesta() {
+        return getPrimeraPropuesta().getFechaDeReunion();
+    }
+
+    private LocalDate getFechaDeReunion() {
+        return Optional.ofNullable(getReunion()).map(Reunion::getFecha).orElse(null);
     }
 }

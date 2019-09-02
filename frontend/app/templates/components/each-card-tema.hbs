@@ -1,26 +1,28 @@
 {{#if (or mostrarObligatorios (not tema.esObligatorio))}}
 
-  <tr class="bg-white">
+  <div class="p-20 bg-white mb-20">
     {{#if tema.esObligatorio}}
       <div class="the-lock lock-margin right clickable">
         <i class="material-icons opacity-20">lock</i>
         <span class="tool-tip-text">Tema obligatorio</span>
       </div>
     {{/if}}
-    <div class="tema-horizontal-margin">
-      <td class="noPadding">
-        <h5 class="titulo-de-tema">{{tema.titulo}}</h5>
-        {{descripcion-de-tema-expansible tema=tema expandido=expandido onClick=(action 'expandirDescripcion')}}
-      </td>
-
-      {{#if expandido}}
-        <div class="tema-colapse-button">
-          <button class="colapse-button" onclick={{action 'colapsarDescripcion'}}>
-            <i class="material-icons">unfold_less</i>
-          </button>
-        </div>
-      {{/if}}
+    <div class="full-width">
+      {{header-tema
+          tema=tema
+          mostrarFlagActionItems=false
+          antiguedadRelativa=true
+      }}
+      {{descripcion-de-tema-expansible tema=tema expandido=expandido onClick=(action 'expandirDescripcion')}}
     </div>
+
+    {{#if expandido}}
+      <div class="tema-colapse-button">
+        <button class="colapse-button" onclick={{action 'colapsarDescripcion'}}>
+          <i class="material-icons">unfold_less</i>
+        </button>
+      </div>
+    {{/if}}
 
     <div class="divider"></div>
 
@@ -84,6 +86,6 @@
 
       </div>
     </div>
-  </tr>
+  </div>
 
 {{/if}}

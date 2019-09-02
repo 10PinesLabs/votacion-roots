@@ -184,6 +184,20 @@ public class TemaDeReunionResourceTest extends ResourceTest {
         assertThat(temaService.getAll()).doesNotContain(unaPrimeraPropuesta);
         assertThat(temaService.get(unTema.getId()).esRePropuesta()).isFalse();
     }
+    
+    @Test
+    public void testGetDeTemasDeReunionContieneLaFechaDeLaPrimeraPropuesta() throws IOException {
+        Reunion unaReunion = reunionService.save(helper.unaReunion());
+        TemaDeReunion unTema = helper.unTemaDeReunion();
+        unTema.setReunion(unaReunion);
+        unTema = temaService.save(unTema);
+
+        HttpResponse response = makeGetRequest("temas/" + unTema.getId());
+
+        JSONObject jsonResponse = new JSONObject(getResponseBody(response));
+        String fechaDeLaPrimeraPropuesta = convertirA(unTema.getFechaDePrimeraPropuesta(), String.class);
+        assertThat(jsonResponse.getString("fechaDePrimeraPropuesta")).isEqualTo(fechaDeLaPrimeraPropuesta);
+    }
 
     private TemaDeReunionConDescripcion crearUnTemaDeReunionConDescripcion() {
         TemaDeReunionConDescripcion unTemaConDescripcion = new TemaDeReunionConDescripcion();

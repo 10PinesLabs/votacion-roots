@@ -1,0 +1,9 @@
+<div class="space-between align-center">
+  <h5 class="titulo-de-tema no-margin">{{tema.titulo}} </h5>
+  {{#if tema.esRepropuesta}}
+    <h6 class="no-margin text-gray text-small">Propuesto originalmente {{antiguedad}}</h6>
+  {{/if}}
+  {{#if mostrarFlagActionItems}}
+    <i class="material-icons primary-color">flag</i>
+  {{/if}}
+</div>
