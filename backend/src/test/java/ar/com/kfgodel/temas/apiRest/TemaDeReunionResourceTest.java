@@ -103,6 +103,17 @@ public class TemaDeReunionResourceTest extends ResourceTest {
     }
 
     @Test
+    public void testGetDeUnaRePropuestaContieneElIdDeLaPropuestaOriginal() throws IOException {
+        Reunion unaReunion = reunionService.save(helper.unaReunion());
+        TemaDeReunion unTema = temaService.save(helper.unTemaDeReunion(unaReunion));
+
+        HttpResponse response = makeGetRequest("temas/" + unTema.getId());
+
+        JSONObject jsonResponse = new JSONObject(getResponseBody(response));
+        assertThat(jsonResponse.getLong("idDePropuestaOriginal")).isEqualTo(unTema.getPropuestaOriginal().getId());
+    }
+
+    @Test
     public void testUnTemaSeCreaConsigoMismoComoPropuestaOriginalSiNoSeEspecificaUna() throws IOException {
         TemaEnCreacionTo unTemaEnCreacionTo = helper.unTemaEnCreacionTo(reunionService.save(helper.unaReunion()));
         unTemaEnCreacionTo.setIdDePropuestaOriginal(null);
@@ -114,20 +125,9 @@ public class TemaDeReunionResourceTest extends ResourceTest {
     }
 
     @Test
-    public void testGetDeTemasDeReunionContieneElIdDeLaPropuestaOriginal() throws IOException {
-        Reunion unaReunion = reunionService.save(helper.unaReunion());
-        TemaDeReunion unTema = temaService.save(helper.unTemaDeReunion(unaReunion));
-
-        HttpResponse response = makeGetRequest("temas/" + unTema.getId());
-
-        JSONObject jsonResponse = new JSONObject(getResponseBody(response));
-        assertThat(jsonResponse.getLong("idDePropuestaOriginal")).isEqualTo(unTema.getPropuestaOriginal().getId());
-    }
-
-    @Test
     public void testCrearUnTemaConUnaRePropuestaComoPropuestaOriginalRetornaUnBadRequest() throws IOException {
         TemaDeReunion unaPropuestaOriginal = temaService.save(helper.unTemaDeReunion());
-        TemaDeReunion unaRePropuesta = temaService.save(helper.unTemaDeReunionConPropuestaOriginal(unaPropuestaOriginal));
+        TemaDeReunion unaRePropuesta = temaService.save(helper.unaRePropuestaDe(unaPropuestaOriginal));
 
         TemaEnCreacionTo unTemaEnCreacionTo = helper.unTemaEnCreacionTo(reunionService.save(helper.unaReunion()));
         unTemaEnCreacionTo.setIdDePropuestaOriginal(unaRePropuesta.getId());
@@ -195,8 +195,8 @@ public class TemaDeReunionResourceTest extends ResourceTest {
         HttpResponse response = makeGetRequest("temas/" + unTema.getId());
 
         JSONObject jsonResponse = new JSONObject(getResponseBody(response));
-        String fechaDeLaPrimeraPropuesta = convertirA(unTema.getFechaDePrimeraPropuesta(), String.class);
-        assertThat(jsonResponse.getString("fechaDePrimeraPropuesta")).isEqualTo(fechaDeLaPrimeraPropuesta);
+        String fechaDeLaPrimeraPropuesta = convertirA(unTema.getFechaDePropuestaOriginal(), String.class);
+        assertThat(jsonResponse.getString("fechaDePropuestaOriginal")).isEqualTo(fechaDeLaPrimeraPropuesta);
     }
 
     private TemaDeReunionConDescripcion crearUnTemaDeReunionConDescripcion() {
