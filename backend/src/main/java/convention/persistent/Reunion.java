@@ -144,9 +144,9 @@ public class Reunion extends PersistableSupport {
                 });
     }
 
-    public Boolean tieneOtroTemaQueReProponeAlMismoQue(TemaDeReunionConDescripcion unTemaDeReunion) {
+    public Boolean tieneOtroTemaQueTrataLaMismaPropuestaQue(TemaDeReunionConDescripcion unTemaDeReunion) {
         return getTemasPropuestos().stream()
                 .filter(temaDeReunion -> !temaDeReunion.equals(unTemaDeReunion))
-                .anyMatch(temaDeReunion -> temaDeReunion.reProponeElMismoTemaQue(unTemaDeReunion));
+                .anyMatch(temaDeReunion -> temaDeReunion.trataLaMismaPropuestaQue(unTemaDeReunion));
     }
 }

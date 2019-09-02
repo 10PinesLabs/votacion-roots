@@ -240,7 +240,7 @@ public class TestHelper {
         return unTemaDeReunion;
     }
 
-    public TemaDeReunion unTemaDeReunionConPropuestaOriginalParaReunion(TemaDeReunion unaPropuestaOriginal, Reunion unaReunion) {
+    public TemaDeReunion unaRePropuestaDeParaReunion(TemaDeReunion unaPropuestaOriginal, Reunion unaReunion) {
         TemaDeReunion unTemaDeReunion = unaRePropuestaDe(unaPropuestaOriginal);
         unTemaDeReunion.setReunion(unaReunion);
         return unTemaDeReunion;

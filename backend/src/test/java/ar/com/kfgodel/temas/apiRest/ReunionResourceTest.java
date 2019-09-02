@@ -150,7 +150,7 @@ public class ReunionResourceTest extends ResourceTest {
     public void testElGetDeReunionTieneLosIdsDePropuestaOriginalCorrectos() throws IOException {
         TemaDeReunion unaPropuestaOriginal = temaService.save(helper.unTemaDeReunion());
         Reunion unaReunion = reunionService.save(helper.unaReunion());
-        temaService.save(helper.unTemaDeReunionConPropuestaOriginalParaReunion(unaPropuestaOriginal, unaReunion));
+        temaService.save(helper.unaRePropuestaDeParaReunion(unaPropuestaOriginal, unaReunion));
 
         HttpResponse response = makeGetRequest("reuniones/" + unaReunion.getId());
 
@@ -164,7 +164,7 @@ public class ReunionResourceTest extends ResourceTest {
         Reunion unaReunion = reunionService.save(helper.unaReunion());
         TemaDeReunion unaPropuestaOriginal = temaService.save(
                 helper.unTemaDeReunion(unaReunion));
-        TemaDeReunion unTema = temaService.save(helper.unTemaDeReunionConPropuestaOriginalParaReunion(
+        TemaDeReunion unTema = temaService.save(helper.unaRePropuestaDeParaReunion(
                 unaPropuestaOriginal, reunionService.save(helper.unaReunion())));
 
         HttpResponse response = makeDeleteRequest("reuniones/" + unaReunion.getId());
