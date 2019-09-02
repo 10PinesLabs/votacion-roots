@@ -2,6 +2,7 @@ package ar.com.kfgodel.temas.notifications;
 
 import ar.com.kfgodel.dependencies.api.DependencyInjector;
 import ar.com.kfgodel.temas.acciones.CalculadorDeFechaDeNotificacion;
+import ar.com.kfgodel.temas.config.environments.Environment;
 import com.google.inject.Inject;
 import convention.persistent.Minuta;
 import convention.persistent.TemaDeMinuta;
@@ -98,7 +99,17 @@ public class NotificadorDeTemasNoTratados {
     }
 
     private String getMessageFor(TemaDeReunion temaDeReunion) {
-        return String.format("Hola! El tema \"%s\" que presentaste en la roots pasada no fue tratado. Sentite libre de volver a proponerlo!",
-                temaDeReunion.getTitulo());
+        return String.format("Hola! El tema \"%s\" que presentaste en la roots pasada no fue tratado. " +
+                        "Sentite libre de volver a proponerlo con este link %s",
+                temaDeReunion.getTitulo(),
+                getLinkParaReProponer(temaDeReunion));
+    }
+
+    private String getLinkParaReProponer(TemaDeReunion unTemaDeReunion) {
+        return String.format("%s/reproponer-tema/%d", getHostName(), unTemaDeReunion.getPrimeraPropuesta().getId());
+    }
+
+    private String getHostName() {
+        return Environment.toHandle(System.getenv("ENVIROMENT")).getHostName();
     }
 }

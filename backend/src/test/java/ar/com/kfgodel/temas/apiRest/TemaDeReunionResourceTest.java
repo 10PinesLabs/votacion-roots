@@ -1,8 +1,5 @@
 package ar.com.kfgodel.temas.apiRest;
 
-import ar.com.kfgodel.temas.helpers.TestHelper;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import convention.persistent.*;
 import convention.rest.api.tos.TemaDeReunionTo;
 import convention.rest.api.tos.TemaEnCreacionTo;
@@ -90,6 +87,102 @@ public class TemaDeReunionResourceTest extends ResourceTest {
         TemaDeReunion temaActualizado = temaService.get(idDelTema);
         assertThatResponseStatusCodeIs(response, HttpStatus.SC_CONFLICT);
         assertThat(temaActualizado.getTitulo()).isEqualTo(tituloDelTema);
+    }
+
+    @Test
+    public void testUnTemaSeCreaConUnaPrimeraPropuesta() throws IOException {
+        TemaDeReunionConDescripcion unTemaDeReunion = crearUnTemaDeReunionConDescripcion();
+        TemaEnCreacionTo unTemaEnCreacionTo = helper.unTemaEnCreacionTo(reunionService.save(helper.unaReunion()));
+        unTemaEnCreacionTo.setIdDePrimeraPropuesta(unTemaDeReunion.getId());
+
+        HttpResponse response = makeJsonPostRequest("temas/", convertirAJsonString(unTemaEnCreacionTo));
+
+        Long idDelTemaCreado = new JSONObject(getResponseBody(response)).getLong("id");
+        TemaDeReunion temaCreado = temaService.get(idDelTemaCreado);
+        assertThat(temaCreado.getPrimeraPropuesta()).isEqualTo(unTemaDeReunion);
+    }
+
+    @Test
+    public void testUnTemaSeCreaConsigoMismoComoPrimeraPropuestaSiNoSeEspecificaUna() throws IOException {
+        TemaEnCreacionTo unTemaEnCreacionTo = helper.unTemaEnCreacionTo(reunionService.save(helper.unaReunion()));
+        unTemaEnCreacionTo.setIdDePrimeraPropuesta(null);
+
+        makeJsonPostRequest("temas/", convertirAJsonString(unTemaEnCreacionTo));
+
+        TemaDeReunion temaCreado = temaService.getAll().get(0);
+        assertThat(temaCreado.getPrimeraPropuesta()).isEqualTo(temaCreado);
+    }
+
+    @Test
+    public void testGetDeTemasDeReunionContieneElIdDeLaPrimeraPropuesta() throws IOException {
+        Reunion unaReunion = reunionService.save(helper.unaReunion());
+        TemaDeReunion unTema = temaService.save(helper.unTemaDeReunion(unaReunion));
+
+        HttpResponse response = makeGetRequest("temas/" + unTema.getId());
+
+        JSONObject jsonResponse = new JSONObject(getResponseBody(response));
+        assertThat(jsonResponse.getLong("idDePrimeraPropuesta")).isEqualTo(unTema.getPrimeraPropuesta().getId());
+    }
+
+    @Test
+    public void testCrearUnTemaConUnaRePropuestaComoPrimeraPropuestaRetornaUnBadRequest() throws IOException {
+        TemaDeReunion unaPrimeraPropuesta = temaService.save(helper.unTemaDeReunion());
+        TemaDeReunion unaRePropuesta = temaService.save(helper.unTemaDeReunionConPrimeraPropuesta(unaPrimeraPropuesta));
+
+        TemaEnCreacionTo unTemaEnCreacionTo = helper.unTemaEnCreacionTo(reunionService.save(helper.unaReunion()));
+        unTemaEnCreacionTo.setIdDePrimeraPropuesta(unaRePropuesta.getId());
+
+        HttpResponse response = makeJsonPostRequest("temas/", convertirAJsonString(unTemaEnCreacionTo));
+
+        assertThatResponseStatusCodeIs(response, HttpStatus.SC_BAD_REQUEST);
+        assertThat(temaService.getAll()).containsExactly(unaPrimeraPropuesta, unaRePropuesta);
+    }
+
+    @Test
+    public void testNoSePuedeCrearMasDeUnTemaConLaMismaPrimeraPropuestaParaLaMismaReunion() throws IOException {
+        TemaDeReunion unaPrimeraPropuesta = temaService.save(helper.unTemaDeReunion());
+        Reunion unaReunion = reunionService.save(helper.unaReunion());
+        TemaDeReunion unTema = temaService.save(
+                helper.unTemaDeReunionConPrimeraPropuestaParaReunion(unaPrimeraPropuesta, unaReunion));
+        reunionService.save(unaReunion);
+
+        TemaEnCreacionTo unTemaEnCreacionTo = helper.unTemaEnCreacionTo(unaReunion);
+        unTemaEnCreacionTo.setIdDePrimeraPropuesta(unaPrimeraPropuesta.getId());
+        HttpResponse response = makeJsonPostRequest("temas/", convertirAJsonString(unTemaEnCreacionTo));
+
+        assertThatResponseStatusCodeIs(response, HttpStatus.SC_CONFLICT);
+        assertThat(temaService.getAll()).containsExactly(unaPrimeraPropuesta, unTema);
+    }
+
+    @Test
+    public void testSePuedeModificarUnaRePropuesta() throws IOException {
+        TemaDeReunion unaPrimeraPropuesta = temaService.save(helper.unTemaDeReunion());
+        Reunion unaReunion = reunionService.save(helper.unaReunion());
+        TemaDeReunion unTema = temaService.save(
+                helper.unTemaDeReunionConPrimeraPropuestaParaReunion(unaPrimeraPropuesta, unaReunion));
+
+        TemaDeReunionTo toDelTema = convertirATo(unTema);
+        String unNuevoTitulo = "Un nuevo título";
+        toDelTema.setTitulo(unNuevoTitulo);
+        HttpResponse response = makeJsonPutRequest("temas/" + unTema.getId(), convertirAJsonString(toDelTema));
+
+        TemaDeReunion temaActualizado = temaService.get(unTema.getId());
+        assertThatResponseStatusCodeIs(response, HttpStatus.SC_OK);
+        assertThat(temaActualizado.getTitulo()).isEqualTo(unNuevoTitulo);
+    }
+
+    @Test
+    public void testCuandoSeEliminaUnaPrimeraPropuestaSusRePropuestasDejanDeSerRePropuestas() throws IOException {
+        TemaDeReunion unaPrimeraPropuesta = temaService.save(helper.unTemaDeReunion());
+        Reunion unaReunion = reunionService.save(helper.unaReunion());
+        TemaDeReunion unTema = temaService.save(
+                helper.unTemaDeReunionConPrimeraPropuestaParaReunion(unaPrimeraPropuesta, unaReunion));
+
+        HttpResponse response = makeDeleteRequest("temas/" + unaPrimeraPropuesta.getId());
+
+        assertThatResponseStatusCodeIs(response, HttpStatus.SC_NO_CONTENT);
+        assertThat(temaService.getAll()).doesNotContain(unaPrimeraPropuesta);
+        assertThat(temaService.get(unTema.getId()).esRePropuesta()).isFalse();
     }
 
     private TemaDeReunionConDescripcion crearUnTemaDeReunionConDescripcion() {

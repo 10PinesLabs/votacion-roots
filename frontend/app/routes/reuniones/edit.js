@@ -2,25 +2,28 @@ import Ember from "ember";
 import AuthenticatedRoute from "ateam-ember-authenticator/mixins/authenticated-route";
 import NavigatorInjected from "../../mixins/navigator-injected";
 import ReunionServiceInjected from "../../mixins/reunion-service-injected";
+import TemaServiceInjected from "../../mixins/tema-service-injected";
 import UserServiceInjected from "../../mixins/user-service-injected";
 import Tema from "../../concepts/tema";
 
-export default Ember.Route.extend(AuthenticatedRoute, ReunionServiceInjected, UserServiceInjected, NavigatorInjected, {
+export default Ember.Route.extend(AuthenticatedRoute, ReunionServiceInjected, UserServiceInjected, TemaServiceInjected, NavigatorInjected, {
+  queryParams:{
+    temaAReproponer: {
+      refreshModel: true
+    }
+  },
   model: function (params) {
-    var reunionId = params.reunion_id;
-
-    return Ember.RSVP.hash({
-      reunion: this.promiseWaitingFor(this.reunionService().getReunion(reunionId))
-        .whenInterruptedAndReauthenticated(()=> {
-          this.navigator().navigateToReunionesEdit(reunionId);
-        }),
+    const requests = {
+      reunion: this.promiseWaitingFor(this.reunionService().getReunion(params.reunion_id)),
       usuarioActual: this.promiseWaitingFor(this.userService().getCurrentUser())
-        .whenInterruptedAndReauthenticated(()=> {
-          this.navigator().navigateToReunionesEdit(reunionId);
-        })
-    }).then((model)=> {
-      this._usarInstanciasDeTemas(model.reunion, model.usuarioActual);
+    };
 
+    if(params.temaAReproponer) {
+      requests.temaAReproponer = this.promiseWaitingFor(this.temaService().getTema(params.temaAReproponer));
+    }
+
+    return Ember.RSVP.hash(requests).then((model) => {
+      this._usarInstanciasDeTemas(model.reunion, model.usuarioActual);
       return model;
     });
   },
@@ -34,5 +37,12 @@ export default Ember.Route.extend(AuthenticatedRoute, ReunionServiceInjected, Us
       temasDeLaReunion[i] = temaConComportamiento;
     }
   },
+
+  setupController: function(controller, model) {
+    this._super(controller, model);
+    if (model.temaAReproponer) {
+      controller.send('mostrarFormularioDeReproponer', model.temaAReproponer)
+    }
+  }
 
 });

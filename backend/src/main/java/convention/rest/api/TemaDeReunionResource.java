@@ -31,24 +31,20 @@ public class TemaDeReunionResource {
     @POST
     public TemaDeReunionTo create(TemaEnCreacionTo newState, @Context SecurityContext securityContext) {
         TemaDeReunionConDescripcion temaCreado = getResourceHelper().convertir(newState, TemaDeReunionConDescripcion.class);
-        verificarQueNoTieneTituloDeTemaParaProponerPinosARoot(temaCreado);
-
-        Usuario modificador = getResourceHelper().usuarioActual(securityContext);
-        temaCreado.setUltimoModificador(modificador);
-        temaService.save(temaCreado);
-        return getResourceHelper().convertir(temaCreado, TemaDeReunionTo.class);
+        validarTemaDeReunionConDescripcion(temaCreado);
+        temaCreado.setUltimoModificador(getResourceHelper().usuarioActual(securityContext));
+        TemaDeReunion nuevoTema = temaService.save(temaCreado);
+        return getResourceHelper().convertir(nuevoTema, TemaDeReunionTo.class);
     }
 
-    @Path("/{resourceId}")
     @PUT
+    @Path("/{resourceId}")
     public TemaDeReunionTo update(TemaDeReunionTo newState, @PathParam("resourceId") Long id, @Context SecurityContext securityContext) {
-        TemaDeReunionConDescripcion estadoNuevo = getResourceHelper().convertir(newState, TemaDeReunionConDescripcion.class);
-        verificarQueNoTieneTituloDeTemaParaProponerPinosARoot(estadoNuevo);
-
-        Usuario modificador = getResourceHelper().usuarioActual(securityContext);
-        estadoNuevo.setUltimoModificador(modificador);
-        TemaDeReunion temaUpdateado = temaService.update(estadoNuevo);
-        return getResourceHelper().convertir(temaUpdateado, TemaDeReunionTo.class);
+        TemaDeReunionConDescripcion temaCreado = getResourceHelper().convertir(newState, TemaDeReunionConDescripcion.class);
+        validarTemaDeReunionConDescripcion(temaCreado);
+        temaCreado.setUltimoModificador(getResourceHelper().usuarioActual(securityContext));
+        TemaDeReunion nuevoTema = temaService.update(temaCreado);
+        return getResourceHelper().convertir(nuevoTema, TemaDeReunionTo.class);
     }
 
     @GET
@@ -112,6 +108,7 @@ public class TemaDeReunionResource {
     @Path("/{resourceId}")
     public void delete(@PathParam("resourceId") Long id) {
         TemaDeReunion tema = temaService.get(id);
+        temaService.convertirRePropuestasAPrimerasPropuestas(id);
         temaService.delete(tema);
     }
 
@@ -127,9 +124,27 @@ public class TemaDeReunionResource {
         return resourceHelper;
     }
 
+    private void validarTemaDeReunionConDescripcion(TemaDeReunionConDescripcion nuevoTema) {
+        verificarQueNoTieneTituloDeTemaParaProponerPinosARoot(nuevoTema);
+        verificarQueNoReProponeUnaRePropuesta(nuevoTema);
+        verificarQueNoHayOtroTemaEnLaReunionQueReProponeAlMismoTema(nuevoTema);
+    }
+
     private void verificarQueNoTieneTituloDeTemaParaProponerPinosARoot(TemaDeReunionConDescripcion unTemaDeReunion) {
         if (unTemaDeReunion.getTitulo().equals(TemaParaProponerPinosARoot.TITULO)) {
             throw new WebApplicationException("No puede haber 2 temas de proponer pino a roots", Response.Status.CONFLICT);
+        }
+    }
+
+    private void verificarQueNoReProponeUnaRePropuesta(TemaDeReunionConDescripcion unTemaDeReunion) {
+        if (unTemaDeReunion.getPrimeraPropuesta().esRePropuesta()) {
+            throw new WebApplicationException("No se puede volver a proponer una re-propuesta", Response.Status.BAD_REQUEST);
+        }
+    }
+
+    private void verificarQueNoHayOtroTemaEnLaReunionQueReProponeAlMismoTema(TemaDeReunionConDescripcion unTemaDeReunion) {
+        if (unTemaDeReunion.getReunion().tieneOtroTemaQueReProponeAlMismoQue(unTemaDeReunion)) {
+            throw new WebApplicationException("No se puede volver a proponer el mismo tema más de una vez", Response.Status.CONFLICT);
         }
     }
 }

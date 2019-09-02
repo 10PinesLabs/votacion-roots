@@ -40,6 +40,8 @@ public class TemaDeReunionTo extends PersistableToSupport {
     private List<Long> idsDeInteresados;
     @CopyFromAndTo(TemaDeReunion.obligatoriedad_FIELD)
     private String obligatoriedad;
+    @CopyFrom(TemaDeReunion.primeraPropuesta_FIELD)
+    private Long idDePrimeraPropuesta;
 
     public String getAutor() {
       return autor;
@@ -119,5 +121,13 @@ public class TemaDeReunionTo extends PersistableToSupport {
 
     public void setUltimoModificador(String idDeUltimoModificador) {
       this.ultimoModificador = idDeUltimoModificador;
+    }
+
+    public Long getIdDePrimeraPropuesta() {
+        return idDePrimeraPropuesta;
+    }
+
+    public void setIdDePrimeraPropuesta(Long idDePrimeraPropuesta) {
+        this.idDePrimeraPropuesta = idDePrimeraPropuesta;
     }
 }

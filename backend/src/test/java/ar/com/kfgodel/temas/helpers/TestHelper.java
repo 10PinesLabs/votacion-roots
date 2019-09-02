@@ -1,10 +1,13 @@
 package ar.com.kfgodel.temas.helpers;
 
 import ar.com.kfgodel.temas.domain.TemaParaProponerPinosARootTest;
+import ar.com.kfgodel.transformbyconvention.api.TypeTransformer;
 import convention.persistent.*;
 import convention.rest.api.tos.ActionItemTo;
+import convention.rest.api.tos.TemaEnCreacionTo;
 import convention.rest.api.tos.UserTo;
 
+import javax.inject.Inject;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Collections;
@@ -15,6 +18,9 @@ import static java.util.Arrays.asList;
  * Created by sandro on 30/06/17.
  */
 public class TestHelper {
+
+    @Inject
+    TypeTransformer typeTransformer;
 
     public TemaDeReunionConDescripcion unTemaObligatorio() {
         TemaDeReunionConDescripcion tema = TemaDeReunionConDescripcion.create();
@@ -208,5 +214,36 @@ public class TestHelper {
         TemaDeReunion otroTema = unTemaDeReunion();
         otroTema.setAutor(unAutor);
         return otroTema;
+    }
+
+    public TemaEnCreacionTo unTemaEnCreacionTo(Reunion unaReunion) {
+        TemaEnCreacionTo unTemaEnCreacionTo = new TemaEnCreacionTo();
+        unTemaEnCreacionTo.setIdDeReunion(unaReunion.getId());
+        unTemaEnCreacionTo.setTitulo(unTitulo());
+        unTemaEnCreacionTo.setDescripcion(unaDescripcion());
+        unTemaEnCreacionTo.setObligatoriedad(convertirA(unaObligatoriedad(), String.class));
+        return unTemaEnCreacionTo;
+    }
+
+    private <T> T convertirA(Object unObjeto, Class<T> unaClaseDestino) {
+        return typeTransformer.transformTo(unaClaseDestino, unObjeto);
+    }
+
+    public TemaDeReunion unTemaDeReunionConPrimeraPropuesta(TemaDeReunion unaPrimeraPropuesta) {
+        TemaDeReunion unTemaDeReunion = unTemaDeReunion();
+        unTemaDeReunion.setPrimeraPropuesta(unaPrimeraPropuesta);
+        return unTemaDeReunion;
+    }
+
+    public TemaDeReunion unTemaDeReunionConPrimeraPropuestaParaReunion(TemaDeReunion unaPrimeraPropuesta, Reunion unaReunion) {
+        TemaDeReunion unTemaDeReunion = unTemaDeReunionConPrimeraPropuesta(unaPrimeraPropuesta);
+        unTemaDeReunion.setReunion(unaReunion);
+        return unTemaDeReunion;
+    }
+
+    public TemaDeReunion unTemaDeReunion(Reunion unaReunion) {
+        TemaDeReunion unTemaDeReunion = unTemaDeReunion();
+        unTemaDeReunion.setReunion(unaReunion);
+        return unTemaDeReunion;
     }
 }

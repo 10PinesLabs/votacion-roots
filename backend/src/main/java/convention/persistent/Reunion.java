@@ -142,4 +142,10 @@ public class Reunion extends PersistableSupport {
                     temasPropuestos.set(temasPropuestos.indexOf(temaParaRepasarActionItems), nuevoTemaParaRepasarActionItems);
                 });
     }
+
+    public Boolean tieneOtroTemaQueReProponeAlMismoQue(TemaDeReunionConDescripcion unTemaDeReunion) {
+        return getTemasPropuestos().stream()
+                .filter(temaDeReunion -> !temaDeReunion.equals(unTemaDeReunion))
+                .anyMatch(temaDeReunion -> temaDeReunion.reProponeElMismoTemaQue(unTemaDeReunion));
+    }
 }
