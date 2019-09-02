@@ -185,19 +185,14 @@ public abstract class TemaDeReunion extends Tema {
         return false;
     }
 
-    public void setPropuestaOriginal(TemaDeReunion unTemaDeReunion) {
-        verificarQueNoEsSuPropiaPropuestaOriginal(unTemaDeReunion);
-        propuestaOriginal = unTemaDeReunion;
-    }
-
     private void verificarQueNoEsSuPropiaPropuestaOriginal(TemaDeReunion unTemaDeReunion) {
         if (equals(unTemaDeReunion)) {
             throw new RuntimeException(ERROR_PROPIA_PROPUESTA_ORIGINAL);
         }
     }
 
-    public TemaDeReunion getPropuestaOriginal() {
-        return propuestaOriginal;
+    public Optional<TemaDeReunion> propuestaOriginal() {
+        return Optional.ofNullable(propuestaOriginal);
     }
 
     public Boolean esRePropuesta() {
@@ -205,7 +200,7 @@ public abstract class TemaDeReunion extends Tema {
     }
 
     public TemaDeReunion propuestaTratada() {
-        return Optional.ofNullable(getPropuestaOriginal()).orElse(this);
+        return propuestaOriginal().orElse(this);
     }
 
     public Boolean trataLaMismaPropuestaQue(TemaDeReunion unTemaDeReunion) {
@@ -218,5 +213,14 @@ public abstract class TemaDeReunion extends Tema {
 
     private LocalDate getFechaDeReunion() {
         return Optional.ofNullable(getReunion()).map(Reunion::getFecha).orElse(null);
+    }
+
+    public TemaDeReunion getPropuestaOriginal() {
+        return propuestaOriginal;
+    }
+
+    public void setPropuestaOriginal(TemaDeReunion unTemaDeReunion) {
+        verificarQueNoEsSuPropiaPropuestaOriginal(unTemaDeReunion);
+        propuestaOriginal = unTemaDeReunion;
     }
 }

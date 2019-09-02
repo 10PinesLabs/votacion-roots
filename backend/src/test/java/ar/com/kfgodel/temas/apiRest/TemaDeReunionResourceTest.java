@@ -99,7 +99,7 @@ public class TemaDeReunionResourceTest extends ResourceTest {
 
         Long idDelTemaCreado = new JSONObject(getResponseBody(response)).getLong("id");
         TemaDeReunion temaCreado = temaService.get(idDelTemaCreado);
-        assertThat(temaCreado.getPropuestaOriginal()).isEqualTo(unaPropuestaOriginal);
+        assertThat(temaCreado.propuestaOriginal().get()).isEqualTo(unaPropuestaOriginal);
     }
 
     @Test

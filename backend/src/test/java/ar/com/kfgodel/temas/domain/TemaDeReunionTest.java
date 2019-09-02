@@ -200,7 +200,7 @@ public class TemaDeReunionTest {
         TemaDeReunion unaPropuestaOriginal = helper.unTemaDeReunion();
         TemaDeReunion unTema = helper.unaRePropuestaDe(unaPropuestaOriginal);
 
-        assertThat(unTema.getPropuestaOriginal()).isEqualTo(unaPropuestaOriginal);
+        assertThat(unTema.propuestaOriginal().get()).isEqualTo(unaPropuestaOriginal);
     }
 
     @Test
@@ -232,7 +232,7 @@ public class TemaDeReunionTest {
     public void testLaPropuestaTratadaDeUnaRePropuestaEsSuPropuestaOriginal() {
         TemaDeReunion unaRePropuesta = helper.unaRePropuesta();
 
-        assertThat(unaRePropuesta.propuestaTratada()).isEqualTo(unaRePropuesta.getPropuestaOriginal());
+        assertThat(unaRePropuesta.propuestaTratada()).isEqualTo(unaRePropuesta.propuestaOriginal().get());
     }
 
     @Test

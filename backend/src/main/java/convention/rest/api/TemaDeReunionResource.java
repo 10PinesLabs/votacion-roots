@@ -137,9 +137,11 @@ public class TemaDeReunionResource {
     }
 
     private void verificarQueNoReProponeUnaRePropuesta(TemaDeReunionConDescripcion unTemaDeReunion) {
-        if (unTemaDeReunion.getPropuestaOriginal().esRePropuesta()) {
-            throw new WebApplicationException("No se puede volver a proponer una re-propuesta", Response.Status.BAD_REQUEST);
-        }
+        unTemaDeReunion.propuestaOriginal().ifPresent(propuestaOriginal -> {
+            if (propuestaOriginal.esRePropuesta()) {
+                throw new WebApplicationException("No se puede volver a proponer una re-propuesta", Response.Status.BAD_REQUEST);
+            }
+        });
     }
 
     private void verificarQueNoHayOtroTemaEnLaReunionQueTrataLaMismaPropuesta(TemaDeReunionConDescripcion unTemaDeReunion) {
