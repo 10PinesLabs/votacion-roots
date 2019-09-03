@@ -47,7 +47,7 @@ public class ReunionService extends Service<Reunion> {
     minutaService.getForReunion(id).ifPresent(minutaService::delete);
     Reunion reunion = get(id);
     reunion.getTemasPropuestos().stream()
-            .filter(temaDeReunion -> !temaDeReunion.esRePropuesta())
+            .filter(temaDeReunion -> !temaDeReunion.getEsRePropuesta())
             .forEach(temaDeReunion -> temaService.convertirRePropuestasAPropuestasOriginales(temaDeReunion.getId()));
     super.delete(id);
   }

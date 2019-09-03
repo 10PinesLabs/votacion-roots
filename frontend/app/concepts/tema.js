@@ -55,8 +55,8 @@ export default Ember.Object.extend({
     return obligatoriedad === "OBLIGATORIO" || obligatoriedad === "OBLIGATORIO_GENERAL";
   }),
 
-  esRepropuesta: Ember.computed('id', 'idDePrimeraPropuesta', function(){
-    return this.get('id') !== this.get('idDePrimeraPropuesta');
+  esRePropuesta: Ember.computed('esRePropuesta', function(){
+    return this.get('esRePropuesta');
   }),
 
   antiguedadDePropuesta: Ember.computed('fechaDePropuestaOriginal', function () {

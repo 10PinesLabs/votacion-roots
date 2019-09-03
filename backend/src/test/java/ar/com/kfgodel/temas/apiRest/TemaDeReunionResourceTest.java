@@ -172,7 +172,7 @@ public class TemaDeReunionResourceTest extends ResourceTest {
 
         assertThatResponseStatusCodeIs(response, HttpStatus.SC_NO_CONTENT);
         assertThat(temaService.getAll()).doesNotContain(unaPropuestaOriginal);
-        assertThat(temaService.get(unTema.getId()).esRePropuesta()).isFalse();
+        assertThat(temaService.get(unTema.getId()).getEsRePropuesta()).isFalse();
     }
     
     @Test
@@ -186,6 +186,16 @@ public class TemaDeReunionResourceTest extends ResourceTest {
         JSONObject jsonResponse = new JSONObject(getResponseBody(response));
         String fechaDeLaPropuestaOriginal = convertirA(unTema.getFechaDePropuestaOriginal(), String.class);
         assertThat(jsonResponse.getString("fechaDePropuestaOriginal")).isEqualTo(fechaDeLaPropuestaOriginal);
+    }
+
+    @Test
+    public void testGetDeTemasDeReunionDiceSiEsUnaRePropuesta() throws IOException {
+        TemaDeReunion unTema = temaService.save(helper.unTemaDeReunion());
+
+        HttpResponse response = makeGetRequest("temas/" + unTema.getId());
+
+        JSONObject jsonResponse = new JSONObject(getResponseBody(response));
+        assertThat(jsonResponse.getBoolean("esRePropuesta")).isFalse();
     }
 
     private TemaDeReunionConDescripcion crearUnTemaDeReunionConDescripcion() {

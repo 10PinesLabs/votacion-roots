@@ -138,7 +138,7 @@ public class TemaDeReunionResource {
 
     private void verificarQueNoReProponeUnaRePropuesta(TemaDeReunionConDescripcion unTemaDeReunion) {
         unTemaDeReunion.propuestaOriginal().ifPresent(propuestaOriginal -> {
-            if (propuestaOriginal.esRePropuesta()) {
+            if (propuestaOriginal.getEsRePropuesta()) {
                 throw new WebApplicationException("No se puede volver a proponer una re-propuesta", Response.Status.BAD_REQUEST);
             }
         });
