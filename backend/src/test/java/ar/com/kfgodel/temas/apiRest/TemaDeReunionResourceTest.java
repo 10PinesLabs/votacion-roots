@@ -176,17 +176,16 @@ public class TemaDeReunionResourceTest extends ResourceTest {
     }
     
     @Test
-    public void testGetDeTemasDeReunionContieneLaFechaDeLaPrimeraPropuesta() throws IOException {
+    public void testGetDeTemasDeReunionContieneLaFechaDeLaPropuestaOriginal() throws IOException {
         Reunion unaReunion = reunionService.save(helper.unaReunion());
-        TemaDeReunion unTema = helper.unTemaDeReunion();
-        unTema.setReunion(unaReunion);
-        unTema = temaService.save(unTema);
+        TemaDeReunion unaPropuestaOriginal = temaService.save(helper.unTemaDeReunion(unaReunion));
+        TemaDeReunion unTema = temaService.save(helper.unaRePropuestaDe(unaPropuestaOriginal));
 
         HttpResponse response = makeGetRequest("temas/" + unTema.getId());
 
         JSONObject jsonResponse = new JSONObject(getResponseBody(response));
-        String fechaDeLaPrimeraPropuesta = convertirA(unTema.getFechaDePropuestaOriginal(), String.class);
-        assertThat(jsonResponse.getString("fechaDePropuestaOriginal")).isEqualTo(fechaDeLaPrimeraPropuesta);
+        String fechaDeLaPropuestaOriginal = convertirA(unTema.getFechaDePropuestaOriginal(), String.class);
+        assertThat(jsonResponse.getString("fechaDePropuestaOriginal")).isEqualTo(fechaDeLaPropuestaOriginal);
     }
 
     private TemaDeReunionConDescripcion crearUnTemaDeReunionConDescripcion() {
