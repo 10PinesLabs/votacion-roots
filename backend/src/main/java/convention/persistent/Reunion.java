@@ -117,18 +117,19 @@ public class Reunion extends PersistableSupport {
 
     public void proponerPinoComoRoot(String unPino, Usuario unSponsor) {
         PropuestaDePinoARoot propuesta = new PropuestaDePinoARoot(unPino, unSponsor);
-        getTemaParaProponerPinosARoot().agregarPropuesta(propuesta);
+        getTemaParaProponerPinosARootPara(unSponsor).agregarPropuesta(propuesta);
     }
 
-    private TemaParaProponerPinosARoot getTemaParaProponerPinosARoot() {
+    private TemaParaProponerPinosARoot getTemaParaProponerPinosARootPara(Usuario unSponsor) {
         return (TemaParaProponerPinosARoot) getTemasPropuestos().stream()
                 .filter(TemaDeReunion::esParaProponerPinosARoot).findFirst()
-                .orElseGet(this::crearTemaParaProponerPinosARoot);
+                .orElseGet(() -> crearTemaParaProponerPinosARootPara(unSponsor));
     }
 
-    private TemaParaProponerPinosARoot crearTemaParaProponerPinosARoot() {
+    private TemaParaProponerPinosARoot crearTemaParaProponerPinosARootPara(Usuario unAutor) {
         TemaParaProponerPinosARoot temaParaProponerPinos = new TemaParaProponerPinosARoot();
         temaParaProponerPinos.setReunion(this);
+        temaParaProponerPinos.setAutor(unAutor);
         temasPropuestos.add(temaParaProponerPinos);
         return temaParaProponerPinos;
     }

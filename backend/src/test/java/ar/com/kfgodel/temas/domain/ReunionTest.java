@@ -229,6 +229,18 @@ public class ReunionTest {
         }).hasMessage(Reunion.AGREGAR_TEMA_PARA_PROPONER_PINOS_COMO_ROOT_ERROR_MSG);
     }
 
+    @Test
+    public void testElAutorDelTemaParaProponerPinosComoRootsEsElPrimerUsuarioQueHizoUnaPropuesta() {
+        Reunion unaReunion = helper.unaReunion();
+
+        String unPino = helper.unPino();
+        Usuario unSponsor = helper.unUsuario();
+        unaReunion.proponerPinoComoRoot(unPino, unSponsor);
+
+        TemaDeReunion temaCreado = unaReunion.getTemasPropuestos().get(0);
+        assertThat(temaCreado.getAutor()).isEqualTo(unSponsor);
+    }
+
     private void assertThatExistePropuestaPara(Collection<PropuestaDePinoARoot> propuestas, String unPino, Usuario unSponsor) {
         assertThat(propuestas).anyMatch(
                 propuesta -> propuesta.pino().equals(unPino) && propuesta.sponsor() == unSponsor);
