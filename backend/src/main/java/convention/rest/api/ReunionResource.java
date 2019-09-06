@@ -5,6 +5,7 @@ import ar.com.kfgodel.diamond.api.types.reference.ReferenceOf;
 import convention.persistent.Reunion;
 import convention.persistent.StatusDeReunion;
 import convention.persistent.TemaDeReunion;
+import convention.persistent.Usuario;
 import convention.rest.api.tos.PropuestaDePinoARootTo;
 import convention.rest.api.tos.ReunionTo;
 import convention.services.ReunionService;
@@ -143,14 +144,15 @@ public class ReunionResource {
             @Context SecurityContext securityContext) {
 
         Reunion reunion = reunionService.get(id);
+        Usuario usuarioActual = getResourceHelper().usuarioActual(securityContext);
         try{
-            reunion.proponerPinoComoRoot(propuesta.getPino(), getResourceHelper().usuarioActual(securityContext));
+            reunion.proponerPinoComoRoot(propuesta.getPino(), usuarioActual);
         } catch (Exception exception){
             throw new WebApplicationException(exception.getMessage(), Response.Status.BAD_REQUEST);
         }
         Reunion nuevaReunion = reunionService.save(reunion);
 
-        return getResourceHelper().convertir(nuevaReunion, ReunionTo.class);
+        return getResourceHelper().convertir(muestreoDeReunion(nuevaReunion, usuarioActual.getId(), securityContext), ReunionTo.class);
     }
 
     public ResourceHelper getResourceHelper() {
