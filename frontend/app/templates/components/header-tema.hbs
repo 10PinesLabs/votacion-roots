@@ -1,9 +1,17 @@
 <div class="space-between align-center">
   <h5 class="titulo-de-tema no-margin">{{tema.titulo}} </h5>
-  {{#if tema.esRepropuesta}}
-    <h6 class="no-margin text-gray text-small">Propuesto originalmente {{antiguedad}}</h6>
-  {{/if}}
-  {{#if mostrarFlagActionItems}}
-    <i class="material-icons primary-color">flag</i>
-  {{/if}}
+  <div class="flex-center">
+    {{#if tema.esRepropuesta}}
+      <h6 class="no-margin text-gray text-small">Propuesto originalmente {{antiguedad}}</h6>
+    {{/if}}
+    {{#if mostrarFlagActionItems}}
+      <i class="material-icons primary-color">flag</i>
+    {{/if}}
+    {{#if mostrarCandado}}
+      <div class="the-lock position-relative mt-10 mr-15 clickable">
+        <i class="material-icons opacity-20">lock</i>
+        <span class="tool-tip-text">Tema obligatorio</span>
+      </div>
+    {{/if}}
+  </div>
 </div>
