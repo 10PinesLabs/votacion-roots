@@ -26,6 +26,7 @@ public abstract class TemaDeReunion extends Tema {
     public static final String temaGenerador_FIELD = "temaGenerador";
     public static final String propuestaOriginal_FIELD = "propuestaOriginal";
     public static final String fechaDePropuestaOriginal_FIELD = "fechaDePropuestaOriginal";
+    public static final String esRePropuesta_FIELD = "esRePropuesta";
     public static final String ERROR_AGREGAR_INTERESADO = "No se puede agregar un interesado a un tema obligatorio";
     public static final String ERROR_PROPIA_PROPUESTA_ORIGINAL = "Un tema no puede ser su propia propuesta original";
     @ManyToOne
@@ -195,7 +196,7 @@ public abstract class TemaDeReunion extends Tema {
         return Optional.ofNullable(propuestaOriginal);
     }
 
-    public Boolean esRePropuesta() {
+    public Boolean getEsRePropuesta() {
         return !Objects.isNull(propuestaOriginal);
     }
 

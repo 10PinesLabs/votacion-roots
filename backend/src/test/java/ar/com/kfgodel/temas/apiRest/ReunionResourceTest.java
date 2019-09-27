@@ -171,7 +171,7 @@ public class ReunionResourceTest extends ResourceTest {
 
         assertThatResponseStatusCodeIs(response, HttpStatus.SC_NO_CONTENT);
         assertThat(temaService.getAll()).doesNotContain(unaPropuestaOriginal);
-        assertThat(temaService.get(unTema.getId()).esRePropuesta()).isFalse();
+        assertThat(temaService.get(unTema.getId()).getEsRePropuesta()).isFalse();
     }
 
     private Usuario unUsuarioPersistido() {

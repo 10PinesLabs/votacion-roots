@@ -208,7 +208,7 @@ public class TemaDeReunionTest {
         TemaDeReunion unaPropuestaOriginal = helper.unTemaDeReunion();
         TemaDeReunion unaRepropuesta = helper.unaRePropuestaDe(unaPropuestaOriginal);
 
-        assertThat(unaRepropuesta.esRePropuesta()).isTrue();
+        assertThat(unaRepropuesta.getEsRePropuesta()).isTrue();
     }
 
     @Test
@@ -216,7 +216,7 @@ public class TemaDeReunionTest {
         TemaDeReunion unTema = helper.unTemaDeReunion();
         unTema.setPropuestaOriginal(null);
 
-        assertThat(unTema.esRePropuesta()).isFalse();
+        assertThat(unTema.getEsRePropuesta()).isFalse();
     }
 
     @Test
