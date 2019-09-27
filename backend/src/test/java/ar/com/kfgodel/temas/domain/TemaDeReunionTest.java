@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 
 import static junit.framework.TestCase.fail;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.core.Is.is;
 
 /**
@@ -199,42 +200,54 @@ public class TemaDeReunionTest {
         TemaDeReunion unaPropuestaOriginal = helper.unTemaDeReunion();
         TemaDeReunion unTema = helper.unaRePropuestaDe(unaPropuestaOriginal);
 
-        assertThat(unTema.getPropuestaOriginal()).isEqualTo(unaPropuestaOriginal);
+        assertThat(unTema.propuestaOriginal().get()).isEqualTo(unaPropuestaOriginal);
     }
 
     @Test
     public void testUnTemaEsUnaRePropuestaSiSuPropuestaOriginalEsOtroTemaDistinto() {
         TemaDeReunion unaPropuestaOriginal = helper.unTemaDeReunion();
-        TemaDeReunion unTema = helper.unaRePropuestaDe(unaPropuestaOriginal);
+        TemaDeReunion unaRepropuesta = helper.unaRePropuestaDe(unaPropuestaOriginal);
 
-        assertThat(unTema.esRePropuesta()).isTrue();
+        assertThat(unaRepropuesta.esRePropuesta()).isTrue();
     }
 
     @Test
-    public void testUnTemaNoEsRePropuestaSiSuPropuestaOriginalEsElMismo() {
+    public void testUnTemaNoEsRePropuestaSiSuPropuestaOriginalNoEsOtroTemaDistinto() {
         TemaDeReunion unTema = helper.unTemaDeReunion();
-        unTema.setPropuestaOriginal(unTema);
+        unTema.setPropuestaOriginal(null);
 
         assertThat(unTema.esRePropuesta()).isFalse();
     }
 
     @Test
-    public void testDosTemasReProponenElMismoTemaSiSuPropuestaOriginalSonLaMisma() {
-        TemaDeReunion unaPropuestaOriginal = helper.unTemaDeReunion();
-        TemaDeReunion unTema = helper.unaRePropuestaDe(unaPropuestaOriginal);
-        TemaDeReunion otroTema = helper.unaRePropuestaDe(unaPropuestaOriginal);
+    public void testLaPropuestaOriginalDeUnTemaNoPuedeSerElMismo() {
+        TemaDeReunion unTema = helper.unTemaDeReunion();
 
-        assertThat(unTema.reProponeElMismoTemaQue(otroTema)).isTrue();
+        assertThatThrownBy(() -> {
+            unTema.setPropuestaOriginal(unTema);
+        }).hasMessage(TemaDeReunion.ERROR_PROPIA_PROPUESTA_ORIGINAL);
     }
 
     @Test
-    public void testDosTemasNoReProponenElMismoTemaSiSuPropuestaOriginalEsDistinta() {
-        TemaDeReunion unaPropuestaOriginal = helper.unTemaDeReunion();
-        TemaDeReunion otraPropuestaOriginal = helper.unTemaDeReunion();
-        TemaDeReunion unTema = helper.unaRePropuestaDe(unaPropuestaOriginal);
-        TemaDeReunion otroTema = helper.unaRePropuestaDe(otraPropuestaOriginal);
+    public void testLaPropuestaTratadaDeUnaRePropuestaEsSuPropuestaOriginal() {
+        TemaDeReunion unaRePropuesta = helper.unaRePropuesta();
 
-        assertThat(unTema.reProponeElMismoTemaQue(otroTema)).isFalse();
+        assertThat(unaRePropuesta.propuestaTratada()).isEqualTo(unaRePropuesta.propuestaOriginal().get());
+    }
+
+    @Test
+    public void testLaPropuestaTratadaDeUnTemaOriginalEsElMismo() {
+        TemaDeReunion unTemaOriginal = helper.unTemaDeReunion();
+
+        assertThat(unTemaOriginal.propuestaTratada()).isEqualTo(unTemaOriginal);
+    }
+
+    @Test
+    public void testDosTemasTratanLaMismaPropuestaSiSuPropuestaTratadaEsLaMisma() {
+        TemaDeReunion unaPropuestaOriginal = helper.unTemaDeReunion();
+        TemaDeReunion unTema = helper.unaRePropuestaDe(unaPropuestaOriginal);
+
+        assertThat(unaPropuestaOriginal.trataLaMismaPropuestaQue(unTema)).isTrue();
     }
 
     @Test
@@ -243,6 +256,6 @@ public class TemaDeReunionTest {
         TemaDeReunion unaPrimeraPropuesta = helper.unTemaDeReunion(unaReunion);
         TemaDeReunion unTema = helper.unaRePropuestaDe(unaPrimeraPropuesta);
 
-        assertThat(unTema.getFechaDePrimeraPropuesta()).isEqualTo(unaReunion.getFecha());
+        assertThat(unTema.getFechaDePropuestaOriginal()).isEqualTo(unaReunion.getFecha());
     }
 }

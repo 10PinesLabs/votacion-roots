@@ -226,7 +226,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
             this.set('nuevoTema', Tema.create({
               idDeReunion: this._idDeReunion(),
               idDeAutor: this._idDeUsuarioActual(),
-              idDePropuestaOriginal: tema.idDePropuestaOriginal,
+              idDePropuestaOriginal: tema.esRepropuesta ? tema.idDePropuestaOriginal : tema.id,
               duracion: tema.duracion,
               titulo: tema.titulo,
               descripcion: tema.descripcion,
