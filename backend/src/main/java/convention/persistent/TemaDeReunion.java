@@ -24,9 +24,11 @@ public abstract class TemaDeReunion extends Tema {
     public static final String interesados_FIELD = "interesados";
     public static final String obligatoriedad_FIELD = "obligatoriedad";
     public static final String temaGenerador_FIELD = "temaGenerador";
-    public static final String primeraPropuesta_FIELD = "primeraPropuesta";
-    public static final String fechaDePrimeraPropuesta_FIELD = "fechaDePrimeraPropuesta";
+    public static final String propuestaOriginal_FIELD = "propuestaOriginal";
+    public static final String fechaDePropuestaOriginal_FIELD = "fechaDePropuestaOriginal";
+    public static final String esRePropuesta_FIELD = "esRePropuesta";
     public static final String ERROR_AGREGAR_INTERESADO = "No se puede agregar un interesado a un tema obligatorio";
+    public static final String ERROR_PROPIA_PROPUESTA_ORIGINAL = "Un tema no puede ser su propia propuesta original";
     @ManyToOne
     private Reunion reunion;
     private Integer prioridad;
@@ -38,7 +40,7 @@ public abstract class TemaDeReunion extends Tema {
     @ManyToOne
     private TemaGeneral temaGenerador;
     @ManyToOne
-    private TemaDeReunion primeraPropuesta;
+    private TemaDeReunion propuestaOriginal;
 
     public ObligatoriedadDeTema getObligatoriedad() {
         return obligatoriedad;
@@ -109,7 +111,7 @@ public abstract class TemaDeReunion extends Tema {
         copia.setDuracion(this.getDuracion());
         copia.setObligatoriedad(this.getObligatoriedad());
         copia.setUltimoModificador(this.getUltimoModificador());
-        copia.setPrimeraPropuesta(this.getPrimeraPropuesta());
+        copia.setPropuestaOriginal(this.getPropuestaOriginal());
         return copia;
     }
 
@@ -184,27 +186,42 @@ public abstract class TemaDeReunion extends Tema {
         return false;
     }
 
-    public void setPrimeraPropuesta(TemaDeReunion unTemaDeReunion) {
-        primeraPropuesta = unTemaDeReunion;
+    private void verificarQueNoEsSuPropiaPropuestaOriginal(TemaDeReunion unTemaDeReunion) {
+        if (equals(unTemaDeReunion)) {
+            throw new RuntimeException(ERROR_PROPIA_PROPUESTA_ORIGINAL);
+        }
     }
 
-    public TemaDeReunion getPrimeraPropuesta() {
-        return Optional.ofNullable(primeraPropuesta).orElse(this);
+    public Optional<TemaDeReunion> propuestaOriginal() {
+        return Optional.ofNullable(propuestaOriginal);
     }
 
-    public Boolean esRePropuesta() {
-        return !Objects.equals(getPrimeraPropuesta(), this);
+    public Boolean getEsRePropuesta() {
+        return !Objects.isNull(propuestaOriginal);
     }
 
-    public Boolean reProponeElMismoTemaQue(TemaDeReunion otroTema) {
-        return Objects.equals(getPrimeraPropuesta(), otroTema.getPrimeraPropuesta());
+    public TemaDeReunion propuestaTratada() {
+        return propuestaOriginal().orElse(this);
     }
 
-    public LocalDate getFechaDePrimeraPropuesta() {
-        return getPrimeraPropuesta().getFechaDeReunion();
+    public Boolean trataLaMismaPropuestaQue(TemaDeReunion unTemaDeReunion) {
+        return propuestaTratada().equals(unTemaDeReunion.propuestaTratada());
+    }
+
+    public LocalDate getFechaDePropuestaOriginal() {
+        return Optional.ofNullable(propuestaOriginal).map(TemaDeReunion::getFechaDeReunion).orElse(null);
     }
 
     private LocalDate getFechaDeReunion() {
         return Optional.ofNullable(getReunion()).map(Reunion::getFecha).orElse(null);
+    }
+
+    public TemaDeReunion getPropuestaOriginal() {
+        return propuestaOriginal;
+    }
+
+    public void setPropuestaOriginal(TemaDeReunion unTemaDeReunion) {
+        verificarQueNoEsSuPropiaPropuestaOriginal(unTemaDeReunion);
+        propuestaOriginal = unTemaDeReunion;
     }
 }

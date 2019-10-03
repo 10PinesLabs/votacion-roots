@@ -40,10 +40,12 @@ public class TemaDeReunionTo extends PersistableToSupport {
     private List<Long> idsDeInteresados;
     @CopyFromAndTo(TemaDeReunion.obligatoriedad_FIELD)
     private String obligatoriedad;
-    @CopyFrom(TemaDeReunion.primeraPropuesta_FIELD)
-    private Long idDePrimeraPropuesta;
-    @CopyFrom(TemaDeReunion.fechaDePrimeraPropuesta_FIELD)
-    private String fechaDePrimeraPropuesta;
+    @CopyFrom(TemaDeReunion.propuestaOriginal_FIELD)
+    private Long idDePropuestaOriginal;
+    @CopyFrom(TemaDeReunion.fechaDePropuestaOriginal_FIELD)
+    private String fechaDePropuestaOriginal;
+    @CopyFrom(TemaDeReunion.esRePropuesta_FIELD)
+    private Boolean esRePropuesta;
 
     public String getAutor() {
       return autor;
@@ -125,19 +127,27 @@ public class TemaDeReunionTo extends PersistableToSupport {
       this.ultimoModificador = idDeUltimoModificador;
     }
 
-    public Long getIdDePrimeraPropuesta() {
-        return idDePrimeraPropuesta;
+    public Long getIdDePropuestaOriginal() {
+        return idDePropuestaOriginal;
     }
 
-    public void setIdDePrimeraPropuesta(Long idDePrimeraPropuesta) {
-        this.idDePrimeraPropuesta = idDePrimeraPropuesta;
+    public void setIdDePropuestaOriginal(Long idDePropuestaOriginal) {
+        this.idDePropuestaOriginal = idDePropuestaOriginal;
     }
 
-    public String getFechaDePrimeraPropuesta() {
-        return fechaDePrimeraPropuesta;
+    public String getFechaDePropuestaOriginal() {
+        return fechaDePropuestaOriginal;
     }
 
-    public void setFechaDePrimeraPropuesta(String fechaDePrimeraPropuesta) {
-        this.fechaDePrimeraPropuesta = fechaDePrimeraPropuesta;
+    public void setFechaDePropuestaOriginal(String fechaDePropuestaOriginal) {
+        this.fechaDePropuestaOriginal = fechaDePropuestaOriginal;
+    }
+
+    public Boolean getEsRePropuesta() {
+        return esRePropuesta;
+    }
+
+    public void setEsRePropuesta(Boolean esRePropuesta) {
+        this.esRePropuesta = esRePropuesta;
     }
 }

@@ -5,7 +5,6 @@ import ar.com.kfgodel.temas.acciones.UsarReunionExistente;
 import ar.com.kfgodel.temas.filters.reuniones.AllReunionesUltimaPrimero;
 import ar.com.kfgodel.temas.filters.reuniones.ProximaReunion;
 import ar.com.kfgodel.temas.filters.reuniones.UltimaReunion;
-import convention.persistent.Minuta;
 import convention.persistent.Reunion;
 
 import javax.inject.Inject;
@@ -48,8 +47,8 @@ public class ReunionService extends Service<Reunion> {
     minutaService.getForReunion(id).ifPresent(minutaService::delete);
     Reunion reunion = get(id);
     reunion.getTemasPropuestos().stream()
-            .filter(temaDeReunion -> !temaDeReunion.esRePropuesta())
-            .forEach(temaDeReunion -> temaService.convertirRePropuestasAPrimerasPropuestas(temaDeReunion.getId()));
+            .filter(temaDeReunion -> !temaDeReunion.getEsRePropuesta())
+            .forEach(temaDeReunion -> temaService.convertirRePropuestasAPropuestasOriginales(temaDeReunion.getId()));
     super.delete(id);
   }
 

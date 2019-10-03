@@ -5,7 +5,7 @@ export default Ember.Component.extend({
     if (this.get('antiguedadRelativa')){
       return this.tema.get('antiguedadDePropuesta');
     } else {
-      return "el " + this.tema.get('fechaDePrimeraPropuesta');
+      return "el " + this.tema.get('fechaDePropuestaOriginal');
     }
   })
 });

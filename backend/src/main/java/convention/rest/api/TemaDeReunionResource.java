@@ -108,7 +108,7 @@ public class TemaDeReunionResource {
     @Path("/{resourceId}")
     public void delete(@PathParam("resourceId") Long id) {
         TemaDeReunion tema = temaService.get(id);
-        temaService.convertirRePropuestasAPrimerasPropuestas(id);
+        temaService.convertirRePropuestasAPropuestasOriginales(id);
         temaService.delete(tema);
     }
 
@@ -127,7 +127,7 @@ public class TemaDeReunionResource {
     private void validarTemaDeReunionConDescripcion(TemaDeReunionConDescripcion nuevoTema) {
         verificarQueNoTieneTituloDeTemaParaProponerPinosARoot(nuevoTema);
         verificarQueNoReProponeUnaRePropuesta(nuevoTema);
-        verificarQueNoHayOtroTemaEnLaReunionQueReProponeAlMismoTema(nuevoTema);
+        verificarQueNoHayOtroTemaEnLaReunionQueTrataLaMismaPropuesta(nuevoTema);
     }
 
     private void verificarQueNoTieneTituloDeTemaParaProponerPinosARoot(TemaDeReunionConDescripcion unTemaDeReunion) {
@@ -137,13 +137,15 @@ public class TemaDeReunionResource {
     }
 
     private void verificarQueNoReProponeUnaRePropuesta(TemaDeReunionConDescripcion unTemaDeReunion) {
-        if (unTemaDeReunion.getPrimeraPropuesta().esRePropuesta()) {
-            throw new WebApplicationException("No se puede volver a proponer una re-propuesta", Response.Status.BAD_REQUEST);
-        }
+        unTemaDeReunion.propuestaOriginal().ifPresent(propuestaOriginal -> {
+            if (propuestaOriginal.getEsRePropuesta()) {
+                throw new WebApplicationException("No se puede volver a proponer una re-propuesta", Response.Status.BAD_REQUEST);
+            }
+        });
     }
 
-    private void verificarQueNoHayOtroTemaEnLaReunionQueReProponeAlMismoTema(TemaDeReunionConDescripcion unTemaDeReunion) {
-        if (unTemaDeReunion.getReunion().tieneOtroTemaQueReProponeAlMismoQue(unTemaDeReunion)) {
+    private void verificarQueNoHayOtroTemaEnLaReunionQueTrataLaMismaPropuesta(TemaDeReunionConDescripcion unTemaDeReunion) {
+        if (unTemaDeReunion.getReunion().tieneOtroTemaQueTrataLaMismaPropuestaQue(unTemaDeReunion)) {
             throw new WebApplicationException("No se puede volver a proponer el mismo tema más de una vez", Response.Status.CONFLICT);
         }
     }
