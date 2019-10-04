@@ -21,7 +21,7 @@
         <repository>
             <id>kfgodel_mosquito</id>
             <name>Repo Mosquito</name>
-            <url>http://kfgodel.info:8081/nexus/content/groups/public/</url>
+            <url>http://kfgodel.info:8081/nexus/repository/public/</url>
             <snapshots>
                 <updatePolicy>daily</updatePolicy>
             </snapshots>
@@ -39,7 +39,7 @@
         <version.hsqldb>2.3.2</version.hsqldb>
         <version.execontainer>0.2-SNAPSHOT</version.execontainer>
         <version.bean2bean>1.1.4</version.bean2bean>
-        <version.diamond>1.0.1-SNAPSHOT</version.diamond>
+        <version.diamond>1.0.4</version.diamond>
         <version.groovy>2.1.5</version.groovy>
         <version.h2>1.4.187</version.h2>
         <flyway.version>1.4.191</flyway.version>
@@ -157,12 +157,14 @@
         </dependency>
 
         <!-- Communication classes to manage executable host container -->
+        <!-- Ignorado por problemas en el server que lo hosteaba
         <dependency>
             <groupId>org.tanukisoftware</groupId>
             <artifactId>wrapper</artifactId>
             <version>${version.wrapper}</version>
             <scope>provided</scope>
         </dependency>
+        -->
 
         <!-- Convention based application modules -->
         <dependency>
