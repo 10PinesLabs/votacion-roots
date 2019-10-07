@@ -28,7 +28,7 @@
     <repository>
       <id>kfgodel_mosquito</id>
       <name>Repo Mosquito</name>
-      <url>http://kfgodel.info:8081/nexus/content/groups/public/</url>
+      <url>http://kfgodel.info:8081/nexus/repository/public/</url>
     </repository>
   </repositories>
 
