@@ -1,47 +1,44 @@
-<div class="col s8">
-  <div class="card">
-    <a class="btn-floating waves-effect waves-light purple right m-5"  {{action ''}}><i
-      class="material-icons ">close</i></a>
+<div class="card">
 
-    <div class="card-content">
-      <span class="card-title">ID: {{reunionSeleccionada.id}} - Fecha {{reunionSeleccionada.fecha}} </span>
-      <div class="row">
-        {{#if reunionCerrada}}
-          <div class="col s2 push-l10">
-            <label>
-              Duración (minutos)
-              <div class="input-field ">
-                {{input value=duracionDeReunion type="number" class="validate" name="minutos de reunion"}}
-              </div>
-            </label>
-          </div>
-        {{/if}}
-      </div>
-      <div class="row">
-        {{#tenpines/object-table titulos='#, Título, Autor,Duración, Votos' col='s12' responsive=true}}
-          {{#each reunionSeleccionada.temasPropuestos as |tema|}}
-            {{tema-en-tabla tema=tema ultimoTema=ultimoTemaQueEntra duraciones=duraciones}}
-          {{/each}}
-        {{/tenpines/object-table}}
-      </div>
-    </div>
+  <div class="detalle-reunion__header">
+    <div class="detalle-reunion__header__title"> Root del {{reunionSeleccionada.fecha}} </div>
 
-    <div class="card-action right-align">
+    <div class="detalle-reunion__header__seccion-botones">
+      <a class="btn purple" {{action 'crearReunion'}}><i
+        class="material-icons">speaker_notes</i>VER MINUTA</a>
 
-      {{#if reunionCerrada}}
-
-        {{#link-to 'minuta.ver' reunionSeleccionada.id}}
-          {{tenpines/material-button label='Minuta' }}
-        {{/link-to}}
-
-      {{/if}}
-
-      {{tenpines/material-button label='Borrar' flat=true}}
-
-      {{#if reunionMinuteada}}
-        {{tenpines/material-button label='Editar' }}
-      {{/if}}
+      <a class="btn-floating transparent right m-5"  {{action ''}}>
+        <i class="material-icons black-text">more_vert</i>
+      </a>
     </div>
   </div>
-
+  <div class="card-content">
+    <div class="row">
+      {{#if reunionCerrada}}
+        <div class="col s2 push-l10">
+          <label>
+            Duración (minutos)
+            <div class="input-field ">
+              {{input value=duracionDeReunion type="number" class="validate" name="minutos de reunion"}}
+            </div>
+          </label>
+        </div>
+      {{/if}}
+    </div>
+    <div class="row">
+      {{#tenpines/object-table titulos=tableTitles col='s12' responsive=true}}
+        {{#each reunionSeleccionada.temasPropuestos as |tema|}}
+          {{tema-en-tabla
+            reunionCerrada=reunionCerrada
+            tema=tema
+            ultimoTema=ultimoTemaQueEntra
+            duraciones=duraciones}}
+        {{/each}}
+      {{/tenpines/object-table}}
+    </div>
+  </div>
+  <div class="card-footer">
+    <img src="assets/reunion.svg" />
+  </div>
 </div>
+
