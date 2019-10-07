@@ -1,81 +1,32 @@
-<div class="row">
-
-  {{#tenpines/object-table titulos='Id, Fecha, Status, Temas' col=anchoDeTabla bordered=true highlight=true }}
-    {{#each model as |reunion|}}
-      <tr {{action 'verReunion' reunion}}>
-        <td>{{reunion.id}}</td>
-        <td>{{reunion.fecha}}</td>
-        <td>{{reunion.status}}</td>
-        <td>{{reunion.temasPropuestos.length}}</td>
-      </tr>
-
-    {{/each}}
-  {{/tenpines/object-table}}
-
-  {{# if mostrandoDetalle}}
-
-    <div class="col s8">
-      <div class="card">
-        <a class="btn-floating waves-effect waves-light purple right m-5"  {{action 'cerrarDetalle'}}><i class="material-icons ">close</i></a>
-
-        <div class="card-content">
-          <span class="card-title">ID: {{reunionSeleccionada.id}} - Fecha {{reunionSeleccionada.fecha}} </span>
-          <div class="row">
-           {{#if reunionCerrada}}
-            <div class="col s2 push-l10">
-              <label>
-                Duración (minutos)
-                <div class="input-field ">
-                  {{input value=duracionDeReunion type="number" class="validate" name="minutos de reunion"}}
-                </div>
-              </label>
-            </div>
-           {{/if}}
-          </div>
-          <div class="row">
-            {{#tenpines/object-table titulos='#, Título, Autor,Duración, Votos' col='s12' responsive=true}}
-              {{#each reunionSeleccionada.temasPropuestos as |tema|}}
-                {{tema-en-tabla tema=tema ultimoTema=ultimoTemaQueEntra duraciones=duraciones}}
-              {{/each}}
-            {{/tenpines/object-table}}
-          </div>
-        </div>
-
-        <div class="card-action right-align">
-
-            {{tenpines/material-button   label='no votaron' click=(action 'verNoVotantes' reunionSeleccionada) }}
-
-          {{#if reunionCerrada}}
-
-            {{#link-to 'minuta.ver' reunionSeleccionada.id}}
-              {{tenpines/material-button label='Minuta' }}
-            {{/link-to}}
-
-          {{/if}}
-
-          {{tenpines/material-button label='Borrar' click=(action 'borrarReunion' reunionSeleccionada) flat=true}}
-
-          {{#if reunionMinuteada}}
-            {{tenpines/material-button label='Editar' click=(action 'editarReunion' reunionSeleccionada) }}
-          {{/if}}
-        </div>
-        {{#if mostrandoNoVotantes}}
-
-          {{lista-de-no-votantes noVotantes=noVotantes cerrarNoVotantes=(action 'cerrarNoVotantes')}}
-        {{/if}}
-      </div>
-
+<div class="reuniones-list">
+  <div class="reuniones-list__listado">
+    <h4 class="reuniones-list__listado__title"> Todas las reuniones </h4>
+    {{#tenpines/object-table titulos='Fecha, Temas, Status' col=anchoDeTabla bordered=true highlight=true }}
+      {{#each model as |reunion|}}
+        <tr {{action 'verReunion' reunion}}>
+          <td>{{reunion.fecha}}</td>
+          <td>{{reunion.temasPropuestos.length}}</td>
+          <td>{{reunion.status}}</td>
+        </tr>
+      {{/each}}
+    {{/tenpines/object-table}}
+    <div class="row">
+      <a class="btn-large waves-effect waves-light purple" {{action 'crearReunion'}}>AGREGAR ROOT EXTRAORDINARIA</a>
     </div>
-  {{/if}}
-  {{#if mostrandoMinuta}}
-    {{mostrador-de-minuta cerrarMinuta=(action 'cerrarMinuta') minuta=minuta}}
-  {{/if}}
-</div>
-<div class="row">
-  <a class="btn-floating btn-large waves-effect waves-light purple right" {{action 'crearReunion'}}><i
-    class="material-icons">add</i></a>
-  </div>
 
+  </div>
+  <div class="reuniones-list__detalle">
+      {{detalle-de-reunion
+        reunionSeleccionada=reunionSeleccionada
+        mostrandoNoVotantes=mostrandoNoVotantes
+        reunionCerrada=reunionCerrada
+      }}
+
+    {{#if mostrandoMinuta}}
+      {{mostrador-de-minuta cerrarMinuta=(action 'cerrarMinuta') minuta=minuta}}
+    {{/if}}
+  </div>
+</div>
 
 
 
