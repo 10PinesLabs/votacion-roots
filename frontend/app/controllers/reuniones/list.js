@@ -9,14 +9,15 @@ export default Ember.Controller.extend(ReunionServiceInjected,MinutaServiceInjec
   anchoDeTabla: 's12',
 
   reunionSeleccionada: Ember.computed('model.[]', 'indiceSeleccionado', function () {
-    var indiceSeleccionado = this.get('indiceSeleccionado');
+    var indiceSeleccionado = this.get('indiceSeleccionado') || 0;
     var reuniones = this._reuniones();
     return reuniones.objectAt(indiceSeleccionado);
   }),
 
   reunionCerrada:Ember.computed('reunionSeleccionada',function(){
     var cerrada=(this.get('reunionSeleccionada.status')==="CERRADA") || (this.get('reunionSeleccionada.status')==="CON_MINUTA");
-     if(cerrada){
+
+    if(cerrada){
 
        this.set('duracionDeReunion',180);
      }
@@ -103,7 +104,6 @@ export default Ember.Controller.extend(ReunionServiceInjected,MinutaServiceInjec
   _mostrarDetalleDe(reunion){
     var indiceClickeado = this._reuniones().indexOf(reunion);
     this.set('indiceSeleccionado', indiceClickeado);
-    this._mostrarDetalle();
   },
 
   _guardarNuevaYRecargar(){
@@ -117,23 +117,12 @@ export default Ember.Controller.extend(ReunionServiceInjected,MinutaServiceInjec
     this.get('target.router').refresh();
   },
 
-  _ocultarDetalle(){
-    this.set('mostrandoDetalle', false);
-    this.set('anchoDeTabla', 's12');
-  },
-
   _ocultarMinuta(){
-    this.set('mostrandoDetalle',true);
     this.set('mostrandoMinuta',false);
   },
 
   _ocultarNoVotantes(){
     this.set('mostrandoNoVotantes',false);
-  },
-
-  _mostrarDetalle(){
-    this.set('anchoDeTabla', 's4');
-    this.set('mostrandoDetalle', true);
   },
 
   _reuniones(){
@@ -152,18 +141,6 @@ export default Ember.Controller.extend(ReunionServiceInjected,MinutaServiceInjec
      return duracion.nombre===unTema.duracion;
    });
   },
-
-  // _traerMinuta(){
-  //    return this.minutaService().getMinutaDeReunion(this.get('reunionSeleccionada.id'))
-  //      .then((minuta)=> {
-  //     this.set('minuta',minuta);
-  //   });
-  // },
-  //
-  // _mostrarMinuta(){
-  //   this.set('mostrandoMinuta',true);
-  //   this.set('mostrandoDetalle',false);
-  // },
 
   _mostrarNoVotantes(){
     this.set('mostrandoNoVotantes',true);
