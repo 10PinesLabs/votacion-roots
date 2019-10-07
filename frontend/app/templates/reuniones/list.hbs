@@ -24,15 +24,11 @@
     <a class="reuniones-list__listado__button btn" {{action 'crearReunion'}}>AGREGAR ROOT EXTRAORDINARIA</a>
   </div>
   <div class="reuniones-list__detalle">
-    {{detalle-de-reunion
-      reunionSeleccionada=reunionSeleccionada
-      reunionCerrada=reunionCerrada
-      duraciones=duraciones
-    }}
-
-    {{#if mostrandoMinuta}}
-      {{mostrador-de-minuta cerrarMinuta=(action 'cerrarMinuta') minuta=minuta}}
-    {{/if}}
+      {{detalle-de-reunion
+        reunionSeleccionada=reunionSeleccionada
+        reunionCerrada=reunionCerrada
+        duraciones=duraciones
+      }}
   </div>
 </div>
 

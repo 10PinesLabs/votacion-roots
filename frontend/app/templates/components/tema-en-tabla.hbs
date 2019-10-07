@@ -8,12 +8,22 @@
   {{tema.autor}}
 </td>
 <td>
-  {{tema.duracion}} <span class="indivisible">({{cantDeMinutosDeDuracionDeTema}} Minutos)</span>
+  {{cantDeMinutosDeDuracionDeTema}}'
 </td >
 <td>
   {{#if tema.esObligatorio}}
-    OBLIGATORIO
+    <i class="material-icons"> lock</i>
   {{else}}
     {{tema.cantidadVotosTotales}}
   {{/if}}
 </td>
+
+{{#if reunionCerrada}}
+<td>
+  {{#if tema.fueTratado}}
+    <i class="material-icons"> check_box </i>
+  {{else}}
+    <i class="material-icons"> check_box_outline_blank </i>
+  {{/if}}
+</td>
+{{/if}}
