@@ -6,8 +6,6 @@ import UserServiceInjected from "../../mixins/user-service-injected";
 import MinutaServiceInjected from "../../mixins/minuta-service-injected";
 export default Ember.Controller.extend(ReunionServiceInjected,MinutaServiceInjected,UserServiceInjected, NavigatorInjected,DuracionesServiceInjected, {
 
-  anchoDeTabla: 's12',
-
   reunionSeleccionada: Ember.computed('model.[]', 'indiceSeleccionado', function () {
     var indiceSeleccionado = this.get('indiceSeleccionado') || 0;
     var reuniones = this._reuniones();
@@ -121,10 +119,6 @@ export default Ember.Controller.extend(ReunionServiceInjected,MinutaServiceInjec
     this.set('mostrandoMinuta',false);
   },
 
-  _ocultarNoVotantes(){
-    this.set('mostrandoNoVotantes',false);
-  },
-
   _reuniones(){
     return this.get('model');
   },
@@ -140,10 +134,6 @@ export default Ember.Controller.extend(ReunionServiceInjected,MinutaServiceInjec
     return duraciones.find(function (duracion) {
      return duracion.nombre===unTema.duracion;
    });
-  },
-
-  _mostrarNoVotantes(){
-    this.set('mostrandoNoVotantes',true);
   },
 
   _traerNoVotantes(reunion){
