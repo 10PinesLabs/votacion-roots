@@ -1,5 +1,18 @@
 @import "colores";
 
+@mixin base-button($background-color) {
+  display: flex;
+  justify-content: center;
+  i {
+    margin-right: 0.5em;
+  }
+
+  &:hover {
+    cursor: pointer;
+    text-decoration: none;
+  }
+}
+
 #check-box label {
   padding-left: 25px;
   color: #444444;
@@ -193,9 +206,9 @@
     }
 
     &__button {
+      @include base-button($primary-color);
       width: 100%;
       margin: 1em 0;
-      text-decoration: none;
     }
 
     td {
@@ -236,8 +249,10 @@
 
       a {
         text-decoration: none;
-        display: flex;
-        margin-left: 0.5em;
+      }
+
+      &__primary-button {
+        @include base-button($primary-color);
       }
     }
   }
@@ -261,9 +276,5 @@
       }
     }
   }
-
-  &__footer{
-    background: url("/assets/reunion.svg") no-repeat;
-    height: 20em;
-  }
 }
+
