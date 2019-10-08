@@ -1,14 +1,19 @@
 <div class="card">
-
   <div class="detalle-reunion__header">
     <div class="detalle-reunion__header__title"> Root del {{reunionSeleccionada.fechaFormateada}} </div>
 
     <div class="detalle-reunion__header__seccion-botones">
-      {{#link-to 'minuta.ver' reunionSeleccionada.id}}
-        <a class="detalle-reunion__header__seccion-botones__primary-button btn purple">
-          <i class="material-icons">speaker_notes</i>VER MINUTA</a>
-      {{/link-to}}
-
+      {{#if reunionCerrada }}
+        {{#link-to 'minuta.ver' reunionSeleccionada.id}}
+          <a class="detalle-reunion__header__seccion-botones__primary-button btn purple">
+            <i class="material-icons">speaker_notes</i>VER MINUTA</a>
+        {{/link-to}}
+      {{else}}
+        {{#link-to 'proxima-roots' route='/reunion/reunion'}}
+          <a class="detalle-reunion__header__seccion-botones__primary-button btn purple">
+            <i class="material-icons">add</i>AGREGAR TEMA</a>
+        {{/link-to}}
+      {{/if}}
       <a class="btn-floating transparent right m-5"  {{action ''}}>
         <i class="material-icons black-text">more_vert</i>
       </a>
