@@ -2,11 +2,21 @@
   <div class="reuniones-list__listado">
     <h4 class="reuniones-list__listado__title"> Todas las reuniones </h4>
     {{#tenpines/object-table titulos='Fecha, Temas, Status' col=anchoDeTabla bordered=true highlight=true }}
+    {{#tenpines/object-table titulos='Fecha, Temas' bordered=true}}
       {{#each model as |reunion|}}
         <tr {{action 'verReunion' reunion}}>
-          <td>{{reunion.fecha}}</td>
+          <td>{{reunion.fechaFormateada}}</td>
           <td>{{reunion.temasPropuestos.length}}</td>
-          <td>{{reunion.status}}</td>
+          <td>
+            {{#if (eq reunion.status 'CON_MINUTA')}}
+              <a class="btn-floating waves-effect waves-light white right m-5"  {{action ''}}><i
+                class="material-icons black-text">speaker_notes</i></a>
+            {{/if}}
+            {{#if (eq reunion.status 'CERRADA')}}
+              <a class="btn-floating waves-effect waves-light pink right m-5"  {{action ''}}><i
+                class="material-icons">speaker_notes_off</i></a>
+            {{/if}}
+          </td>
         </tr>
       {{/each}}
     {{/tenpines/object-table}}
