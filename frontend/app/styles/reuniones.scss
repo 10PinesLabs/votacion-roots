@@ -190,6 +190,12 @@
     &__title {
       font-weight: bold;
       margin-top: 2em;
+    &__button {
+      width: 100%;
+      margin: 1em 0;
+      text-decoration: none;
+    }
+
     }
   }
 
