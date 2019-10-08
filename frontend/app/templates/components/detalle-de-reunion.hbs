@@ -14,20 +14,14 @@
       </a>
     </div>
   </div>
-  <div class="card-content">
-    <div class="row">
-      {{#if reunionCerrada}}
-        <div class="col s2 push-l10">
-          <label>
-            Duración (minutos)
-            <div class="input-field ">
-              {{input value=duracionDeReunion type="number" class="validate" name="minutos de reunion"}}
-            </div>
-          </label>
-        </div>
-      {{/if}}
-    </div>
-    <div class="row">
+  <div class="detalle-reunion__body card-content">
+    {{#if reunionCerrada}}
+      <div class="detalle-reunion__body__marcador">
+        <div class="purple-text">- - - -</div>
+        <div>Temas que entran en 3 horas</div>
+      </div>
+    {{/if}}
+    <div class="detalle-reunion__body__table">
       {{#tenpines/object-table titulos=tableTitles col='s12' responsive=true}}
         {{#each reunionSeleccionada.temasPropuestos as |tema|}}
           {{tema-en-tabla

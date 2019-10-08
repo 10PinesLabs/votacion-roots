@@ -241,4 +241,29 @@
       }
     }
   }
+
+  &__body {
+
+    &__marcador {
+      display: flex;
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin-bottom: 2em;
+
+      > * {
+        margin-right: 0.4em;
+      }
+    }
+
+    &__table {
+      th, td {
+        text-align: center;
+      }
+    }
+  }
+
+  &__footer{
+    background: url("/assets/reunion.svg") no-repeat;
+    height: 20em;
+  }
 }
