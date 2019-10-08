@@ -1,6 +1,6 @@
 <div class="reuniones-list">
   <div class="reuniones-list__listado">
-    <div class="reuniones-list__listado__title"> Todas las reuniones</div>
+    <div class="reuniones-list__listado__title"> Todas las reuniones </div>
     {{#tenpines/object-table titulos='Fecha, Temas' bordered=true}}
       {{#each model as |reunion|}}
         <tr {{action 'verReunion' reunion}}>
