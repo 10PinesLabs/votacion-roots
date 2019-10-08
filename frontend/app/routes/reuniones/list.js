@@ -28,7 +28,7 @@ export default Ember.Route.extend(AuthenticatedRoute, UserServiceInjected, Reuni
 
   _formatearFecha(fechaEnString) {
     const fecha = new Date(fechaEnString);
-    return [fecha.getDate(), nombreDeMeses.nombreParaElMes(fecha.getMonth()), fecha.getFullYear()].join(' - ');
+    return [fecha.getDate(), nombreDeMeses.nombreParaElMes(fecha.getMonth()), fecha.getFullYear()].join('-');
   },
 
 
