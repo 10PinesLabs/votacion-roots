@@ -15,7 +15,7 @@ public class TemaDeMinutaTo extends PersistableToSupport {
     private Long idDeMinuta;
 
     @CopyFromAndTo(TemaDeMinuta.tema_FIELD)
-    private TemaTo tema;
+    private TemaDeReunionTo tema;
 
     @CopyFromAndTo(TemaDeMinuta.actionItems_FIELD)
     private List<ActionItemTo> actionItems;
@@ -26,11 +26,11 @@ public class TemaDeMinutaTo extends PersistableToSupport {
     @CopyFromAndTo(TemaDeMinuta.fueTratado_FIELD)
     private Boolean fueTratado;
 
-    public TemaTo getTema() {
+    public TemaDeReunionTo getTema() {
         return tema;
     }
 
-    public void setTema(TemaTo tema) {
+    public void setTema(TemaDeReunionTo tema) {
         this.tema = tema;
     }
 

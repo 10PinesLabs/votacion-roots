@@ -19,7 +19,7 @@ public class TestConfig extends DevelopmentConfig {
 
     @Override
     public DbCoordinates getDatabaseCoordinates() {
-        return ImmutableDbCoordinates.createDeductingDialect("jdbc:h2:mem:file:./db/testDB", "sa", "");
+        return ImmutableDbCoordinates.createDeductingDialect("jdbc:h2:mem:ludat;DB_CLOSE_DELAY=0", "sa", "");
     }
 
     public static TestConfig create() {
@@ -28,23 +28,6 @@ public class TestConfig extends DevelopmentConfig {
     }
     @Override
     public Void inicializarDatos(){
-        if(getUsers().isEmpty()) {
-            Usuario unUser = Usuario.create("feche", "fecheromero", "123", "sarlnga","mail@10pines.com");
-            ApplicationOperation.createFor(getInjector())
-                    .insideATransaction()
-                    .taking(unUser)
-                    .convertingTo(Usuario.class)
-                    .applyingResultOf(Save::create)
-                    .convertTo(UserTo.class);
-
-            Usuario unUser2 = Usuario.create("sandro", "unSandro", "123", "sarlonga", "mail2@10pines.com");
-            ApplicationOperation.createFor(getInjector())
-                    .insideATransaction()
-                    .taking(unUser2)
-                    .convertingTo(Usuario.class)
-                    .applyingResultOf(Save::create)
-                    .convertTo(UserTo.class);
-        }
         return null;
     }
 }

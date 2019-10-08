@@ -7,17 +7,6 @@ import TemaDeMinutaServiceInjected from "../mixins/tema-de-minuta-service-inject
 export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaServiceInjected, NavigatorInjected, UserServiceInjected, {
   classNames: ['card-action mb-20'],
 
-  guardarHabilitado: Ember.computed('actionItemEnCreacion.descripcion', 'actionItemEnCreacion.responsables', function () {
-    var descripcion = this.get('actionItemEnCreacion.descripcion');
-    var responsables = this.get('actionItemEnCreacion.responsables');
-    if (!descripcion || responsables.length <= 0) {
-      return "disabled";
-    }
-    else {
-      return "";
-    }
-  }),
-
   init() {
     this._super(...arguments);
     this._setActionItemVacio();

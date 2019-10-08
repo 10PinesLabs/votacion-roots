@@ -6,9 +6,11 @@ import ar.com.kfgodel.temas.acciones.UsarMinutaExistente;
 import ar.com.kfgodel.temas.filters.MinutaDeReunion;
 import convention.persistent.Minuta;
 import convention.persistent.Reunion;
+import convention.persistent.Usuario;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by sandro on 07/07/17.
@@ -18,31 +20,41 @@ public class MinutaService extends Service<Minuta> {
     @Inject
     ReunionService reunionService;
 
-    public MinutaService(){
+    public MinutaService() {
         setClasePrincipal(Minuta.class);
     }
 
-    public Minuta getFromReunion(Long id){
+    public Minuta getOrCreateForReunion(Long id, Usuario unMinuteador) {
 
         return createOperation()
                 .insideATransaction()
                 .applying(MinutaDeReunion.create(id))
                 .applyingResultOf((existente) ->
                         existente.mapOptional(UsarMinutaExistente::create)
-                                .orElseGet(() ->{   Reunion reunion = reunionService.get(id);
-                                             reunion.marcarComoMinuteada();
-                                             reunionService.update(reunion);
-                                        return CrearMinuta.create(reunion);
+                                .orElseGet(() -> {
+                                    Reunion reunion = reunionService.get(id);
+                                    reunion.marcarComoMinuteada();
+                                    reunionService.update(reunion);
+                                    return CrearMinuta.create(reunion, unMinuteador);
                                 })
-                                ).get();
+                ).get();
 
+    }
+
+    public Optional<Minuta> getForReunion(Long id) {
+        return createOperation()
+                .insideATransaction()
+                .apply(MinutaDeReunion.create(id))
+                .asOptional()
+                .asNativeOptional();
     }
 
     public List<Minuta> getAll() {
         return getAll(FindAll.of(Minuta.class));
     }
 
-    public Minuta getUltimaMinuta() {
-      return this.getFromReunion(reunionService.getUltimaReunion().getId());
+    public Optional<Minuta> getUltimaMinuta() {
+        return reunionService.getUltimaReunion()
+                .flatMap(reunion -> this.getForReunion(reunion.getId()));
     }
 }

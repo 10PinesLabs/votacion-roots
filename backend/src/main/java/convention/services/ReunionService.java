@@ -5,12 +5,11 @@ import ar.com.kfgodel.temas.acciones.UsarReunionExistente;
 import ar.com.kfgodel.temas.filters.reuniones.AllReunionesUltimaPrimero;
 import ar.com.kfgodel.temas.filters.reuniones.ProximaReunion;
 import ar.com.kfgodel.temas.filters.reuniones.UltimaReunion;
-import convention.persistent.Minuta;
 import convention.persistent.Reunion;
-import convention.persistent.TemaGeneral;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Optional;
 
 
 /**
@@ -22,6 +21,9 @@ public class ReunionService extends Service<Reunion> {
 
   @Inject
   TemaGeneralService temaGeneralService;
+
+  @Inject
+  private TemaService temaService;
 
   public ReunionService() {
     setClasePrincipal(Reunion.class);
@@ -42,19 +44,25 @@ public class ReunionService extends Service<Reunion> {
 
   @Override
   public void delete(Long id) {
-    Minuta minuta = minutaService.getFromReunion(id);
-    minutaService.delete(minuta.getId());
+    minutaService.getForReunion(id).ifPresent(minutaService::delete);
+    Reunion reunion = get(id);
+    reunion.getTemasPropuestos().stream()
+            .filter(temaDeReunion -> !temaDeReunion.getEsRePropuesta())
+            .forEach(temaDeReunion -> temaService.convertirRePropuestasAPropuestasOriginales(temaDeReunion.getId()));
     super.delete(id);
   }
 
-  @Override
-  public Reunion save(Reunion nuevaReunion) {
-    List<TemaGeneral> temasGenerales = temaGeneralService.getAll();
-    nuevaReunion.agregarTemasGenerales(temasGenerales);
-    return super.save(nuevaReunion);
+  public Optional<Reunion> getUltimaReunion() {
+    return getAll(UltimaReunion.create()).stream().findFirst();
   }
 
-  public Reunion getUltimaReunion() {
-    return getAll(UltimaReunion.create()).stream().findFirst().get();
+  public Reunion cargarActionItemsDeLaUltimaMinutaSiExisteElTema(Reunion nuevaReunion) {
+    minutaService.getUltimaMinuta().ifPresent(nuevaReunion::cargarSiExisteElTemaParaRepasarActionItemsDe);
+    return nuevaReunion;
+  }
+
+  public Reunion create(Reunion unaReunion) {
+    unaReunion.agregarTemasGenerales(temaGeneralService.getAll());
+    return save(unaReunion);
   }
 }

@@ -2,22 +2,19 @@ package ar.com.kfgodel.temas.domain;
 
 import ar.com.kfgodel.temas.helpers.TestHelper;
 import ar.com.kfgodel.temas.model.OrdenarPorVotos;
-import convention.persistent.Reunion;
-import convention.persistent.StatusDeReunion;
-import convention.persistent.TemaDeReunion;
-import convention.persistent.Usuario;
+import convention.persistent.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * Created by sandro on 19/06/17.
@@ -27,36 +24,36 @@ public class ReunionTest {
     private TestHelper helper;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         helper = new TestHelper();
     }
 
     @Test
-    public void test01AlCrearUnaReunionSuEstadoEsPendiente(){
-        Reunion unaReunion = Reunion.create(LocalDate.of(2017, 06, 16));
+    public void testAlCrearUnaReunionSuEstadoEsPendiente() {
+        Reunion unaReunion = helper.unaReunion();
         Assert.assertEquals(StatusDeReunion.PENDIENTE, unaReunion.getStatus());
     }
 
     @Test
-    public void test02AlCrearUnaReunionNoTieneTemas(){
-        Reunion unaReunion = Reunion.create(LocalDate.of(2017, 06, 16));
+    public void testAlCrearUnaReunionNoTieneTemas() {
+        Reunion unaReunion = helper.unaReunion();
         Assert.assertEquals(0, unaReunion.getTemasPropuestos().size());
     }
 
     @Test
-    public void test03AlCerrarUnaReunionSuEstadoEsCerrada(){
-        Reunion unaReunion = Reunion.create(LocalDate.of(2017, 06, 16));
+    public void testAlCerrarUnaReunionSuEstadoEsCerrada() {
+        Reunion unaReunion = helper.unaReunion();
         unaReunion.cerrarVotacion();
         Assert.assertEquals(StatusDeReunion.CERRADA, unaReunion.getStatus());
     }
 
     @Test
-    public void test04AlCerrarUnaReunionLosTemasPropuestosSeOrdenanPorCantidadDeVotos() {
-        Reunion unaReunion = Reunion.create(LocalDate.of(2017, 06, 16));
-        Usuario unUsuario = new Usuario();
-        TemaDeReunion tema1 = helper.nuevoTemaNoObligatorio();
-        TemaDeReunion tema2 = helper.nuevoTemaNoObligatorio();
-        TemaDeReunion tema3 = helper.nuevoTemaNoObligatorio();
+    public void testAlCerrarUnaReunionLosTemasPropuestosSeOrdenanPorCantidadDeVotos() {
+        Reunion unaReunion = helper.unaReunion();
+        Usuario unUsuario = helper.unUsuario();
+        TemaDeReunion tema1 = helper.unTemaNoObligatorio();
+        TemaDeReunion tema2 = helper.unTemaNoObligatorio();
+        TemaDeReunion tema3 = helper.unTemaNoObligatorio();
         List<TemaDeReunion> temasDeLaReunion = Arrays.asList(tema1, tema2, tema3);
         unaReunion.setTemasPropuestos(temasDeLaReunion);
 
@@ -80,8 +77,8 @@ public class ReunionTest {
     }
 
     @Test
-    public void test05AlReabrirUnaReunionCerradaSuEstadoEsPendiente(){
-        Reunion unaReunion = Reunion.create(LocalDate.of(2017, 06, 16));
+    public void testAlReabrirUnaReunionCerradaSuEstadoEsPendiente() {
+        Reunion unaReunion = helper.unaReunion();
         unaReunion.cerrarVotacion();
         unaReunion.reabrirVotacion();
         Assert.assertEquals(StatusDeReunion.PENDIENTE, unaReunion.getStatus());
@@ -89,25 +86,25 @@ public class ReunionTest {
 
     // No estoy seguro de que vaya acá
     @Test
-    public void test06ElOrdenadorDeTemasOrdenaCorrectamenteUnConjuntoDeTemas() {
-        Usuario unUsuario = new Usuario();
+    public void testElOrdenadorDeTemasOrdenaCorrectamenteUnConjuntoDeTemas() {
+        Usuario unUsuario = helper.unUsuario();
 
-        TemaDeReunion tema1 = helper.nuevoTemaObligatorio();
+        TemaDeReunion tema1 = helper.unTemaObligatorio();
         tema1.setMomentoDeCreacion(LocalDateTime.of(2017, 06, 26, 0, 0));
 
-        TemaDeReunion tema2 = helper.nuevoTemaObligatorio();
+        TemaDeReunion tema2 = helper.unTemaObligatorio();
         tema2.setMomentoDeCreacion(LocalDateTime.of(2018, 06, 26, 0, 0));
 
-        TemaDeReunion tema3 = helper.nuevoTemaNoObligatorio();
+        TemaDeReunion tema3 = helper.unTemaNoObligatorio();
         tema3.setMomentoDeCreacion(LocalDateTime.of(2018, 02, 26, 0, 0));
         tema3.agregarInteresado(unUsuario);
         tema3.agregarInteresado(unUsuario);
 
-        TemaDeReunion tema4 = helper.nuevoTemaNoObligatorio();
+        TemaDeReunion tema4 = helper.unTemaNoObligatorio();
         tema4.setMomentoDeCreacion(LocalDateTime.of(2016, 02, 26, 0, 0));
         tema4.agregarInteresado(unUsuario);
 
-        TemaDeReunion tema5 = helper.nuevoTemaNoObligatorio();
+        TemaDeReunion tema5 = helper.unTemaNoObligatorio();
         tema5.setMomentoDeCreacion(LocalDateTime.of(2017, 05, 26, 0, 0));
         tema5.agregarInteresado(unUsuario);
 
@@ -122,12 +119,12 @@ public class ReunionTest {
     }
 
     @Test
-    public void test07NoSeReorganizanLosTemasPorCadaVezQueSeVota() {
-        Reunion unaReunion = Reunion.create(LocalDate.of(2017, 06, 16));
-        Usuario unUsuario = new Usuario();
-        TemaDeReunion tema1 = helper.nuevoTemaNoObligatorio();
-        TemaDeReunion tema2 = helper.nuevoTemaNoObligatorio();
-        TemaDeReunion tema3 = helper.nuevoTemaNoObligatorio();
+    public void testNoSeReorganizanLosTemasPorCadaVezQueSeVota() {
+        Reunion unaReunion = helper.unaReunion();
+        Usuario unUsuario = helper.unUsuario();
+        TemaDeReunion tema1 = helper.unTemaNoObligatorio();
+        TemaDeReunion tema2 = helper.unTemaNoObligatorio();
+        TemaDeReunion tema3 = helper.unTemaNoObligatorio();
         List<TemaDeReunion> temasDeLaReunion = Arrays.asList(tema1, tema2, tema3);
         unaReunion.setTemasPropuestos(temasDeLaReunion);
 
@@ -139,16 +136,113 @@ public class ReunionTest {
     }
 
     @Test
-    public void test08AlObtenerLosUsuariosQueVotaronEstosNoAparecenDuplicados(){
-        Reunion unaReunion = Reunion.create(LocalDate.of(2017, 06, 16));
-        Usuario unUsuario = new Usuario();
-        TemaDeReunion tema1 = helper.nuevoTemaNoObligatorio();
-        TemaDeReunion tema2 = helper.nuevoTemaNoObligatorio();
+    public void testAlObtenerLosUsuariosQueVotaronEstosNoAparecenDuplicados() {
+        Reunion unaReunion = helper.unaReunion();
+        Usuario unUsuario = helper.unUsuario();
+        TemaDeReunion tema1 = helper.unTemaNoObligatorio();
+        TemaDeReunion tema2 = helper.unTemaNoObligatorio();
         tema1.setInteresados(Arrays.asList(unUsuario));
         tema2.setInteresados(Arrays.asList(unUsuario, unUsuario));
 
         unaReunion.setTemasPropuestos(Arrays.asList(tema1, tema2));
 
         assertThat(unaReunion.usuariosQueVotaron()).containsExactly(unUsuario);
+    }
+
+    @Test
+    public void testProponerAUnPinoComoRootCreaUnTemaParaEso() {
+        Reunion unaReunion = helper.unaReunion();
+
+        String unPino = helper.unPino();
+        Usuario unSponsor = helper.unUsuario();
+        unaReunion.proponerPinoComoRoot(unPino, unSponsor);
+
+        TemaDeReunion temaCreado = unaReunion.getTemasPropuestos().get(0);
+        assertThat(temaCreado.esParaProponerPinosARoot()).isTrue();
+    }
+
+    @Test
+    public void testElTemaCreadoAlProponerAUnPinoComoRootTieneAlPinoPropuestoYASuSponsor() {
+        Reunion unaReunion = helper.unaReunion();
+
+        String unPino = helper.unPino();
+        Usuario unSponsor = helper.unUsuario();
+        unaReunion.proponerPinoComoRoot(unPino, unSponsor);
+
+        TemaParaProponerPinosARoot temaCreado = (TemaParaProponerPinosARoot) unaReunion.getTemasPropuestos().get(0);
+        Collection<PropuestaDePinoARoot> propuestas = temaCreado.propuestas();
+        assertThatExistePropuestaPara(propuestas, unPino, unSponsor);
+    }
+
+    @Test
+    public void testProponerAOtroPinoComoRootNoCreaOtroTema() {
+        Reunion unaReunion = helper.unaReunion();
+        String unPino = helper.unPino();
+        Usuario unSponsor = helper.unUsuario();
+        unaReunion.proponerPinoComoRoot(unPino, unSponsor);
+
+        String otroPino = helper.otroPino();
+        unaReunion.proponerPinoComoRoot(otroPino, unSponsor);
+
+        assertThat(unaReunion.getTemasPropuestos()).hasSize(1);
+    }
+
+    @Test
+    public void testElTemaParaProponerPinosComoRootsTieneATodosLosPinosPropuestos() {
+        Reunion unaReunion = helper.unaReunion();
+
+        String unPino = helper.unPino();
+        String otroPino = helper.otroPino();
+        Usuario unSponsor = helper.unUsuario();
+        unaReunion.proponerPinoComoRoot(unPino, unSponsor);
+        unaReunion.proponerPinoComoRoot(otroPino, unSponsor);
+
+        TemaParaProponerPinosARoot temaCreado = (TemaParaProponerPinosARoot) unaReunion.getTemasPropuestos().get(0);
+        Collection<PropuestaDePinoARoot> propuestas = temaCreado.propuestas();
+        assertThatExistePropuestaPara(propuestas, unPino, unSponsor);
+        assertThatExistePropuestaPara(propuestas, otroPino, unSponsor);
+    }
+
+    @Test
+    public void testProponerAUnPinoComoRootCreaUnTemaParaEsoCuandoYaHabianOtrosTemasComunes() {
+        Reunion unaReunion = helper.unaReunion();
+        unaReunion.agregarTema(helper.unTemaDeReunion());
+
+        String unPino = helper.unPino();
+        Usuario unSponsor = helper.unUsuario();
+        unaReunion.proponerPinoComoRoot(unPino, unSponsor);
+
+        assertThat(unaReunion.getTemasPropuestos()).hasSize(2);
+    }
+
+    @Test
+    public void testNoSePuedeAgregarUnTemaConTituloDeTemaParaProponerPinosComoRoots() {
+        Reunion unaReunion = helper.unaReunion();
+        String unPino = helper.unPino();
+        Usuario unSponsor = helper.unUsuario();
+        unaReunion.proponerPinoComoRoot(unPino, unSponsor);
+
+        TemaDeReunion unTemaConTituloDeTemaParaProponerPinos = helper.unTemaDeReunionConTitulo(TemaParaProponerPinosARoot.TITULO);
+
+        assertThatThrownBy(() -> {
+            unaReunion.agregarTema(unTemaConTituloDeTemaParaProponerPinos);
+        }).hasMessage(Reunion.AGREGAR_TEMA_PARA_PROPONER_PINOS_COMO_ROOT_ERROR_MSG);
+    }
+
+    @Test
+    public void testElAutorDelTemaParaProponerPinosComoRootsEsElPrimerUsuarioQueHizoUnaPropuesta() {
+        Reunion unaReunion = helper.unaReunion();
+
+        String unPino = helper.unPino();
+        Usuario unSponsor = helper.unUsuario();
+        unaReunion.proponerPinoComoRoot(unPino, unSponsor);
+
+        TemaDeReunion temaCreado = unaReunion.getTemasPropuestos().get(0);
+        assertThat(temaCreado.getAutor()).isEqualTo(unSponsor);
+    }
+
+    private void assertThatExistePropuestaPara(Collection<PropuestaDePinoARoot> propuestas, String unPino, Usuario unSponsor) {
+        assertThat(propuestas).anyMatch(
+                propuesta -> propuesta.pino().equals(unPino) && propuesta.sponsor() == unSponsor);
     }
 }

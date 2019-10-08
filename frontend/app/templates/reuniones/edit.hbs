@@ -1,6 +1,6 @@
 {{vot-star temasVotados=temasVotados}}
 
-<div class="container w-650">
+<div class="container w-750">
 
   <div class="title-container">
 
@@ -25,10 +25,14 @@
       {{#unless estaCerrada}}
         <div class="flex-center pl-10" {{action 'mostrarFormulario'}}>
           <i class="material-icons primary-color clickable">add_circle</i>
-          <h6 class="primary-color no-margin add-tema clickable">AGREGAR TEMA</h6>
+          <h6 class="primary-color no-margin add-tema clickable">Agregar tema</h6>
+        </div>
+        <div class="flex-center pl-10" {{action 'mostrarFormularioDeProponerPino'}}>
+          <i class="material-icons primary-color clickable">person_add</i>
+          <h6 class="primary-color no-margin add-tema clickable">Proponer pino</h6>
         </div>
       {{/unless}}
-      
+
     </div>
 
     <div class="divider"></div>
@@ -40,15 +44,15 @@
     {{#each reunion.temasPropuestos as |tema|}}
       {{#if (eq mostrarObligatorios tema.esObligatorio)}}
         {{each-card-tema
-          tema=tema
-          mostrarObligatorios=mostrarObligatorios
-          estaCerrada=estaCerrada
-          sumarVoto=(action 'sumarVoto')
-          restarVoto=(action 'restarVoto')
-          votarDisabled=votarDisabled
-          votosOpacity=votosOpacity
-          mostrarFormularioDeEdicion=(action 'mostrarFormularioDeEdicion')
-          borrarTemaElegido=(action 'borrarTemaElegido')
+            tema=tema
+            mostrarObligatorios=mostrarObligatorios
+            estaCerrada=estaCerrada
+            sumarVoto=(action 'sumarVoto')
+            restarVoto=(action 'restarVoto')
+            votarDisabled=votarDisabled
+            votosOpacity=votosOpacity
+            mostrarFormularioDeEdicion=(action 'mostrarFormularioDeEdicion')
+            borrarTemaElegido=(action 'borrarTemaElegido')
         }}
       {{/if}}
     {{/each}}
@@ -57,45 +61,48 @@
 
   {{#unless estaCerrada}}
     {{#if visibilidadCardDeTema}}
-      <div class="modal-background" {{action 'cerrarEditorDeTemaNuevo'}}>
-      </div>
-      <div id="myModal" class="modal-tema">
-        {{#if mostrandoFormularioDeEdicion}}
-          {{editor-de-tema titulo='Modificar Propuesta' tema=temaAEditar nombreDeDuraciones=nombreDeDuraciones
-                           duraciones=duraciones cerrarEditor=(action 'cerrarEditorDeTema')
-                           alGuardar=(action 'updatearTema')  esObligatorio=esObligatorio
-                           seleccionarDuracion=(action 'seleccionarDuracion') classNames='col s11'}}
-        {{/if}}
-        {{#if mostrandoFormularioXTemaNuevo}}
-          {{editor-de-tema titulo='Nueva Propuesta' tema=nuevoTema nombreDeDuraciones=nombreDeDuraciones
-                           duraciones=duraciones cerrarEditor=(action 'cerrarEditorDeTemaNuevo')
-                           alGuardar=(action 'agregarTema')  esObligatorio=esObligatorio
-                           seleccionarDuracion=(action 'seleccionarDuracion') classNames='col s11'}}
-        {{/if}}
-      </div>
+      {{#if mostrandoFormularioDeEdicion}}
+        {{editor-de-tema titulo='Modificar Propuesta' tema=temaAEditar nombreDeDuraciones=nombreDeDuraciones
+                         duraciones=duraciones cerrarEditor=(action 'cerrarEditorDeTema')
+                         alGuardar=(action 'updatearTema')  esObligatorio=esObligatorio
+                         seleccionarDuracion=(action 'seleccionarDuracion') classNames='col s11'}}
+      {{/if}}
+      {{#if mostrandoFormularioXTemaNuevo}}
+        {{editor-de-tema titulo='Nueva Propuesta' tema=nuevoTema nombreDeDuraciones=nombreDeDuraciones
+                         duraciones=duraciones cerrarEditor=(action 'cerrarEditorDeTemaNuevo')
+                         alGuardar=(action 'agregarTema')  esObligatorio=esObligatorio
+                         seleccionarDuracion=(action 'seleccionarDuracion') classNames='col s11'}}
+      {{/if}}
+      {{#if mostrandoFormularioDeProponerPino}}
+        {{formulario-proponer-pino
+            titulo='Proponer un pino a root'
+            cerrarEditor=(action 'cerrarEditorDeProponerPino')
+            alGuardar=(action 'proponerPino')
+        }}
+      {{/if}}
     {{/if}}
   {{/unless}}
 
 </div>
 
 {{tenpines/modal-de-confirmacion
-  open=modalDeBorradoAbierto
-  titulo='Confirmar eliminacion de tema'
-  descripcion=mensajeDeConfirmacionDeBorrado
-  accionAceptar=(action 'borrarTemaElegido')
+    open=modalDeBorradoAbierto
+    titulo='Confirmar eliminacion de tema'
+    descripcion=mensajeDeConfirmacionDeBorrado
+    accionAceptar=(action 'borrarTemaElegido')
 }}
 {{tenpines/modal-de-confirmacion
-  open=modalDeCambioDeObligatoriedadAbierto
-  titulo='Cambiando a tema no obligatorio'
-  descripcion="Se perderán todos los votos del tema"
-  accionAceptar=(action 'updatearTemaConfirmado')
+    open=modalDeCambioDeObligatoriedadAbierto
+    titulo='Cambiando a tema no obligatorio'
+    descripcion="Se perderán todos los votos del tema"
+    accionAceptar=(action 'updatearTemaConfirmado')
 }}
 
 
 {{#if puedeCerrar}}
 
   <div class="finish-content">
-    <div class="center w-650 align-left">
+    <div class="center w-750 align-left">
           <span class="flex-center finish-title">
             <i class="material-icons mr-5">info_outline</i>
             Cerrar Temario para todes
@@ -116,16 +123,13 @@
         <button type="button" {{action 'reabrirVotacion'}} class="btn-flat bold btn">
           <h6>Reabrir votacion</h6>
         </button>
-
       {{/if}}
-
     </div>
-
     {{tenpines/modal-de-confirmacion
-      open=modalDeCierreAbierto
-      titulo='Confirmar cierre de votación'
-      descripcion='¿Estás seguro que querés cerrar la votación, que comience la reunión y que nadie más pueda seguir votando?'
-      accionAceptar=(action 'cerrarVotacion')
+        open=modalDeCierreAbierto
+        titulo='Confirmar cierre de votación'
+        descripcion='¿Estás seguro que querés cerrar la votación, que comience la reunión y que nadie más pueda seguir votando?'
+        accionAceptar=(action 'cerrarVotacion')
     }}
   </div>
 {{/if}}

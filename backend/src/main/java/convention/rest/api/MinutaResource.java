@@ -9,6 +9,7 @@ import convention.services.MinutaService;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 /**
@@ -24,8 +25,9 @@ public class MinutaResource{
     private ResourceHelper resourceHelper;
     @GET
     @Path("reunion/{reunionId}")
-    public MinutaTo getParaReunion(@PathParam("reunionId") Long id ){
-        Minuta minuta = minutaService.getFromReunion(id);
+    public MinutaTo getParaReunion(@PathParam("reunionId") Long id, @Context SecurityContext securityContext){
+        Usuario usuarioActual = getResourceHelper().usuarioActual(securityContext);
+        Minuta minuta = minutaService.getOrCreateForReunion(id, usuarioActual);
         minutaService.update(minuta);
         return getResourceHelper().convertir(minuta, MinutaTo.class);
     }
@@ -42,9 +44,10 @@ public class MinutaResource{
 
     @GET
     @Path("/ultimaMinuta")
-    public MinutaTo getUltimaMinuta(){
-        Minuta minuta = minutaService.getUltimaMinuta();
-        return getResourceHelper().convertir(minuta, MinutaTo.class);
+    public MinutaTo getUltimaMinuta() {
+        return minutaService.getUltimaMinuta()
+                .map(minuta -> getResourceHelper().convertir(minuta, MinutaTo.class))
+                .orElseThrow(() -> new WebApplicationException("La minuta no existe", Response.Status.NOT_FOUND));
     }
 
     public static MinutaResource create(DependencyInjector appInjector) {

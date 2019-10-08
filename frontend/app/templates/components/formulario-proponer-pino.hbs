@@ -1,0 +1,11 @@
+{{#modal-editor
+    titulo=titulo
+    guardarHabilitado=guardarHabilitado
+    manejarGuardar=(action 'guardar' alGuardar)
+    manejarCerrar=(action cerrarEditor)
+}}
+  <div class="col s12">
+    <label for="pinoPropuesto">Nombre</label>
+    {{input id="pinoPropuesto" value=pino}}
+  </div>
+{{/modal-editor}}

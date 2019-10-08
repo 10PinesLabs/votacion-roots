@@ -4,6 +4,7 @@ import ar.com.kfgodel.temas.exceptions.TemaDeReunionException;
 import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -16,13 +17,18 @@ import java.util.stream.Collectors;
  * Created by kfgodel on 21/08/16.
  */
 @Entity
-public class TemaDeReunion extends Tema {
+public abstract class TemaDeReunion extends Tema {
 
     public static final String reunion_FIELD = "reunion";
     public static final String prioridad_FIELD = "prioridad";
     public static final String interesados_FIELD = "interesados";
     public static final String obligatoriedad_FIELD = "obligatoriedad";
     public static final String temaGenerador_FIELD = "temaGenerador";
+    public static final String propuestaOriginal_FIELD = "propuestaOriginal";
+    public static final String fechaDePropuestaOriginal_FIELD = "fechaDePropuestaOriginal";
+    public static final String esRePropuesta_FIELD = "esRePropuesta";
+    public static final String ERROR_AGREGAR_INTERESADO = "No se puede agregar un interesado a un tema obligatorio";
+    public static final String ERROR_PROPIA_PROPUESTA_ORIGINAL = "Un tema no puede ser su propia propuesta original";
     @ManyToOne
     private Reunion reunion;
     private Integer prioridad;
@@ -33,16 +39,8 @@ public class TemaDeReunion extends Tema {
     private ObligatoriedadDeTema obligatoriedad;
     @ManyToOne
     private TemaGeneral temaGenerador;
-
-    static public TemaDeReunion create() {
-        TemaDeReunion unTema = new TemaDeReunion();
-        unTema.setObligatoriedad(ObligatoriedadDeTema.NO_OBLIGATORIO);
-        return unTema;
-    }
-
-    public static String mensajeDeErrorAlAgregarInteresado() {
-        return "No se puede agregar un interesado a un tema obligatorio";
-    }
+    @ManyToOne
+    private TemaDeReunion propuestaOriginal;
 
     public ObligatoriedadDeTema getObligatoriedad() {
         return obligatoriedad;
@@ -86,7 +84,7 @@ public class TemaDeReunion extends Tema {
         if (this.puedeSerVotado())
             this.getInteresados().add(votante);
         else
-            throw new TemaDeReunionException(mensajeDeErrorAlAgregarInteresado());
+            throw new TemaDeReunionException(TemaDeReunion.ERROR_AGREGAR_INTERESADO);
     }
 
     public void quitarInteresado(Usuario votante) {
@@ -99,7 +97,7 @@ public class TemaDeReunion extends Tema {
 
 
     public TemaDeReunion copy() {
-        TemaDeReunion copia = TemaDeReunion.create();
+        TemaDeReunion copia = createCopy();
         copia.setInteresados(this.getInteresados());
         copia.setPersistenceVersion(this.getPersistenceVersion());
         copia.setMomentoDeUltimaModificacion(this.getMomentoDeUltimaModificacion());
@@ -113,8 +111,11 @@ public class TemaDeReunion extends Tema {
         copia.setDuracion(this.getDuracion());
         copia.setObligatoriedad(this.getObligatoriedad());
         copia.setUltimoModificador(this.getUltimoModificador());
+        copia.setPropuestaOriginal(this.getPropuestaOriginal());
         return copia;
     }
+
+    protected abstract TemaDeReunion createCopy();
 
 
     public Boolean tieneMayorPrioridadQue(TemaDeReunion otroTema) {
@@ -150,7 +151,7 @@ public class TemaDeReunion extends Tema {
     }
 
     public Boolean puedeSerVotado() {
-        return obligatoriedad.permiteRecibirVotos();
+        return getObligatoriedad().permiteRecibirVotos();
     }
 
     public Boolean fueGeneradoPorUnTemaGeneral() {
@@ -175,5 +176,52 @@ public class TemaDeReunion extends Tema {
 
     public void setTemaGenerador(TemaGeneral temaGenerador) {
         this.temaGenerador = temaGenerador;
+    }
+
+    public Boolean esParaProponerPinosARoot() {
+        return false;
+    }
+
+    public Boolean esParaRepasarActionItems() {
+        return false;
+    }
+
+    private void verificarQueNoEsSuPropiaPropuestaOriginal(TemaDeReunion unTemaDeReunion) {
+        if (equals(unTemaDeReunion)) {
+            throw new RuntimeException(ERROR_PROPIA_PROPUESTA_ORIGINAL);
+        }
+    }
+
+    public Optional<TemaDeReunion> propuestaOriginal() {
+        return Optional.ofNullable(propuestaOriginal);
+    }
+
+    public Boolean getEsRePropuesta() {
+        return !Objects.isNull(propuestaOriginal);
+    }
+
+    public TemaDeReunion propuestaTratada() {
+        return propuestaOriginal().orElse(this);
+    }
+
+    public Boolean trataLaMismaPropuestaQue(TemaDeReunion unTemaDeReunion) {
+        return propuestaTratada().equals(unTemaDeReunion.propuestaTratada());
+    }
+
+    public LocalDate getFechaDePropuestaOriginal() {
+        return Optional.ofNullable(propuestaOriginal).map(TemaDeReunion::getFechaDeReunion).orElse(null);
+    }
+
+    private LocalDate getFechaDeReunion() {
+        return Optional.ofNullable(getReunion()).map(Reunion::getFecha).orElse(null);
+    }
+
+    public TemaDeReunion getPropuestaOriginal() {
+        return propuestaOriginal;
+    }
+
+    public void setPropuestaOriginal(TemaDeReunion unTemaDeReunion) {
+        verificarQueNoEsSuPropiaPropuestaOriginal(unTemaDeReunion);
+        propuestaOriginal = unTemaDeReunion;
     }
 }

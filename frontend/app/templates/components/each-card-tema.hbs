@@ -1,26 +1,23 @@
 {{#if (or mostrarObligatorios (not tema.esObligatorio))}}
 
-  <tr bgcolor='white'>
-    {{#if tema.esObligatorio}}
-      <div class="the-lock lock-margin right clickable">
-        <i class="material-icons opacity-20">lock</i>
-        <span class="tool-tip-text">Tema obligatorio</span>
+  <div class="p-20 bg-white mb-20">
+    <div class="full-width">
+      {{header-tema
+          tema=tema
+          mostrarFlagActionItems=false
+          mostrarCandado=tema.esObligatorio
+          antiguedadRelativa=true
+      }}
+      {{descripcion-de-tema-expansible tema=tema expandido=expandido onClick=(action 'expandirDescripcion')}}
+    </div>
+
+    {{#if expandido}}
+      <div class="tema-colapse-button">
+        <button class="colapse-button" onclick={{action 'colapsarDescripcion'}}>
+          <i class="material-icons">unfold_less</i>
+        </button>
       </div>
     {{/if}}
-    <div class="tema-horizontal-margin">
-      <td class="noPadding">
-        <h5 class="titulo-de-tema">{{tema.titulo}}</h5>
-        {{texto-extensible texto=tema.descripcion extendido=expandido}}
-      </td>
-
-      {{#if expandido}}
-        <div id="tema-colapse-button">
-          <button class="colapse-button" onclick={{action 'colapsarDescripcion'}}>
-            <i class="material-icons">unfold_less</i>
-          </button>
-        </div>
-      {{/if}}
-    </div>
 
     <div class="divider"></div>
 
@@ -39,7 +36,8 @@
         {{#unless estaCerrada}}
           {{#unless tema.esObligatorio}}
 
-            <button type="button" id="agregar-button" {{action sumarVoto tema}} class="btn-flat bold btn fit-content-height"
+            <button type="button" id="agregar-button" {{action sumarVoto tema}}
+                    class="btn-flat bold btn fit-content-height"
                     disabled={{votarDisabled}}>
 
               <div class="flex-center">
@@ -69,8 +67,11 @@
 
           <div id="edit-menu">
             {{#tenpines/drop-down icon='more_vert' removeBtn=true }}
-              <li class="light-grey" {{action mostrarFormularioDeEdicion tema}}>
-                <a class="black-text">Editar</a></li>
+              {{#unless tema.esTemaParaProponerPinos}}
+                <li class="light-grey" {{action mostrarFormularioDeEdicion tema}}>
+                  <a class="black-text">Editar</a>
+                </li>
+              {{/unless}}
               <li class="divider"></li>
               <li class="light-grey"><a class="black-text" {{action borrarTemaElegido tema}}>Eliminar</a></li>
             {{/tenpines/drop-down }}
@@ -80,6 +81,6 @@
 
       </div>
     </div>
-  </tr>
+  </div>
 
 {{/if}}

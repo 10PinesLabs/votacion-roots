@@ -9,11 +9,11 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
   mostrandoToastUsuariosSinMail: false,
 
   temasPendientes: Ember.computed('model.minuta', function () {
-    return  this.get('model.minuta').temas.filter(tema => !tema.fueTratado);
+    return this.get('model.minuta').temas.filter(tema => !tema.fueTratado);
   }),
 
   temasTratados: Ember.computed('model.minuta', function () {
-    return  this.get('model.minuta').temas.filter(tema => tema.fueTratado);
+    return this.get('model.minuta').temas.filter(tema => tema.fueTratado);
   }),
 
   router: Ember.computed('target.router', function () {
@@ -57,6 +57,7 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
     this.get('temaSeleccionado.actionItems').forEach((actionItem) => actionItems.push(actionItem));
     return Ember.Object.extend().create({
       id: tema.id,
+      tipo: tema.tipo,
       idDeMinuta: tema.idDeMinuta,
       tema: tema.tema,
       conclusion: tema.conclusion,
@@ -85,14 +86,20 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
         delete actionItem.usuariosSeleccionables;
       });
 
+      if (
+        this.get("temasPendientes").includes(tema) && (tema.conclusion !== "" || tema.actionItems.length > 0)
+      ) {
+        tema.set("fueTratado", true);
+      }
+
       this.temaDeMinutaService().updateTemaDeMinuta(tema)
         .then((response) => {
           this._mostrarUsuariosSinMail(response);
           this._ocultarEditor();
           this._recargarLista();
         }, (error) => {
-        this._recargarLista();
-      });
+          this._recargarLista();
+        });
     },
 
     quitarAsistente(usuario) {
@@ -108,20 +115,20 @@ export default Ember.Controller.extend(MinutaServiceInjected, TemaDeMinutaServic
     },
   },
 
-    guardarUsuariosSeleccionados() {
-      this.set('model.minuta.asistentes', this.get('usuariosSeleccionados'));
-      this.minutaService().updateMinuta(this.get('model.minuta'));
-    },
+  guardarUsuariosSeleccionados() {
+    this.set('model.minuta.asistentes', this.get('usuariosSeleccionados'));
+    this.minutaService().updateMinuta(this.get('model.minuta'));
+  },
 
-    agregarUsuarioAYSacarUsuarioDe(usuario, nombreListaDestino, nombreListaOrigen) {
-      let listaDestino = this.get(nombreListaDestino);
-      listaDestino.pushObject(usuario);
-      this.set(nombreListaDestino, listaDestino);
+  agregarUsuarioAYSacarUsuarioDe(usuario, nombreListaDestino, nombreListaOrigen) {
+    let listaDestino = this.get(nombreListaDestino);
+    listaDestino.pushObject(usuario);
+    this.set(nombreListaDestino, listaDestino);
 
-      let listaOrigen = this.get(nombreListaOrigen);
-      listaOrigen.removeObject(usuario);
-      this.set(nombreListaOrigen, listaOrigen);
-    },
+    let listaOrigen = this.get(nombreListaOrigen);
+    listaOrigen.removeObject(usuario);
+    this.set(nombreListaOrigen, listaOrigen);
+  },
 
   anchoDeTabla: 's12',
 

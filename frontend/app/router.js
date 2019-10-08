@@ -11,6 +11,7 @@ Router.map(function () {
   this.route('engaging-session');
 
   this.route('proxima-roots');
+  this.route('reproponer-tema', {path: "reproponer-tema/:id"});
   this.route('reuniones', function () {
     this.route('edit', {path: "reuniones/:reunion_id"});
     this.route('list');
