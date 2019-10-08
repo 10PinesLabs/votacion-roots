@@ -4,8 +4,10 @@
     <div class="detalle-reunion__header__title"> Root del {{reunionSeleccionada.fechaFormateada}} </div>
 
     <div class="detalle-reunion__header__seccion-botones">
-      <a class="btn purple" {{action 'crearReunion'}}><i
-        class="material-icons">speaker_notes</i>VER MINUTA</a>
+      {{#link-to 'minuta.ver' reunionSeleccionada.id}}
+        <a class="detalle-reunion__header__seccion-botones__primary-button btn purple">
+          <i class="material-icons">speaker_notes</i>VER MINUTA</a>
+      {{/link-to}}
 
       <a class="btn-floating transparent right m-5"  {{action ''}}>
         <i class="material-icons black-text">more_vert</i>
