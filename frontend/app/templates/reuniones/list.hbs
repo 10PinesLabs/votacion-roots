@@ -1,20 +1,22 @@
 <div class="reuniones-list">
   <div class="reuniones-list__listado">
-    <div class="reuniones-list__listado__title"> Todas las reuniones </div>
+    <div class="reuniones-list__listado__title"> Todas las reuniones</div>
     {{#tenpines/object-table titulos='Fecha, Temas' bordered=true}}
       {{#each model as |reunion|}}
         <tr {{action 'verReunion' reunion}}>
           <td>{{reunion.fechaFormateada}}</td>
           <td>{{reunion.temasPropuestos.length}}</td>
           <td>
-            {{#if (eq reunion.status 'CON_MINUTA')}}
-              <a class="btn-floating waves-effect waves-light white right m-5"  {{action ''}}><i
-                class="material-icons black-text">speaker_notes</i></a>
-            {{/if}}
-            {{#if (eq reunion.status 'CERRADA')}}
-              <a class="btn-floating waves-effect waves-light pink right m-5"  {{action ''}}><i
-                class="material-icons">speaker_notes_off</i></a>
-            {{/if}}
+            {{#link-to 'minuta.ver' reunionSeleccionada.id}}
+              {{#if (eq reunion.status 'CON_MINUTA')}}
+                <a class="btn-floating waves-effect waves-light white right m-5"><i
+                  class="material-icons black-text">speaker_notes</i></a>
+              {{/if}}
+              {{#if (eq reunion.status 'CERRADA')}}
+                <a class="btn-floating waves-effect waves-light pink right m-5"><i
+                  class="material-icons">speaker_notes_off</i></a>
+              {{/if}}
+            {{/link-to}}
           </td>
         </tr>
       {{/each}}
@@ -22,10 +24,11 @@
     <a class="reuniones-list__listado__button btn" {{action 'crearReunion'}}>AGREGAR ROOT EXTRAORDINARIA</a>
   </div>
   <div class="reuniones-list__detalle">
-      {{detalle-de-reunion
-        reunionSeleccionada=reunionSeleccionada
-        reunionCerrada=reunionCerrada
-      }}
+    {{detalle-de-reunion
+      reunionSeleccionada=reunionSeleccionada
+      reunionCerrada=reunionCerrada
+      duraciones=duraciones
+    }}
 
     {{#if mostrandoMinuta}}
       {{mostrador-de-minuta cerrarMinuta=(action 'cerrarMinuta') minuta=minuta}}
