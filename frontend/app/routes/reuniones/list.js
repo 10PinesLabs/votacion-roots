@@ -5,28 +5,60 @@ import ReunionServiceInjected from "../../mixins/reunion-service-injected";
 import UserServiceInjected from "../../mixins/user-service-injected";
 import Tema from "../../concepts/tema";
 
-export default Ember.Route.extend(AuthenticatedRoute,UserServiceInjected, ReunionServiceInjected, NavigatorInjected, {
+export default Ember.Route.extend(AuthenticatedRoute, UserServiceInjected, ReunionServiceInjected, NavigatorInjected, {
   model() {
     return this.promiseWaitingFor(this.reunionService().getAllReuniones())
-      .whenInterruptedAndReauthenticated(()=> {
+      .whenInterruptedAndReauthenticated(() => {
         this.navigator().navigateToReuniones();
       })
-      .then((reuniones)=> {
-        reuniones.forEach((reunion)=> {
+      .then((reuniones) => {
+        reuniones.forEach((reunion) => {
           this._usarInstanciasDeTemas(reunion, null);
+          this._setearFechaFormateada(reunion);
+          return reunion;
         });
         return reuniones;
       });
   },
 
-  _usarInstanciasDeTemas(reunion, usuarioActual){
-    var temasPropuestos = reunion.get('temasPropuestos');
-    for (var i = 0; i < temasPropuestos.length; i++) {
-      var objetoEmber = temasPropuestos[i];
+  _setearFechaFormateada(reunion){
+    const fechaDeReunion =  this._formatearFecha(reunion.get('fecha'));
+    return reunion.set('fechaFormateada',fechaDeReunion);
+  },
+
+  _formatearFecha(fechaEnString) {
+    const fecha = new Date(fechaEnString);
+    return [fecha.getDate(), nombreDeMeses.nombreParaElMes(fecha.getMonth()), fecha.getFullYear()].join(' - ');
+  },
+
+
+  _usarInstanciasDeTemas(reunion, usuarioActual) {
+    let temasPropuestos = reunion.get('temasPropuestos');
+    temasPropuestos.forEach((temaPropuesto, index) => {
+      let objetoEmber = temasPropuestos[index];
       objetoEmber.set('usuarioActual', usuarioActual);
-      var tema = Tema.create(objetoEmber);
-      temasPropuestos[i] = tema;
-    }
+      let tema = Tema.create(objetoEmber);
+      temasPropuestos[index] = tema;
+    });
   }
 
+})
+;
+
+const nombreDeMeses = Object.freeze({
+  0: 'Ene',
+  1: 'Feb',
+  2: 'Mar',
+  3: 'Abr',
+  4: 'May',
+  5: 'Jun',
+  6: 'Jul',
+  7: 'Ago',
+  8: 'Sep',
+  9: 'Oct',
+  10: 'Nov',
+  11: 'Dic',
+  nombreParaElMes(unMes) {
+    return this[unMes] || 0;
+  }
 });
