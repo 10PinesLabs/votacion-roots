@@ -14,9 +14,30 @@
             <i class="material-icons">add</i>AGREGAR TEMA</a>
         {{/link-to}}
       {{/if}}
-      <a class="btn-floating transparent right m-5"  {{action ''}}>
-        <i class="material-icons black-text">more_vert</i>
-      </a>
+      <div class="detalle-reunion__header__seccion-botones__secondary-buttons">
+        <a class="btn-floating transparent right m-5"  {{action 'masOpciones'}}>
+          <i class="material-icons black-text">more_vert</i>
+        </a>
+        {{#if showOptions}}
+          <div class="detalle-reunion__header__seccion-botones__secondary-buttons__section">
+            <a class="btn-floating transparent right m-5" {{action 'editarReunion' reunionSeleccionada}}>
+              <i class="material-icons black-text">create</i>
+            </a>
+            <div class="the-lock position-relative clickable">
+              <a class="btn-floating transparent right m-5" {{action 'compartirReunion' reunionSeleccionada}}>
+                <i class="material-icons black-text">share</i>
+              </a>
+              {{#if showCopyToClipboardMessage}}
+                <span class="tool-tip-text">Copiado al clipboard</span>
+              {{/if}}
+            </div>
+            <a class="btn-floating pink right m-5" {{action 'eliminarReunion' reunionSeleccionada}}>
+              <i class="material-icons white-text">delete</i>
+            </a>
+          </div>
+        {{/if}}
+
+      </div>
     </div>
   </div>
   <div class="detalle-reunion__body card-content">
