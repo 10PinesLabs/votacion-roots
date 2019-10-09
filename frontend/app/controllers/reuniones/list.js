@@ -50,31 +50,6 @@ export default Ember.Controller.extend(ReunionServiceInjected, MinutaServiceInje
       });
     },
 
-    verNoVotantes(reunion) {
-      this._traerNoVotantes(reunion).then(() => {
-        this._mostrarNoVotantes();
-      });
-    },
-
-    cerrarDetalle() {
-      this._ocultarDetalle();
-    },
-
-    cerrarMinuta() {
-      this._ocultarMinuta();
-    },
-
-    cerrarNoVotantes() {
-      this._ocultarNoVotantes();
-    },
-
-    // verMinuta(){
-    //   // this._traerMinuta().then(()=>{
-    //   //   this._mostrarMinuta();
-    //   // });
-    //   this.navigator().navigateToVerMinuta(reunion.get('id'));
-    // },
-
     editarReunion(reunion) {
       this.navigator().navigateToReunionesEdit(reunion.get('id'));
     },
@@ -83,13 +58,10 @@ export default Ember.Controller.extend(ReunionServiceInjected, MinutaServiceInje
       this._guardarNuevaYRecargar();
     },
 
-    borrarReunion(reunion) {
-      this.reunionService().removeReunion(reunion)
-        .then(() => {
-          this._ocultarDetalle();
-          this._recargarLista();
-        });
+    recargarLista(){
+      this._recargarLista();
     }
+
   },
 
   _mostrarDetalleDe(reunion){
@@ -109,10 +81,6 @@ export default Ember.Controller.extend(ReunionServiceInjected, MinutaServiceInje
     this.get('target.router').refresh();
   },
 
-  _ocultarMinuta() {
-    this.set('mostrandoMinuta', false);
-  },
-
   _reuniones() {
     return this.get('model');
   },
@@ -130,9 +98,4 @@ export default Ember.Controller.extend(ReunionServiceInjected, MinutaServiceInje
     });
   },
 
-  _traerNoVotantes(reunion) {
-    return this.userService().getNoVotantes(reunion.id).then((noVotantes) => {
-      this.set('noVotantes', noVotantes);
-    });
-  }
 });
