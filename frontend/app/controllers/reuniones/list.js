@@ -7,7 +7,7 @@ import MinutaServiceInjected from "../../mixins/minuta-service-injected";
 export default Ember.Controller.extend(ReunionServiceInjected,MinutaServiceInjected,UserServiceInjected, NavigatorInjected,DuracionesServiceInjected, {
 
   reunionSeleccionada: Ember.computed('model.[]', 'indiceSeleccionado', function () {
-    var indiceSeleccionado = this.get('indiceSeleccionado') || 0;
+    var indiceSeleccionado = this.get('indiceSeleccionado');
     var reuniones = this._reuniones();
     return reuniones.objectAt(indiceSeleccionado);
   }),
@@ -100,7 +100,8 @@ export default Ember.Controller.extend(ReunionServiceInjected,MinutaServiceInjec
   },
 
   _mostrarDetalleDe(reunion){
-    var indiceClickeado = this._reuniones().indexOf(reunion);
+    const indexReunionDefault = 0;
+    const indiceClickeado = this._reuniones().indexOf(reunion) || indexReunionDefault;
     this.set('indiceSeleccionado', indiceClickeado);
   },
 
