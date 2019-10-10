@@ -4,6 +4,7 @@ import NavigatorInjected from "../../mixins/navigator-injected";
 import DuracionesServiceInjected from "../../mixins/duraciones-service-injected";
 import UserServiceInjected from "../../mixins/user-service-injected";
 import MinutaServiceInjected from "../../mixins/minuta-service-injected";
+import estadoDeReunion from "./estadoDeReunion";
 
 export default Ember.Controller.extend(ReunionServiceInjected, MinutaServiceInjected, UserServiceInjected, NavigatorInjected, DuracionesServiceInjected, {
   init(){
@@ -18,11 +19,11 @@ export default Ember.Controller.extend(ReunionServiceInjected, MinutaServiceInje
   }),
 
   reunionCerrada: Ember.computed('reunionSeleccionada', function () {
-    return this.get('reunionSeleccionada.status') === "CERRADA" || this.get('reunionSeleccionada.status') === "CON_MINUTA";
+    return this.get('reunionSeleccionada.status') === estadoDeReunion.CERRADA || this.get('reunionSeleccionada.status') === estadoDeReunion.CON_MINUTA;
   }),
 
   reunionMinuteada: Ember.computed('reunionSeleccionada', 'minuta', function () {
-    return this.get('reunionSeleccionada.status') !== 'CON_MINUTA';
+    return this.get('reunionSeleccionada.status') !== estadoDeReunion.CON_MINUTA;
   }),
 
   actions: {
