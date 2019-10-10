@@ -6,6 +6,10 @@ import UserServiceInjected from "../../mixins/user-service-injected";
 import MinutaServiceInjected from "../../mixins/minuta-service-injected";
 
 export default Ember.Controller.extend(ReunionServiceInjected, MinutaServiceInjected, UserServiceInjected, NavigatorInjected, DuracionesServiceInjected, {
+  init(){
+    this._super(...arguments);
+    this._traerDuraciones().then( () => this.set('indiceSeleccionado', 0));
+  },
 
   reunionSeleccionada: Ember.computed('model.[]', 'indiceSeleccionado', function () {
     var indiceSeleccionado = this.get('indiceSeleccionado');
