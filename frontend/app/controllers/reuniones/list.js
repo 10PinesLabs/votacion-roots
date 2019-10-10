@@ -67,7 +67,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, MinutaServiceInje
 
   _guardarNuevaYRecargar(fechaNuevaReunion) {
     this.reunionService().createReunion(Object.assign({}, Ember.Object.create(), {fecha: fechaNuevaReunion}))
-      .then(a => {
+      .then(() => {
         this.set('guardando', false);
         this._recargarLista();
       });
