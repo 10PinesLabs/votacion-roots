@@ -27,7 +27,10 @@ export default Ember.Route.extend(AuthenticatedRoute, UserServiceInjected, Reuni
   },
 
   _formatearFecha(fechaEnString) {
-    const fecha = new Date(fechaEnString);
+    const fechaParseada = fechaEnString.split('-');
+
+    //new Date(unaFecha) devuelve el dia anterior a unaFecha, no asi new Date(anio, mes, dia)
+    const fecha = new Date(fechaParseada[0], fechaParseada[1], fechaParseada[2]);
     return [fecha.getDate(), nombreDeMeses.nombreParaElMes(fecha.getMonth()), fecha.getFullYear()].join('-');
   },
 
@@ -46,19 +49,19 @@ export default Ember.Route.extend(AuthenticatedRoute, UserServiceInjected, Reuni
 ;
 
 const nombreDeMeses = Object.freeze({
-  0: 'Ene',
-  1: 'Feb',
-  2: 'Mar',
-  3: 'Abr',
-  4: 'May',
-  5: 'Jun',
-  6: 'Jul',
-  7: 'Ago',
-  8: 'Sep',
-  9: 'Oct',
-  10: 'Nov',
-  11: 'Dic',
+  1: 'Ene',
+  2: 'Feb',
+  3: 'Mar',
+  4: 'Abr',
+  5: 'May',
+  6: 'Jun',
+  7: 'Jul',
+  8: 'Ago',
+  9: 'Sep',
+  10: 'Oct',
+  11: 'Nov',
+  12: 'Dic',
   nombreParaElMes(unMes) {
-    return this[unMes] || 0;
+    return this[unMes] || 1;
   }
 });
