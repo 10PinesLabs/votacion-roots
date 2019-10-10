@@ -190,13 +190,13 @@
   height: fit-content;
 }
 
-.reuniones-list {
+.meetings {
   display: flex;
   justify-content: center;
   min-height: 100vh;
   margin-top: 2em;
 
-  &__listado {
+  &__list {
     width: 25%;
     margin-right: 2em;
 
@@ -224,12 +224,12 @@
     }
   }
 
-  &__detalle {
+  &__detail {
     width: 65%;
   }
 }
 
-.detalle-reunion {
+.meeting-detail {
 
   &__header {
     display: flex;
@@ -242,7 +242,7 @@
       font-size: 2.5rem;
     }
 
-    &__seccion-botones {
+    &__buttons-section {
       display: flex;
       justify-content: flex-end;
       align-items: center;
@@ -259,7 +259,7 @@
         display: flex;
         flex-direction: column;
 
-        &__section {
+        &__container {
           display: flex;
           flex-direction: column;
           position: absolute;
@@ -271,7 +271,7 @@
 
   &__body {
 
-    &__marcador {
+    &__available-time {
       display: flex;
       font-size: 1.1rem;
       font-weight: bold;

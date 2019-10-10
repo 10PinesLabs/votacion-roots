@@ -1,30 +1,30 @@
 <div class="card">
-  <div class="detalle-reunion__header">
-    <div class="detalle-reunion__header__title"> Root del {{reunionSeleccionada.fechaFormateada}} </div>
+  <div class="meeting-detail__header">
+    <div class="meeting-detail__header__title"> Root del {{reunionSeleccionada.fechaFormateada}} </div>
 
-    <div class="detalle-reunion__header__seccion-botones">
+    <div class="meeting-detail__header__buttons-section">
       {{#if reunionCerrada }}
         {{#link-to 'minuta.ver' reunionSeleccionada.id}}
-          <a class="detalle-reunion__header__seccion-botones__primary-button btn purple">
+          <a class="meeting-detail__header__buttons-section__primary-button btn purple">
             <i class="material-icons">speaker_notes</i>VER MINUTA</a>
         {{/link-to}}
       {{else}}
         {{#link-to 'proxima-roots' route='/reunion/reunion'}}
-          <a class="detalle-reunion__header__seccion-botones__primary-button btn purple">
+          <a class="meeting-detail__header__buttons-section__primary-button btn purple">
             <i class="material-icons">add</i>AGREGAR TEMA</a>
         {{/link-to}}
       {{/if}}
-      <div class="detalle-reunion__header__seccion-botones__secondary-buttons">
-        <a class="btn-floating transparent right m-5"  {{action 'masOpciones'}}>
+      <div class="meeting-detail__header__buttons-section__secondary-buttons">
+        <a class="btn-floating white right m-5"  {{action 'masOpciones'}}>
           <i class="material-icons black-text">more_vert</i>
         </a>
         {{#if showOptions}}
-          <div class="detalle-reunion__header__seccion-botones__secondary-buttons__section">
-            <a class="btn-floating transparent right m-5" {{action 'editarReunion' reunionSeleccionada}}>
+          <div class="meeting-detail__header__buttons-section__secondary-buttons__container">
+            <a class="btn-floating white right m-5" {{action 'editarReunion' reunionSeleccionada}}>
               <i class="material-icons black-text">create</i>
             </a>
             <div class="the-lock position-relative clickable">
-              <a class="btn-floating transparent right m-5" {{action 'compartirReunion' reunionSeleccionada}}>
+              <a class="btn-floating white right m-5" {{action 'compartirReunion' reunionSeleccionada}}>
                 <i class="material-icons black-text">share</i>
               </a>
               {{#if showCopyToClipboardMessage}}
@@ -40,14 +40,14 @@
       </div>
     </div>
   </div>
-  <div class="detalle-reunion__body card-content">
+  <div class="meeting-detail__body card-content">
     {{#if reunionCerrada}}
-      <div class="detalle-reunion__body__marcador">
+      <div class="meeting-detail__body__available-time">
         <div class="purple-text">- - - -</div>
         <div>Temas que entran en 3 horas</div>
       </div>
     {{/if}}
-    <div class="detalle-reunion__body__table">
+    <div class="meeting-detail__body__table">
       {{#tenpines/object-table titulos=tableTitles col='s12' responsive=true}}
         {{#each reunionSeleccionada.temasPropuestos as |tema|}}
           {{tema-en-tabla
