@@ -14,32 +14,11 @@ export default Ember.Controller.extend(ReunionServiceInjected, MinutaServiceInje
   }),
 
   reunionCerrada: Ember.computed('reunionSeleccionada', function () {
-    let estaCerrada = (this.get('reunionSeleccionada.status') === "CERRADA") || (this.get('reunionSeleccionada.status') === "CON_MINUTA");
-    this.set('duracionDeReunion', estaCerrada ? 180 : 0);
-    return estaCerrada;
+    return this.get('reunionSeleccionada.status') === "CERRADA" || this.get('reunionSeleccionada.status') === "CON_MINUTA";
   }),
 
   reunionMinuteada: Ember.computed('reunionSeleccionada', 'minuta', function () {
     return this.get('reunionSeleccionada.status') !== 'CON_MINUTA';
-  }),
-
-  temasEstimados: Ember.computed('duracionDeReunion', function () {
-
-    var temas = this.get('reunionSeleccionada.temasPropuestos');
-    var duracionRestante = this.duracionDeReunion;
-    var i = 0;
-    var temasQueEntran = [];
-    while (i < temas.length && duracionRestante >= this._obtenerDuracionDeTema(temas.get(i)).cantidadDeMinutos) {
-      temasQueEntran.push(temas.get(i));
-      duracionRestante = duracionRestante - this._obtenerDuracionDeTema(temas.get(i)).cantidadDeMinutos;
-      i++;
-    }
-    return temasQueEntran;
-  }),
-
-  ultimoTemaQueEntra: Ember.computed('temasEstimados,reunionSeleccionada', function () {
-    var temasEstimados = this.get('temasEstimados');
-    return temasEstimados[temasEstimados.length - 1];
   }),
 
   actions: {

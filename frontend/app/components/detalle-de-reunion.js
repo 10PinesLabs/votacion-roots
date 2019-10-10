@@ -1,13 +1,33 @@
 import Ember from 'ember';
 import NavigatorInjected from "../mixins/navigator-injected";
+import DuracionesServiceInjected from "../mixins/duraciones-service-injected";
 import ReunionServiceInjected from "../mixins/reunion-service-injected";
 
-export default Ember.Component.extend(NavigatorInjected, ReunionServiceInjected, {
+export default Ember.Component.extend(NavigatorInjected, ReunionServiceInjected, DuracionesServiceInjected, {
+  duracionReunion: 180,
 
   tableTitles: Ember.computed('reunionCerrada', function () {
     const titulosDefault = '#, Título, Autor, Duración, Votos';
     const titulosConTemasTratados = titulosDefault + ', Tratado';
     return this.get('reunionCerrada') ? titulosConTemasTratados : titulosDefault;
+  }),
+
+  temasEstimados: Ember.computed('duracionDeReunion', function () {
+    const temas = this.get('reunionSeleccionada.temasPropuestos');
+    let duracionRestante = this.duracionReunion;
+    let i = 0;
+    let temasQueEntran = [];
+    while (i < temas.length && duracionRestante >= this._obtenerDuracionDeTema(temas.get(i)).cantidadDeMinutos) {
+      temasQueEntran.push(temas.get(i));
+      duracionRestante = duracionRestante - this._obtenerDuracionDeTema(temas.get(i)).cantidadDeMinutos;
+      i++;
+    }
+    return temasQueEntran;
+  }),
+
+  ultimoTemaQueEntra: Ember.computed('temasEstimados,reunionSeleccionada', function () {
+    const temasEstimados = this.get('temasEstimados');
+    return temasEstimados[temasEstimados.length - 1];
   }),
 
   actions: {
@@ -35,5 +55,12 @@ export default Ember.Component.extend(NavigatorInjected, ReunionServiceInjected,
       this.navigator().navigateToReunionesEdit(reunion.get('id'));
     },
 
+  },
+
+  _obtenerDuracionDeTema(unTema) {
+    var duraciones = this.get('duraciones');
+    return duraciones.find(function (duracion) {
+      return duracion.nombre === unTema.duracion;
+    });
   },
 });
