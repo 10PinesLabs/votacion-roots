@@ -43,8 +43,9 @@ export default Ember.Component.extend(NavigatorInjected, ReunionServiceInjected,
     },
 
     compartirReunion(reunion) {
-      const minutaUrl = window.location.host + "/minuta/" + reunion.id + "/ver";
-      const currentUrl = window.location.href;
+      const baseUrl = window.location.host;
+      const minutaUrl = baseUrl + "/minuta/" + reunion.id + "/ver";
+      const currentUrl = baseUrl + '/reuniones/reuniones/' + reunion.id;
 
       const linkToShare = reunion.status === estadoDeReunion.PENDIENTE ? currentUrl : minutaUrl ;
       navigator.clipboard.writeText(linkToShare)
