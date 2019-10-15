@@ -3,6 +3,7 @@ import NavigatorInjected from "../mixins/navigator-injected";
 import DuracionesServiceInjected from "../mixins/duraciones-service-injected";
 import ReunionServiceInjected from "../mixins/reunion-service-injected";
 import estadoDeReunion from "../controllers/reuniones/estadoDeReunion";
+import {promiseHandling} from "../helpers/promise-handling";
 
 export default Ember.Component.extend(NavigatorInjected, ReunionServiceInjected, DuracionesServiceInjected, {
   duracionReunion: 180,
@@ -45,14 +46,15 @@ export default Ember.Component.extend(NavigatorInjected, ReunionServiceInjected,
     compartirReunion(reunion) {
       const baseUrl = window.location.host;
       const minutaUrl = baseUrl + "/minuta/" + reunion.id + "/ver";
-      const currentUrl = baseUrl + '/reuniones/reuniones/' + reunion.id;
+      const reunionUrl = baseUrl + '/reuniones/reuniones/' + reunion.id;
 
-      const linkToShare = reunion.status === estadoDeReunion.PENDIENTE ? currentUrl : minutaUrl ;
-      navigator.clipboard.writeText(linkToShare)
+      const linkToShare = reunion.status === estadoDeReunion.PENDIENTE ? reunionUrl : minutaUrl ;
+
+      promiseHandling(navigator.clipboard.writeText(linkToShare))
         .then(() => {
           this.set('showCopyToClipboardMessage', true);
           setTimeout(() => this.set('showCopyToClipboardMessage', false), 1000);
-        }).catch(() => console.error("No se pudo copiar"));
+        });
     },
 
     editarReunion(reunion) {
