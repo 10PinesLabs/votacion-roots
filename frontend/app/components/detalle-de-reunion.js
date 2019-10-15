@@ -39,6 +39,7 @@ export default Ember.Component.extend(NavigatorInjected, ReunionServiceInjected,
     },
 
     eliminarReunion(reunion) {
+      this._cerrarMenu();
       this.reunionService().removeReunion(reunion)
         .then(() => this.recargarLista());
     },
@@ -53,12 +54,17 @@ export default Ember.Component.extend(NavigatorInjected, ReunionServiceInjected,
       promiseHandling(navigator.clipboard.writeText(linkToShare))
         .then(() => {
           this.set('showCopyToClipboardMessage', true);
-          setTimeout(() => this.set('showCopyToClipboardMessage', false), 1000);
+          setTimeout(() => {
+            this.set('showCopyToClipboardMessage', false);
+            this._cerrarMenu();
+          }, 1000);
         });
     },
 
     editarReunion(reunion) {
-      this.navigator().navigateToReunionesEdit(reunion.get('id'));
+      this._cerrarMenu();
+      const reunionId = reunion.get('id');
+      estadoDeReunion.PENDIENTE === reunion.status ? this.navigator().navigateToReunionesEdit(reunionId) : this.navigator().navigateToVerMinuta(reunionId);
     },
 
   },
@@ -69,4 +75,8 @@ export default Ember.Component.extend(NavigatorInjected, ReunionServiceInjected,
       return duracion.nombre === unTema.duracion;
     });
   },
+
+  _cerrarMenu(){
+    this.set('showOptions', false);
+  }
 });
