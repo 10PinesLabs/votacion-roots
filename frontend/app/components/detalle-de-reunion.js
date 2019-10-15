@@ -63,7 +63,8 @@ export default Ember.Component.extend(NavigatorInjected, ReunionServiceInjected,
 
     editarReunion(reunion) {
       this._cerrarMenu();
-      this.navigator().navigateToReunionesEdit(reunion.get('id'));
+      const reunionId = reunion.get('id');
+      estadoDeReunion.PENDIENTE === reunion.status ? this.navigator().navigateToReunionesEdit(reunionId) : this.navigator().navigateToVerMinuta(reunionId);
     },
 
   },
