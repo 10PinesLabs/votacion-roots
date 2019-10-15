@@ -2,6 +2,7 @@ import Ember from 'ember';
 import NavigatorInjected from "../mixins/navigator-injected";
 import DuracionesServiceInjected from "../mixins/duraciones-service-injected";
 import ReunionServiceInjected from "../mixins/reunion-service-injected";
+import estadoDeReunion from "../controllers/reuniones/estadoDeReunion";
 import {promiseHandling} from "../helpers/promise-handling";
 
 export default Ember.Component.extend(NavigatorInjected, ReunionServiceInjected, DuracionesServiceInjected, {
@@ -44,7 +45,11 @@ export default Ember.Component.extend(NavigatorInjected, ReunionServiceInjected,
 
     compartirReunion(reunion) {
       const baseUrl = window.location.host;
-      const linkToShare = baseUrl + "/minuta/" + reunion.id + "/ver";
+      const minutaUrl = baseUrl + "/minuta/" + reunion.id + "/ver";
+      const reunionUrl = baseUrl + '/reuniones/reuniones/' + reunion.id;
+
+      const linkToShare = reunion.status === estadoDeReunion.PENDIENTE ? reunionUrl : minutaUrl ;
+
       promiseHandling(navigator.clipboard.writeText(linkToShare))
         .then(() => {
           this.set('showCopyToClipboardMessage', true);

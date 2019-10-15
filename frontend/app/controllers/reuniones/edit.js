@@ -4,6 +4,7 @@ import TemaServiceInjected from "../../mixins/tema-service-injected";
 import DuracionesServiceInjected from "../../mixins/duraciones-service-injected";
 import Tema from "../../concepts/tema";
 import NavigatorInjected from "../../mixins/navigator-injected";
+import estadoDeReunion from "./estadoDeReunion";
 
 export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInjected, DuracionesServiceInjected, NavigatorInjected, {
 
@@ -105,7 +106,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
 
   estaCerrada:
     Ember.computed('reunion.status', function () {
-      return ((this.get('reunion.status') === 'CERRADA') || (this.get('reunion.status') === 'CON_MINUTA'));
+      return ((this.get('reunion.status') === estadoDeReunion.CERRADA) || (this.get('reunion.status') === estadoDeReunion.CON_MINUTA));
     }),
 
   usuarioActual:
