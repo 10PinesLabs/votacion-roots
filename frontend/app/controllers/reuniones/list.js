@@ -4,9 +4,19 @@ import NavigatorInjected from "../../mixins/navigator-injected";
 import DuracionesServiceInjected from "../../mixins/duraciones-service-injected";
 import UserServiceInjected from "../../mixins/user-service-injected";
 import MinutaServiceInjected from "../../mixins/minuta-service-injected";
-export default Ember.Controller.extend(ReunionServiceInjected,MinutaServiceInjected,UserServiceInjected, NavigatorInjected,DuracionesServiceInjected, {
+import estadoDeReunion from "./estadoDeReunion";
 
-  anchoDeTabla: 's12',
+export default Ember.Controller.extend(ReunionServiceInjected, MinutaServiceInjected, UserServiceInjected, NavigatorInjected, DuracionesServiceInjected, {
+  
+  guardarHabilitado: Ember.computed('fechaNuevaReunion', function() {
+    return this.get('fechaNuevaReunion') && !this.get('guardando');
+  }),
+
+  init(){
+    this._super(...arguments);
+    this._traerDuraciones().then( () => this.set('indiceSeleccionado', 0));
+  },
+
 
   reunionSeleccionada: Ember.computed('model.[]', 'indiceSeleccionado', function () {
     var indiceSeleccionado = this.get('indiceSeleccionado');
@@ -14,164 +24,78 @@ export default Ember.Controller.extend(ReunionServiceInjected,MinutaServiceInjec
     return reuniones.objectAt(indiceSeleccionado);
   }),
 
-  reunionCerrada:Ember.computed('reunionSeleccionada',function(){
-    var cerrada=(this.get('reunionSeleccionada.status')==="CERRADA") || (this.get('reunionSeleccionada.status')==="CON_MINUTA");
-     if(cerrada){
-
-       this.set('duracionDeReunion',180);
-     }
-     else{
-       this.set('duracionDeReunion',0);
-     }
-
-    return cerrada;
-  }),
-  reunionMinuteada:Ember.computed('reunionSeleccionada','minuta',function(){
-
-    return this.get('reunionSeleccionada.status') !=='CON_MINUTA';
-}),
-  temasEstimados: Ember.computed('duracionDeReunion',function(){
-
-    var temas= this.get('reunionSeleccionada.temasPropuestos');
-    var duracionRestante=this.duracionDeReunion;
-    var i=0;
-    var temasQueEntran=[];
-    while(i<temas.length && duracionRestante>=this._obtenerDuracionDeTema(temas.get(i)).cantidadDeMinutos){
-      temasQueEntran.push(temas.get(i));
-      duracionRestante=duracionRestante- this._obtenerDuracionDeTema(temas.get(i)).cantidadDeMinutos;
-      i++;
-    }
-    return temasQueEntran;
+  reunionCerrada: Ember.computed('reunionSeleccionada', function () {
+    return this.get('reunionSeleccionada.status') === estadoDeReunion.CERRADA || this.get('reunionSeleccionada.status') === estadoDeReunion.CON_MINUTA;
   }),
 
-  ultimoTemaQueEntra: Ember.computed('temasEstimados,reunionSeleccionada',function(){
-
-    var temasEstimados=this.get('temasEstimados');
-    return temasEstimados[temasEstimados.length-1];
+  reunionMinuteada: Ember.computed('reunionSeleccionada', 'minuta', function () {
+    return this.get('reunionSeleccionada.status') !== estadoDeReunion.CON_MINUTA;
   }),
 
   actions: {
 
-    verReunion(reunion){
+    verReunion(reunion) {
       this._traerDuraciones().then(() => {
         this._mostrarDetalleDe(reunion);
       });
     },
 
-    verNoVotantes(reunion){
-      this._traerNoVotantes(reunion).then(() => {
-        this._mostrarNoVotantes();
-      });
-    },
-
-    cerrarDetalle(){
-      this._ocultarDetalle();
-    },
-
-    cerrarMinuta(){
-      this._ocultarMinuta();
-    },
-
-    cerrarNoVotantes(){
-      this._ocultarNoVotantes();
-    },
-
-    // verMinuta(){
-    //   // this._traerMinuta().then(()=>{
-    //   //   this._mostrarMinuta();
-    //   // });
-    //   this.navigator().navigateToVerMinuta(reunion.get('id'));
-    // },
-
-    editarReunion(reunion){
+    editarReunion(reunion) {
       this.navigator().navigateToReunionesEdit(reunion.get('id'));
     },
 
-    crearReunion(){
-      this._guardarNuevaYRecargar();
+    recargarLista() {
+      this._recargarLista();
     },
 
-    borrarReunion(reunion){
-      this.reunionService().removeReunion(reunion)
-        .then(()=> {
-          this._ocultarDetalle();
-          this._recargarLista();
-        });
+    guardarNuevaReunion() {
+      this.set('guardando', true);
+      this._guardarNuevaYRecargar(this.get('fechaNuevaReunion'));
+      this.set('mostrarModal', false);
+    },
+
+    crearReunion() {
+      this.set('mostrarModal', true);
+    },
+
+    cerrarEditor(){
+      this.set('mostrarModal', false);
     }
   },
 
-  _mostrarDetalleDe(reunion){
-    var indiceClickeado = this._reuniones().indexOf(reunion);
+  _mostrarDetalleDe(reunion) {
+    const indexReunionDefault = 0;
+    const indiceClickeado = this._reuniones().indexOf(reunion) || indexReunionDefault;
     this.set('indiceSeleccionado', indiceClickeado);
-    this._mostrarDetalle();
   },
 
-  _guardarNuevaYRecargar(){
-    this.reunionService().createReunion(Ember.Object.create())
-      .then(()=> {
+  _guardarNuevaYRecargar(fechaNuevaReunion) {
+    this.reunionService().createReunion(Object.assign({}, Ember.Object.create(), {fecha: fechaNuevaReunion}))
+      .then(() => {
+        this.set('guardando', false);
         this._recargarLista();
       });
   },
 
-  _recargarLista(){
+  _recargarLista() {
     this.get('target.router').refresh();
   },
 
-  _ocultarDetalle(){
-    this.set('mostrandoDetalle', false);
-    this.set('anchoDeTabla', 's12');
-  },
-
-  _ocultarMinuta(){
-    this.set('mostrandoDetalle',true);
-    this.set('mostrandoMinuta',false);
-  },
-
-  _ocultarNoVotantes(){
-    this.set('mostrandoNoVotantes',false);
-  },
-
-  _mostrarDetalle(){
-    this.set('anchoDeTabla', 's4');
-    this.set('mostrandoDetalle', true);
-  },
-
-  _reuniones(){
+  _reuniones() {
     return this.get('model');
   },
 
-  _traerDuraciones(){
-    return this.duracionesService().getAll().then((duraciones)=> {
-      this.set('duraciones',duraciones);
+  _traerDuraciones() {
+    return this.duracionesService().getAll().then((duraciones) => {
+      this.set('duraciones', duraciones);
     });
   },
 
-  _obtenerDuracionDeTema(unTema){
-   var duraciones= this.get('duraciones');
+  _obtenerDuracionDeTema(unTema) {
+    var duraciones = this.get('duraciones');
     return duraciones.find(function (duracion) {
-     return duracion.nombre===unTema.duracion;
-   });
+      return duracion.nombre === unTema.duracion;
+    });
   },
 
-  // _traerMinuta(){
-  //    return this.minutaService().getMinutaDeReunion(this.get('reunionSeleccionada.id'))
-  //      .then((minuta)=> {
-  //     this.set('minuta',minuta);
-  //   });
-  // },
-  //
-  // _mostrarMinuta(){
-  //   this.set('mostrandoMinuta',true);
-  //   this.set('mostrandoDetalle',false);
-  // },
-
-  _mostrarNoVotantes(){
-    this.set('mostrandoNoVotantes',true);
-  },
-
-  _traerNoVotantes(reunion){
-   return this.userService().getNoVotantes(reunion.id).then((noVotantes)=> {
-     this.set('noVotantes', noVotantes);
-   });
-  }
 });
