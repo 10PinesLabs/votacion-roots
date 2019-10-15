@@ -1,19 +1,29 @@
 <td>
   {{tema.prioridad}}
 </td>
-<td>
-  <h5 class="titulo-de-tema">{{tema.titulo}}</h5>
+<td class="bold">
+  {{tema.titulo}}
 </td>
 <td>
   {{tema.autor}}
 </td>
 <td>
-  {{tema.duracion}} <span class="indivisible">({{cantDeMinutosDeDuracionDeTema}} Minutos)</span>
-</td >
+  {{cantDeMinutosDeDuracionDeTema}}'
+</td>
 <td>
   {{#if tema.esObligatorio}}
-    OBLIGATORIO
+    <i class="material-icons"> lock</i>
   {{else}}
     {{tema.cantidadVotosTotales}}
   {{/if}}
 </td>
+
+{{#if reunionCerrada}}
+<td>
+  {{#if tema.fueTratado}}
+    <i class="material-icons"> done_outline </i>
+  {{else}}
+    <i class="material-icons"> close </i>
+  {{/if}}
+</td>
+{{/if}}

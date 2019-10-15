@@ -4,8 +4,9 @@ import NavigatorInjected from "../../mixins/navigator-injected";
 import ReunionServiceInjected from "../../mixins/reunion-service-injected";
 import UserServiceInjected from "../../mixins/user-service-injected";
 import Tema from "../../concepts/tema";
+import MinutaServiceInjected from "../../mixins/minuta-service-injected";
 
-export default Ember.Route.extend(AuthenticatedRoute, UserServiceInjected, ReunionServiceInjected, NavigatorInjected, {
+export default Ember.Route.extend(AuthenticatedRoute, UserServiceInjected, ReunionServiceInjected, NavigatorInjected, MinutaServiceInjected, {
   model() {
     return this.promiseWaitingFor(this.reunionService().getAllReuniones())
       .whenInterruptedAndReauthenticated(() => {
@@ -15,20 +16,32 @@ export default Ember.Route.extend(AuthenticatedRoute, UserServiceInjected, Reuni
         reuniones.forEach((reunion) => {
           this._usarInstanciasDeTemas(reunion, null);
           this._setearFechaFormateada(reunion);
+          this._setearTemasTratadosYNoTratados(reunion);
           return reunion;
         });
         return reuniones;
       });
   },
 
-  _setearFechaFormateada(reunion){
-    const fechaDeReunion =  this._formatearFecha(reunion.get('fecha'));
-    return reunion.set('fechaFormateada',fechaDeReunion);
+  _setearTemasTratadosYNoTratados(reunion) {
+    if(reunion.status === 'PENDIENTE') return;
+
+    this.minutaService()
+      .getMinutaDeReunion(reunion.id)
+      .then(minuta => {
+        const filtrarTemaPropuestoEnMinuta = temaPropuesto => minuta.temas.filter(tema => tema.tema.id === temaPropuesto.id)[0];
+        reunion.temasPropuestos.forEach(temaPropuesto => temaPropuesto.set('fueTratado', filtrarTemaPropuestoEnMinuta(temaPropuesto).fueTratado));
+      });
+  },
+
+  _setearFechaFormateada(reunion) {
+    const fechaDeReunion = this._formatearFecha(reunion.get('fecha'));
+    return reunion.set('fechaFormateada', fechaDeReunion);
   },
 
   _formatearFecha(fechaEnString) {
-    const fecha = new Date(fechaEnString);
-    return [fecha.getDate(), nombreDeMeses.nombreParaElMes(fecha.getMonth()), fecha.getFullYear()].join(' - ');
+    const fecha = moment(fechaEnString);
+    return [fecha.date(), nombreDeMeses.nombreParaElMes(fecha.month()), fecha.year()].join('-');
   },
 
 

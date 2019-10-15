@@ -1,6 +1,6 @@
-<div class="reuniones-list">
-  <div class="reuniones-list__listado">
-    <div class="reuniones-list__listado__title"> Todas las reuniones</div>
+<div class="meetings">
+  <div class="meetings__list">
+    <div class="meetings__list__title"> Todas las reuniones</div>
     {{#tenpines/object-table titulos='Fecha, Temas' bordered=true}}
       {{#each model as |reunion|}}
         <tr {{action 'verReunion' reunion}}>
@@ -21,20 +21,26 @@
         </tr>
       {{/each}}
     {{/tenpines/object-table}}
-    <a class="reuniones-list__listado__button btn" {{action 'crearReunion'}}>AGREGAR ROOT EXTRAORDINARIA</a>
+    <a class="meetings__list__button btn purple" {{action 'crearReunion'}}>AGREGAR ROOT EXTRAORDINARIA</a>
+
   </div>
-  <div class="reuniones-list__detalle">
+  <div class="meetings__detail">
     {{detalle-de-reunion
       reunionSeleccionada=reunionSeleccionada
       reunionCerrada=reunionCerrada
       duraciones=duraciones
+      recargarLista=(action 'recargarLista')
     }}
-
-    {{#if mostrandoMinuta}}
-      {{mostrador-de-minuta cerrarMinuta=(action 'cerrarMinuta') minuta=minuta}}
-    {{/if}}
   </div>
 </div>
+{{#if mostrarModal }}
+  {{#modal-editor
+    titulo="Seleccionar fecha para la root"
+    guardarHabilitado=guardarHabilitado
+    manejarGuardar=(action 'guardarNuevaReunion')
+    manejarCerrar=(action 'cerrarEditor')
+  }}
+    {{tenpines/input-date label='Fecha' value=fechaNuevaReunion}}
+  {{/modal-editor}}
 
-
-
+{{/if}}

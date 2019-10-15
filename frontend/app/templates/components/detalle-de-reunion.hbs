@@ -1,47 +1,66 @@
-<div class="col s8">
-  <div class="card">
-    <a class="btn-floating waves-effect waves-light purple right m-5"  {{action ''}}><i
-      class="material-icons ">close</i></a>
+<div class="card">
+  <div class="meeting-detail__header">
+    <div class="meeting-detail__header__title"> Root del {{reunionSeleccionada.fechaFormateada}} </div>
 
-    <div class="card-content">
-      <span class="card-title">ID: {{reunionSeleccionada.id}} - Fecha {{reunionSeleccionada.fecha}} </span>
-      <div class="row">
-        {{#if reunionCerrada}}
-          <div class="col s2 push-l10">
-            <label>
-              Duración (minutos)
-              <div class="input-field ">
-                {{input value=duracionDeReunion type="number" class="validate" name="minutos de reunion"}}
-              </div>
-            </label>
+    <div class="meeting-detail__header__buttons-section">
+      {{#if reunionCerrada }}
+        {{#link-to 'minuta.ver' reunionSeleccionada.id}}
+          <a class="meeting-detail__header__buttons-section__primary-button btn purple">
+            <i class="material-icons">speaker_notes</i>VER MINUTA</a>
+        {{/link-to}}
+      {{else}}
+        {{#link-to 'reuniones.edit' reunionSeleccionada.id }}
+          <a class="meeting-detail__header__buttons-section__primary-button btn purple">
+            <i class="material-icons">add</i>AGREGAR TEMA</a>
+        {{/link-to}}
+      {{/if}}
+      <div class="meeting-detail__header__buttons-section__secondary-buttons">
+        <a class="btn-floating white right m-5"  {{action 'masOpciones'}}>
+          <i class="material-icons black-text">more_vert</i>
+        </a>
+        {{#if showOptions}}
+          <div class="meeting-detail__header__buttons-section__secondary-buttons__container">
+            <a class="btn-floating white right m-5" {{action 'editarReunion' reunionSeleccionada}}>
+              <i class="material-icons black-text">create</i>
+            </a>
+            <div class="the-lock position-relative clickable">
+              <a class="btn-floating white right m-5" {{action 'compartirReunion' reunionSeleccionada}}>
+                <i class="material-icons black-text">share</i>
+              </a>
+              {{#if showCopyToClipboardMessage}}
+                <span class="tool-tip-text">Copiado al clipboard</span>
+              {{/if}}
+            </div>
+            <a class="btn-floating pink right m-5" {{action 'eliminarReunion' reunionSeleccionada}}>
+              <i class="material-icons white-text">delete</i>
+            </a>
           </div>
         {{/if}}
+
       </div>
-      <div class="row">
-        {{#tenpines/object-table titulos='#, Título, Autor,Duración, Votos' col='s12' responsive=true}}
-          {{#each reunionSeleccionada.temasPropuestos as |tema|}}
-            {{tema-en-tabla tema=tema ultimoTema=ultimoTemaQueEntra duraciones=duraciones}}
-          {{/each}}
-        {{/tenpines/object-table}}
-      </div>
-    </div>
-
-    <div class="card-action right-align">
-
-      {{#if reunionCerrada}}
-
-        {{#link-to 'minuta.ver' reunionSeleccionada.id}}
-          {{tenpines/material-button label='Minuta' }}
-        {{/link-to}}
-
-      {{/if}}
-
-      {{tenpines/material-button label='Borrar' flat=true}}
-
-      {{#if reunionMinuteada}}
-        {{tenpines/material-button label='Editar' }}
-      {{/if}}
     </div>
   </div>
-
+  <div class="meeting-detail__body card-content">
+    {{#if reunionCerrada}}
+      <div class="meeting-detail__body__available-time">
+        <div class="purple-text">- - - -</div>
+        <div>Temas que entran en 3 horas</div>
+      </div>
+    {{/if}}
+    <div class="meeting-detail__body__table">
+      {{#tenpines/object-table titulos=tableTitles col='s12' responsive=true}}
+        {{#each reunionSeleccionada.temasPropuestos as |tema|}}
+          {{tema-en-tabla
+            reunionCerrada=reunionCerrada
+            tema=tema
+            ultimoTema=ultimoTemaQueEntra
+            duraciones=duraciones}}
+        {{/each}}
+      {{/tenpines/object-table}}
+    </div>
+  </div>
+  <div class="card-footer">
+    <img src="/reunion.svg"/>
+  </div>
 </div>
+
