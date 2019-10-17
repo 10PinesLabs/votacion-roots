@@ -14,7 +14,7 @@ export default Ember.Component.extend(NavigatorInjected, ReunionServiceInjected,
     return this.get('reunionCerrada') ? titulosConTemasTratados : titulosDefault;
   }),
 
-  temasEstimados: Ember.computed('duracionDeReunion', function () {
+  temasEstimados: Ember.computed('reunionSeleccionada', function () {
     const temas = this.get('reunionSeleccionada.temasPropuestos');
     let duracionRestante = this.duracionReunion;
     let i = 0;
