@@ -56,9 +56,17 @@ public class ReunionService extends Service<Reunion> {
     return getAll(UltimaReunion.create()).stream().findFirst();
   }
 
-  public Reunion cargarActionItemsDeLaUltimaMinutaSiExisteElTema(Reunion nuevaReunion) {
-    minutaService.getUltimaMinuta().ifPresent(nuevaReunion::cargarSiExisteElTemaParaRepasarActionItemsDe);
-    return nuevaReunion;
+  public void gestionarTemasParaLaMinuta(Reunion reunion) {
+    if(esUnaReunionReAbierta(reunion)) reunion.marcarComoMinuteada();
+    else exportarActionItemsDeLaUltimaMinutaSiExisteElTema(reunion);
+  }
+
+    private void exportarActionItemsDeLaUltimaMinutaSiExisteElTema(Reunion reunion) {
+        minutaService.getUltimaMinuta().ifPresent(reunion::cargarSiExisteElTemaParaRepasarActionItemsDe);
+    }
+
+    private boolean esUnaReunionReAbierta(Reunion nuevaReunion) {
+    return minutaService.getForReunion(nuevaReunion.getId()).isPresent();
   }
 
   public Reunion create(Reunion unaReunion) {
