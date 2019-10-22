@@ -110,7 +110,7 @@ public class ReunionResourceTest extends ResourceTest {
         Reunion proximaReunion = persistentHelper.crearUnaReunionConTemaParaRellenarActionItems();
 
         proximaReunion.cerrarVotacion();
-        reunionService.cargarActionItemsDeLaUltimaMinutaSiExisteElTema(proximaReunion);
+        reunionService.gestionarTemasParaLaMinuta(proximaReunion);
         reunionService.save(proximaReunion);
 
         HttpResponse reuniones = makeGetRequest("reuniones/");

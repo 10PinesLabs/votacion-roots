@@ -34,7 +34,7 @@ public class ReunionServiceTest extends ServiceTest {
     public void seCarganLosActionItemsDeLaReunionAnteriorCuandoElTemaExiste() {
         Reunion proximaReunion = reunionService.getProxima();
         proximaReunion.agregarTema(helper.unTemaDeReunionConTitulo("Ver action items anteriores"));
-        reunionService.cargarActionItemsDeLaUltimaMinutaSiExisteElTema(proximaReunion);
+        reunionService.gestionarTemasParaLaMinuta(proximaReunion);
         reunionService.save(proximaReunion);
 
         TemaParaRepasarActionItems temaParaRepasarActionItems = (TemaParaRepasarActionItems) proximaReunion.getTemasPropuestos().get(0);
@@ -48,7 +48,7 @@ public class ReunionServiceTest extends ServiceTest {
     @Test
     public void noSeCarganLosActionItemsDeLaReunionAnteriorCuandoElTemaNoExiste() {
         Reunion proximaReunion = reunionService.getProxima();
-        reunionService.cargarActionItemsDeLaUltimaMinutaSiExisteElTema(proximaReunion);
+        reunionService.gestionarTemasParaLaMinuta(proximaReunion);
         reunionService.save(proximaReunion);
 
         assertThat(proximaReunion.getTemasPropuestos().size()).isEqualTo(0);

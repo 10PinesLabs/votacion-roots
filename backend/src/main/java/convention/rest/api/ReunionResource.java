@@ -34,9 +34,6 @@ public class ReunionResource {
     @Inject
     private ReunionService reunionService;
 
-    @Inject
-    private TemaGeneralService temaGeneralService;
-
     private ResourceHelper resourceHelper;
 
     private static final Type LISTA_DE_REUNIONES_TO = new ReferenceOf<List<ReunionTo>>() {
@@ -70,7 +67,7 @@ public class ReunionResource {
         Reunion reunionCerrada = reunionService.updateAndMapping(id,
                 reunion -> {
                     reunion.cerrarVotacion();
-                    reunionService.cargarActionItemsDeLaUltimaMinutaSiExisteElTema(reunion);
+                    reunionService.gestionarTemasParaLaMinuta(reunion);
                     return reunion;
                 });
          return getResourceHelper().convertir(reunionCerrada, ReunionTo.class);
