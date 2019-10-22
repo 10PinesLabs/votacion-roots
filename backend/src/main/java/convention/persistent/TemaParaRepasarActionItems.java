@@ -36,7 +36,7 @@ public class TemaParaRepasarActionItems extends TemaDeReunion {
 
     @Override
     protected TemaDeReunion createCopy() {
-        return super.copy();
+        return new TemaParaRepasarActionItems();
     }
 
     @Override
