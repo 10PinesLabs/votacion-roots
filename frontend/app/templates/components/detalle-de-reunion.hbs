@@ -31,6 +31,11 @@
                 <span class="tool-tip-text">Copiado al clipboard</span>
               {{/if}}
             </div>
+            {{#if (eq reunionSeleccionada.status 'CON_MINUTA')}}
+              <a class="btn-floating right m-5 yellow" {{action 'mostrarSolicitudParaReabrirReunion' reunionSeleccionada}}>
+                <i class="material-icons black-text">speaker_notes_off</i>
+              </a>
+            {{/if}}
             <a class="btn-floating pink right m-5" {{action 'eliminarReunion' reunionSeleccionada}}>
               <i class="material-icons white-text">delete</i>
             </a>
@@ -64,3 +69,9 @@
   </div>
 </div>
 
+{{tenpines/modal-de-confirmacion
+  open=modalDeReabrirReunionAbierto
+  titulo='Reabrir la reunión'
+  descripcion='¿Querés volver a abrir la reunión? No se eliminará la minuta asociada a la misma. ¿Deseas continuar?'
+  accionAceptar=(action 'reabrirReunionSeleccionada')
+}}

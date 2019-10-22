@@ -8,6 +8,7 @@ import {promiseHandling} from "../helpers/promise-handling";
 export default Ember.Component.extend(NavigatorInjected, ReunionServiceInjected, DuracionesServiceInjected, {
   duracionReunion: 180,
 
+
   tableTitles: Ember.computed('reunionCerrada', function () {
     const titulosDefault = '#, Título, Autor, Duración, Votos';
     const titulosConTemasTratados = titulosDefault + ', Tratado';
@@ -44,6 +45,17 @@ export default Ember.Component.extend(NavigatorInjected, ReunionServiceInjected,
         .then(() => this.recargarLista());
     },
 
+    reabrirReunionSeleccionada(){
+      this.set('modalDeReabrirReunionAbierto', false);
+      const reunion = this.get('reunionSeleccionada');
+      this._reabrirVotacion(reunion)
+        .then(() => this.navigator().navigateToReunionesEdit(reunion.get('id')));
+    },
+
+    mostrarSolicitudParaReabrirReunion(){
+      this.set('modalDeReabrirReunionAbierto', true);
+    },
+
     compartirReunion(reunion) {
       const baseUrl = window.location.host;
       const minutaUrl = baseUrl + "/minuta/" + reunion.id + "/ver";
@@ -67,6 +79,10 @@ export default Ember.Component.extend(NavigatorInjected, ReunionServiceInjected,
       estadoDeReunion.PENDIENTE === reunion.status ? this.navigator().navigateToReunionesEdit(reunionId) : this.navigator().navigateToVerMinuta(reunionId);
     },
 
+  },
+
+  _reabrirVotacion(reunion){
+    return this.reunionService().reabrirReunion(reunion);
   },
 
   _obtenerDuracionDeTema(unTema) {
