@@ -46,10 +46,14 @@ export default Ember.Component.extend(NavigatorInjected, ReunionServiceInjected,
       this.set('showOptions', !mostrarOpciones);
     },
 
-    eliminarReunion(reunion) {
+    eliminarReunion() {
+      const reunion = this.get('reunionSeleccionada');
       this._cerrarMenu();
       this.reunionService().removeReunion(reunion)
         .then(() => this.recargarLista());
+    },
+    mostrarConfirmacionParaEliminarReunion(){
+      this.set('modalDeEliminarReunionAbierto', true);
     },
 
     compartirReunion(reunion) {

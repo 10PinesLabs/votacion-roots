@@ -31,7 +31,7 @@
                 <span class="tool-tip-text">Copiado al clipboard</span>
               {{/if}}
             </div>
-            <a class="btn-floating pink right m-5" {{action 'eliminarReunion' reunionSeleccionada}}>
+            <a class="btn-floating pink right m-5" {{action 'mostrarConfirmacionParaEliminarReunion'}}>
               <i class="material-icons white-text">delete</i>
             </a>
           </div>
@@ -64,3 +64,9 @@
   </div>
 </div>
 
+{{tenpines/modal-de-confirmacion
+  open=modalDeEliminarReunionAbierto
+  titulo='Eliminar la reunión'
+  descripcion='Si eliminas la reunión no podrás recuperarla ¿Deseas continuar?'
+  accionAceptar=(action 'eliminarReunion')
+}}
