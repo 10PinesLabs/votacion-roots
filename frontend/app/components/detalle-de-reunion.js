@@ -4,6 +4,15 @@ import DuracionesServiceInjected from "../mixins/duraciones-service-injected";
 import ReunionServiceInjected from "../mixins/reunion-service-injected";
 import estadoDeReunion from "../controllers/reuniones/estadoDeReunion";
 import {promiseHandling} from "../helpers/promise-handling";
+import MinutaServiceInjected from "../mixins/minuta-service-injected";
+
+export default Ember.Component.extend(NavigatorInjected, ReunionServiceInjected, DuracionesServiceInjected, MinutaServiceInjected, {
+
+  reunionSeleccionada: Ember.computed('reunion', function () {
+    let reunion = this.get('reunion');
+    this._setearTemasTratadosYNoTratados(reunion);
+    return reunion;
+  }),
 
   duracionReunion: 180,
 
