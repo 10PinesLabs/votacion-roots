@@ -16,21 +16,9 @@ export default Ember.Route.extend(AuthenticatedRoute, UserServiceInjected, Reuni
         reuniones.forEach((reunion) => {
           this._usarInstanciasDeTemas(reunion, null);
           this._setearFechaFormateada(reunion);
-          this._setearTemasTratadosYNoTratados(reunion);
           return reunion;
         });
         return reuniones;
-      });
-  },
-
-  _setearTemasTratadosYNoTratados(reunion) {
-    if(reunion.status === 'PENDIENTE') return;
-
-    this.minutaService()
-      .getMinutaDeReunion(reunion.id)
-      .then(minuta => {
-        const filtrarTemaPropuestoEnMinuta = temaPropuesto => minuta.temas.filter(tema => tema.tema.id === temaPropuesto.id)[0];
-        reunion.temasPropuestos.forEach(temaPropuesto => temaPropuesto.set('fueTratado', filtrarTemaPropuestoEnMinuta(temaPropuesto).fueTratado));
       });
   },
 
