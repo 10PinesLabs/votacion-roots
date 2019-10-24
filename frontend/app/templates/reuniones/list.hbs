@@ -7,7 +7,7 @@
           <td>{{reunion.fechaFormateada}}</td>
           <td>{{reunion.temasPropuestos.length}}</td>
           <td>
-            {{#link-to 'minuta.ver' reunionSeleccionada.id}}
+            {{#link-to 'minuta.ver' reunion.id}}
               {{#if (eq reunion.status 'CON_MINUTA')}}
                 <a class="btn-floating waves-effect waves-light white right m-5"><i
                   class="material-icons black-text">speaker_notes</i></a>
