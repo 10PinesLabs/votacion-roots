@@ -85,13 +85,13 @@
 
 </div>
 
-{{tenpines/modal-de-confirmacion
+{{modal-de-confirmacion
     open=modalDeBorradoAbierto
     titulo='Confirmar eliminacion de tema'
     descripcion=mensajeDeConfirmacionDeBorrado
     accionAceptar=(action 'borrarTemaElegido')
 }}
-{{tenpines/modal-de-confirmacion
+{{modal-de-confirmacion
     open=modalDeCambioDeObligatoriedadAbierto
     titulo='Cambiando a tema no obligatorio'
     descripcion="Se perderán todos los votos del tema"
@@ -125,7 +125,7 @@
         </button>
       {{/if}}
     </div>
-    {{tenpines/modal-de-confirmacion
+    {{modal-de-confirmacion
         open=modalDeCierreAbierto
         titulo='Confirmar cierre de votación'
         descripcion='¿Estás seguro que querés cerrar la votación, que comience la reunión y que nadie más pueda seguir votando?'
