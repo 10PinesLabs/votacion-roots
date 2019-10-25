@@ -1,0 +1,22 @@
+.modal-de-confirmacion {
+
+  .modal {
+    height: 30%;
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+
+      a {
+        text-decoration: none;
+        margin-right: 1em;
+
+        &:first-child {
+          background: white;
+          color: purple;
+        }
+      }
+
+    }
+  }
+}

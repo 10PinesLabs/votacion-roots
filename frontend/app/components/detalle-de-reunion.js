@@ -4,8 +4,16 @@ import DuracionesServiceInjected from "../mixins/duraciones-service-injected";
 import ReunionServiceInjected from "../mixins/reunion-service-injected";
 import estadoDeReunion from "../controllers/reuniones/estadoDeReunion";
 import {promiseHandling} from "../helpers/promise-handling";
+import MinutaServiceInjected from "../mixins/minuta-service-injected";
 
-export default Ember.Component.extend(NavigatorInjected, ReunionServiceInjected, DuracionesServiceInjected, {
+export default Ember.Component.extend(NavigatorInjected, ReunionServiceInjected, DuracionesServiceInjected, MinutaServiceInjected, {
+
+  reunionSeleccionada: Ember.computed('reunion', function () {
+    let reunion = this.get('reunion');
+    this._setearTemasTratadosYNoTratados(reunion);
+    return reunion;
+  }),
+
   duracionReunion: 180,
 
 
@@ -39,20 +47,24 @@ export default Ember.Component.extend(NavigatorInjected, ReunionServiceInjected,
       this.set('showOptions', !mostrarOpciones);
     },
 
-    eliminarReunion(reunion) {
+    eliminarReunion() {
+      const reunion = this.get('reunionSeleccionada');
       this._cerrarMenu();
       this.reunionService().removeReunion(reunion)
         .then(() => this.recargarLista());
     },
+    mostrarConfirmacionParaEliminarReunion() {
+      this.set('modalDeEliminarReunionAbierto', true);
+    },
 
-    reabrirReunionSeleccionada(){
+    reabrirReunionSeleccionada() {
       this.set('modalDeReabrirReunionAbierto', false);
       const reunion = this.get('reunionSeleccionada');
       this._reabrirVotacion(reunion)
         .then(() => this.navigator().navigateToReunionesEdit(reunion.get('id')));
     },
 
-    mostrarSolicitudParaReabrirReunion(){
+    mostrarSolicitudParaReabrirReunion() {
       this.set('modalDeReabrirReunionAbierto', true);
     },
 
@@ -61,7 +73,7 @@ export default Ember.Component.extend(NavigatorInjected, ReunionServiceInjected,
       const minutaUrl = baseUrl + "/minuta/" + reunion.id + "/ver";
       const reunionUrl = baseUrl + '/reuniones/reuniones/' + reunion.id;
 
-      const linkToShare = reunion.status === estadoDeReunion.PENDIENTE ? reunionUrl : minutaUrl ;
+      const linkToShare = reunion.status === estadoDeReunion.PENDIENTE ? reunionUrl : minutaUrl;
 
       promiseHandling(navigator.clipboard.writeText(linkToShare))
         .then(() => {
@@ -81,8 +93,18 @@ export default Ember.Component.extend(NavigatorInjected, ReunionServiceInjected,
 
   },
 
-  _reabrirVotacion(reunion){
+  _reabrirVotacion(reunion) {
     return this.reunionService().reabrirReunion(reunion);
+  },
+
+  _setearTemasTratadosYNoTratados(reunion) {
+    if (!reunion || reunion.status === 'PENDIENTE') return;
+
+    promiseHandling(this.minutaService().getMinutaDeReunion(reunion.id))
+      .then(minuta => {
+        const filtrarTemaPropuestoEnMinuta = temaPropuesto => minuta.temas.filter(tema => tema.tema.id === temaPropuesto.id)[0];
+        reunion.temasPropuestos.forEach(temaPropuesto => temaPropuesto.set('fueTratado', filtrarTemaPropuestoEnMinuta(temaPropuesto).fueTratado));
+      });
   },
 
   _obtenerDuracionDeTema(unTema) {
@@ -92,7 +114,7 @@ export default Ember.Component.extend(NavigatorInjected, ReunionServiceInjected,
     });
   },
 
-  _cerrarMenu(){
+  _cerrarMenu() {
     this.set('showOptions', false);
   }
 });
