@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Created by fede on 04/07/17.
@@ -85,5 +86,17 @@ public class Minuta extends PersistableSupport {
 
     public void setMinuteador(Usuario minuteador) {
         this.minuteador = minuteador;
+    }
+
+    private void actualizarTemasDeMinuta() {
+        List<TemaDeReunion> temasDesactualizados = this.getTemas().stream().map(TemaDeMinuta::getTema).collect(Collectors.toList());
+        List<TemaDeReunion> temasParaAgregar = this.getReunion().getTemasPropuestos().stream().filter(tema -> !temasDesactualizados.contains(tema)).collect(Collectors.toList());
+        List<TemaDeMinuta> temasFaltantesDeMinuta = temasParaAgregar.stream().map(tema -> TemaDeMinuta.create(tema, this)).collect(Collectors.toList());
+        this.temas.addAll(temasFaltantesDeMinuta);
+    }
+
+    public void actualizar() {
+        reunion.marcarComoMinuteada();
+        actualizarTemasDeMinuta();
     }
 }
