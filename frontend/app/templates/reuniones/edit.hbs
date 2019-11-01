@@ -1,58 +1,57 @@
 {{vot-star temasVotados=temasVotados}}
 
-<div class="container w-750">
+<div class="reunion">
 
-  <div class="title-container">
-
-    <div class="center">
-      <h4 class="title-label">Temario de la próxima Roots</h4>
-      <div {{action "editarFecha" }}>
-        {{#if editandoFecha}}
-          {{tenpines/input-date label='Fecha' value=reunion.fecha}}
-        {{else}}
-          <h4 class="title-date">{{fechaDeReunion}}</h4>
-        {{/if}}
-      </div>
+  <div class="reunion__header">
+    <div class="reunion__header__title">Temario de la próxima Roots</div>
+    <div {{action "editarFecha" }}>
+      {{#if editandoFecha}}
+        {{tenpines/input-date label='Fecha' value=reunion.fecha}}
+      {{else}}
+        <h4 class="reunion__header__date">{{fechaDeReunion}}</h4>
+      {{/if}}
     </div>
 
-    <div class="space-between">
-      <div class="flex-center" id="obligatoriedad-resaltable">
-        <h6 class="{{resaltarPropuesas}}" {{action 'verObligatorios' false}}>Temas propuestos
-          ({{contarPropuestasNoObligatorias}})</h6>
-        <h6 class="{{resaltarObligatoriedad}}" {{action 'verObligatorios' true}}>Temas obligatorios
-          ({{contarPropuestasObligatorias}})</h6>
-      </div>
+
+    <div class="reunion__header__temas-selector" id="obligatoriedad-resaltable">
+      <h6 class="{{resaltarPropuesas}}" {{action 'verObligatorios' false}}>Temas propuestos
+        ({{contarPropuestasNoObligatorias}})</h6>
+      <h6 class="{{resaltarObligatoriedad}}" {{action 'verObligatorios' true}}>Temas obligatorios
+        ({{contarPropuestasObligatorias}})</h6>
+    </div>
+
+    <div class="reunion__header__botonera">
       {{#unless estaCerrada}}
-        <div class="flex-center pl-10" {{action 'mostrarFormulario'}}>
+        <div class="reunion__header__botonera__item" {{action 'mostrarFormulario'}}>
           <i class="material-icons primary-color clickable">add_circle</i>
-          <h6 class="primary-color no-margin add-tema clickable">Agregar tema</h6>
+          <div class="reunion__header__botonera__item__label">Agregar tema</div>
         </div>
-        <div class="flex-center pl-10" {{action 'mostrarFormularioDeProponerPino'}}>
+        <div class="reunion__header__botonera__item" {{action 'mostrarFormularioDeProponerPino'}}>
           <i class="material-icons primary-color clickable">person_add</i>
-          <h6 class="primary-color no-margin add-tema clickable">Proponer pino</h6>
+          <div class="reunion__header__botonera__item__label">Proponer pino</div>
         </div>
       {{/unless}}
-
     </div>
-
-    <div class="divider"></div>
 
   </div>
 
-  <table class="bordered highlight table">
+
+  <div class="divider"></div>
+
+  <table class="reunion__body">
     <tbody class="fit-correct-width">
     {{#each reunion.temasPropuestos as |tema|}}
       {{#if (eq mostrarObligatorios tema.esObligatorio)}}
         {{each-card-tema
-            tema=tema
-            mostrarObligatorios=mostrarObligatorios
-            estaCerrada=estaCerrada
-            sumarVoto=(action 'sumarVoto')
-            restarVoto=(action 'restarVoto')
-            votarDisabled=votarDisabled
-            votosOpacity=votosOpacity
-            mostrarFormularioDeEdicion=(action 'mostrarFormularioDeEdicion')
-            borrarTemaElegido=(action 'borrarTemaElegido')
+          tema=tema
+          mostrarObligatorios=mostrarObligatorios
+          estaCerrada=estaCerrada
+          sumarVoto=(action 'sumarVoto')
+          restarVoto=(action 'restarVoto')
+          votarDisabled=votarDisabled
+          votosOpacity=votosOpacity
+          mostrarFormularioDeEdicion=(action 'mostrarFormularioDeEdicion')
+          borrarTemaElegido=(action 'borrarTemaElegido')
         }}
       {{/if}}
     {{/each}}
@@ -75,9 +74,9 @@
       {{/if}}
       {{#if mostrandoFormularioDeProponerPino}}
         {{formulario-proponer-pino
-            titulo='Proponer un pino a root'
-            cerrarEditor=(action 'cerrarEditorDeProponerPino')
-            alGuardar=(action 'proponerPino')
+          titulo='Proponer un pino a root'
+          cerrarEditor=(action 'cerrarEditorDeProponerPino')
+          alGuardar=(action 'proponerPino')
         }}
       {{/if}}
     {{/if}}
@@ -86,50 +85,49 @@
 </div>
 
 {{modal-de-confirmacion
-    open=modalDeBorradoAbierto
-    titulo='Confirmar eliminacion de tema'
-    descripcion=mensajeDeConfirmacionDeBorrado
-    accionAceptar=(action 'borrarTemaElegido')
+  open=modalDeBorradoAbierto
+  titulo='Confirmar eliminacion de tema'
+  descripcion=mensajeDeConfirmacionDeBorrado
+  accionAceptar=(action 'borrarTemaElegido')
 }}
 {{modal-de-confirmacion
-    open=modalDeCambioDeObligatoriedadAbierto
-    titulo='Cambiando a tema no obligatorio'
-    descripcion="Se perderán todos los votos del tema"
-    accionAceptar=(action 'updatearTemaConfirmado')
+  open=modalDeCambioDeObligatoriedadAbierto
+  titulo='Cambiando a tema no obligatorio'
+  descripcion="Se perderán todos los votos del tema"
+  accionAceptar=(action 'updatearTemaConfirmado')
 }}
 
 
 {{#if puedeCerrar}}
-
-  <div class="finish-content">
-    <div class="center w-750 align-left">
-          <span class="flex-center finish-title">
-            <i class="material-icons mr-5">info_outline</i>
-            Cerrar Temario para todes
-          </span>
+  <div class="reunion__footer">
+    <div class="reunion__footer__title">
+      <i class="material-icons mr-5">info_outline</i>
+      Cerrar temario
+    </div>
+    <div class="reunion__footer__text">
       <p class="mt-0">Una vez votados todos los temas y antes de comenzar la reunión, debemos cerrar el
-        temario. Al cerrar el
-        temario, todos los temas se ordenarán desde el primero más votado por todos los pinos, y <b>nadie mas podrá
+        temario. Al cerrar el temario, todos los temas se ordenarán desde el primero más votado por todos los pinos, y
+        <b>nadie mas podrá
           seguir votando</b>
       </p>
-
-      {{#unless estaCerrada}}
-        <button type="button" {{action 'pedirConfirmacionDeCierre'}} class="btn-flat bold btn">
-          <h6>Terminar votacion</h6>
-        </button>
-      {{/unless}}
-
-      {{#if estaCerrada}}
-        <button type="button" {{action 'reabrirVotacion'}} class="btn-flat bold btn">
-          <h6>Reabrir votacion</h6>
-        </button>
-      {{/if}}
     </div>
-    {{modal-de-confirmacion
-        open=modalDeCierreAbierto
-        titulo='Confirmar cierre de votación'
-        descripcion='¿Estás seguro que querés cerrar la votación, que comience la reunión y que nadie más pueda seguir votando?'
-        accionAceptar=(action 'cerrarVotacion')
-    }}
+
+    {{#unless estaCerrada}}
+      <button type="button" {{action 'pedirConfirmacionDeCierre'}} class="btn-flat bold btn">
+        <h6>Terminar votacion</h6>
+      </button>
+    {{/unless}}
+
+    {{#if estaCerrada}}
+      <button type="button" {{action 'reabrirVotacion'}} class="btn-flat bold btn">
+        <h6>Reabrir votacion</h6>
+      </button>
+    {{/if}}
   </div>
+  {{modal-de-confirmacion
+    open=modalDeCierreAbierto
+    titulo='Confirmar cierre de votación'
+    descripcion='¿Estás seguro que querés cerrar la votación, que comience la reunión y que nadie más pueda seguir votando?'
+    accionAceptar=(action 'cerrarVotacion')
+  }}
 {{/if}}

@@ -1,12 +1,12 @@
 {{#if (or mostrarObligatorios (not tema.esObligatorio))}}
 
-  <div class="p-20 bg-white mb-20">
-    <div class="full-width">
+  <div class="reunion__body__temas">
+    <div>
       {{header-tema
-          tema=tema
-          mostrarFlagActionItems=false
-          mostrarCandado=tema.esObligatorio
-          antiguedadRelativa=true
+        tema=tema
+        mostrarFlagActionItems=false
+        mostrarCandado=tema.esObligatorio
+        antiguedadRelativa=true
       }}
       {{descripcion-de-tema-expansible tema=tema expandido=expandido onClick=(action 'expandirDescripcion')}}
     </div>
@@ -21,14 +21,17 @@
 
     <div class="divider"></div>
 
-    <div class="space-between m-5">
+    <div class="reunion__body__temas__detalles">
 
-      <div class="flex-center tema-bottom">
-        <h6 class="size-16 m-10 opacity-35">#{{tema.id}}</h6>
-        <i class="material-icons opacity-70">person</i>
-        <h6 class="opacity-70 m-10">{{tema.autor}}</h6>
-        <i class="material-icons m-5">access_time</i>
-        <label class={{tema.colorDuracion }}>{{tema.duracion}}</label>
+      <div class="reunion__body__temas__detalles__datos">
+        <div class="reunion__body__temas__detalles__datos__item">
+          <i class="material-icons opacity-70">person</i>
+          <div class="opacity-70">{{tema.autor}}</div>
+        </div>
+        <div class="reunion__body__temas__detalles__datos__item">
+          <i class="material-icons m-5">access_time</i>
+          <div class={{tema.colorDuracion}}>{{tema.duracion}}</div>
+        </div>
       </div>
 
       <div class="flex-center m-10">
