@@ -12,25 +12,26 @@
       {{/if}}
     </div>
 
+    <div class="reunion__header__content">
+      <div class="reunion__header__content__temas-selector" id="obligatoriedad-resaltable">
+        <h6 class="{{resaltarPropuesas}}" {{action 'verObligatorios' false}}>Temas propuestos
+          ({{contarPropuestasNoObligatorias}})</h6>
+        <h6 class="{{resaltarObligatoriedad}}" {{action 'verObligatorios' true}}>Temas obligatorios
+          ({{contarPropuestasObligatorias}})</h6>
+      </div>
 
-    <div class="reunion__header__temas-selector" id="obligatoriedad-resaltable">
-      <h6 class="{{resaltarPropuesas}}" {{action 'verObligatorios' false}}>Temas propuestos
-        ({{contarPropuestasNoObligatorias}})</h6>
-      <h6 class="{{resaltarObligatoriedad}}" {{action 'verObligatorios' true}}>Temas obligatorios
-        ({{contarPropuestasObligatorias}})</h6>
-    </div>
-
-    <div class="reunion__header__botonera">
-      {{#unless estaCerrada}}
-        <div class="reunion__header__botonera__item" {{action 'mostrarFormulario'}}>
-          <i class="material-icons primary-color clickable">add_circle</i>
-          <div class="reunion__header__botonera__item__label">Agregar tema</div>
-        </div>
-        <div class="reunion__header__botonera__item" {{action 'mostrarFormularioDeProponerPino'}}>
-          <i class="material-icons primary-color clickable">person_add</i>
-          <div class="reunion__header__botonera__item__label">Proponer pino</div>
-        </div>
-      {{/unless}}
+      <div class="reunion__header__content__botonera">
+        {{#unless estaCerrada}}
+          <div class="reunion__header__content__botonera__item" {{action 'mostrarFormulario'}}>
+            <i class="material-icons primary-color clickable">add_circle</i>
+            <div class="reunion__header__content__botonera__item__label">Agregar tema</div>
+          </div>
+          <div class="reunion__header__content__botonera__item" {{action 'mostrarFormularioDeProponerPino'}}>
+            <i class="material-icons primary-color clickable">person_add</i>
+            <div class="reunion__header__content__botonera__item__label">Proponer pino</div>
+          </div>
+        {{/unless}}
+      </div>
     </div>
 
   </div>
