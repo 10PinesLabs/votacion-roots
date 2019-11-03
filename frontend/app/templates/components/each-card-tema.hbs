@@ -46,10 +46,10 @@
         </div>
       </div>
 
-      <div class="flex-center m-10">
 
-        {{#unless estaCerrada}}
-          {{#unless tema.esObligatorio}}
+      {{#unless estaCerrada}}
+        {{#unless tema.esObligatorio}}
+          <div class="flex-center m-10">
 
             <button type="button" id="agregar-button" {{action sumarVoto tema}}
                     class="btn-flat bold btn fit-content-height"
@@ -78,11 +78,11 @@
                   indeterminate_check_box</i>
               </button>
             {{/if}}
-          {{/unless}}
+          </div>
 
         {{/unless}}
+      {{/unless}}
 
-      </div>
     </div>
   </div>
 
