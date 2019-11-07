@@ -5,9 +5,11 @@ import ar.com.kfgodel.temas.acciones.UsarReunionExistente;
 import ar.com.kfgodel.temas.filters.reuniones.AllReunionesUltimaPrimero;
 import ar.com.kfgodel.temas.filters.reuniones.ProximaReunion;
 import ar.com.kfgodel.temas.filters.reuniones.UltimaReunion;
-import convention.persistent.Reunion;
+import convention.persistent.*;
 
 import javax.inject.Inject;
+import java.time.Clock;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,5 +66,13 @@ public class ReunionService extends Service<Reunion> {
   public Reunion create(Reunion unaReunion) {
     unaReunion.agregarTemasGenerales(temaGeneralService.getAll());
     return save(unaReunion);
+  }
+
+  public List<TemaDeReunion> getTemasDeProximaReunion() {
+    if(getUltimaReunion().isPresent()){
+      return getUltimaReunion().get().getTemasPropuestos();
+    }else{
+      return minutaService.getUltimaMinuta().get().getReunion().getTemasPropuestos();
+    }
   }
 }
