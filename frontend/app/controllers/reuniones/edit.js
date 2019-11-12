@@ -172,7 +172,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
         this._cerrarModalTema();
       },
 
-      cerrarEditorDeProponerPino(){
+      cerrarEditorDeProponerPino() {
         this._ocultarEditorDeProponerPino();
         this._cerrarModalTema();
       },
@@ -196,6 +196,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
             this.set('temaAEditar.prioridad', tema.prioridad);
             this.set('temaAEditar.titulo', tema.titulo);
             this.set('temaAEditar.descripcion', tema.descripcion);
+            this.set('temaAEditar.linkDePresentacion', tema.linkDePresentacion);
             this.set('temaAEditar.idsDeInteresados', tema.idsDeInteresados);
             this.set('temaAEditar.obligatoriedad', tema.obligatoriedad);
             this.set('obligatoriedadPasada', tema.obligatoriedad);
@@ -238,7 +239,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
           this._mostrarModalTema();
         });
       },
-      mostrarFormularioDeProponerPino(){
+      mostrarFormularioDeProponerPino() {
         this.set('mostrandoFormularioDeProponerPino', true);
         this._mostrarModalTema();
       },
@@ -263,8 +264,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
 
         if (this.get('temaAEditar.obligatoriedad') === 'OBLIGATORIO' && this.get('obligatoriedadPasada') === 'NO_OBLIGATORIO') {
           this.set('modalDeCambioDeObligatoriedadAbierto', true);
-        }
-        else {
+        } else {
           this._updatearTemaYRecargar().then(() => {
             this._cerrarModalTema();
           });
@@ -362,7 +362,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
   },
 
   _updatearTemaYRecargar: function () {
-    var tema = this.get('temaAEditar');
+    let tema = this.get('temaAEditar');
     return this.temaService().updateTema(tema).then(() => {
       this.set('mostrandoFormularioDeEdicion', false);
       this._recargarReunion();
@@ -482,7 +482,7 @@ export default Ember.Controller.extend(ReunionServiceInjected, TemaServiceInject
   },
 
   _obligatoriedad(esObligatorio) {
-    return esObligatorio ? "OBLIGATORIO": "NO_OBLIGATORIO";
+    return esObligatorio ? "OBLIGATORIO" : "NO_OBLIGATORIO";
   },
 
   _mostrarModalTema() {

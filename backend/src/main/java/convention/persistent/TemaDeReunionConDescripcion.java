@@ -1,7 +1,5 @@
 package convention.persistent;
 
-import ar.com.kfgodel.nary.api.optionals.Optional;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
@@ -41,7 +39,9 @@ public class TemaDeReunionConDescripcion extends TemaDeReunion {
 
     @Override
     protected TemaDeReunion createCopy() {
-        return new TemaDeReunionConDescripcion();
+        TemaDeReunionConDescripcion copia = new TemaDeReunionConDescripcion();
+        copia.setLinkDePresentacion(this.getLinkDePresentacion());
+        return copia;
     }
 
     public String getLinkDePresentacion() {
