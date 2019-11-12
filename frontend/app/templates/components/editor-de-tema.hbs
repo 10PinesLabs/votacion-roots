@@ -8,7 +8,7 @@
     <label>Título</label>
     {{input id="titulo" value=tema.titulo}}
   </div>
-  <div class="col s4 selector-duracion">
+  <div class="col s2 selector-duracion">
     <label class="duracion-label">Duración</label>
     {{#power-select
         options=nombreDeDuraciones
@@ -23,12 +23,18 @@
     {{/power-select}}
   </div>
 
+  <div class="texto-tema col s4">
+    <label>Link de presentacion </label>
+    {{input id="link" value=tema.linkDePresentacion}}
+  </div>
+
   <div class="col s2 parcheDeContEditor">
     <div class="parcheDeEditorBottom ">
       {{materialize/check-box label='Obligatorio' checked=esObligatorio checkboxClasses="filled-in"
                               disabled=checkboxDeshabilitado}}
     </div>
   </div>
+
   <div class="texto-tema" id="texto-descripcion">
     {{text-area label='Descripción' value=tema.descripcion col='s12' }}
   </div>
