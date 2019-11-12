@@ -1,0 +1,102 @@
+.reunion {
+
+  &__header {
+    height: 14em;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    text-align: center;
+    margin: 1em 0;
+
+    &__title {
+      font-size: 2.2rem;
+      font-weight: bold;
+    }
+
+    &__date {
+      font-size: 1.5rem;
+      opacity: 0.7;
+    }
+
+    &__content {
+      margin: auto;
+
+      &__temas-selector {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      &__botonera {
+        display: flex;
+        justify-content: space-between;
+        margin: 1em 0;
+
+        &__item {
+          display: flex;
+          align-items: center;
+
+          &__label {
+            font-size: 1rem;
+            color: purple;
+            font-weight: bold;
+            text-transform: uppercase;
+
+            &:hover {
+              cursor: pointer;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &__body {
+
+    &__temas {
+      background-color: white;
+      margin: 1em;
+      padding: 1em;
+
+      &__detalles {
+        display: flex;
+        flex-direction: column;
+
+        &__datos {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          font-size: 1rem;
+          margin: 0 1em;
+
+          &__item {
+            display: flex;
+            align-items: center;
+          }
+        }
+      }
+    }
+
+  }
+
+  &__footer {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    padding: 1em;
+
+    &__title {
+      font-size: 1.5rem;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    &__text {
+      font-size: 1rem;
+    }
+  }
+
+}
