@@ -21,4 +21,9 @@ public class Development extends Environment {
     public String getHostName() {
         return "localhost:4200";
     }
+
+    @Override
+    public String apiKey() {
+        return "DEV-API-KEY";
+    }
 }

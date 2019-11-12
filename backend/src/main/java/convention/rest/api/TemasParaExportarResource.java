@@ -1,6 +1,7 @@
 package convention.rest.api;
 
 import ar.com.kfgodel.dependencies.api.DependencyInjector;
+import ar.com.kfgodel.temas.config.environments.Environment;
 import convention.rest.api.tos.TemaDeReunionTo;
 import convention.services.ReunionService;
 
@@ -8,6 +9,7 @@ import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,7 +25,9 @@ public class TemasParaExportarResource {
     private ReunionService reunionService;
 
     @GET
-    public List<TemaDeReunionTo> getProximosTemas() {
+    public List<TemaDeReunionTo> getProximosTemas(@QueryParam("apiKey") String apiKey) {
+        if (!isAuthorized(apiKey)) throw new RuntimeException("Invalid or missing apikey");
+
         return reunionService
                 .getTemasDeProximaReunion().stream()
                 .map(tema -> getResourceHelper().convertir(tema, TemaDeReunionTo.class))
@@ -42,4 +46,8 @@ public class TemasParaExportarResource {
         return resourceHelper;
     }
 
+
+    public boolean isAuthorized(String apiKey) {
+        return Environment.toHandle(System.getenv("ENVIROMENT")).apiKey().equals(apiKey);
+    }
 }
