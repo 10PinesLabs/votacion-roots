@@ -23,4 +23,9 @@ public class Production extends Environment {
         return System.getenv("TEMAS_ROOTS_HOST");
     }
 
+    @Override
+    public String apiKey() {
+        return System.getenv("TEMAS_ROOTS_API_KEY");
+    }
+
 }

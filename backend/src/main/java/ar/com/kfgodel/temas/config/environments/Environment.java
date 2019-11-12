@@ -20,4 +20,6 @@ public abstract class Environment {
     protected abstract boolean canHandle(String enviroment);
 
     public abstract String getHostName();
+
+    public abstract String apiKey();
 }
