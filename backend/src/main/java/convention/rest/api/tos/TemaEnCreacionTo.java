@@ -2,6 +2,7 @@ package convention.rest.api.tos;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import convention.persistent.TemaDeReunion;
+import convention.persistent.TemaDeReunionConDescripcion;
 import net.sf.kfgodel.bean2bean.annotations.CopyTo;
 
 /**
@@ -31,6 +32,9 @@ public class TemaEnCreacionTo {
 
     @CopyTo(TemaDeReunion.propuestaOriginal_FIELD)
     private Long idDePropuestaOriginal;
+
+    @CopyTo(TemaDeReunionConDescripcion.linkDePresentacion_FIELD)
+    private String linkDePresentacion;
 
     public String getDuracion() {
         return duracion;
@@ -86,5 +90,13 @@ public class TemaEnCreacionTo {
 
     public Long getIdDePropuestaOriginal() {
         return idDePropuestaOriginal;
+    }
+
+    public String getLinkDePresentacion() {
+        return linkDePresentacion;
+    }
+
+    public void setLinkDePresentacion(String linkDePresentacion) {
+        this.linkDePresentacion = linkDePresentacion;
     }
 }

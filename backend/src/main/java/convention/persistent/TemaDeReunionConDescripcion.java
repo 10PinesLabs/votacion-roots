@@ -1,15 +1,23 @@
 package convention.persistent;
 
+import ar.com.kfgodel.nary.api.optionals.Optional;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 @Entity
 public class TemaDeReunionConDescripcion extends TemaDeReunion {
+    public static final String linkDePresentacion_FIELD = "linkDePresentacion";
+
+    @Column
+    private String linkDePresentacion;
+
     public static TemaDeReunionConDescripcion create(
             Usuario unAutor,
             DuracionDeTema unaDuracion,
             ObligatoriedadDeTema unaObligatoriedad,
             String unTitulo,
-            String unaDescripcion) {
+            String unaDescripcion, String unLink) {
 
         TemaDeReunionConDescripcion tema = new TemaDeReunionConDescripcion();
         tema.setAutor(unAutor);
@@ -17,7 +25,12 @@ public class TemaDeReunionConDescripcion extends TemaDeReunion {
         tema.setObligatoriedad(unaObligatoriedad);
         tema.setTitulo(unTitulo);
         tema.setDescripcion(unaDescripcion);
+        tema.setLinkDePresentacion(unLink);
         return tema;
+    }
+
+    public void setLinkDePresentacion(String unLink) {
+        this.linkDePresentacion = unLink;
     }
 
     public static TemaDeReunionConDescripcion create() {
@@ -29,5 +42,9 @@ public class TemaDeReunionConDescripcion extends TemaDeReunion {
     @Override
     protected TemaDeReunion createCopy() {
         return new TemaDeReunionConDescripcion();
+    }
+
+    public String getLinkDePresentacion() {
+        return linkDePresentacion;
     }
 }
