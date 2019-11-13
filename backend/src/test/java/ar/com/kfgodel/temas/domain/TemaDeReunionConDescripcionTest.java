@@ -1,5 +1,6 @@
 package ar.com.kfgodel.temas.domain;
 
+import ar.com.kfgodel.nary.api.optionals.Optional;
 import ar.com.kfgodel.temas.helpers.TestHelper;
 import convention.persistent.DuracionDeTema;
 import convention.persistent.ObligatoriedadDeTema;
@@ -20,9 +21,9 @@ public class TemaDeReunionConDescripcionTest {
         String descripcion = helper.unaDescripcion();
         DuracionDeTema duracion = helper.unaDuracion();
         ObligatoriedadDeTema obligatoriedad = helper.unaObligatoriedad();
-
+        String unLink = helper.unLink();
         TemaDeReunionConDescripcion tema =
-                TemaDeReunionConDescripcion.create(autor, duracion, obligatoriedad, titulo, descripcion);
+                TemaDeReunionConDescripcion.create(autor, duracion, obligatoriedad, titulo, descripcion, unLink);
 
         assertThat(tema.getAutor()).isEqualTo(autor);
         assertThat(tema.getDuracion()).isEqualTo(duracion);

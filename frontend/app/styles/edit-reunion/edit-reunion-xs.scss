@@ -58,6 +58,22 @@
       margin: 1em;
       padding: 1em;
 
+      &__link {
+        display: flex;
+        margin-top: 0.5em;
+        align-items: center;
+        font-size: 1rem;
+
+        &__titulo {
+          font-weight: bold;
+          margin-right: 0.5em;
+        }
+
+        &__vinculo {
+          cursor: pointer;
+        }
+      }
+
       &__detalles {
         display: flex;
         flex-direction: column;

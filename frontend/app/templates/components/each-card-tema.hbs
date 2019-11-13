@@ -11,13 +11,23 @@
       {{descripcion-de-tema-expansible tema=tema expandido=expandido onClick=(action 'expandirDescripcion')}}
     </div>
 
-    {{#if expandido}}
-      <div class="tema-colapse-button">
-        <button class="colapse-button" onclick={{action 'colapsarDescripcion'}}>
-          <i class="material-icons">unfold_less</i>
-        </button>
+    {{#if tema.linkDePresentacion}}
+      <div class="reunion__body__temas__link">
+        <div class="reunion__body__temas__link__titulo">Link:</div>
+        <a target="_blank" class="reunion__body__temas__link__vinculo"
+           href={{tema.linkDePresentacion}}>{{tema.linkDePresentacion}}</a>
       </div>
     {{/if}}
+
+    <div>
+      {{#if expandido}}
+        <div class="tema-colapse-button">
+          <button class="colapse-button" onclick={{action 'colapsarDescripcion'}}>
+            <i class="material-icons">unfold_less</i>
+          </button>
+        </div>
+      {{/if}}
+    </div>
 
     <div class="divider"></div>
 

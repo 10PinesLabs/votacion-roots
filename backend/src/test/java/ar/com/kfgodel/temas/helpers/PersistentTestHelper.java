@@ -46,7 +46,7 @@ public class PersistentTestHelper {
                 helper.unaDuracion(),
                 ObligatoriedadDeTema.NO_OBLIGATORIO,
                 helper.unTitulo(),
-                helper.unaDescripcion())
+                helper.unaDescripcion(), helper.unLink())
         );
     }
 
