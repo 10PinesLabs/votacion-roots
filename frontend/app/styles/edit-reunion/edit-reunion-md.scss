@@ -3,10 +3,10 @@ $screen-md-min: 992px;
 @media (min-width: $screen-md-min) {
   .reunion {
     width: 50em;
-    height: 12em;
     margin: auto;
 
     &__header {
+      height: 12em;
       margin: 1em 0 0 0;
 
       &__title {
@@ -27,6 +27,7 @@ $screen-md-min: 992px;
     }
 
     &__body {
+
       &__temas {
 
         &__detalles {
