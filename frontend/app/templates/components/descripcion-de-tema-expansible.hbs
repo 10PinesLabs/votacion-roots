@@ -9,6 +9,7 @@
   {{else}}
     {{markdown-view value=tema.descripcion}}
   {{/if}}
+
   {{#if tema.esTemaParaRepasarActionItems}}
     {{#each tema.temasParaRepasar as |temaDeMinuta|}}
       {{action-items-de-tema temaDeMinuta=temaDeMinuta}}
