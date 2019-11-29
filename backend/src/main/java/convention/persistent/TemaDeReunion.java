@@ -23,12 +23,14 @@ public abstract class TemaDeReunion extends Tema {
     public static final String prioridad_FIELD = "prioridad";
     public static final String interesados_FIELD = "interesados";
     public static final String obligatoriedad_FIELD = "obligatoriedad";
-    public static final String temaGenerador_FIELD = "temaGenerador";
+    public static final String cantidadDeMinutosDelTema_FIELD = "cantidadDeMinutosDelTema";
     public static final String propuestaOriginal_FIELD = "propuestaOriginal";
+    public static final String temaGenerador_FIELD = "temaGenerador";
     public static final String fechaDePropuestaOriginal_FIELD = "fechaDePropuestaOriginal";
     public static final String esRePropuesta_FIELD = "esRePropuesta";
     public static final String ERROR_AGREGAR_INTERESADO = "No se puede agregar un interesado a un tema obligatorio";
     public static final String ERROR_PROPIA_PROPUESTA_ORIGINAL = "Un tema no puede ser su propia propuesta original";
+
     @ManyToOne
     private Reunion reunion;
     private Integer prioridad;
@@ -223,5 +225,10 @@ public abstract class TemaDeReunion extends Tema {
     public void setPropuestaOriginal(TemaDeReunion unTemaDeReunion) {
         verificarQueNoEsSuPropiaPropuestaOriginal(unTemaDeReunion);
         propuestaOriginal = unTemaDeReunion;
+    }
+
+    public Integer getCantidadDeMinutosDelTema() {
+        if (this.getDuracion() == null) return 0;
+        return this.getDuracion().getCantidadDeMinutos();
     }
 }
