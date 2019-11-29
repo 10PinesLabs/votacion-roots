@@ -52,8 +52,7 @@ public class ReunionResource {
             listaDeTemasNuevos.forEach(temaDeReunion -> temaDeReunion.ocultarVotosPara(userId));
             listaDeTemasNuevos.sort(Comparator.comparing(TemaDeReunion::getId));
             Collections.shuffle(listaDeTemasNuevos, new Random(securityContext.getUserPrincipal().hashCode())); //random turbio
-            nuevaReunion.setTemasPropuestos(listaDeTemasNuevos);ls
-
+            nuevaReunion.setTemasPropuestos(listaDeTemasNuevos);
         }
         return nuevaReunion;
     }

@@ -36,7 +36,6 @@ export default Ember.Component.extend(MinutaServiceInjected, TemaDeMinutaService
   }),
 
   temaConComportamiento: Ember.computed('temaDeMinuta', function () {
-    console.log(Tema.create(this.get('temaDeMinuta.tema')));
     return Tema.create(this.get('temaDeMinuta.tema'));
   }),
 

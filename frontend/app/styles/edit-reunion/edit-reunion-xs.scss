@@ -71,6 +71,11 @@
 
         &__vinculo {
           cursor: pointer;
+          text-overflow: ellipsis;
+          word-wrap: break-word;
+          overflow: hidden;
+          max-height: 1.8em;
+          line-height: 1.8em;
         }
       }
 
