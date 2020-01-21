@@ -167,7 +167,6 @@ public class TemasApplication implements Application {
 
         try {
             Scheduler scheduler = new StdSchedulerFactory().getScheduler();
-            scheduler.shutdown();
             scheduler.scheduleJob(job, trigger);
             scheduler.start();
         } catch (SchedulerException exception) {
