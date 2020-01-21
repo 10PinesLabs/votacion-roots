@@ -23,4 +23,9 @@ public class Staging extends Environment {
     public String getHostName() {
         return "https://" + System.getenv("HEROKU_APP_NAME") + ".herokuapp.com";
     }
+
+    @Override
+    public String apiKey() {
+        return System.getenv("TEMAS_ROOTS_API_KEY") ;
+    }
 }

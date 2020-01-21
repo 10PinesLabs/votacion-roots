@@ -75,8 +75,10 @@ public class TemaDeReunionToTest {
         String unaObligatoriedad = convertEnumToString(helper.unaObligatoriedad());
         String unTitulo = helper.unTitulo();
         String unaDescripcion = helper.unaDescripcion();
+        String unLink = helper.unLink();
+
         TemaDeReunionConDescripcionTo temaTo =
-                TemaDeReunionConDescripcionTo.create(unAutor, unaDuracion, unaObligatoriedad, unTitulo, unaDescripcion);
+                TemaDeReunionConDescripcionTo.create(unAutor, unaDuracion, unaObligatoriedad, unTitulo, unaDescripcion, unLink);
 
         TemaDeReunionConDescripcion tema = (TemaDeReunionConDescripcion)
                 baseConverter.transformTo(TemaDeReunion.class, temaTo);

@@ -1,40 +1,65 @@
 {{#if (or mostrarObligatorios (not tema.esObligatorio))}}
 
-  <div class="p-20 bg-white mb-20">
-    <div class="full-width">
+  <div class="reunion__body__temas">
+    <div>
       {{header-tema
-          tema=tema
-          mostrarFlagActionItems=false
-          mostrarCandado=tema.esObligatorio
-          antiguedadRelativa=true
+        tema=tema
+        mostrarFlagActionItems=false
+        mostrarCandado=tema.esObligatorio
+        antiguedadRelativa=true
       }}
       {{descripcion-de-tema-expansible tema=tema expandido=expandido onClick=(action 'expandirDescripcion')}}
     </div>
 
-    {{#if expandido}}
-      <div class="tema-colapse-button">
-        <button class="colapse-button" onclick={{action 'colapsarDescripcion'}}>
-          <i class="material-icons">unfold_less</i>
-        </button>
+    {{#if tema.linkDePresentacion}}
+      <div class="reunion__body__temas__link">
+        <div class="reunion__body__temas__link__titulo">Link:</div>
+        <a target="_blank" class="reunion__body__temas__link__vinculo"
+           href={{tema.linkDePresentacion}}>{{tema.linkDePresentacion}}</a>
       </div>
     {{/if}}
 
+    <div>
+      {{#if expandido}}
+        <div class="tema-colapse-button">
+          <button class="colapse-button" onclick={{action 'colapsarDescripcion'}}>
+            <i class="material-icons">unfold_less</i>
+          </button>
+        </div>
+      {{/if}}
+    </div>
+
     <div class="divider"></div>
 
-    <div class="space-between m-5">
+    <div class="reunion__body__temas__detalles">
 
-      <div class="flex-center tema-bottom">
-        <h6 class="size-16 m-10 opacity-35">#{{tema.id}}</h6>
-        <i class="material-icons opacity-70">person</i>
-        <h6 class="opacity-70 m-10">{{tema.autor}}</h6>
-        <i class="material-icons m-5">access_time</i>
-        <label class={{tema.colorDuracion }}>{{tema.duracion}}</label>
+      <div class="reunion__body__temas__detalles__datos">
+
+        <div class="reunion__body__temas__detalles__datos__item">
+          <i class="material-icons opacity-70">person</i>
+          <div class="opacity-70">{{tema.autor}}</div>
+        </div>
+        <div class="reunion__body__temas__detalles__datos__item">
+          <i class="material-icons m-5">access_time</i>
+          <div class={{tema.colorDuracion}}>{{tema.duracion}}</div>
+        </div>
+        <div class="reunion__body__temas__detalles__datos__item" id="edit-menu">
+          {{#tenpines/drop-down icon='more_vert' removeBtn=true }}
+            {{#unless tema.esTemaParaProponerPinos}}
+              <li class="light-grey" {{action mostrarFormularioDeEdicion tema}}>
+                <a class="black-text">Editar</a>
+              </li>
+            {{/unless}}
+            <li class="divider"></li>
+            <li class="light-grey"><a class="black-text" {{action borrarTemaElegido tema}}>Eliminar</a></li>
+          {{/tenpines/drop-down }}
+        </div>
       </div>
 
-      <div class="flex-center m-10">
 
-        {{#unless estaCerrada}}
-          {{#unless tema.esObligatorio}}
+      {{#unless estaCerrada}}
+        {{#unless tema.esObligatorio}}
+          <div class="flex-center m-10">
 
             <button type="button" id="agregar-button" {{action sumarVoto tema}}
                     class="btn-flat bold btn fit-content-height"
@@ -63,23 +88,11 @@
                   indeterminate_check_box</i>
               </button>
             {{/if}}
-          {{/unless}}
-
-          <div id="edit-menu">
-            {{#tenpines/drop-down icon='more_vert' removeBtn=true }}
-              {{#unless tema.esTemaParaProponerPinos}}
-                <li class="light-grey" {{action mostrarFormularioDeEdicion tema}}>
-                  <a class="black-text">Editar</a>
-                </li>
-              {{/unless}}
-              <li class="divider"></li>
-              <li class="light-grey"><a class="black-text" {{action borrarTemaElegido tema}}>Eliminar</a></li>
-            {{/tenpines/drop-down }}
           </div>
 
         {{/unless}}
+      {{/unless}}
 
-      </div>
     </div>
   </div>
 

@@ -1,5 +1,6 @@
 package ar.com.kfgodel.temas.helpers;
 
+import ar.com.kfgodel.nary.api.optionals.Optional;
 import ar.com.kfgodel.temas.domain.TemaParaProponerPinosARootTest;
 import ar.com.kfgodel.transformbyconvention.api.TypeTransformer;
 import convention.persistent.*;
@@ -21,6 +22,10 @@ public class TestHelper {
 
     @Inject
     TypeTransformer typeTransformer;
+
+    public String unLink(){
+        return "www.unlink.com";
+    }
 
     public TemaDeReunionConDescripcion unTemaObligatorio() {
         TemaDeReunionConDescripcion tema = TemaDeReunionConDescripcion.create();
@@ -114,9 +119,10 @@ public class TestHelper {
         String titulo = unTitulo();
         String descripcion = unaDescripcion();
         DuracionDeTema duracion = unaDuracion();
+        String unLink = unLink();
         ObligatoriedadDeTema obligatoriedad = unaObligatoriedad();
 
-        return TemaDeReunionConDescripcion.create(autor, duracion, obligatoriedad, titulo, descripcion);
+        return TemaDeReunionConDescripcion.create(autor, duracion, obligatoriedad, titulo, descripcion, unLink);
     }
 
     public TemaParaProponerPinosARoot unTemaParaProponerPinosARoot() {
@@ -132,8 +138,10 @@ public class TestHelper {
         String descripcion = unaDescripcion();
         DuracionDeTema duracion = unaDuracion();
         ObligatoriedadDeTema obligatoriedad = unaObligatoriedad();
+        String unLink = unLink();
 
-        return TemaDeReunionConDescripcion.create(autor, duracion, obligatoriedad, titulo, descripcion);
+
+        return TemaDeReunionConDescripcion.create(autor, duracion, obligatoriedad, titulo, descripcion, unLink);
     }
     public TemaParaRepasarActionItems unTemaParaRepasarActionItems() {
         return TemaParaRepasarActionItems.create(unaMinuta(), unTemaParaRellenarConActionItems());

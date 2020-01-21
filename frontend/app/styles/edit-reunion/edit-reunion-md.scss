@@ -1,0 +1,57 @@
+$screen-md-min: 992px;
+
+@media (min-width: $screen-md-min) {
+  .reunion {
+    width: 50em;
+    margin: auto;
+
+    &__header {
+      height: 12em;
+      margin: 1em 0 0 0;
+
+      &__title {
+        font-size: 3rem;
+      }
+
+      &__content {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+
+        &__botonera {
+          &__item {
+            margin: 0 1em 0 0;
+          }
+        }
+      }
+    }
+
+    &__body {
+
+      &__temas {
+
+        &__detalles {
+          justify-content: space-between;
+          flex-direction: row;
+
+          &__datos {
+
+            &__item {
+              margin-right: 1em;
+            }
+          }
+        }
+      }
+    }
+
+    &__footer {
+      display: block;
+      padding: 3em;
+
+      &__title {
+        width: 50%;
+        display: inline;
+      }
+    }
+  }
+}

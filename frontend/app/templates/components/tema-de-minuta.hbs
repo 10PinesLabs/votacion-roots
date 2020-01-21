@@ -6,6 +6,7 @@
         antiguedadRelativa=false
     }}
     {{#if mostrarDescripcion}}
+      <a href={{temaConComportamiento.linkDePresentacion}}>{{temaConComportamiento.linkDePresentacion}}</a>
       {{descripcion-de-tema-expansible tema=temaConComportamiento expandido=textoExtendido
                          onClick=(action 'expandirDescripcion')}}
     {{/if}}
