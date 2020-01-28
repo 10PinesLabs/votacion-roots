@@ -43,17 +43,19 @@
           <i class="material-icons m-5">access_time</i>
           <div class={{tema.colorDuracion}}>{{tema.duracion}}</div>
         </div>
-        <div class="reunion__body__temas__detalles__datos__item" id="edit-menu">
-          {{#tenpines/drop-down icon='more_vert' removeBtn=true }}
-            {{#unless tema.esTemaParaProponerPinos}}
-              <li class="light-grey" {{action mostrarFormularioDeEdicion tema}}>
-                <a class="black-text">Editar</a>
-              </li>
-            {{/unless}}
-            <li class="divider"></li>
-            <li class="light-grey"><a class="black-text" {{action borrarTemaElegido tema}}>Eliminar</a></li>
-          {{/tenpines/drop-down }}
-        </div>
+        {{#unless estaCerrada}}
+          <div class="reunion__body__temas__detalles__datos__item" id="edit-menu">
+            {{#tenpines/drop-down icon='more_vert' removeBtn=true }}
+              {{#unless tema.esTemaParaProponerPinos}}
+                <li class="light-grey" {{action mostrarFormularioDeEdicion tema}}>
+                  <a class="black-text">Editar</a>
+                </li>
+              {{/unless}}
+              <li class="divider"></li>
+              <li class="light-grey"><a class="black-text" {{action borrarTemaElegido tema}}>Eliminar</a></li>
+            {{/tenpines/drop-down }}
+          </div>
+        {{/unless}}
       </div>
 
 
