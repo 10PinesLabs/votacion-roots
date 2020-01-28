@@ -265,3 +265,18 @@
   }
 }
 
+.menu-tema .ember-view {
+  position: relative;
+}
+
+.menu-tema .dropdown-button i {
+  color: black;
+  line-height: inherit;
+}
+
+.menu-tema .dropdown-content {
+  width: auto !important;
+  top: 2rem !important;
+  right: 1rem !important;
+  left: auto !important;
+}
