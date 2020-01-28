@@ -19,11 +19,23 @@
 </td>
 
 {{#if reunionCerrada}}
-<td>
-  {{#if tema.fueTratado}}
-    <i class="material-icons"> done_outline </i>
-  {{else}}
-    <i class="material-icons"> close </i>
-  {{/if}}
-</td>
+  <td>
+    {{#if tema.fueTratado}}
+      <i class="material-icons"> done_outline </i>
+    {{else}}
+      <i class="material-icons"> close </i>
+    {{/if}}
+  </td>
+
+  <td>
+    <div class="menu-tema">
+      {{#tenpines/drop-down icon='more_vert' removeBtn=true}}
+        <li class="light-grey">
+          {{#link-to 'reproponer-tema' tema.id}}
+            Reproponer
+          {{/link-to}}
+        </li>
+      {{/tenpines/drop-down }}
+    </div>
+  </td>
 {{/if}}
