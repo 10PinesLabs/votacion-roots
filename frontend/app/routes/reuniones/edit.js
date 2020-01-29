@@ -12,6 +12,11 @@ export default Ember.Route.extend(AuthenticatedRoute, ReunionServiceInjected, Us
       refreshModel: true
     }
   },
+  resetController(controller, isExiting) {
+    if (isExiting) {
+      controller.set('temaAReproponer', undefined);
+    }
+  },
   model: function (params) {
     const requests = {
       reunion: this.promiseWaitingFor(this.reunionService().getReunion(params.reunion_id)),
