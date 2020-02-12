@@ -30,6 +30,8 @@ public class TemaDeReunionTo extends PersistableToSupport {
     private Long idDeReunion;
     @CopyFrom(value = TemaDeReunion.autor_FIELD + "." + Usuario.name_FIELD, whenMissing = MissingPropertyAction.TREAT_AS_NULL)
     private String autor;
+    @CopyFrom(value = TemaDeReunion.autor_FIELD + "." + Usuario.mail_FIELD, whenMissing = MissingPropertyAction.TREAT_AS_NULL)
+    private String mailDelAutor;
     @CopyFromAndTo(TemaDeReunion.prioridad_FIELD)
     private Integer prioridad;
     @CopyFromAndTo(TemaDeReunion.titulo_FIELD)
@@ -159,5 +161,13 @@ public class TemaDeReunionTo extends PersistableToSupport {
 
     public void setCantidadDeMinutosDelTema(Integer cantidadDeMinutosDelTema) {
         this.cantidadDeMinutosDelTema = cantidadDeMinutosDelTema;
+    }
+
+    public String getMailDelAutor() {
+        return mailDelAutor;
+    }
+
+    public void setMailDelAutor(String mailDelAutor) {
+        this.mailDelAutor = mailDelAutor;
     }
 }
