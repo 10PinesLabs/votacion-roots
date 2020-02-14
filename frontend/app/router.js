@@ -13,7 +13,7 @@ Router.map(function () {
   this.route('proxima-roots');
   this.route('reproponer-tema', {path: "reproponer-tema/:id"});
   this.route('reuniones', function () {
-    this.route('edit', {path: "reuniones/:reunion_id"});
+    this.route('edit', {path: ":reunion_id"});
     this.route('list');
   });
   this.route('minuta', function(){
