@@ -30,7 +30,6 @@ public class ActionItem  extends PersistableSupport {
     @Transient
     private List<ActionItemMailSender> observers = new ArrayList<>();
 
-    @Transient
     private Boolean fueNotificado;
 
     public ActionItem() {
