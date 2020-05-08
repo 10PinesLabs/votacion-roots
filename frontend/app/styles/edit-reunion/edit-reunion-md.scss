@@ -48,6 +48,12 @@ $screen-md-min: 992px;
       display: block;
       padding: 3em;
 
+      &__content {
+        margin: auto;
+        max-width: 50em;
+        padding: 0 1em;
+      }
+
       &__title {
         width: 50%;
         display: inline;

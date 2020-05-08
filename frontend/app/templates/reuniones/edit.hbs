@@ -101,29 +101,31 @@
 
 {{#if puedeCerrar}}
   <div class="reunion__footer">
-    <div class="reunion__footer__title">
-      <i class="material-icons mr-5">info_outline</i>
-      Cerrar temario
-    </div>
-    <div class="reunion__footer__text">
-      <p class="mt-0">Una vez votados todos los temas y antes de comenzar la reunión, debemos cerrar el
-        temario. Al cerrar el temario, todos los temas se ordenarán desde el primero más votado por todos los pinos, y
-        <b>nadie mas podrá
-          seguir votando</b>
-      </p>
-    </div>
+    <div class="reunion__footer__content">
+      <div class="reunion__footer__title">
+        <i class="material-icons mr-5">info_outline</i>
+        Cerrar temario
+      </div>
+      <div class="reunion__footer__text">
+        <p class="mt-0">Una vez votados todos los temas y antes de comenzar la reunión, debemos cerrar el
+          temario. Al cerrar el temario, todos los temas se ordenarán desde el primero más votado por todos los pinos, y
+          <b>nadie mas podrá
+            seguir votando</b>
+        </p>
+      </div>
 
-    {{#unless estaCerrada}}
-      <button type="button" {{action 'pedirConfirmacionDeCierre'}} class="btn-flat bold btn">
-        <h6>Empezar reunión</h6>
-      </button>
-    {{/unless}}
+      {{#unless estaCerrada}}
+        <button type="button" {{action 'pedirConfirmacionDeCierre'}} class="btn-flat bold btn">
+          <h6>Empezar reunión</h6>
+        </button>
+      {{/unless}}
 
-    {{#if estaCerrada}}
-      <button type="button" {{action 'reabrirVotacion'}} class="btn-flat bold btn">
-        <h6>Reabrir votacion</h6>
-      </button>
-    {{/if}}
+      {{#if estaCerrada}}
+        <button type="button" {{action 'reabrirVotacion'}} class="btn-flat bold btn">
+          <h6>Reabrir votacion</h6>
+        </button>
+      {{/if}}
+    </div>
   </div>
   {{modal-de-confirmacion
     open=modalDeCierreAbierto
