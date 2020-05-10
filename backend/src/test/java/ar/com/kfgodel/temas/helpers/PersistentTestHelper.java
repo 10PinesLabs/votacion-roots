@@ -67,7 +67,7 @@ public class PersistentTestHelper {
 
     public ActionItem crearActionItem() {
         Usuario usuario = usuarioService.getAll().stream().findFirst().orElseGet(() -> crearUnUsuario());
-        ActionItem actionItem = new ActionItem();
+        ActionItem actionItem = new ActionItem(TestHelper.mockActionItemMailSender());
         actionItem.setDescripcion("Tarea a realizar");
         actionItem.setResponsables(Arrays.asList());
         return actionItem;
