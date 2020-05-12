@@ -1,5 +1,6 @@
 package ar.com.kfgodel.temas.notifications;
 
+import ar.com.kfgodel.temas.helpers.TestHelper;
 import convention.persistent.ActionItem;
 import convention.persistent.Usuario;
 import org.junit.Before;
@@ -33,7 +34,7 @@ public class MailSenderTest {
         PowerMockito.when(System.getenv(host)).thenReturn("smtp.gmail.com");
         mockMailSender = Mockito.mock(ActionItemMailSender.class);
         mailSender = new ActionItemMailSender();
-        actionItem = new ActionItem();
+        actionItem = new ActionItem(TestHelper.mockActionItemMailSender());
     }
 
     @Test
