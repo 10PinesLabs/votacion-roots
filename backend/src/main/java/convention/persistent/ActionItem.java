@@ -30,11 +30,14 @@ public class ActionItem  extends PersistableSupport {
     @Transient
     private List<ActionItemMailSender> observers = new ArrayList<>();
 
-    private Boolean fueNotificado;
+    private Boolean fueNotificado = false;
 
     public ActionItem() {
-        this.fueNotificado = true;
-        this.addObserver(new ActionItemMailSender());
+        this(new ActionItemMailSender());
+    }
+
+    public ActionItem(ActionItemMailSender actionItemMailSender) {
+        this.addObserver(actionItemMailSender);
     }
 
     public List<Usuario> getResponsables() {

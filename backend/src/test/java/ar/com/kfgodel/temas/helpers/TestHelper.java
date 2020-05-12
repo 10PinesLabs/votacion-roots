@@ -2,6 +2,7 @@ package ar.com.kfgodel.temas.helpers;
 
 import ar.com.kfgodel.nary.api.optionals.Optional;
 import ar.com.kfgodel.temas.domain.TemaParaProponerPinosARootTest;
+import ar.com.kfgodel.temas.notifications.ActionItemMailSender;
 import ar.com.kfgodel.transformbyconvention.api.TypeTransformer;
 import convention.persistent.*;
 import convention.rest.api.tos.ActionItemTo;
@@ -14,6 +15,9 @@ import java.util.Collection;
 import java.util.Collections;
 
 import static java.util.Arrays.asList;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
 
 /**
  * Created by sandro on 30/06/17.
@@ -175,7 +179,7 @@ public class TestHelper {
     }
 
     public ActionItem unActionItem() {
-        ActionItem actionItem = new ActionItem();
+        ActionItem actionItem = new ActionItem(TestHelper.mockActionItemMailSender());
         actionItem.setDescripcion("Una cosa para hacer");
         actionItem.setResponsables(asList(unUsuario(), otroUsuario()));
         return actionItem;
@@ -258,5 +262,11 @@ public class TestHelper {
         TemaDeReunion unTemaDeReunion = unTemaDeReunion();
         unTemaDeReunion.setReunion(unaReunion);
         return unTemaDeReunion;
+    }
+
+    public static ActionItemMailSender mockActionItemMailSender() {
+        ActionItemMailSender actionItemMailSender = mock(ActionItemMailSender.class);
+        doNothing().when(actionItemMailSender).sendMail(any(), any());
+        return actionItemMailSender;
     }
 }

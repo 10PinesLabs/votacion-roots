@@ -4,8 +4,9 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by fede on 07/07/17.
@@ -65,17 +66,8 @@ public class TemaDeMinuta extends PersistableSupport {
     }
 
     public void setActionItems(List<ActionItem> actionItems) {
-        if (this.actionItems == null) {
-            this.actionItems = actionItems;
-        } else {
-            List<ActionItem> actionItemsNoRepetidos = actionItems.stream()
-                    .filter(actionItem -> !this.actionItems.stream().anyMatch(action -> action.equals(actionItem)))
-                    .collect(Collectors.toList());
-            actionItemsNoRepetidos.forEach(actionItem -> actionItem.setFueNotificado(false));
-            this.actionItems.clear();
-            this.actionItems.addAll(actionItems);
-        }
-        actionItems.forEach(actionItem -> actionItem.setTema(this));
+        this.actionItems = new ArrayList<>(new HashSet<>(actionItems));
+        this.actionItems.forEach(actionItem -> actionItem.setTema(this));
     }
 
     public boolean getFueTratado() {
