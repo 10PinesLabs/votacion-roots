@@ -69,10 +69,10 @@ public class TemaParaProponerPinosARootTest {
     }
 
     @Test
-    public void losTemasParaProponerPinosARootNoSonObligatorios() {
+    public void losTemasParaProponerPinosARootSonObligatorios() {
         TemaParaProponerPinosARoot unTemaParaProponerPinos = new TemaParaProponerPinosARoot();
 
-        assertThat(unTemaParaProponerPinos.getObligatoriedad()).isEqualTo(ObligatoriedadDeTema.NO_OBLIGATORIO);
+        assertThat(unTemaParaProponerPinos.getObligatoriedad()).isEqualTo(ObligatoriedadDeTema.OBLIGATORIO);
     }
 
     @Test

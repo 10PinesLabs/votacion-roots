@@ -50,17 +50,6 @@ public class TemaDeReunionResourceTest extends ResourceTest {
     }
 
     @Test
-    public void testSePuedeVotarUnTemaParaProponerPinosARoot() throws IOException {
-        TemaParaProponerPinosARoot unTemaParaProponerPinos = crearUnTemaParaProponerPinosARoot();
-        Long idTema = unTemaParaProponerPinos.getId();
-
-        makeGetRequest("temas/votar/" + idTema);
-
-        TemaDeReunion temaActualizado = temaService.get(idTema);
-        assertThat(temaActualizado.getCantidadDeVotos()).isEqualTo(1);
-    }
-
-    @Test
     public void testNoSePuedeAgregarUnTemaConElTituloDeUnoParaProponerPinosARoot() throws IOException {
         TemaEnCreacionTo unTemaEnCreacionTo = new TemaEnCreacionTo();
         unTemaEnCreacionTo.setTitulo(TemaParaProponerPinosARoot.TITULO);
