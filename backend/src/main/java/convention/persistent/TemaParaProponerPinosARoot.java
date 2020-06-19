@@ -17,7 +17,7 @@ public class TemaParaProponerPinosARoot extends TemaDeReunion {
 
     public static final String propuestas_FIELD = "propuestas";
     public static final DuracionDeTema DURACION = DuracionDeTema.CORTO;
-    public static final ObligatoriedadDeTema OBLIGATORIEDAD = ObligatoriedadDeTema.NO_OBLIGATORIO;
+    public static final ObligatoriedadDeTema OBLIGATORIEDAD = ObligatoriedadDeTema.OBLIGATORIO;
 
     @OneToMany(cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
