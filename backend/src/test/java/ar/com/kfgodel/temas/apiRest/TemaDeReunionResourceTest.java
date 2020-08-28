@@ -1,6 +1,7 @@
 package ar.com.kfgodel.temas.apiRest;
 
 import convention.persistent.*;
+import convention.rest.api.tos.TemaDeMinutaTo;
 import convention.rest.api.tos.TemaDeReunionTo;
 import convention.rest.api.tos.TemaEnCreacionTo;
 import org.apache.http.HttpResponse;
@@ -122,7 +123,7 @@ public class TemaDeReunionResourceTest extends ResourceTest {
         TemaDeReunion unaPropuestaOriginal = temaService.save(helper.unTemaDeReunion());
         Reunion unaReunion = reunionService.save(helper.unaReunion());
         TemaDeReunion unTema = temaService.save(
-                helper.unaRePropuestaDeParaReunion(unaPropuestaOriginal, unaReunion));
+            helper.unaRePropuestaDeParaReunion(unaPropuestaOriginal, unaReunion));
         reunionService.save(unaReunion);
 
         TemaEnCreacionTo unTemaEnCreacionTo = helper.unTemaEnCreacionTo(unaReunion);
@@ -138,7 +139,7 @@ public class TemaDeReunionResourceTest extends ResourceTest {
         TemaDeReunion unaPropuestaOriginal = temaService.save(helper.unTemaDeReunion());
         Reunion unaReunion = reunionService.save(helper.unaReunion());
         TemaDeReunion unTema = temaService.save(
-                helper.unaRePropuestaDeParaReunion(unaPropuestaOriginal, unaReunion));
+            helper.unaRePropuestaDeParaReunion(unaPropuestaOriginal, unaReunion));
 
         TemaDeReunionTo toDelTema = convertirATo(unTema);
         String unNuevoTitulo = "Un nuevo título";
@@ -155,7 +156,7 @@ public class TemaDeReunionResourceTest extends ResourceTest {
         TemaDeReunion unaPropuestaOriginal = temaService.save(helper.unTemaDeReunion());
         Reunion unaReunion = reunionService.save(helper.unaReunion());
         TemaDeReunion unTema = temaService.save(
-                helper.unaRePropuestaDeParaReunion(unaPropuestaOriginal, unaReunion));
+            helper.unaRePropuestaDeParaReunion(unaPropuestaOriginal, unaReunion));
 
         HttpResponse response = makeDeleteRequest("temas/" + unaPropuestaOriginal.getId());
 
@@ -163,7 +164,7 @@ public class TemaDeReunionResourceTest extends ResourceTest {
         assertThat(temaService.getAll()).doesNotContain(unaPropuestaOriginal);
         assertThat(temaService.get(unTema.getId()).getEsRePropuesta()).isFalse();
     }
-    
+
     @Test
     public void testGetDeTemasDeReunionContieneLaFechaDeLaPropuestaOriginal() throws IOException {
         Reunion unaReunion = reunionService.save(helper.unaReunion());
@@ -187,6 +188,74 @@ public class TemaDeReunionResourceTest extends ResourceTest {
         assertThat(jsonResponse.getBoolean("esRePropuesta")).isFalse();
     }
 
+    @Test
+    public void patchDeTemaDeMintaParaTemaInexistenteRespondeConNotFound() throws IOException {
+        TemaDeMinutaTo temaDeMinutaTo = unPatchRequestDeTemaDeMinuta();
+
+        HttpResponse response = makePatchRequest(pathDePatchDeTemaDeMinuta(123L), convertirAJsonString(temaDeMinutaTo));
+
+        assertThat(getStatusCode(response)).isEqualTo(HttpStatus.SC_NOT_FOUND);
+    }
+
+    @Test
+    public void patchDeTemaDeMinutaCuandoNoHayMinutaRespondeConNotFound() throws IOException {
+        TemaDeReunion unTemaDeReunion = helper.unTemaDeReunionDe(unUsuarioPersistido());
+        Reunion reunion = helper.unaReunionConTemas(unTemaDeReunion);
+        reunionService.save(reunion);
+
+        HttpResponse response = makePatchRequest(pathDePatchDeTemaDeMinuta(unTemaDeReunion.getId()), convertirAJsonString(unPatchRequestDeTemaDeMinuta()));
+
+        assertThat(getStatusCode(response)).isEqualTo(HttpStatus.SC_NOT_FOUND);
+    }
+
+    @Test
+    public void patchDeTemaDeMinutaConRequestInvalidoRespondeConBadRequest() throws IOException {
+        TemaDeReunion unTemaDeReunion = helper.unTemaDeReunionDe(unUsuarioPersistido());
+        reunionService.save(helper.unaReunionConTemas(unTemaDeReunion));
+
+        TemaDeMinutaTo requestInvalido = new TemaDeMinutaTo();
+        HttpResponse response = makePatchRequest(pathDePatchDeTemaDeMinuta(unTemaDeReunion.getId()), convertirAJsonString(requestInvalido));
+
+        assertThat(getStatusCode(response)).isEqualTo(HttpStatus.SC_BAD_REQUEST);
+    }
+
+    @Test
+    public void patchDeFueTratadoDeTemaDeMinutaActualizaLaMinuta() throws IOException {
+        Usuario usuario = unUsuarioPersistido();
+        TemaDeReunion unTemaDeReunion = helper.unTemaDeReunionDe(usuario);
+        TemaDeReunion otroTemaDeReunion = helper.unTemaDeReunionDe(usuario);
+        Reunion reunion = reunionService.save(helper.unaReunionConTemas(unTemaDeReunion, otroTemaDeReunion));
+        Minuta minuta = minutaService.save(Minuta.create(reunion));
+        TemaDeMinuta unTemaDeMinuta = temaDeMinutaDe(minuta, unTemaDeReunion);
+        TemaDeMinuta otroTemaDeMinuta = temaDeMinutaDe(minuta, otroTemaDeReunion);
+
+        TemaDeMinutaTo temaDeMinutaTo = new TemaDeMinutaTo();
+        boolean fueTratado = true;
+        temaDeMinutaTo.setFueTratado(fueTratado);
+        HttpResponse response = makePatchRequest(pathDePatchDeTemaDeMinuta(unTemaDeReunion.getId()), convertirAJsonString(temaDeMinutaTo));
+
+        assertThat(getStatusCode(response)).isEqualTo(HttpStatus.SC_NO_CONTENT);
+        assertThat(temaDeMinutaService.get(unTemaDeMinuta.getId()).getFueTratado()).isEqualTo(fueTratado);
+        assertThat(temaDeMinutaService.get(otroTemaDeMinuta.getId()).getFueTratado()).isEqualTo(false);
+    }
+
+    private String pathDePatchDeTemaDeMinuta(Long idDeTemaDeReunion) {
+        return "temas/" + idDeTemaDeReunion + "/temaDeMinuta";
+    }
+
+    private TemaDeMinutaTo unPatchRequestDeTemaDeMinuta() {
+        TemaDeMinutaTo temaDeMinutaTo = new TemaDeMinutaTo();
+        temaDeMinutaTo.setFueTratado(true);
+        return temaDeMinutaTo;
+    }
+
+    private TemaDeMinuta temaDeMinutaDe(Minuta minuta, TemaDeReunion temaDeReunion) {
+        return minuta.getTemas().stream()
+            .filter(temaDeMinuta -> temaDeMinuta.getTema().equals(temaDeReunion))
+            .findFirst()
+            .orElseThrow(() -> new RuntimeException("El tema de reunión no tiene tema de minuta asociado"));
+    }
+
     private TemaDeReunionConDescripcion crearUnTemaDeReunionConDescripcion() {
         TemaDeReunionConDescripcion unTemaConDescripcion = new TemaDeReunionConDescripcion();
         temaService.save(unTemaConDescripcion);
@@ -203,5 +272,4 @@ public class TemaDeReunionResourceTest extends ResourceTest {
     private Usuario unUsuarioPersistido() {
         return usuarioService.getAll().get(0);
     }
-
 }
