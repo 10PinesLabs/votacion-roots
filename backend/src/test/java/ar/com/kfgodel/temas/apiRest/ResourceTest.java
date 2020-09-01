@@ -20,10 +20,7 @@ import convention.rest.api.tos.TemaDeReunionTo;
 import convention.services.*;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.*;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
@@ -48,6 +45,7 @@ public abstract class ResourceTest {
     UsuarioService usuarioService;
     ReunionService reunionService;
     MinutaService minutaService;
+    TemaDeMinutaService temaDeMinutaService;
     TemaGeneralService temaGeneralService;
     TestHelper helper;
     PersistentTestHelper persistentHelper;
@@ -101,6 +99,7 @@ public abstract class ResourceTest {
         temaGeneralService = getApplication().getImplementationFor(TemaGeneralService.class);
         usuarioService = getApplication().getImplementationFor(UsuarioService.class);
         minutaService = getApplication().getImplementationFor(MinutaService.class);
+        temaDeMinutaService = getApplication().getImplementationFor(TemaDeMinutaService.class);
 
         helper = getInjector().createInjected(TestHelper.class);
         usuarioService.save(helper.unFeche());
@@ -158,6 +157,12 @@ public abstract class ResourceTest {
         return getClient().execute(request);
     }
 
+    HttpResponse makePatchRequest(String aPathRelativeToApi, String aJsonString) throws IOException {
+        HttpPatch request = new HttpPatch(pathRelativeToApi(aPathRelativeToApi));
+        request.setEntity(new StringEntity(aJsonString, ContentType.APPLICATION_JSON));
+        return getClient().execute(request);
+    }
+
     void assertThatResponseStatusCodeIs(HttpResponse aResponse, int expectedStatusCode) {
         assertThat(getStatusCode(aResponse)).isEqualTo(expectedStatusCode);
     }
@@ -180,7 +185,7 @@ public abstract class ResourceTest {
 
     private TypeTransformer getTypeTransformer() {
         return getInjector().getImplementationFor(TypeTransformer.class)
-                .orElseThrow(() -> new TypeTransformerException("no se ha injectado ningún TypeTransformer"));
+            .orElseThrow(() -> new TypeTransformerException("no se ha injectado ningún TypeTransformer"));
     }
 
     Usuario getAuthenticatedUser() {
