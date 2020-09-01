@@ -3,6 +3,8 @@ package ar.com.kfgodel.temas.apiRest;
 import ar.com.kfgodel.dependencies.api.DependencyInjector;
 import ar.com.kfgodel.temas.application.Application;
 import ar.com.kfgodel.temas.config.AuthenticatedTestConfig;
+import ar.com.kfgodel.temas.config.environments.Development;
+import ar.com.kfgodel.temas.config.environments.Environment;
 import ar.com.kfgodel.temas.exceptions.TypeTransformerException;
 import ar.com.kfgodel.temas.helpers.PersistentTestHelper;
 import ar.com.kfgodel.temas.helpers.ResourceTestApplication;
@@ -41,6 +43,7 @@ public abstract class ResourceTest {
     private static Thread serverThread;
     private static ResourceTestApplication application;
     private static AuthenticatedTestConfig applicationConfig;
+    Environment environment = new Development();
     TemaService temaService;
     UsuarioService usuarioService;
     ReunionService reunionService;
@@ -115,15 +118,19 @@ public abstract class ResourceTest {
         application.restartOrmModule();
     }
 
-    private String pathRelativeToHost(String aRelativePath) {
+    String pathRelativeToHost(String aRelativePath) {
         return HOST + aRelativePath;
     }
 
     private String pathRelativeToApi(String aRelativePath) {
-        return pathRelativeToHost("api/v1/" + aRelativePath);
+        return pathRelativeToHost("api/" + apiVersion() + "/" + aRelativePath);
     }
 
-    private HttpClient getClient() {
+    protected String apiVersion() {
+        return "v1";
+    }
+
+    HttpClient getClient() {
         return client;
     }
 
@@ -190,5 +197,9 @@ public abstract class ResourceTest {
 
     Usuario getAuthenticatedUser() {
         return usuarioService.get(applicationConfig.getAuthenticatedUserId());
+    }
+
+    protected Usuario unUsuarioPersistido() {
+        return usuarioService.getAll().get(0);
     }
 }

@@ -4,7 +4,10 @@ import ar.com.kfgodel.temas.config.HerokuProductionConfig;
 import ar.com.kfgodel.temas.config.TemasConfiguration;
 import org.slf4j.Logger;
 
+import java.util.Optional;
+
 public class Production extends Environment {
+
     private String environmentVariable = "PROD";
 
     @Override
@@ -20,12 +23,11 @@ public class Production extends Environment {
 
     @Override
     public String getHostName() {
-        return System.getenv("TEMAS_ROOTS_HOST");
+        return getEnv("TEMAS_ROOTS_HOST");
     }
 
     @Override
     public String apiKey() {
-        return System.getenv("TEMAS_ROOTS_API_KEY");
+        return getEnv("TEMAS_ROOTS_API_KEY");
     }
-
 }
