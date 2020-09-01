@@ -119,23 +119,6 @@ public class TemaDeReunionResource {
         temaService.delete(tema);
     }
 
-    @PATCH
-    @Path("/{resourceId}/temaDeMinuta")
-    public void patchTemaDeMinuta(@PathParam("resourceId") Long id, TemaDeMinutaTo patchRequest) {
-        Boolean fueTratado = Optional.ofNullable(patchRequest.getFueTratado())
-            .orElseThrow(() -> new WebApplicationException("El request es inválido", Response.Status.BAD_REQUEST));
-        TemaDeReunion temaDeReunion = temaService.get(id);
-        Minuta minuta = minutaService.getForReunion(temaDeReunion.getReunion().getId())
-            .orElseThrow(() -> new WebApplicationException("La reunión no tiene minuta", Response.Status.NOT_FOUND));
-        minuta.getTemas().stream()
-            .filter(tema -> tema.getTema().equals(temaDeReunion))
-            .findFirst()
-            .ifPresent(temaDeMinuta -> {
-                temaDeMinuta.setFueTratado(fueTratado);
-                temaDeMinutaService.update(temaDeMinuta);
-            });
-    }
-
     public static TemaDeReunionResource create(DependencyInjector appInjector) {
         TemaDeReunionResource temaDeReunionResource = new TemaDeReunionResource();
         temaDeReunionResource.resourceHelper = ResourceHelper.create(appInjector);

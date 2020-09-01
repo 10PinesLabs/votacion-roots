@@ -174,10 +174,6 @@ public class ReunionResourceTest extends ResourceTest {
         assertThat(temaService.get(unTema.getId()).getEsRePropuesta()).isFalse();
     }
 
-    private Usuario unUsuarioPersistido() {
-        return usuarioService.getAll().get(0);
-    }
-
     private String jsonDeUnaPropuesta() {
         return jsonDeUnaPropuestaPara(helper.unPino());
     }
