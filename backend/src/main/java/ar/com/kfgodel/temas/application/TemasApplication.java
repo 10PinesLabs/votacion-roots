@@ -72,7 +72,6 @@ public class TemasApplication implements Application {
     public void start() {
         LOG.info("Starting APP");
         this.initialize();
-        this.iniciarNotificadorDeTemasNoTratados();
         this.getWebServerModule().startAndJoin();
     }
 
