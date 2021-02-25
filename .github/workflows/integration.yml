@@ -14,8 +14,8 @@ jobs:
 
       - name: Setup Java JDK
         uses: actions/setup-java@v1
-          with:
-            java-version: 9
+        with:
+          java-version: 9
 
       - name: Cache Local Maven Repository
         uses: actions/cache@v2
