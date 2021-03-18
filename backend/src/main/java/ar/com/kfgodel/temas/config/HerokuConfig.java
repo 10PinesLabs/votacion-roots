@@ -4,8 +4,11 @@ import ar.com.kfgodel.dependencies.api.DependencyInjector;
 import ar.com.kfgodel.dependencies.impl.DependencyInjectorImpl;
 import ar.com.kfgodel.orm.api.config.DbCoordinates;
 import ar.com.kfgodel.orm.impl.config.ImmutableDbCoordinates;
+import ar.com.kfgodel.temas.application.TemasApplication;
 import ar.com.kfgodel.webbyconvention.api.auth.WebCredential;
 import com.heroku.sdk.jdbc.DatabaseUrl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.URISyntaxException;
 import java.util.Optional;
@@ -16,6 +19,8 @@ import java.util.function.Function;
  * Created by kfgodel on 13/03/16.
  */
 public abstract class HerokuConfig implements TemasConfiguration {
+  public static Logger LOG = LoggerFactory.getLogger(HerokuConfig.class);
+
   private DependencyInjector injector= DependencyInjectorImpl.create();
 
   @Override
@@ -26,10 +31,15 @@ public abstract class HerokuConfig implements TemasConfiguration {
     } catch (URISyntaxException e) {
       throw new RuntimeException("Error accessing heroku jdbc url", e);
     }
-    String url = herokuCoordinates.jdbcUrl().replace("ssl=true", "sslmode=require");
+    String originalUrl = herokuCoordinates.jdbcUrl();
+    LOG.info("Database original url: {}", originalUrl);
+    String url = originalUrl.replace("ssl=true", "sslmode=require");
+    LOG.info("Database fixed url: {}", url);
     String userName = herokuCoordinates.username();
     String password = herokuCoordinates.password();
-    return ImmutableDbCoordinates.createDeductingDialect(url, userName, password);
+    DbCoordinates dbCoordinates = ImmutableDbCoordinates.createDeductingDialect(url, userName, password);
+    LOG.info("Database coordinates url: {}", dbCoordinates.getDbUrl());
+    return dbCoordinates;
   }
 
   @Override
