@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public abstract class Environment {
 
@@ -22,4 +23,9 @@ public abstract class Environment {
     public abstract String getHostName();
 
     public abstract String apiKey();
+
+    protected String getEnv(String key) {
+        return Optional.ofNullable(System.getenv(key))
+            .orElseThrow(() -> new RuntimeException("Undefined environment variable: " + key));
+    }
 }

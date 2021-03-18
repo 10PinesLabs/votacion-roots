@@ -3,6 +3,8 @@ package ar.com.kfgodel.temas.apiRest;
 import ar.com.kfgodel.dependencies.api.DependencyInjector;
 import ar.com.kfgodel.temas.application.Application;
 import ar.com.kfgodel.temas.config.AuthenticatedTestConfig;
+import ar.com.kfgodel.temas.config.environments.Development;
+import ar.com.kfgodel.temas.config.environments.Environment;
 import ar.com.kfgodel.temas.exceptions.TypeTransformerException;
 import ar.com.kfgodel.temas.helpers.PersistentTestHelper;
 import ar.com.kfgodel.temas.helpers.ResourceTestApplication;
@@ -20,10 +22,7 @@ import convention.rest.api.tos.TemaDeReunionTo;
 import convention.services.*;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.*;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
@@ -44,10 +43,12 @@ public abstract class ResourceTest {
     private static Thread serverThread;
     private static ResourceTestApplication application;
     private static AuthenticatedTestConfig applicationConfig;
+    Environment environment = new Development();
     TemaService temaService;
     UsuarioService usuarioService;
     ReunionService reunionService;
     MinutaService minutaService;
+    TemaDeMinutaService temaDeMinutaService;
     TemaGeneralService temaGeneralService;
     TestHelper helper;
     PersistentTestHelper persistentHelper;
@@ -101,6 +102,7 @@ public abstract class ResourceTest {
         temaGeneralService = getApplication().getImplementationFor(TemaGeneralService.class);
         usuarioService = getApplication().getImplementationFor(UsuarioService.class);
         minutaService = getApplication().getImplementationFor(MinutaService.class);
+        temaDeMinutaService = getApplication().getImplementationFor(TemaDeMinutaService.class);
 
         helper = getInjector().createInjected(TestHelper.class);
         usuarioService.save(helper.unFeche());
@@ -116,15 +118,19 @@ public abstract class ResourceTest {
         application.restartOrmModule();
     }
 
-    private String pathRelativeToHost(String aRelativePath) {
+    String pathRelativeToHost(String aRelativePath) {
         return HOST + aRelativePath;
     }
 
     private String pathRelativeToApi(String aRelativePath) {
-        return pathRelativeToHost("api/v1/" + aRelativePath);
+        return pathRelativeToHost("api/" + apiVersion() + "/" + aRelativePath);
     }
 
-    private HttpClient getClient() {
+    protected String apiVersion() {
+        return "v1";
+    }
+
+    HttpClient getClient() {
         return client;
     }
 
@@ -158,6 +164,12 @@ public abstract class ResourceTest {
         return getClient().execute(request);
     }
 
+    HttpResponse makePatchRequest(String aPathRelativeToApi, String aJsonString) throws IOException {
+        HttpPatch request = new HttpPatch(pathRelativeToApi(aPathRelativeToApi));
+        request.setEntity(new StringEntity(aJsonString, ContentType.APPLICATION_JSON));
+        return getClient().execute(request);
+    }
+
     void assertThatResponseStatusCodeIs(HttpResponse aResponse, int expectedStatusCode) {
         assertThat(getStatusCode(aResponse)).isEqualTo(expectedStatusCode);
     }
@@ -180,10 +192,14 @@ public abstract class ResourceTest {
 
     private TypeTransformer getTypeTransformer() {
         return getInjector().getImplementationFor(TypeTransformer.class)
-                .orElseThrow(() -> new TypeTransformerException("no se ha injectado ningún TypeTransformer"));
+            .orElseThrow(() -> new TypeTransformerException("no se ha injectado ningún TypeTransformer"));
     }
 
     Usuario getAuthenticatedUser() {
         return usuarioService.get(applicationConfig.getAuthenticatedUserId());
+    }
+
+    protected Usuario unUsuarioPersistido() {
+        return usuarioService.getAll().get(0);
     }
 }

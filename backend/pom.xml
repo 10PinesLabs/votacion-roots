@@ -314,7 +314,7 @@
         <dependency>
             <groupId>org.quartz-scheduler</groupId>
             <artifactId>quartz</artifactId>
-            <version>2.3.1</version>
+            <version>2.3.2</version>
         </dependency>
 
     </dependencies>
@@ -328,7 +328,7 @@
                 </property>
             </activation>
             <properties>
-                <flyway.url>{$env.DATABASE_URL}</flyway.url>
+                <flyway.url>{$env.DATABASE_URL}?sslmode=require</flyway.url>
             </properties>
         </profile>
 

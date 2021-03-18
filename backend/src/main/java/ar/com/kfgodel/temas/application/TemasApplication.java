@@ -72,7 +72,6 @@ public class TemasApplication implements Application {
     public void start() {
         LOG.info("Starting APP");
         this.initialize();
-        this.iniciarNotificadorDeTemasNoTratados();
         this.getWebServerModule().startAndJoin();
     }
 
@@ -110,6 +109,7 @@ public class TemasApplication implements Application {
 
     private HibernateOrm createPersistenceLayer() {
         DbCoordinates dbCoordinates = config.getDatabaseCoordinates();
+        LOG.info("Connecting to database url {}", dbCoordinates.getDbUrl());
         HibernateOrm hibernateOrm = HibernateFacade.createWithConventionsFor(dbCoordinates);
         return hibernateOrm;
     }

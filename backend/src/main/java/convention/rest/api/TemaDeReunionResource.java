@@ -1,12 +1,13 @@
 package convention.rest.api;
 
 import ar.com.kfgodel.dependencies.api.DependencyInjector;
-import convention.persistent.TemaDeReunion;
-import convention.persistent.TemaDeReunionConDescripcion;
-import convention.persistent.TemaParaProponerPinosARoot;
-import convention.persistent.Usuario;
+import ar.com.kfgodel.temas.annotations.PATCH;
+import convention.persistent.*;
+import convention.rest.api.tos.TemaDeMinutaTo;
 import convention.rest.api.tos.TemaDeReunionTo;
 import convention.rest.api.tos.TemaEnCreacionTo;
+import convention.services.MinutaService;
+import convention.services.TemaDeMinutaService;
 import convention.services.TemaService;
 
 import javax.inject.Inject;
@@ -14,6 +15,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import java.util.Optional;
 
 /**
  * Esta clase representa el recurso rest para modificar temas
@@ -25,6 +27,12 @@ public class TemaDeReunionResource {
 
     @Inject
     TemaService temaService;
+
+    @Inject
+    MinutaService minutaService;
+
+    @Inject
+    TemaDeMinutaService temaDeMinutaService;
 
     private ResourceHelper resourceHelper;
 
@@ -60,15 +68,15 @@ public class TemaDeReunionResource {
         Usuario usuarioActual = getResourceHelper().usuarioActual(securityContext);
 
         TemaDeReunion temaVotado = temaService.updateAndMapping(id,
-                temaDeReunion -> votarTema(usuarioActual, temaDeReunion));
+            temaDeReunion -> votarTema(usuarioActual, temaDeReunion));
         return getResourceHelper().convertir(temaVotado, TemaDeReunionTo.class);
     }
 
     public TemaDeReunion votarTema(Usuario usuarioActual, TemaDeReunion temaDeReunion) {
 
         long cantidadDeVotos = temaDeReunion.getInteresados().stream()
-                .filter(usuario ->
-                        usuario.getId().equals(usuarioActual.getId())).count();
+            .filter(usuario ->
+                usuario.getId().equals(usuarioActual.getId())).count();
         if (cantidadDeVotos >= 3) {
             throw new WebApplicationException("excede la cantidad de votos permitidos", Response.Status.CONFLICT);
         }
@@ -87,16 +95,15 @@ public class TemaDeReunionResource {
         Usuario usuarioActual = getResourceHelper().usuarioActual(securityContext);
 
         TemaDeReunion temaVotado = temaService.updateAndMapping(id,
-                temaDeReunion -> desvotarTema(usuarioActual, temaDeReunion)
+            temaDeReunion -> desvotarTema(usuarioActual, temaDeReunion)
         );
         return getResourceHelper().convertir(temaVotado, TemaDeReunionTo.class);
-
     }
 
     public TemaDeReunion desvotarTema(Usuario usuarioActual, TemaDeReunion temaDeReunion) {
         long cantidadDeVotos = temaDeReunion.getInteresados().stream()
-                .filter(usuario ->
-                        usuario.getId().equals(usuarioActual.getId())).count();
+            .filter(usuario ->
+                usuario.getId().equals(usuarioActual.getId())).count();
         if (cantidadDeVotos <= 0) {
             throw new WebApplicationException("el usuario no tiene votos en el tema", Response.Status.CONFLICT);
         }

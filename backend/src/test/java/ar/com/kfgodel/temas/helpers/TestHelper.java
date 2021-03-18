@@ -1,6 +1,5 @@
 package ar.com.kfgodel.temas.helpers;
 
-import ar.com.kfgodel.nary.api.optionals.Optional;
 import ar.com.kfgodel.temas.domain.TemaParaProponerPinosARootTest;
 import ar.com.kfgodel.temas.notifications.ActionItemMailSender;
 import ar.com.kfgodel.transformbyconvention.api.TypeTransformer;
@@ -268,5 +267,14 @@ public class TestHelper {
         ActionItemMailSender actionItemMailSender = mock(ActionItemMailSender.class);
         doNothing().when(actionItemMailSender).sendMail(any(), any());
         return actionItemMailSender;
+    }
+
+    public Reunion unaReunionConTemas(TemaDeReunion... temas) {
+        Reunion reunion = unaReunion();
+        for (TemaDeReunion tema : temas) {
+            reunion.agregarTema(tema);
+            tema.setReunion(reunion);
+        }
+        return reunion;
     }
 }

@@ -50,17 +50,6 @@ public class TemaDeReunionResourceTest extends ResourceTest {
     }
 
     @Test
-    public void testSePuedeVotarUnTemaParaProponerPinosARoot() throws IOException {
-        TemaParaProponerPinosARoot unTemaParaProponerPinos = crearUnTemaParaProponerPinosARoot();
-        Long idTema = unTemaParaProponerPinos.getId();
-
-        makeGetRequest("temas/votar/" + idTema);
-
-        TemaDeReunion temaActualizado = temaService.get(idTema);
-        assertThat(temaActualizado.getCantidadDeVotos()).isEqualTo(1);
-    }
-
-    @Test
     public void testNoSePuedeAgregarUnTemaConElTituloDeUnoParaProponerPinosARoot() throws IOException {
         TemaEnCreacionTo unTemaEnCreacionTo = new TemaEnCreacionTo();
         unTemaEnCreacionTo.setTitulo(TemaParaProponerPinosARoot.TITULO);
@@ -133,7 +122,7 @@ public class TemaDeReunionResourceTest extends ResourceTest {
         TemaDeReunion unaPropuestaOriginal = temaService.save(helper.unTemaDeReunion());
         Reunion unaReunion = reunionService.save(helper.unaReunion());
         TemaDeReunion unTema = temaService.save(
-                helper.unaRePropuestaDeParaReunion(unaPropuestaOriginal, unaReunion));
+            helper.unaRePropuestaDeParaReunion(unaPropuestaOriginal, unaReunion));
         reunionService.save(unaReunion);
 
         TemaEnCreacionTo unTemaEnCreacionTo = helper.unTemaEnCreacionTo(unaReunion);
@@ -149,7 +138,7 @@ public class TemaDeReunionResourceTest extends ResourceTest {
         TemaDeReunion unaPropuestaOriginal = temaService.save(helper.unTemaDeReunion());
         Reunion unaReunion = reunionService.save(helper.unaReunion());
         TemaDeReunion unTema = temaService.save(
-                helper.unaRePropuestaDeParaReunion(unaPropuestaOriginal, unaReunion));
+            helper.unaRePropuestaDeParaReunion(unaPropuestaOriginal, unaReunion));
 
         TemaDeReunionTo toDelTema = convertirATo(unTema);
         String unNuevoTitulo = "Un nuevo título";
@@ -166,7 +155,7 @@ public class TemaDeReunionResourceTest extends ResourceTest {
         TemaDeReunion unaPropuestaOriginal = temaService.save(helper.unTemaDeReunion());
         Reunion unaReunion = reunionService.save(helper.unaReunion());
         TemaDeReunion unTema = temaService.save(
-                helper.unaRePropuestaDeParaReunion(unaPropuestaOriginal, unaReunion));
+            helper.unaRePropuestaDeParaReunion(unaPropuestaOriginal, unaReunion));
 
         HttpResponse response = makeDeleteRequest("temas/" + unaPropuestaOriginal.getId());
 
@@ -174,7 +163,7 @@ public class TemaDeReunionResourceTest extends ResourceTest {
         assertThat(temaService.getAll()).doesNotContain(unaPropuestaOriginal);
         assertThat(temaService.get(unTema.getId()).getEsRePropuesta()).isFalse();
     }
-    
+
     @Test
     public void testGetDeTemasDeReunionContieneLaFechaDeLaPropuestaOriginal() throws IOException {
         Reunion unaReunion = reunionService.save(helper.unaReunion());
@@ -210,9 +199,4 @@ public class TemaDeReunionResourceTest extends ResourceTest {
         temaService.save(unTemaParaProponerPinos);
         return unTemaParaProponerPinos;
     }
-
-    private Usuario unUsuarioPersistido() {
-        return usuarioService.getAll().get(0);
-    }
-
 }
