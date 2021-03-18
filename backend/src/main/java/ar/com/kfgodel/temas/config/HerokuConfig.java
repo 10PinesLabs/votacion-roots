@@ -27,7 +27,7 @@ public abstract class HerokuConfig implements TemasConfiguration {
     } catch (URISyntaxException e) {
       throw new RuntimeException("Error accessing heroku jdbc url", e);
     }
-    String url = herokuCoordinates.jdbcUrl();
+    String url = herokuCoordinates.jdbcUrl().replace("ssl=true", "sslmode=require");
     String userName = herokuCoordinates.username();
     String password = herokuCoordinates.password();
     return ImmutableDbCoordinates.createDeductingDialect(url, userName, password);
