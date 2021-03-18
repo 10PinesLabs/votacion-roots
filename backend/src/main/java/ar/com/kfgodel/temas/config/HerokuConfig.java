@@ -4,7 +4,6 @@ import ar.com.kfgodel.dependencies.api.DependencyInjector;
 import ar.com.kfgodel.dependencies.impl.DependencyInjectorImpl;
 import ar.com.kfgodel.orm.api.config.DbCoordinates;
 import ar.com.kfgodel.orm.impl.config.ImmutableDbCoordinates;
-import ar.com.kfgodel.temas.application.auth.BackofficeCallbackAuthenticatorForRootsOnly;
 import ar.com.kfgodel.webbyconvention.api.auth.WebCredential;
 import com.heroku.sdk.jdbc.DatabaseUrl;
 
