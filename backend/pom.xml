@@ -328,7 +328,7 @@
                 </property>
             </activation>
             <properties>
-                <flyway.url>{$env.DATABASE_URL}</flyway.url>
+                <flyway.url>{$env.DATABASE_URL}?sslmode=require</flyway.url>
             </properties>
         </profile>
 
