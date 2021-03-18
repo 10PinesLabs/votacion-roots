@@ -33,7 +33,7 @@ public abstract class HerokuConfig implements TemasConfiguration {
     }
     String originalUrl = herokuCoordinates.jdbcUrl();
     LOG.info("Database original url: {}", originalUrl);
-    String url = originalUrl.replace("ssl=true", "sslmode=require");
+    String url = originalUrl + "?sslmode=require";
     LOG.info("Database fixed url: {}", url);
     String userName = herokuCoordinates.username();
     String password = herokuCoordinates.password();
