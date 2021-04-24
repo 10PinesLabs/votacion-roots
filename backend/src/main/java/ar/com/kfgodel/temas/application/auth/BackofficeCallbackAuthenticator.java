@@ -52,7 +52,7 @@ public abstract class BackofficeCallbackAuthenticator implements Function<WebCre
   }
 
   private boolean isAValidHmac(String uid, String email, String username, String fullName, String root, String hmacProvisto) {
-    String key = "CHANGE_ME";
+    String key = System.getenv("BACKOFFICE_SECRET");
     String data = "uid=" + uid + "&email=" + email + "&username=" + username + "&full_name=" + fullName + "&root=" + root;
 
     String hmacCalculado;
