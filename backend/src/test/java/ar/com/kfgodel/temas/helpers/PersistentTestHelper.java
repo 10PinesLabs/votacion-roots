@@ -90,4 +90,20 @@ public class PersistentTestHelper {
         return minutaService.save(minuta);
     }
 
+    public TemaParaRepasarActionItems crearUnTemaDeReunionParaRepasarActionItems() {
+        Usuario usuario = usuarioService.getAll().get(0);
+
+        Reunion primeraReunion = helper.unaReunionConTemas(helper.unTemaDeReunionDe(usuario));
+        primeraReunion.marcarComoMinuteada();
+        reunionService.save(primeraReunion);
+        Minuta minutaDePrimeraReunion = minutaService.save(Minuta.create(primeraReunion));
+
+        TemaParaRepasarActionItems temaParaRepasarActionItems =
+            helper.unTemaParaRepasarActionItems(minutaDePrimeraReunion, usuario);
+        Reunion segundaReunion =
+            helper.unaReunionConTemas(temaParaRepasarActionItems);
+        reunionService.save(segundaReunion);
+
+        return temaParaRepasarActionItems;
+    }
 }

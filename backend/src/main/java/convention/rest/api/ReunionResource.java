@@ -34,9 +34,6 @@ public class ReunionResource {
     @Inject
     private ReunionService reunionService;
 
-    @Inject
-    private TemaGeneralService temaGeneralService;
-
     private ResourceHelper resourceHelper;
 
     private static final Type LISTA_DE_REUNIONES_TO = new ReferenceOf<List<ReunionTo>>() {
@@ -67,40 +64,38 @@ public class ReunionResource {
     @GET
     @Path("cerrar/{resourceId}")
     public ReunionTo cerrar(@PathParam("resourceId") Long id) {
-        Reunion reunionCerrada = reunionService.updateAndMapping(id,
+        return reunionService.updatingAndMapping(id,
                 reunion -> {
                     reunion.cerrarVotacion();
                     reunionService.cargarActionItemsDeLaUltimaMinutaSiExisteElTema(reunion);
                     return reunion;
-                });
-         return getResourceHelper().convertir(reunionCerrada, ReunionTo.class);
+                })
+            .convertTo(ReunionTo.class);
     }
 
 
     @GET
     @Path("reabrir/{resourceId}")
     public ReunionTo reabrir(@PathParam("resourceId") Long id) {
-        Reunion reunionAbierta = reunionService.updateAndMapping(id,
+        return reunionService.updatingAndMapping(id,
                 reunion -> {
                     reunion.reabrirVotacion();
                     return reunion;
-                });
-
-        return getResourceHelper().convertir(reunionAbierta, ReunionTo.class);
+                })
+            .convertTo(ReunionTo.class);
     }
 
     @GET
     public List<ReunionTo> getAll(@Context SecurityContext securityContext) {
         Long userId = getResourceHelper().idDeUsuarioActual(securityContext);
-        List<Reunion> reuniones = reunionService.getAll();
-        List<Reunion> reunionesFiltradas = reuniones.stream()
-                .map(reunion -> muestreoDeReunion(reunion, userId, securityContext)).collect(Collectors.toList());
-        return getResourceHelper().convertir(reunionesFiltradas, LISTA_DE_REUNIONES_TO);
+        return reunionService.gettingAll()
+            .mapping(reuniones -> reuniones.stream()
+                .map(reunion -> muestreoDeReunion(reunion, userId, securityContext)).collect(Collectors.toList()))
+            .convertTo(LISTA_DE_REUNIONES_TO);
     }
 
     @POST
     public ReunionTo create(ReunionTo reunionNuevaTo) {
-
         Reunion nuevaReunion = getResourceHelper().convertir(reunionNuevaTo, Reunion.class);
         Reunion reunionCreada = reunionService.create(nuevaReunion);
         return getResourceHelper().convertir(reunionCreada, ReunionTo.class);
@@ -110,16 +105,17 @@ public class ReunionResource {
     @Path("/{resourceId}")
     public ReunionTo getSingle(@PathParam("resourceId") Long id, @Context SecurityContext securityContext) {
         Long userId = getResourceHelper().idDeUsuarioActual(securityContext);
-        Reunion reunionFiltrada = reunionService.getAndMapping(id, reunion -> muestreoDeReunion(reunion, userId, securityContext));
-        return getResourceHelper().convertir(reunionFiltrada, ReunionTo.class);
+        return reunionService.getting(id)
+            .mapping(reunion -> muestreoDeReunion(reunion, userId, securityContext))
+            .convertTo(ReunionTo.class);
     }
 
 
     @PUT
     @Path("/{resourceId}")
     public ReunionTo update(ReunionTo newState, @PathParam("resourceId") Long id) {
-        Reunion reunionActualizada = reunionService.update(getResourceHelper().convertir(newState, Reunion.class));
-        return getResourceHelper().convertir(reunionActualizada, ReunionTo.class);
+        return reunionService.updating(getResourceHelper().convertir(newState, Reunion.class))
+            .convertTo(ReunionTo.class);
     }
 
     @DELETE
@@ -150,9 +146,10 @@ public class ReunionResource {
         } catch (Exception exception){
             throw new WebApplicationException(exception.getMessage(), Response.Status.BAD_REQUEST);
         }
-        Reunion nuevaReunion = reunionService.save(reunion);
 
-        return getResourceHelper().convertir(muestreoDeReunion(nuevaReunion, usuarioActual.getId(), securityContext), ReunionTo.class);
+        return reunionService.updating(reunion)
+            .mapping(nuevaReunion -> muestreoDeReunion(nuevaReunion, usuarioActual.getId(), securityContext))
+            .convertTo(ReunionTo.class);
     }
 
     public ResourceHelper getResourceHelper() {

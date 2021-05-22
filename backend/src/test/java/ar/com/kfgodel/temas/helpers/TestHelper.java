@@ -26,7 +26,7 @@ public class TestHelper {
     @Inject
     TypeTransformer typeTransformer;
 
-    public String unLink(){
+    public String unLink() {
         return "www.unlink.com";
     }
 
@@ -63,20 +63,20 @@ public class TestHelper {
 
     public Usuario unUsuario() {
         return Usuario.create(
-                "jorge",
-                "el_jorge",
-                "password",
-                "123",
-                "jorge@jorge.com");
+            "jorge",
+            "el_jorge",
+            "password",
+            "123",
+            "jorge@jorge.com");
     }
 
     public Usuario otroUsuario() {
         return Usuario.create(
-                "carlos",
-                "carlos123",
-                "asd123",
-                "321",
-                "carlos@jorge.com");
+            "carlos",
+            "carlos123",
+            "asd123",
+            "321",
+            "carlos@jorge.com");
     }
 
     public PropuestaDePinoARoot unaPropuestaDeUnPinoARoot() {
@@ -87,7 +87,8 @@ public class TestHelper {
         return new PropuestaDePinoARoot(otroPino(), unUsuario());
     }
 
-    public PropuestaDePinoARoot unaPropuestaDeUnPinoARootSponsoreadoPor(Usuario unSponsor, TemaParaProponerPinosARootTest temaParaProponerPinosARootTest) {
+    public PropuestaDePinoARoot unaPropuestaDeUnPinoARootSponsoreadoPor(Usuario unSponsor,
+        TemaParaProponerPinosARootTest temaParaProponerPinosARootTest) {
         return new PropuestaDePinoARoot(unPino(), unSponsor);
     }
 
@@ -135,19 +136,21 @@ public class TestHelper {
         return tema;
     }
 
-    public TemaDeReunionConDescripcion unTemaParaRellenarConActionItems(){
-        Usuario autor = unUsuario();
+    private TemaDeReunionConDescripcion unTemaParaRellenarConActionItems(Usuario autor) {
         String titulo = TemaParaRepasarActionItems.TITULO;
         String descripcion = unaDescripcion();
         DuracionDeTema duracion = unaDuracion();
         ObligatoriedadDeTema obligatoriedad = unaObligatoriedad();
         String unLink = unLink();
-
-
         return TemaDeReunionConDescripcion.create(autor, duracion, obligatoriedad, titulo, descripcion, unLink);
     }
+
     public TemaParaRepasarActionItems unTemaParaRepasarActionItems() {
-        return TemaParaRepasarActionItems.create(unaMinuta(), unTemaParaRellenarConActionItems());
+        return unTemaParaRepasarActionItems(unaMinuta(), unUsuario());
+    }
+
+    public TemaParaRepasarActionItems unTemaParaRepasarActionItems(Minuta unaMinuta, Usuario autor) {
+        return TemaParaRepasarActionItems.create(unaMinuta, unTemaParaRellenarConActionItems(autor));
     }
 
     public UserTo unUserTo() {

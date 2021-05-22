@@ -16,7 +16,8 @@ import java.util.List;
 @JsonSubTypes({
         @JsonSubTypes.Type(value = TemaParaProponerPinosARootTo.class, name = "proponerPinos"),
         @JsonSubTypes.Type(value = TemaDeReunionConDescripcionTo.class, name = "conDescripcion"),
-        @JsonSubTypes.Type(value = TemaParaRepasarActionItemsTo.class, name = "repasarActionItems")
+        @JsonSubTypes.Type(value = TemaParaRepasarActionItemsTo.class, name = "repasarActionItems"),
+        @JsonSubTypes.Type(value = TemaParaRepasarActionItemsSinTemasParaRepasarTo.class, name = "repasarActionItems")
 })
 @JsonIgnoreProperties({"usuarioActual"})
 public class TemaDeReunionTo extends PersistableToSupport {

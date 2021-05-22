@@ -1,6 +1,7 @@
 package convention.rest.api;
 
 import ar.com.kfgodel.dependencies.api.DependencyInjector;
+import ar.com.kfgodel.diamond.api.types.reference.ReferenceOf;
 import ar.com.kfgodel.temas.annotations.PATCH;
 import ar.com.kfgodel.temas.config.environments.Environment;
 import convention.persistent.Minuta;
@@ -15,9 +16,9 @@ import convention.services.TemaService;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Produces("application/json")
 @Consumes("application/json")
@@ -25,6 +26,9 @@ import java.util.stream.Collectors;
 public class TemasParaExportarResource {
 
     private static final String API_KEY_QUERY_PARAM = "apiKey";
+    private static final Type LISTA_DE_TEMAS_DE_REUNION_TO = new ReferenceOf<List<TemaDeReunionTo>>() {
+    }.getReferencedType();
+
     @Inject
     private ResourceHelper resourceHelper;
     @Inject
@@ -47,11 +51,7 @@ public class TemasParaExportarResource {
     @GET
     public List<TemaDeReunionTo> getProximosTemas(@QueryParam(API_KEY_QUERY_PARAM) String apiKey) {
         ensureAuthorized(apiKey);
-
-        return reunionService
-            .getTemasDeProximaReunion().stream()
-            .map(tema -> getResourceHelper().convertir(tema, TemaDeReunionTo.class))
-            .collect(Collectors.toList());
+        return reunionService.getTemasDeProximaReunion().convertTo(LISTA_DE_TEMAS_DE_REUNION_TO);
     }
 
     @PATCH
