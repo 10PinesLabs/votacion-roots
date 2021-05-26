@@ -8,7 +8,9 @@ import java.util.List;
 
 public class TemaParaRepasarActionItemsTo extends TemaDeReunionTo {
 
-    @CopyFromAndTo(TemaParaRepasarActionItems.temasParaRepasar_FIELD)
+    @TemasParaRepasar
+    @CopyFromAndTo(value = TemaParaRepasarActionItems.temasParaRepasar_FIELD,
+                   contextAnnotations = TemasParaRepasar.class)
     private List<TemaDeMinutaTo> temasParaRepasar;
 
     public TemaParaRepasarActionItemsTo() {

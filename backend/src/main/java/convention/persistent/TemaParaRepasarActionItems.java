@@ -13,7 +13,7 @@ public class TemaParaRepasarActionItems extends TemaDeReunion {
     public static final String TITULO = "Ver action items anteriores";
     public static final String temasParaRepasar_FIELD = "temasParaRepasar";
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "repasar_id")
     private List<TemaDeMinuta> temasParaRepasar = new ArrayList<>();
 

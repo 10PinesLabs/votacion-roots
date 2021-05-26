@@ -1,5 +1,6 @@
 package convention.services;
 
+import ar.com.kfgodel.appbyconvention.operation.api.chains.ChainedSessionOperation;
 import ar.com.kfgodel.temas.acciones.CrearProximaReunion;
 import ar.com.kfgodel.temas.acciones.UsarReunionExistente;
 import ar.com.kfgodel.temas.filters.reuniones.AllReunionesUltimaPrimero;
@@ -8,8 +9,6 @@ import ar.com.kfgodel.temas.filters.reuniones.UltimaReunion;
 import convention.persistent.*;
 
 import javax.inject.Inject;
-import java.time.Clock;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,11 +17,13 @@ import java.util.Optional;
  * Created by sandro on 21/06/17.
  */
 public class ReunionService extends Service<Reunion> {
-    @Inject
-    MinutaService minutaService;
 
     @Inject
-    TemaGeneralService temaGeneralService;
+    private MinutaService minutaService;
+    @Inject
+    private ReunionService reunionService;
+    @Inject
+    private TemaGeneralService temaGeneralService;
 
     @Inject
     private TemaService temaService;
@@ -44,6 +45,10 @@ public class ReunionService extends Service<Reunion> {
         return getAll(AllReunionesUltimaPrimero.create());
     }
 
+    public ChainedSessionOperation<List<Reunion>> gettingAll() {
+        return gettingAll(AllReunionesUltimaPrimero.create());
+    }
+
     @Override
     public void delete(Long id) {
         minutaService.getForReunion(id).ifPresent(minutaService::delete);
@@ -54,8 +59,12 @@ public class ReunionService extends Service<Reunion> {
         super.delete(id);
     }
 
-    public Optional<Reunion> getUltimaReunion() {
-        return getAll(UltimaReunion.create()).stream().findFirst();
+    public ChainedSessionOperation<Optional<Reunion>> getUltimaReunion() {
+        return gettingAll(UltimaReunion.create()).mapping(reuniones -> reuniones.stream().findFirst());
+    }
+
+    public ChainedSessionOperation<Reunion> gettingUltimaReunion() {
+        return gettingAll(UltimaReunion.create()).mapping(reuniones -> reuniones.stream().findFirst().get());
     }
 
     public Reunion cargarActionItemsDeLaUltimaMinutaSiExisteElTema(Reunion nuevaReunion) {
@@ -68,7 +77,8 @@ public class ReunionService extends Service<Reunion> {
         return save(unaReunion);
     }
 
-    public List<TemaDeReunion> getTemasDeProximaReunion() {
-        return minutaService.getUltimaMinuta().get().getReunion().getTemasPropuestos();
+    public ChainedSessionOperation<List<TemaDeReunion>> getTemasDeProximaReunion() {
+        return reunionService.gettingUltimaReunion()
+            .mapping(Reunion::getTemasPropuestos);
     }
 }

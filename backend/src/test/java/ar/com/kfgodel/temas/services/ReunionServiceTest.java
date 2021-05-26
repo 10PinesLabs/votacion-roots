@@ -7,6 +7,7 @@ import convention.persistent.TemaParaRepasarActionItems;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -25,9 +26,9 @@ public class ReunionServiceTest extends ServiceTest {
 
     @Test
     public void puedoPedirLaUltimaReunionCerrada() {
-        Reunion ultimaReunion = reunionService.getUltimaReunion()
-                .orElseThrow(() -> new RuntimeException("No hay ultima reunion"));
-        assertThat(ultimaReunion.getId()).isEqualTo(reunionConMinuta.getId());
+        Optional<Reunion> ultimaReunion = reunionService.getUltimaReunion().get();
+        assertThat(ultimaReunion).hasValueSatisfying(reunion ->
+            assertThat(reunion.getId()).isEqualTo(reunionConMinuta.getId()));
     }
 
     @Test

@@ -1,13 +1,12 @@
 package convention.rest.api;
 
 import ar.com.kfgodel.dependencies.api.DependencyInjector;
-import ar.com.kfgodel.temas.annotations.PATCH;
-import convention.persistent.*;
-import convention.rest.api.tos.TemaDeMinutaTo;
+import convention.persistent.TemaDeReunion;
+import convention.persistent.TemaDeReunionConDescripcion;
+import convention.persistent.TemaParaProponerPinosARoot;
+import convention.persistent.Usuario;
 import convention.rest.api.tos.TemaDeReunionTo;
 import convention.rest.api.tos.TemaEnCreacionTo;
-import convention.services.MinutaService;
-import convention.services.TemaDeMinutaService;
 import convention.services.TemaService;
 
 import javax.inject.Inject;
@@ -15,7 +14,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
-import java.util.Optional;
 
 /**
  * Esta clase representa el recurso rest para modificar temas
@@ -26,13 +24,7 @@ import java.util.Optional;
 public class TemaDeReunionResource {
 
     @Inject
-    TemaService temaService;
-
-    @Inject
-    MinutaService minutaService;
-
-    @Inject
-    TemaDeMinutaService temaDeMinutaService;
+    private TemaService temaService;
 
     private ResourceHelper resourceHelper;
 
@@ -41,8 +33,7 @@ public class TemaDeReunionResource {
         TemaDeReunionConDescripcion temaCreado = getResourceHelper().convertir(newState, TemaDeReunionConDescripcion.class);
         validarTemaDeReunionConDescripcion(temaCreado);
         temaCreado.setUltimoModificador(getResourceHelper().usuarioActual(securityContext));
-        TemaDeReunion nuevoTema = temaService.save(temaCreado);
-        return getResourceHelper().convertir(nuevoTema, TemaDeReunionTo.class);
+        return temaService.saving(temaCreado).convertTo(TemaDeReunionTo.class);
     }
 
     @PUT
@@ -51,14 +42,13 @@ public class TemaDeReunionResource {
         TemaDeReunionConDescripcion temaCreado = getResourceHelper().convertir(newState, TemaDeReunionConDescripcion.class);
         validarTemaDeReunionConDescripcion(temaCreado);
         temaCreado.setUltimoModificador(getResourceHelper().usuarioActual(securityContext));
-        TemaDeReunion nuevoTema = temaService.update(temaCreado);
-        return getResourceHelper().convertir(nuevoTema, TemaDeReunionTo.class);
+        return temaService.updating(temaCreado).convertTo(TemaDeReunionTo.class);
     }
 
     @GET
     @Path("/{resourceId}")
     public TemaDeReunionTo getSingle(@PathParam("resourceId") Long id) {
-        return getResourceHelper().convertir(temaService.get(id), TemaDeReunionTo.class);
+        return temaService.getting(id).convertTo(TemaDeReunionTo.class);
     }
 
     @GET
@@ -67,9 +57,9 @@ public class TemaDeReunionResource {
 
         Usuario usuarioActual = getResourceHelper().usuarioActual(securityContext);
 
-        TemaDeReunion temaVotado = temaService.updateAndMapping(id,
-            temaDeReunion -> votarTema(usuarioActual, temaDeReunion));
-        return getResourceHelper().convertir(temaVotado, TemaDeReunionTo.class);
+        return temaService
+            .updatingAndMapping(id, temaDeReunion -> votarTema(usuarioActual, temaDeReunion))
+            .convertTo(TemaDeReunionTo.class);
     }
 
     public TemaDeReunion votarTema(Usuario usuarioActual, TemaDeReunion temaDeReunion) {
@@ -94,10 +84,9 @@ public class TemaDeReunionResource {
 
         Usuario usuarioActual = getResourceHelper().usuarioActual(securityContext);
 
-        TemaDeReunion temaVotado = temaService.updateAndMapping(id,
-            temaDeReunion -> desvotarTema(usuarioActual, temaDeReunion)
-        );
-        return getResourceHelper().convertir(temaVotado, TemaDeReunionTo.class);
+        return temaService
+            .updatingAndMapping(id, temaDeReunion -> desvotarTema(usuarioActual, temaDeReunion))
+            .convertTo(TemaDeReunionTo.class);
     }
 
     public TemaDeReunion desvotarTema(Usuario usuarioActual, TemaDeReunion temaDeReunion) {

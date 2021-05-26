@@ -32,8 +32,7 @@ public class TemaDeMinutaResource{
     @GET
     @Path("/{resourceId}")
     public TemaDeMinutaTo getSingle(@PathParam("resourceId") Long id) {
-            TemaDeMinuta temaDeMinuta=temaDeMinutaService.get(id);
-        return  getResourceHelper().convertir(temaDeMinuta, TemaDeMinutaTo.class);
+        return temaDeMinutaService.getting(id).convertTo(TemaDeMinutaTo.class);
     }
     @PUT
     @Path("/{resourceId}")
@@ -42,7 +41,7 @@ public class TemaDeMinutaResource{
         Minuta minutaDelTema = minutaService.get(temaDeMinuta.getMinuta().getId());
         minutaDelTema.setMinuteador(getResourceHelper().usuarioActual(securityContext));
         minutaService.update(minutaDelTema);
-        return  getResourceHelper().convertir(temaDeMinuta, TemaDeMinutaTo.class);
+        return temaDeMinutaService.getting(id).convertTo(TemaDeMinutaTo.class);
     }
     public static TemaDeMinutaResource create(DependencyInjector appInjector) {
         TemaDeMinutaResource temaDeMinutaResource = new TemaDeMinutaResource();

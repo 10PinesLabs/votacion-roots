@@ -1,6 +1,8 @@
 package convention.services;
 
 import ar.com.kfgodel.appbyconvention.operation.api.ApplicationOperation;
+import ar.com.kfgodel.appbyconvention.operation.api.chains.ChainedSessionOperation;
+import ar.com.kfgodel.appbyconvention.operation.api.chains.ChainedTransactionOperation;
 import ar.com.kfgodel.dependencies.api.DependencyInjector;
 import ar.com.kfgodel.diamond.api.types.reference.ReferenceOf;
 import ar.com.kfgodel.nary.api.Nary;
@@ -16,7 +18,6 @@ import javax.ws.rs.core.Response;
 import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Function;
 
 /**
@@ -31,10 +32,14 @@ public abstract class Service<T extends PersistableSupport> {
     protected Class<T> clasePrincipal;
 
     public List<T> getAll(SessionOperation<Nary<T>> sessionOperation) {
+        return gettingAll(sessionOperation).get();
+    }
+
+    public ChainedSessionOperation<List<T>> gettingAll(SessionOperation<Nary<T>> sessionOperation) {
         return createOperation()
                 .insideASession()
                 .applying(sessionOperation)
-                .convertTo(LIST_TYPE);
+                .convertingTo(LIST_TYPE);
     }
 
     public Type getList_Type() {
@@ -47,49 +52,54 @@ public abstract class Service<T extends PersistableSupport> {
 
 
     public T save(T newObject) {
+        return saving(newObject).get();
+    }
+
+    public ChainedTransactionOperation<T> saving(T newObject) {
         return createOperation()
                 .insideATransaction()
                 .taking(newObject)
                 .applyingResultOf(Save::create)
-                .convertTo(clasePrincipal);
+                .convertingTo(clasePrincipal);
     }
 
     public T get(Long id) {
+        return getting(id).get();
+    }
+
+    public ChainedSessionOperation<T> getting(Long id) {
         return createOperation()
                 .insideASession()
                 .applying(FindById.create(clasePrincipal, id))
-                .mapping((encontrado) -> {
-                    return controlDeTargetAndReturn(encontrado);
-
-                })
-                .convertTo(clasePrincipal);
+                .mapping(this::controlDeTargetAndReturn)
+                .convertingTo(clasePrincipal);
     }
 
     public T getAndMapping(Long id, Function<T, T> mapping) {
         return createOperation()
                 .insideASession()
                 .applying(FindById.create(clasePrincipal, id))
-                .mapping((encontrado) -> {
-                    T elem = controlDeTargetAndReturn(encontrado);
-                    return mapping.apply(elem);
-                })
+                .mapping((encontrado) -> mapping.apply(controlDeTargetAndReturn(encontrado)))
                 .convertTo(clasePrincipal);
     }
 
     public T updateAndMapping(Long id, Function<T, T> mapping) {
+        return updatingAndMapping(id, mapping).get();
+    }
+
+    public ChainedTransactionOperation<T> updatingAndMapping(Long id, Function<T, T> mapping) {
         return createOperation()
                 .insideATransaction()
                 .applying((context) -> FindById.create(clasePrincipal, id).applyWithSessionOn(context))
-                .mapping((encontrado) -> {
-                    T instancia = controlDeTargetAndReturn(encontrado);
-
-                    return mapping.apply(instancia);
-                }).applyingResultOf(Save::create)
-                .get();
+                .mapping((encontrado) -> mapping.apply(controlDeTargetAndReturn(encontrado)))
+                .applyingResultOf(Save::create);
     }
 
-
     public T update(T newState) {
+        return updating(newState).get();
+    }
+
+    public ChainedTransactionOperation<T> updating(T newState) {
         return createOperation()
                 .insideATransaction()
                 .taking(newState)
@@ -98,7 +108,7 @@ public abstract class Service<T extends PersistableSupport> {
                     // Answer 404 if missing
                     controlDeTarget(encontrado);
                     return encontrado;
-                }).applyingResultOf(Save::create).get();
+                }).applyingResultOf(Save::create);
     }
 
     public void delete(Long id) {
