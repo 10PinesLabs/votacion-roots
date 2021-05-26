@@ -38,11 +38,10 @@ public class TemaGeneralResource{
 
     @POST
     public TemaGeneralTo create(TemaGeneralTo newState,@Context SecurityContext securityContext) {
-        TemaGeneral temaCreado =getResourceHelper().convertir(newState, TemaGeneral.class);
-        Usuario modificador=getResourceHelper().usuarioActual(securityContext);
-            temaCreado.setUltimoModificador(modificador);
-                temaCreado=temaGeneralService.save(temaCreado);
-        return getResourceHelper().convertir(temaCreado, TemaGeneralTo.class);
+        TemaGeneral temaCreado = getResourceHelper().convertir(newState, TemaGeneral.class);
+        Usuario modificador = getResourceHelper().usuarioActual(securityContext);
+        temaCreado.setUltimoModificador(modificador);
+        return temaGeneralService.saving(temaCreado).convertTo(TemaGeneralTo.class);
     }
 
     @DELETE
@@ -57,8 +56,7 @@ public class TemaGeneralResource{
         TemaGeneral temaActualizado =getResourceHelper().convertir(newState, TemaGeneral.class);
         Usuario modificador=getResourceHelper().usuarioActual(securityContext);
         temaActualizado.setUltimoModificador(modificador);
-        temaActualizado=temaGeneralService.update(temaActualizado);
-        return getResourceHelper().convertir(temaActualizado, TemaGeneralTo.class);
+        return temaGeneralService.saving(temaActualizado).convertTo(TemaGeneralTo.class);
     }
 
     public static TemaGeneralResource create(DependencyInjector appInjector) {

@@ -1,5 +1,8 @@
 package convention.services;
 
+import ar.com.kfgodel.appbyconvention.operation.api.chains.ChainedSessionOperation;
+import ar.com.kfgodel.appbyconvention.operation.api.chains.ChainedTransactionOperation;
+import ar.com.kfgodel.nary.api.Nary;
 import ar.com.kfgodel.orm.api.operations.basic.FindAll;
 import ar.com.kfgodel.temas.acciones.CrearMinuta;
 import ar.com.kfgodel.temas.acciones.UsarMinutaExistente;
@@ -24,21 +27,20 @@ public class MinutaService extends Service<Minuta> {
         setClasePrincipal(Minuta.class);
     }
 
-    public Minuta getOrCreateForReunion(Long id, Usuario unMinuteador) {
+    public ChainedTransactionOperation<Minuta> getOrCreateForReunion(Long id, Usuario unMinuteador) {
 
         return createOperation()
-                .insideATransaction()
-                .applying(MinutaDeReunion.create(id))
-                .applyingResultOf((existente) ->
-                        existente.mapOptional(UsarMinutaExistente::create)
-                                .orElseGet(() -> {
-                                    Reunion reunion = reunionService.get(id);
-                                    reunion.marcarComoMinuteada();
-                                    reunionService.update(reunion);
-                                    return CrearMinuta.create(reunion, unMinuteador);
-                                })
-                ).get();
-
+            .insideATransaction()
+            .applying(MinutaDeReunion.create(id))
+            .applyingResultOf((existente) ->
+                existente.mapOptional(UsarMinutaExistente::create)
+                    .orElseGet(() -> {
+                        Reunion reunion = reunionService.get(id);
+                        reunion.marcarComoMinuteada();
+                        reunionService.update(reunion);
+                        return CrearMinuta.create(reunion, unMinuteador);
+                    })
+            );
     }
 
     public Optional<Minuta> getForReunion(Long id) {
@@ -54,7 +56,12 @@ public class MinutaService extends Service<Minuta> {
     }
 
     public Optional<Minuta> getUltimaMinuta() {
+        return gettingUltimaMinuta().get();
+    }
+
+    public ChainedSessionOperation<Optional<Minuta>> gettingUltimaMinuta() {
         return reunionService.getUltimaReunion()
-                .flatMap(reunion -> this.getForReunion(reunion.getId()));
+            .applyingResultOf(MinutaDeReunion::create)
+            .mapping(Nary::asNativeOptional);
     }
 }

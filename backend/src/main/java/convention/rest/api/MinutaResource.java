@@ -27,9 +27,7 @@ public class MinutaResource{
     @Path("reunion/{reunionId}")
     public MinutaTo getParaReunion(@PathParam("reunionId") Long id, @Context SecurityContext securityContext){
         Usuario usuarioActual = getResourceHelper().usuarioActual(securityContext);
-        Minuta minuta = minutaService.getOrCreateForReunion(id, usuarioActual);
-        minutaService.update(minuta);
-        return getResourceHelper().convertir(minuta, MinutaTo.class);
+        return minutaService.getOrCreateForReunion(id, usuarioActual).convertTo(MinutaTo.class);
     }
 
     @PUT
@@ -38,15 +36,16 @@ public class MinutaResource{
         Usuario ultimoMinuteador = this. getResourceHelper().usuarioActual(securityContext);
         Minuta minuta= getResourceHelper().convertir(newState, Minuta.class);
         minuta.setMinuteador(ultimoMinuteador);
-        Minuta minutaActualizada = minutaService.update(minuta);
-        return  getResourceHelper().convertir(minutaActualizada, MinutaTo.class);
+        return minutaService.updating(minuta).convertTo(MinutaTo.class);
     }
 
     @GET
     @Path("/ultimaMinuta")
     public MinutaTo getUltimaMinuta() {
-        return minutaService.getUltimaMinuta()
-                .map(minuta -> getResourceHelper().convertir(minuta, MinutaTo.class))
+        return minutaService.gettingUltimaMinuta()
+                .mapping(minutaOptional ->
+                    minutaOptional.map(minuta -> getResourceHelper().convertir(minuta, MinutaTo.class)))
+                .get()
                 .orElseThrow(() -> new WebApplicationException("La minuta no existe", Response.Status.NOT_FOUND));
     }
 

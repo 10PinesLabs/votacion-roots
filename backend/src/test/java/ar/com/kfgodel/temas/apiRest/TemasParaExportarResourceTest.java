@@ -4,6 +4,8 @@ import convention.persistent.*;
 import convention.rest.api.tos.TemaDeMinutaTo;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -15,6 +17,45 @@ public class TemasParaExportarResourceTest extends ResourceTest {
     @Override
     protected String apiVersion() {
         return "v2";
+    }
+
+    @Test
+    public void temasParaRepasarActionItemsQueSonRepasadosEnUnTemaParaRepasarActionItemsNoTraenTemasParaRepasar()
+        throws IOException {
+
+        Usuario usuario = unUsuarioPersistido();
+
+        Reunion primeraReunion = helper.unaReunionConTemas(helper.unTemaDeReunionDe(usuario));
+        primeraReunion.marcarComoMinuteada();
+        reunionService.save(primeraReunion);
+        Minuta minutaDePrimeraReunion = minutaService.save(Minuta.create(primeraReunion));
+
+        Reunion segundaReunion =
+            helper.unaReunionConTemas(helper.unTemaParaRepasarActionItems(minutaDePrimeraReunion, usuario));
+        segundaReunion.setFecha(primeraReunion.getFecha().plusMonths(1));
+        segundaReunion.marcarComoMinuteada();
+        reunionService.save(segundaReunion);
+        Minuta minutaDeSegundaReunion = minutaService.save(Minuta.create(segundaReunion));
+
+        Reunion terceraReunion =
+            helper.unaReunionConTemas(helper.unTemaParaRepasarActionItems(minutaDeSegundaReunion, usuario));
+        terceraReunion.setFecha(segundaReunion.getFecha().plusMonths(1));
+        terceraReunion.marcarComoMinuteada();
+        reunionService.save(terceraReunion);
+        minutaService.save(Minuta.create(terceraReunion));
+
+        HttpResponse response = makeGetRequest("temas?apiKey=" + environment.apiKey());
+
+        assertThat(getStatusCode(response)).isEqualTo(HttpStatus.SC_OK);
+
+        JSONArray responseJson = new JSONArray(getResponseBody(response));
+        JSONObject temaParaRepasarActionItemsDeUltimaReunion = responseJson.getJSONObject(0);
+        JSONObject temaParaRepasarActionItemsDeReunionAnterior =
+            temaParaRepasarActionItemsDeUltimaReunion.getJSONArray(TemaParaRepasarActionItems.temasParaRepasar_FIELD)
+                .getJSONObject(0).getJSONObject("tema");
+        assertThat(temaParaRepasarActionItemsDeReunionAnterior.get("tipo")).isEqualTo("repasarActionItems");
+        assertThat(temaParaRepasarActionItemsDeReunionAnterior.has(TemaParaRepasarActionItems.temasParaRepasar_FIELD))
+            .isFalse();
     }
 
     @Test

@@ -1,12 +1,10 @@
 package ar.com.kfgodel.temas.apiRest;
 
-import convention.persistent.Minuta;
-import convention.persistent.Reunion;
-import convention.persistent.TemaDeMinuta;
-import convention.persistent.Usuario;
+import convention.persistent.*;
 import convention.rest.api.tos.TemaDeMinutaTo;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.json.JSONObject;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -17,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class MinutaResourceTest extends ResourceTest {
 
     @Test
-    public void testCuandoUnUsuarioCreaUnaMinutaPasaASerSuMinuteador() throws IOException {
+    public void cuandoUnUsuarioCreaUnaMinutaPasaASerSuMinuteador() throws IOException {
         Reunion unaReunion = reunionService.save(helper.unaReunionCerrada());
 
         makeGetRequest("minuta/reunion/" + unaReunion.getId());
@@ -27,7 +25,7 @@ public class MinutaResourceTest extends ResourceTest {
     }
 
     @Test
-    public void testCuandoUnUsuarioHaceGetDeUnaMinutaNoPasaASerSuMinuteador() throws IOException {
+    public void cuandoUnUsuarioHaceGetDeUnaMinutaNoPasaASerSuMinuteador() throws IOException {
         Reunion unaReunion = reunionService.save(helper.unaReunionMinuteada());
         Minuta unaMinuta = Minuta.create(unaReunion);
         Usuario unUsuario = usuarioService.save(helper.unUsuario());
@@ -41,7 +39,7 @@ public class MinutaResourceTest extends ResourceTest {
     }
 
     @Test
-    public void testCuandoUnUsuarioModificaUnTemaDeMinutaPasaASerElMinuteadorDeElla() throws IOException {
+    public void cuandoUnUsuarioModificaUnTemaDeMinutaPasaASerElMinuteadorDeElla() throws IOException {
         Reunion unaReunion = reunionService.save(helper.unaReunionMinuteadaConTemas());
         Minuta unaMinuta = Minuta.create(unaReunion);
         Usuario unUsuario = usuarioService.save(helper.unUsuario());
@@ -52,10 +50,26 @@ public class MinutaResourceTest extends ResourceTest {
         unTemaDeMinuta.setActionItems(new ArrayList<>());
         TemaDeMinutaTo toDelTemaDeMinuta = convertirATo(unTemaDeMinuta);
         HttpResponse response =
-                makeJsonPutRequest("temaDeMinuta/" + unTemaDeMinuta.getId(), convertirAJsonString(toDelTemaDeMinuta));
+            makeJsonPutRequest("temaDeMinuta/" + unTemaDeMinuta.getId(), convertirAJsonString(toDelTemaDeMinuta));
 
         Minuta minutaActualizada = minutaService.get(unaMinuta.getId());
-        assertThatResponseStatusCodeIs(response, HttpStatus.SC_OK);
         assertThat(minutaActualizada.getMinuteador()).isEqualTo(getAuthenticatedUser());
+        assertThatResponseStatusCodeIs(response, HttpStatus.SC_OK);
+        JSONObject temaDeMinuta = new JSONObject(getResponseBody(response));
+        assertThat(temaDeMinuta.isNull("id")).isFalse();
+    }
+
+    @Test
+    public void cuandoUnUsuarioHaceGetDeUnaMinutaConTemaParaRepasarActionItemsElRequestEsExitoso() throws IOException {
+        TemaParaRepasarActionItems temaParaRepasarActionItems =
+            persistentHelper.crearUnTemaDeReunionParaRepasarActionItems();
+        Reunion reunion = temaParaRepasarActionItems.getReunion();
+        Minuta unaMinuta = Minuta.create(reunion);
+        unaMinuta.setMinuteador(persistentHelper.crearUnUsuario());
+        minutaService.save(unaMinuta);
+
+        HttpResponse response = makeGetRequest("minuta/reunion/" + reunion.getId());
+
+        assertThat(getStatusCode(response)).isEqualTo(HttpStatus.SC_OK);
     }
 }

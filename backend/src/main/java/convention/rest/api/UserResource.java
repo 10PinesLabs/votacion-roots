@@ -42,7 +42,7 @@ public class UserResource{
     @Path("current")
     public UserTo getCurrent(@Context SecurityContext securityContext) {
         Long currentUserId = getResourceHelper().idDeUsuarioActual(securityContext);
-        return getResourceHelper().convertir(userService.get(currentUserId), UserTo.class);
+        return userService.getting(currentUserId).convertTo(UserTo.class);
     }
 
     @GET
@@ -67,15 +67,15 @@ public class UserResource{
     @GET
     @Path("/{userId}")
     public UserTo getSingleUser(@PathParam("userId") Long userId) {
-        return getResourceHelper().convertir(userService.get(userId), UserTo.class);
+        return userService.getting(userId).convertTo(UserTo.class);
     }
 
 
     @PUT
     @Path("/{userId}")
     public UserTo updateUser(UserTo newUserState, @PathParam("userId") Long userId) {
-        Usuario usuarioUpdateado = userService.update(getResourceHelper().convertir(newUserState, Usuario.class));
-        return getResourceHelper().convertir(usuarioUpdateado, UserTo.class);
+        return userService.updating(getResourceHelper().convertir(newUserState, Usuario.class))
+            .convertTo(UserTo.class);
     }
 
 

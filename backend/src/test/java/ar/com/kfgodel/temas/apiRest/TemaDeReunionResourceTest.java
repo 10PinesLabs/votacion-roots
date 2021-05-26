@@ -37,6 +37,16 @@ public class TemaDeReunionResourceTest extends ResourceTest {
     }
 
     @Test
+    public void testGetDeTemaDeReunionContieneElTipoDeTemaParaTemasParaRepasarActionItems() throws IOException {
+        Long idTema = crearUnTemaDeReunionParaRepasarActionItems().getId();
+
+        HttpResponse response = makeGetRequest("temas/" + idTema);
+
+        JSONObject responseJson = new JSONObject(getResponseBody(response));
+        assertThat(responseJson.getString(CAMPO_DE_TIPO)).isEqualTo("repasarActionItems");
+    }
+
+    @Test
     public void testSePuedeEliminarUnTemaParaProponerPinosARoot() throws IOException {
         Usuario unUsuario = unUsuarioPersistido();
         TemaParaProponerPinosARoot unTemaParaProponerPinos = TemaParaProponerPinosARoot.create(unUsuario);
@@ -198,5 +208,9 @@ public class TemaDeReunionResourceTest extends ResourceTest {
         TemaParaProponerPinosARoot unTemaParaProponerPinos = TemaParaProponerPinosARoot.create(unUsuario);
         temaService.save(unTemaParaProponerPinos);
         return unTemaParaProponerPinos;
+    }
+
+    private TemaParaRepasarActionItems crearUnTemaDeReunionParaRepasarActionItems() {
+        return persistentHelper.crearUnTemaDeReunionParaRepasarActionItems();
     }
 }
