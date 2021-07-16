@@ -9,12 +9,32 @@ import org.json.JSONObject;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TemaDeReunionResourceTest extends ResourceTest {
 
     public static final String CAMPO_DE_TIPO = "tipo";
+
+    @Test
+    public void postDeTemaDeReunionCreaElTema() throws IOException {
+        Reunion reunion = reunionService.save(helper.unaReunion());
+        TemaEnCreacionTo temaEnCreacionTo = helper.unTemaEnCreacionTo(reunion);
+
+        HttpResponse response = makeJsonPostRequest("temas", convertirAJsonString(temaEnCreacionTo));
+
+        List<TemaDeReunion> temas = temaService.getAll();
+        assertThat(temas).hasSize(1);
+        assertThat(temas).first().satisfies(temaDeReunion -> {
+            assertThat(temaDeReunion.getTitulo()).isEqualTo(temaEnCreacionTo.getTitulo());
+            assertThat(temaDeReunion.getDescripcion()).isEqualTo(temaEnCreacionTo.getDescripcion());
+            assertThat(temaDeReunion.getDuracion().getNombre()).isEqualTo(temaEnCreacionTo.getDuracion());
+            assertThat(temaDeReunion.getObligatoriedad().name()).isEqualTo(temaEnCreacionTo.getObligatoriedad());
+            assertThat(temaDeReunion.getMomentoDeCreacion()).isNotNull();
+        });
+        assertThatResponseStatusCodeIs(response, HttpStatus.SC_OK);
+    }
 
     @Test
     public void testGetDeTemaDeReunionContieneElTipoDeTemaParaTemasParaProponerPinosARoot() throws IOException {
