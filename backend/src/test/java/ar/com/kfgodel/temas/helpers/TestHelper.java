@@ -236,6 +236,7 @@ public class TestHelper {
         unTemaEnCreacionTo.setTitulo(unTitulo());
         unTemaEnCreacionTo.setDescripcion(unaDescripcion());
         unTemaEnCreacionTo.setObligatoriedad(convertirA(unaObligatoriedad(), String.class));
+        unTemaEnCreacionTo.setDuracion(DuracionDeTema.CORTO.getNombre());
         return unTemaEnCreacionTo;
     }
 

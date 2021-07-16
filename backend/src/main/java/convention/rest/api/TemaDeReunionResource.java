@@ -33,7 +33,8 @@ public class TemaDeReunionResource {
         TemaDeReunionConDescripcion temaCreado = getResourceHelper().convertir(newState, TemaDeReunionConDescripcion.class);
         validarTemaDeReunionConDescripcion(temaCreado);
         temaCreado.setUltimoModificador(getResourceHelper().usuarioActual(securityContext));
-        return temaService.saving(temaCreado).convertTo(TemaDeReunionTo.class);
+        TemaDeReunion temaDeReunion = temaService.save(temaCreado);
+        return getResourceHelper().convertir(temaDeReunion, TemaDeReunionTo.class);
     }
 
     @PUT
